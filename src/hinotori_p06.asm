@@ -440,10 +440,10 @@ DATA_tabla_A7CB:
 
 
 L_AD00:
-	ld hl,0c4b0h		;ad00
+	ld hl,0c4b0h		;ad00   ; 0xC4B0: cuenta los cuadros; el bit 0 alterna los colores de los sprites (p02:93AA)
 	inc (hl)			;ad03
-	ld a,(0cd00h)		;ad04
-	call 040aeh		;ad07
+	ld a,(0cd00h)		;ad04   ; 0xCD00: la escena del final y las pantallas de p06
+	call 040aeh		;ad07   ; p00:40AE despacha
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_AD0A: 18 destinos del despachador de 0x40AE (call en p06:AD07):
@@ -476,8 +476,8 @@ DATA_tabla_AD0A:
 
 
 L_AD2E:
-	call L_AF41		;ad2e
-	ld a,(0cd81h)		;ad31
+	call pon_escena_2		;ad2e
+	ld a,(0cd81h)		;ad31   ; 0xCD81: la escena del final y las pantallas de p06
 	or a			;ad34
 	ret z			;ad35
 	call 05900h		;ad36
@@ -486,66 +486,66 @@ L_AD2E:
 	call 00047h		;ad3f   ; BIOS WRTVDP - Writes data in the VDP-register
 	call 05592h		;ad42
 	ld a,005h		;ad45
-	ld (0c138h),a		;ad47
-	ld hl,0a7cbh		;ad4a
+	ld (0c138h),a		;ad47   ; 0xC138: las paginas de origen y destino de las copias de dibujos (p00:502D)
+	ld hl,0a7cbh		;ad4a   ; p06:A7CB tabla_A7CB: tabla que lee p06:AD4A, p06:ADCB, p06:AE10, p06:AE4C, p06:AEE8, p06:AF12 (1333 bytes)
 	ld bc,01808h		;ad4d
 	ld de,00090h		;ad50
 	call 058adh		;ad53
-	call L_AFA6		;ad56
-	call L_AFAF		;ad59
+	call mira_pantalla		;ad56
+	call rutina_2		;ad59
 	call 0589fh		;ad5c
 	ld a,01eh		;ad5f
 	jr L_ADAE		;ad61
 L_AD63:
-	ld hl,0c10eh		;ad63
+	ld hl,0c10eh		;ad63   ; 0xC10E: cuadros que quedan de la tecla de la demostracion (p01:63FF)
 	dec (hl)			;ad66
 	ret nz			;ad67
 	ld hl,0604ch		;ad68
 	call 0563eh		;ad6b
-	call L_AF96		;ad6e
-	call L_B1CE		;ad71
+	call mira_sitios_de_sprite		;ad6e
+	call pon_escena_3		;ad71
 	jr L_ADB1		;ad74
 L_AD76:
-	call L_AF7A		;ad76
-	ld hl,0b0a0h		;ad79
-	call L_AF3C		;ad7c
-	ld a,(0cd81h)		;ad7f
+	call rutina		;ad76
+	ld hl,0b0a0h		;ad79   ; p06:B0A0 tabla_B0A0: tabla que lee p06:AD79, p06:ADC0, p06:AE7F, p06:B20D (88 bytes)
+	call pon_escena		;ad7c
+	ld a,(0cd81h)		;ad7f   ; 0xCD81: la escena del final y las pantallas de p06
 	or a			;ad82
 	ret z			;ad83
 	jr L_ADB1		;ad84
 L_AD86:
-	call L_B201		;ad86
-	jp L_AF7A		;ad89
+	call pon_escena_4		;ad86
+	jp rutina		;ad89
 L_AD8C:
-	call L_AF7A		;ad8c
-	call L_AF41		;ad8f
-	ld a,(0cd81h)		;ad92
+	call rutina		;ad8c
+	call pon_escena_2		;ad8f
+	ld a,(0cd81h)		;ad92   ; 0xCD81: la escena del final y las pantallas de p06
 	or a			;ad95
 	ret z			;ad96
 	call 05900h		;ad97
 	call 04c8dh		;ad9a
 	call 0559ah		;ad9d
-	call L_AFA6		;ada0
-	call L_AFBA		;ada3
+	call mira_pantalla		;ada0
+	call rutina_3		;ada3
 	call 0589fh		;ada6
-	call L_B35B		;ada9
+	call bucle_2		;ada9
 	ld a,00fh		;adac
 L_ADAE:
-	ld (0c10eh),a		;adae
+	ld (0c10eh),a		;adae   ; 0xC10E: cuadros que quedan de la tecla de la demostracion (p01:63FF)
 L_ADB1:
-	ld hl,0cd00h		;adb1
+	ld hl,0cd00h		;adb1   ; 0xCD00: la escena del final y las pantallas de p06
 	inc (hl)			;adb4
 	ret			;adb5
 L_ADB6:
-	ld hl,0c10eh		;adb6
+	ld hl,0c10eh		;adb6   ; 0xC10E: cuadros que quedan de la tecla de la demostracion (p01:63FF)
 	dec (hl)			;adb9
 	ret nz			;adba
 	jr L_ADB1		;adbb
 L_ADBD:
-	call L_AF7A		;adbd
+	call rutina		;adbd
 	ld hl,0b0c0h		;adc0
-	call L_AF3C		;adc3
-	ld a,(0cd81h)		;adc6
+	call pon_escena		;adc3
+	ld a,(0cd81h)		;adc6   ; 0xCD81: la escena del final y las pantallas de p06
 	or a			;adc9
 	ret z			;adca
 	ld hl,0a9d1h		;adcb
@@ -553,33 +553,33 @@ L_ADBD:
 	xor a			;add1
 	jr L_ADAE		;add2
 L_ADD4:
-	call L_AF7A		;add4
-	ld a,(0cd01h)		;add7
+	call rutina		;add4
+	ld a,(0cd01h)		;add7   ; 0xCD01: la escena del final y las pantallas de p06
 	dec a			;adda
 	jr z,L_ADFC		;addb
 	jp p,L_AE1B		;addd
-	ld a,(0cd85h)		;ade0
+	ld a,(0cd85h)		;ade0   ; 0xCD85: la escena del final y las pantallas de p06
 	cp 002h		;ade3
 	jr z,L_ADB1		;ade5
-	ld hl,0c10eh		;ade7
+	ld hl,0c10eh		;ade7   ; 0xC10E: cuadros que quedan de la tecla de la demostracion (p01:63FF)
 	dec (hl)			;adea
 	ret nz			;adeb
-	ld hl,0cd87h		;adec
+	ld hl,0cd87h		;adec   ; 0xCD87: la escena del final y las pantallas de p06
 	ld (hl),077h		;adef
 	inc hl			;adf1
 	ld (hl),007h		;adf2
 L_ADF4:
 	ld a,007h		;adf4
-	ld (0cd89h),a		;adf6
+	ld (0cd89h),a		;adf6   ; 0xCD89: la escena del final y las pantallas de p06
 	jp L_AEE3		;adf9
 L_ADFC:
-	call L_B02D		;adfc
+	call mira_cuadros_2		;adfc
 	ret nz			;adff
 	ld hl,00090h		;ae00
 	ld bc,00040h		;ae03
 	ld a,000h		;ae06
 	call 04961h		;ae08
-	ld hl,0cd85h		;ae0b
+	ld hl,0cd85h		;ae0b   ; 0xCD85: la escena del final y las pantallas de p06
 	inc (hl)			;ae0e
 	ld a,(hl)			;ae0f
 	ld hl,0a9cbh		;ae10
@@ -587,19 +587,19 @@ L_ADFC:
 	call 04fbeh		;ae16
 	jr L_ADF4		;ae19
 L_AE1B:
-	call L_B05E		;ae1b
+	call mira_cuadros_2_2		;ae1b
 	ret nz			;ae1e
 	xor a			;ae1f
-	ld (0c10eh),a		;ae20
-	ld (0cd01h),a		;ae23
+	ld (0c10eh),a		;ae20   ; 0xC10E: cuadros que quedan de la tecla de la demostracion (p01:63FF)
+	ld (0cd01h),a		;ae23   ; 0xCD01: la escena del final y las pantallas de p06
 	ret			;ae26
 L_AE27:
-	call L_AF7A		;ae27
-	ld a,(0cd86h)		;ae2a
+	call rutina		;ae27
+	ld a,(0cd86h)		;ae2a   ; 0xCD86: la escena del final y las pantallas de p06
 	and a			;ae2d
-	call z,L_AE34		;ae2e
+	call z,pon_demo_cuenta		;ae2e
 	jp L_ADB6		;ae31
-L_AE34:
+pon_demo_cuenta:
 	ld a,008h		;ae34
 	call 00141h		;ae36   ; BIOS SNSMAT - Returns the value of the specified line from the keyboard matrix
 	bit 1,a		;ae39
@@ -608,18 +608,18 @@ L_AE34:
 	ld bc,00040h		;ae3f
 	ld a,000h		;ae42
 	call 04961h		;ae44
-	ld a,034h		;ae47
+	ld a,034h		;ae47   ; el sonido 0x34 (p14:9C47 + 2*0x34)
 	call 041ach		;ae49
 	ld hl,0aab1h		;ae4c
 	call 04fbeh		;ae4f
 	xor a			;ae52
-	ld (0c10eh),a		;ae53
+	ld (0c10eh),a		;ae53   ; 0xC10E: cuadros que quedan de la tecla de la demostracion (p01:63FF)
 	inc a			;ae56
-	ld (0cd86h),a		;ae57
+	ld (0cd86h),a		;ae57   ; 0xCD86: la escena del final y las pantallas de p06
 	ret			;ae5a
 L_AE5B:
-	call L_AF41		;ae5b
-	ld a,(0cd81h)		;ae5e
+	call pon_escena_2		;ae5b
+	ld a,(0cd81h)		;ae5e   ; 0xCD81: la escena del final y las pantallas de p06
 	or a			;ae61
 	ret z			;ae62
 	call 05900h		;ae63
@@ -634,45 +634,45 @@ L_AE5B:
 	jp L_ADAE		;ae7c
 L_AE7F:
 	ld hl,0b0c0h		;ae7f
-	call L_AF3C		;ae82
-	ld a,(0cd81h)		;ae85
+	call pon_escena		;ae82
+	ld a,(0cd81h)		;ae85   ; 0xCD81: la escena del final y las pantallas de p06
 	or a			;ae88
 	ret z			;ae89
-	call L_AFF6		;ae8a
+	call mira_pantalla_2		;ae8a
 	xor a			;ae8d
 	jp L_ADAE		;ae8e
 L_AE91:
-	ld hl,0c10eh		;ae91
+	ld hl,0c10eh		;ae91   ; 0xC10E: cuadros que quedan de la tecla de la demostracion (p01:63FF)
 	dec (hl)			;ae94
 	jr z,L_AEA1		;ae95
 	ld a,(hl)			;ae97
 	cp 05ah		;ae98
 	ret nz			;ae9a
 	ld a,067h		;ae9b
-	ld (0c0f4h),a		;ae9d
+	ld (0c0f4h),a		;ae9d   ; 0xC0F4: el sonido que se pide para el cuadro siguiente (p14:94C1)
 	ret			;aea0
 L_AEA1:
 	xor a			;aea1
-	ld (0cd01h),a		;aea2
+	ld (0cd01h),a		;aea2   ; 0xCD01: la escena del final y las pantallas de p06
 	ld a,008h		;aea5
 	jp L_ADAE		;aea7
 L_AEAA:
-	ld hl,(0c384h)		;aeaa
+	ld hl,(0c384h)		;aeaa   ; 0xC384: lo que ha avanzado el mapa, 8.8 (p00:56D8)
 	ld de,00080h		;aead
 	add hl,de			;aeb0
-	ld (0c384h),hl		;aeb1
+	ld (0c384h),hl		;aeb1   ; 0xC384: lo que ha avanzado el mapa, 8.8 (p00:56D8)
 	call 04c65h		;aeb4
 	call 04b4dh		;aeb7
 	call 04b7ah		;aeba
-	ld a,(0c4b0h)		;aebd
+	ld a,(0c4b0h)		;aebd   ; 0xC4B0: cuenta los cuadros; el bit 0 alterna los colores de los sprites (p02:93AA)
 	and 01fh		;aec0
 	ret nz			;aec2
 	ld hl,000f0h		;aec3
 	ld bc,00010h		;aec6
 	ld a,000h		;aec9
 	call 04961h		;aecb
-	ld a,(0cd01h)		;aece
-	call 040aeh		;aed1
+	ld a,(0cd01h)		;aece   ; 0xCD01: la escena del final y las pantallas de p06
+	call 040aeh		;aed1   ; p00:40AE despacha
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_AED4: 5 destinos del despachador de 0x40AE (call en p06:AED1):
@@ -691,24 +691,24 @@ DATA_tabla_AED4:
 
 
 L_AEDE:
-	ld hl,0c10eh		;aede
+	ld hl,0c10eh		;aede   ; 0xC10E: cuadros que quedan de la tecla de la demostracion (p01:63FF)
 	dec (hl)			;aee1
 	ret nz			;aee2
 L_AEE3:
-	ld hl,0cd01h		;aee3
+	ld hl,0cd01h		;aee3   ; 0xCD01: la escena del final y las pantallas de p06
 	inc (hl)			;aee6
 	ret			;aee7
 L_AEE8:
 	ld hl,0aaefh		;aee8
-L_AEEB:
-	ld a,(0cd80h)		;aeeb
+pon_demo_cuenta_2:
+	ld a,(0cd80h)		;aeeb   ; 0xCD80: la escena del final y las pantallas de p06
 	inc a			;aeee
-	ld (0cd80h),a		;aeef
+	ld (0cd80h),a		;aeef   ; 0xCD80: la escena del final y las pantallas de p06
 	call 04878h		;aef2
 	ld a,h			;aef5
 	inc a			;aef6
 	ld a,009h		;aef7
-	ld (0c10eh),a		;aef9
+	ld (0c10eh),a		;aef9   ; 0xC10E: cuadros que quedan de la tecla de la demostracion (p01:63FF)
 	jr z,L_AEE3		;aefc
 	ld d,(hl)			;aefe
 	inc hl			;aeff
@@ -716,73 +716,73 @@ L_AEEB:
 	ld c,0ffh		;af02
 	jp 04fc8h		;af04
 L_AF07:
-	ld hl,0c10eh		;af07
+	ld hl,0c10eh		;af07   ; 0xC10E: cuadros que quedan de la tecla de la demostracion (p01:63FF)
 	dec (hl)			;af0a
 	ret nz			;af0b
 	xor a			;af0c
-	ld (0cd80h),a		;af0d
+	ld (0cd80h),a		;af0d   ; 0xCD80: la escena del final y las pantallas de p06
 	jr L_AEE3		;af10
 L_AF12:
 	ld hl,0ab23h		;af12
-	call L_AEEB		;af15
+	call pon_demo_cuenta_2		;af15
 	ld a,005h		;af18
-	ld (0c10eh),a		;af1a
+	ld (0c10eh),a		;af1a   ; 0xC10E: cuadros que quedan de la tecla de la demostracion (p01:63FF)
 	ret			;af1d
 L_AF1E:
-	ld hl,0c10eh		;af1e
+	ld hl,0c10eh		;af1e   ; 0xC10E: cuadros que quedan de la tecla de la demostracion (p01:63FF)
 	dec (hl)			;af21
 	ret nz			;af22
 	ld a,078h		;af23
 	jp L_ADAE		;af25
 L_AF28:
 	ld a,074h		;af28
-	ld (0c0f4h),a		;af2a
+	ld (0c0f4h),a		;af2a   ; 0xC0F4: el sonido que se pide para el cuadro siguiente (p14:94C1)
 	ld a,05ah		;af2d
 	jp L_ADAE		;af2f
 L_AF32:
-	ld hl,0c10eh		;af32
+	ld hl,0c10eh		;af32   ; 0xC10E: cuadros que quedan de la tecla de la demostracion (p01:63FF)
 	dec (hl)			;af35
 	ret nz			;af36
 	ld a,00ah		;af37
 	jp L_ADAE		;af39
-L_AF3C:
+pon_escena:
 	ld a,001h		;af3c
-	ld (0cd83h),a		;af3e
-L_AF41:
-	ld a,(0cd82h)		;af41
+	ld (0cd83h),a		;af3e   ; 0xCD83: la escena del final y las pantallas de p06
+pon_escena_2:
+	ld a,(0cd82h)		;af41   ; 0xCD82: la escena del final y las pantallas de p06
 	dec a			;af44
 	jr z,L_AF5E		;af45
 	push hl			;af47
 	call 05b5eh		;af48
 	pop hl			;af4b
-	ld a,(0cd83h)		;af4c
+	ld a,(0cd83h)		;af4c   ; 0xCD83: la escena del final y las pantallas de p06
 	and a			;af4f
 	jr z,L_AF55		;af50
 	call 05b70h		;af52
 L_AF55:
 	xor a			;af55
-	ld (0cd81h),a		;af56
-	ld hl,0cd82h		;af59
+	ld (0cd81h),a		;af56   ; 0xCD81: la escena del final y las pantallas de p06
+	ld hl,0cd82h		;af59   ; 0xCD82: la escena del final y las pantallas de p06
 	inc (hl)			;af5c
 	ret			;af5d
 L_AF5E:
-	ld a,(0cd83h)		;af5e
+	ld a,(0cd83h)		;af5e   ; 0xCD83: la escena del final y las pantallas de p06
 	and a			;af61
 	jr nz,L_AF74		;af62
 	call 05b31h		;af64
 	ret nz			;af67
 L_AF68:
 	xor a			;af68
-	ld (0cd83h),a		;af69
-	ld (0cd82h),a		;af6c
+	ld (0cd83h),a		;af69   ; 0xCD83: la escena del final y las pantallas de p06
+	ld (0cd82h),a		;af6c   ; 0xCD82: la escena del final y las pantallas de p06
 	inc a			;af6f
-	ld (0cd81h),a		;af70
+	ld (0cd81h),a		;af70   ; 0xCD81: la escena del final y las pantallas de p06
 	ret			;af73
 L_AF74:
 	call 05b25h		;af74
 	ret nz			;af77
 	jr L_AF68		;af78
-L_AF7A:
+rutina:
 	call 04c65h		;af7a
 	call 04b4dh		;af7d
 	call 06656h		;af80
@@ -793,33 +793,33 @@ L_AF7A:
 	call 07603h		;af8f
 	call 04b7ah		;af92
 	ret			;af95
-L_AF96:
+mira_sitios_de_sprite:
 	ld a,031h		;af96
-	ld hl,0cf00h		;af98
-	call 040a4h		;af9b
-	ld b,003h		;af9e
+	ld hl,0cf00h		;af98   ; 0xCF00: que cosa hay en cada sitio de los patrones (p00:56A2)
+	call 040a4h		;af9b   ; p00:40A4 hl_mas_a
+	ld b,003h		;af9e   ; 3 vueltas
 	xor a			;afa0
 L_AFA1:
 	ld (hl),a			;afa1
 	inc hl			;afa2
 	djnz L_AFA1		;afa3
 	ret			;afa5
-L_AFA6:
-	ld hl,0e000h		;afa6
+mira_pantalla:
+	ld hl,0e000h		;afa6   ; 0xE000: la tabla de 32x32 dibujos de la pantalla (p00:58A4)
 	ld bc,003ffh		;afa9
 	jp 05de9h		;afac
-L_AFAF:
+rutina_2:
 	ld hl,0a96bh		;afaf
 	ld bc,02003h		;afb2
 	ld de,000bch		;afb5
 	jr L_AFC3		;afb8
-L_AFBA:
+rutina_3:
 	ld hl,0a88bh		;afba
 	ld bc,0100eh		;afbd
-	ld de,04010h		;afc0
+	ld de,04010h		;afc0   ; p00:4010 cabecera_de_konami: 'C', 0, 'D', 0, 3, 0, 0x15, 0... y las direcciones de la RAM del juego (0xC161 la fase, 0xC160 las vidas, 0xC1
 L_AFC3:
 	jp 051c2h		;afc3
-L_AFC6:
+rutina_4:
 	ex af,af'			;afc6
 	dec hl			;afc7
 	ld a,h			;afc8
@@ -842,7 +842,7 @@ L_AFC6:
 	cp a			;afda
 	ret			;afdb
 L_AFDC:
-	call 040aeh		;afdc
+	call 040aeh		;afdc   ; p00:40AE despacha
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_AFDF: 6 destinos del despachador de 0x40AE (call en p06:AFDC):
@@ -866,7 +866,7 @@ L_AFEB:
 	ld b,009h		;afeb
 	jp 0734bh		;afed
 L_AFF0:
-	ld hl,0d001h		;aff0
+	ld hl,0d001h		;aff0   ; 0xD001: la ficha del bicho 0, byte 0x01 (p01:74B7)
 	inc (hl)			;aff3
 	ret			;aff4
 
@@ -882,42 +882,42 @@ DATA_sin_lector_AFF5:
 ; ======================================================================
 
 
-L_AFF6:
+mira_pantalla_2:
 	ld de,07090h		;aff6
-	ld hl,0e090h		;aff9
+	ld hl,0e090h		;aff9   ; 0xE090: la tabla de 32x32 dibujos de la pantalla
 	ld bc,02020h		;affc
 	ld a,001h		;afff
-	jp 04e47h		;b001
-L_B004:
-	ld a,(0cd84h)		;b004
+	jp 04e47h		;b001   ; p00:4E47 hmmm
+pon_avance:
+	ld a,(0cd84h)		;b004   ; 0xCD84: la escena del final y las pantallas de p06
 	and a			;b007
 	ret nz			;b008
-	ld hl,(0c384h)		;b009
-	ld de,(0ce87h)		;b00c
+	ld hl,(0c384h)		;b009   ; 0xC384: lo que ha avanzado el mapa, 8.8 (p00:56D8)
+	ld de,(0ce87h)		;b00c   ; 0xCE87: la escena del final y las pantallas de p06
 	and a			;b010
 	sbc hl,de		;b011
-	ld (0c384h),hl		;b013
-	ld a,(0ce98h)		;b016
+	ld (0c384h),hl		;b013   ; 0xC384: lo que ha avanzado el mapa, 8.8 (p00:56D8)
+	ld a,(0ce98h)		;b016   ; 0xCE98: la escena del final y las pantallas de p06
 	sub 020h		;b019
 	jr c,L_B022		;b01b
 	ld a,001h		;b01d
-	ld (0cd84h),a		;b01f
+	ld (0cd84h),a		;b01f   ; 0xCD84: la escena del final y las pantallas de p06
 L_B022:
 	ld hl,000d5h		;b022
 	ld bc,00002h		;b025
 	ld a,000h		;b028
 	jp 04961h		;b02a
-L_B02D:
-	ld a,(0c4b0h)		;b02d
+mira_cuadros_2:
+	ld a,(0c4b0h)		;b02d   ; 0xC4B0: cuenta los cuadros; el bit 0 alterna los colores de los sprites (p02:93AA)
 	and 001h		;b030
 	ret nz			;b032
-	ld hl,0cd87h		;b033
+	ld hl,0cd87h		;b033   ; 0xCD87: la escena del final y las pantallas de p06
 	ld c,00ch		;b036
-	call L_B040		;b038
-	ld hl,0cd89h		;b03b
+	call con_pon_un_color		;b038
+	ld hl,0cd89h		;b03b   ; 0xCD89: la escena del final y las pantallas de p06
 	dec (hl)			;b03e
 	ret			;b03f
-L_B040:
+con_pon_un_color:
 	ld a,(hl)			;b040
 	and 0f0h		;b041
 	jr z,L_B047		;b043
@@ -941,21 +941,21 @@ L_B058:
 	ld (hl),a			;b058
 	ld e,a			;b059
 	ld a,c			;b05a
-	jp 04d03h		;b05b
-L_B05E:
-	ld a,(0c4b0h)		;b05e
+	jp 04d03h		;b05b   ; p00:4D03 pon_un_color
+mira_cuadros_2_2:
+	ld a,(0c4b0h)		;b05e   ; 0xC4B0: cuenta los cuadros; el bit 0 alterna los colores de los sprites (p02:93AA)
 	and 001h		;b061
 	ret nz			;b063
-	ld hl,0cd87h		;b064
+	ld hl,0cd87h		;b064   ; 0xCD87: la escena del final y las pantallas de p06
 	ld bc,0070ch		;b067
 	exx			;b06a
 	ld bc,00707h		;b06b
 	exx			;b06e
-	call L_B077		;b06f
-	ld hl,0cd89h		;b072
+	call con_pon_un_color_2		;b06f
+	ld hl,0cd89h		;b072   ; 0xCD89: la escena del final y las pantallas de p06
 	dec (hl)			;b075
 	ret			;b076
-L_B077:
+con_pon_un_color_2:
 	ld a,(hl)			;b077
 	and 0f0h		;b078
 	cp b			;b07a
@@ -990,7 +990,7 @@ L_B09A:
 	ld (hl),a			;b09a
 	ld e,a			;b09b
 	ld a,c			;b09c
-	jp 04d03h		;b09d
+	jp 04d03h		;b09d   ; p00:4D03 pon_un_color
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_B0A0: tabla que lee p06:AD79, p06:ADC0, p06:AE7F, p06:B20D (88
@@ -1009,14 +1009,14 @@ DATA_tabla_B0A0:
 ; ======================================================================
 
 
-L_B0F8:
+rutina_5:
 	ld de,080dch		;b0f8
 	ld c,031h		;b0fb
 	jp 06d64h		;b0fd
-L_B100:
+bucle:
 	ld b,008h		;b100
 	ld c,032h		;b102
-	ld hl,0b115h		;b104
+	ld hl,0b115h		;b104   ; p06:B115 tabla_B115: tabla que lee p06:B104 (185 bytes)
 L_B107:
 	ld e,(hl)			;b107
 	inc hl			;b108
@@ -1052,25 +1052,25 @@ DATA_tabla_B115:
 ; ======================================================================
 
 
-L_B1CE:
+pon_escena_3:
 	xor a			;b1ce
-	ld (0cd12h),a		;b1cf
+	ld (0cd12h),a		;b1cf   ; 0xCD12: la escena del final y las pantallas de p06
 	ld h,a			;b1d2
 	ld l,03ch		;b1d3
-	ld (0cd10h),hl		;b1d5
-	ld hl,0ce00h		;b1d8
-	call L_B1F1		;b1db
-	ld hl,0ce80h		;b1de
-	call L_B1F6		;b1e1
+	ld (0cd10h),hl		;b1d5   ; 0xCD10: la escena del final y las pantallas de p06
+	ld hl,0ce00h		;b1d8   ; 0xCE00: la escena del final y las pantallas de p06
+	call rutina_6		;b1db
+	ld hl,0ce80h		;b1de   ; 0xCE80: la escena del final y las pantallas de p06
+	call rutina_7		;b1e1
 	call 07b03h		;b1e4
 	call 074e9h		;b1e7
-	call L_B0F8		;b1ea
-	call L_B100		;b1ed
+	call rutina_5		;b1ea
+	call bucle		;b1ed
 	ret			;b1f0
-L_B1F1:
+rutina_6:
 	ld de,00010h		;b1f1
 	jr L_B1F9		;b1f4
-L_B1F6:
+rutina_7:
 	ld de,00010h		;b1f6
 L_B1F9:
 	ld a,00ch		;b1f9
@@ -1080,36 +1080,36 @@ L_B1F9:
 	inc hl			;b1fe
 	ld (hl),d			;b1ff
 	ret			;b200
-L_B201:
-	call L_B21E		;b201
-	call L_B004		;b204
-	ld hl,(0cd10h)		;b207
-	ld a,(0cd12h)		;b20a
+pon_escena_4:
+	call ficha_campo_07		;b201
+	call pon_avance		;b204
+	ld hl,(0cd10h)		;b207   ; 0xCD10: la escena del final y las pantallas de p06
+	ld a,(0cd12h)		;b20a   ; 0xCD12: la escena del final y las pantallas de p06
 	ld de,0b0e0h		;b20d
-	call L_AFC6		;b210
-	ld (0cd10h),hl		;b213
+	call rutina_4		;b210
+	ld (0cd10h),hl		;b213   ; 0xCD10: la escena del final y las pantallas de p06
 	ret nz			;b216
-	ld hl,0cd12h		;b217
+	ld hl,0cd12h		;b217   ; 0xCD12: la escena del final y las pantallas de p06
 	inc (hl)			;b21a
 	jp L_AFDC		;b21b
-L_B21E:
-	ld ix,0ce00h		;b21e
-	call L_B229		;b222
-	ld ix,0ce80h		;b225
-L_B229:
+ficha_campo_07:
+	ld ix,0ce00h		;b21e   ; 0xCE00: la escena del final y las pantallas de p06
+	call ficha_campo_07_2		;b222
+	ld ix,0ce80h		;b225   ; 0xCE80: la escena del final y las pantallas de p06
+ficha_campo_07_2:
 	ld a,(ix+00bh)		;b229
 	or a			;b22c
 	call nz,068f9h		;b22d
-	ld h,(ix+018h)		;b230
-	ld l,(ix+017h)		;b233
+	ld h,(ix+018h)		;b230   ; ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld l,(ix+017h)		;b233   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ld d,(ix+008h)		;b236
-	ld e,(ix+007h)		;b239
+	ld e,(ix+007h)		;b239   ; ix+0x07: el paso de la animacion (p01:6124)
 	xor a			;b23c
 	add hl,de			;b23d
-	adc a,(ix+019h)		;b23e
-	ld (ix+019h),a		;b241
-	ld (ix+018h),h		;b244
-	ld (ix+017h),l		;b247
+	adc a,(ix+019h)		;b23e   ; ix+0x19: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+019h),a		;b241   ; ix+0x19: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+018h),h		;b244   ; ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+017h),l		;b247   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ld hl,01000h		;b24a
 	or a			;b24d
 	sbc hl,de		;b24e
@@ -1117,12 +1117,12 @@ L_B229:
 	ld (ix+00bh),000h		;b251
 	ret			;b255
 L_B256:
-	ld ix,0ce00h		;b256
+	ld ix,0ce00h		;b256   ; 0xCE00: la escena del final y las pantallas de p06
 	jr L_B260		;b25a
 L_B25C:
-	ld ix,0ce80h		;b25c
+	ld ix,0ce80h		;b25c   ; 0xCE80: la escena del final y las pantallas de p06
 L_B260:
-	push ix		;b260
+	push ix		;b260   ; HL = la ficha
 	pop hl			;b262
 	ld a,006h		;b263
 	add a,l			;b265
@@ -1160,12 +1160,12 @@ DATA_sin_lector_B270:
 ; ======================================================================
 
 
-L_B35B:
+bucle_2:
 	call 074e9h		;b35b
 	call 07b03h		;b35e
 	ld b,00ah		;b361
 	ld c,033h		;b363
-	ld hl,0b376h		;b365
+	ld hl,0b376h		;b365   ; p06:B376 tabla_B376: tabla que lee p06:B365 (50 bytes)
 L_B368:
 	ld e,(hl)			;b368
 	inc hl			;b369
@@ -1194,7 +1194,7 @@ DATA_tabla_B376:
 
 
 L_B3A8:
-	ld a,(0c137h)		;b3a8
+	ld a,(0c137h)		;b3a8   ; 0xC137: la ventana de la pausa: contrasena, teclear, comprobar... (p06:B3A8)
 	dec a			;b3ab
 	jr z,$+99		;b3ac
 	dec a			;b3ae
@@ -1206,21 +1206,21 @@ L_B3A8:
 	jp p,L_BA4A		;b3ba
 	ld hl,01720h		;b3bd
 	ld a,0cch		;b3c0
-	ld bc,0d040h		;b3c2
+	ld bc,0d040h		;b3c2   ; 0xD040: la ficha del bicho 0, byte 0x40 (p01:74B7)
 	call 04941h		;b3c5
 	ld a,0ffh		;b3c8
 	ld hl,01923h		;b3ca
-	ld bc,0ca3ah		;b3cd
+	ld bc,0ca3ah		;b3cd   ; 0xCA3A: 6 fichas de 0x20 (p02:9368)
 	call 04961h		;b3d0
-	ld hl,0b3ech		;b3d3
+	ld hl,0b3ech		;b3d3   ; p06:B3EC tabla_B3EC: tabla que lee p06:B3D3, p06:B3D9, p06:B42B, p06:B436, p06:B827, p06:B852 (35 bytes)
 	call 04fbeh		;b3d6
 	ld hl,0b3f7h		;b3d9
 	call 04fbeh		;b3dc
-	call L_B43E		;b3df
-	ld a,049h		;b3e2
+	call mira_contrasena		;b3df
+	ld a,049h		;b3e2   ; el sonido 0x49 (p14:9C47 + 2*0x49)
 	call 041ach		;b3e4
 L_B3E7:
-	ld hl,0c137h		;b3e7
+	ld hl,0c137h		;b3e7   ; 0xC137: la ventana de la pausa: contrasena, teclear, comprobar... (p06:B3A8)
 	inc (hl)			;b3ea
 	ret			;b3eb
 
@@ -1243,13 +1243,13 @@ L_B40F:
 	call 00141h		;b411   ; BIOS SNSMAT - Returns the value of the specified line from the keyboard matrix
 	bit 1,a		;b414
 	jr z,L_B42B		;b416
-	ld a,(0c106h)		;b418
+	ld a,(0c106h)		;b418   ; 0xC106: cursores, ESPACIO y los disparos pulsados en este cuadro (p00:533B)
 	and 010h		;b41b
 	ret z			;b41d
 	ld a,05bh		;b41e
-	ld (0c0f4h),a		;b420
+	ld (0c0f4h),a		;b420   ; 0xC0F4: el sonido que se pide para el cuadro siguiente (p14:94C1)
 	ld a,004h		;b423
-	ld (0c137h),a		;b425
+	ld (0c137h),a		;b425   ; 0xC137: la ventana de la pausa: contrasena, teclear, comprobar... (p06:B3A8)
 	jp L_BA36		;b428
 L_B42B:
 	ld hl,0b3f7h		;b42b
@@ -1259,27 +1259,27 @@ L_B42B:
 	ld hl,0b3f9h		;b436
 	call 04fc8h		;b439
 	jr $-85		;b43c
-L_B43E:
-	call L_B48B		;b43e
-	ld hl,0e902h		;b441
-	call L_B46E		;b444
-	ld hl,0e902h		;b447
-	call L_B758		;b44a
-	ld hl,0e900h		;b44d
+mira_contrasena:
+	call mira_area_nueva		;b43e
+	ld hl,0e902h		;b441   ; 0xE902: la contrasena: la que se ensena y la tecleada (p06:B43E)
+	call rutina_8		;b444
+	ld hl,0e902h		;b447   ; 0xE902: la contrasena: la que se ensena y la tecleada (p06:B43E)
+	call rutina_15		;b44a
+	ld hl,0e900h		;b44d   ; 0xE900: la contrasena: la que se ensena y la tecleada (p06:B43E)
 	call 04fbeh		;b450
-	call L_B457		;b453
+	call pon_cursor_de_la_contrasena		;b453
 	ret			;b456
-L_B457:
+pon_cursor_de_la_contrasena:
 	ld hl,04830h		;b457
-	ld (0e980h),hl		;b45a
-	ld hl,0e982h		;b45d
-	ld (0c4b4h),hl		;b460
-	ld de,0e983h		;b463
+	ld (0e980h),hl		;b45a   ; 0xE980: la contrasena: la que se ensena y la tecleada (p06:B43E)
+	ld hl,0e982h		;b45d   ; 0xE982: la contrasena tecleada (p06:B7EF)
+	ld (0c4b4h),hl		;b460   ; 0xC4B4: donde va la siguiente letra de la contrasena (p06:B7BC)
+	ld de,0e983h		;b463   ; 0xE983: la contrasena: la que se ensena y la tecleada (p06:B43E)
 	ld bc,0007fh		;b466
 	ld (hl),0ffh		;b469
 	ldir		;b46b
 	ret			;b46d
-L_B46E:
+rutina_8:
 	ld a,(hl)			;b46e
 	ld e,a			;b46f
 	ex de,hl			;b470
@@ -1295,7 +1295,7 @@ L_B474:
 	inc de			;b47c
 	inc hl			;b47d
 	jr L_B474		;b47e
-L_B480:
+rutina_9:
 	cp 01fh		;b480
 	jr c,L_B486		;b482
 	ld a,01fh		;b484
@@ -1305,36 +1305,36 @@ L_B486:
 	xor d			;b488
 	ld d,a			;b489
 	ret			;b48a
-L_B48B:
+mira_area_nueva:
 	call 0882ch		;b48b
 	ld d,000h		;b48e
 	ld bc,03830h		;b490
-	ld (0e900h),bc		;b493
-	ld bc,0e902h		;b497
+	ld (0e900h),bc		;b493   ; 0xE900: la contrasena: la que se ensena y la tecleada (p06:B43E)
+	ld bc,0e902h		;b497   ; 0xE902: la contrasena: la que se ensena y la tecleada (p06:B43E)
 	ld a,r		;b49a
 	rrca			;b49c
 	rrca			;b49d
 	and 01fh		;b49e
-	call L_B480		;b4a0
-	ld a,(0c486h)		;b4a3
-	call L_B480		;b4a6
-	ld a,(0c483h)		;b4a9
+	call rutina_9		;b4a0
+	ld a,(0c486h)		;b4a3   ; 0xC486: el area a la que se va (p01:6549)
+	call rutina_9		;b4a6
+	ld a,(0c483h)		;b4a9   ; 0xC483: la COLUMNA: 0-2 el camino, 3 la sala (p01:6543)
 	cp 003h		;b4ac
-	ld a,(0c487h)		;b4ae
+	ld a,(0c487h)		;b4ae   ; 0xC487: la fila del mapa con que se entra (p00:5924)
 	jr nz,L_B4B5		;b4b1
 	ld a,01fh		;b4b3
 L_B4B5:
 	ld h,a			;b4b5
 	and 00fh		;b4b6
-	call L_B480		;b4b8
+	call rutina_9		;b4b8
 	ld a,h			;b4bb
 	rrca			;b4bc
 	rrca			;b4bd
 	rrca			;b4be
 	rrca			;b4bf
 	and 00fh		;b4c0
-	call L_B480		;b4c2
-	ld a,(0c160h)		;b4c5
+	call rutina_9		;b4c2
+	ld a,(0c160h)		;b4c5   ; 0xC160: las VIDAS, en BCD (p00:4417; GAOOOOOOOOOOH suma 10)
 	ld l,a			;b4c8
 	and 00fh		;b4c9
 	ld h,a			;b4cb
@@ -1349,95 +1349,95 @@ L_B4B5:
 	add a,a			;b4d4
 	add a,l			;b4d5
 	add a,h			;b4d6
-	call L_B480		;b4d7
-	ld a,(0c48ah)		;b4da
+	call rutina_9		;b4d7
+	ld a,(0c48ah)		;b4da   ; 0xC48A: la x de Gao al entrar (p01:6553)
 	rrca			;b4dd
 	rrca			;b4de
 	rrca			;b4df
 	and 01fh		;b4e0
-	call L_B480		;b4e2
-	ld a,(0c489h)		;b4e5
+	call rutina_9		;b4e2
+	ld a,(0c489h)		;b4e5   ; 0xC489: la y de Gao al entrar (p01:6571)
 	rrca			;b4e8
 	rrca			;b4e9
 	rrca			;b4ea
 	and 01fh		;b4eb
-	call L_B480		;b4ed
-	ld a,(0c8a0h)		;b4f0
+	call rutina_9		;b4ed
+	ld a,(0c8a0h)		;b4f0   ; 0xC8A0: el OBJETO 21 (byte 0 de 4; p06:BAC2)
 	and 001h		;b4f3
 	rlca			;b4f5
 	ld l,a			;b4f6
-	ld a,(0c8b8h)		;b4f7
+	ld a,(0c8b8h)		;b4f7   ; 0xC8B8: el OBJETO 27 (byte 0 de 4; p06:BAC2)
 	and 001h		;b4fa
 	or l			;b4fc
 	rlca			;b4fd
 	rlca			;b4fe
 	ld l,a			;b4ff
-	ld a,(0c875h)		;b500
+	ld a,(0c875h)		;b500   ; 0xC875: el OBJETO 10 (byte 1 de 4; p06:BAC2)
 	and 020h		;b503
 	rrca			;b505
 	or l			;b506
 	ld l,a			;b507
-	ld a,(0c850h)		;b508
+	ld a,(0c850h)		;b508   ; 0xC850: el OBJETO 1 (byte 0 de 4; p06:BAC2)
 	and 003h		;b50b
 	or l			;b50d
-	call L_B480		;b50e
-	ld hl,0c88ch		;b511
-	call L_B5B4		;b514
-	call L_B480		;b517
-	ld hl,0c8a4h		;b51a
-	call L_B5B4		;b51d
-	call L_B480		;b520
-	ld a,(0c884h)		;b523
+	call rutina_9		;b50e
+	ld hl,0c88ch		;b511   ; 0xC88C: el OBJETO 16 (byte 0 de 4; p06:BAC2)
+	call rutina_13		;b514
+	call rutina_9		;b517
+	ld hl,0c8a4h		;b51a   ; 0xC8A4: el OBJETO 22 (byte 0 de 4; p06:BAC2)
+	call rutina_13		;b51d
+	call rutina_9		;b520
+	ld a,(0c884h)		;b523   ; 0xC884: el OBJETO 14 (byte 0 de 4; p06:BAC2)
 	or a			;b526
 	ld l,000h		;b527
 	jr z,L_B52D		;b529
 	ld l,010h		;b52b
 L_B52D:
-	ld a,(0c879h)		;b52d
+	ld a,(0c879h)		;b52d   ; 0xC879: el OBJETO 11 (byte 1 de 4; p06:BAC2)
 	and 020h		;b530
 	or l			;b532
 	rrca			;b533
 	ld l,a			;b534
-	ld a,(0c85ch)		;b535
+	ld a,(0c85ch)		;b535   ; 0xC85C: el ARMA de Gao: su cuenta es la del objeto 4 (p01:7FAB)
 	and 007h		;b538
 	or l			;b53a
-	call L_B480		;b53b
-	ld hl,0c8bch		;b53e
-	call L_B5B4		;b541
-	call L_B480		;b544
-	ld a,(0c845h)		;b547
+	call rutina_9		;b53b
+	ld hl,0c8bch		;b53e   ; 0xC8BC: el OBJETO 28 (byte 0 de 4; p06:BAC2)
+	call rutina_13		;b541
+	call rutina_9		;b544
+	ld a,(0c845h)		;b547   ; 0xC845: la VIDA de Gao, hasta 200 (p03:AD1C; METALSLAVE la llena)
 	rrca			;b54a
 	rrca			;b54b
 	and 03fh		;b54c
-	call L_B480		;b54e
-	ld a,(0c870h)		;b551
-	call L_B480		;b554
-	ld a,(0c874h)		;b557
+	call rutina_9		;b54e
+	ld a,(0c870h)		;b551   ; 0xC870: el OBJETO 9 (byte 0 de 4; p06:BAC2)
+	call rutina_9		;b554
+	ld a,(0c874h)		;b557   ; 0xC874: el OBJETO 10 (byte 0 de 4; p06:BAC2)
 	and 01fh		;b55a
-	call L_B480		;b55c
-	ld a,(0c879h)		;b55f
+	call rutina_9		;b55c
+	ld a,(0c879h)		;b55f   ; 0xC879: el OBJETO 11 (byte 1 de 4; p06:BAC2)
 	and 01fh		;b562
-	call L_B480		;b564
-	ld a,(0e907h)		;b567
+	call rutina_9		;b564
+	ld a,(0e907h)		;b567   ; 0xE907: la contrasena: la que se ensena y la tecleada (p06:B43E)
 	ld h,a			;b56a
-	ld a,(0e908h)		;b56b
+	ld a,(0e908h)		;b56b   ; 0xE908: la contrasena: la que se ensena y la tecleada (p06:B43E)
 	add a,h			;b56e
 	and 01fh		;b56f
-	call L_B480		;b571
-	ld hl,0c8dch		;b574
-	call L_B5B4		;b577
-	call L_B480		;b57a
-	ld a,(0c840h)		;b57d
-	call L_B480		;b580
-	ld a,(0c4aah)		;b583
-	call L_B480		;b586
+	call rutina_9		;b571
+	ld hl,0c8dch		;b574   ; 0xC8DC: el OBJETO 36 (byte 0 de 4; p06:BAC2)
+	call rutina_13		;b577
+	call rutina_9		;b57a
+	ld a,(0c840h)		;b57d   ; 0xC840: elige los 32 bytes de p07:70AE que van a los patrones de 0xF8A0 (p00:5671) y el sumando de la dificultad (p01:704D); 6 es especial (p02:8F4F)
+	call rutina_9		;b580
+	ld a,(0c4aah)		;b583   ; 0xC4AA: la dificultad: 0xC172 + lo de la tabla p01:7062 segun 0xC840, hasta 15 (p01:7049)
+	call rutina_9		;b586
 	ld a,d			;b589
 	and 01fh		;b58a
-	call L_B480		;b58c
+	call rutina_9		;b58c
 	ld a,0ffh		;b58f
 	ld (bc),a			;b591
 	ret			;b592
-L_B593:
+rutina_10:
 	cp 05ah		;b593
 	jr nz,L_B599		;b595
 	ld a,030h		;b597
@@ -1446,7 +1446,7 @@ L_B599:
 	ret nz			;b59b
 	ld a,04fh		;b59c
 	ret			;b59e
-L_B59F:
+rutina_11:
 	cp 030h		;b59f
 	jr nz,L_B5A5		;b5a1
 	ld a,05ah		;b5a3
@@ -1455,14 +1455,14 @@ L_B5A5:
 	ret nz			;b5a7
 	ld a,059h		;b5a8
 	ret			;b5aa
-L_B5AB:
+rutina_12:
 	cp 061h		;b5ab
 	ret c			;b5ad
 	cp 07bh		;b5ae
 	ret nc			;b5b0
 	sub 020h		;b5b1
 	ret			;b5b3
-L_B5B4:
+rutina_13:
 	push hl			;b5b4
 	exx			;b5b5
 	pop hl			;b5b6
@@ -1491,7 +1491,7 @@ L_B5B4:
 	and 01fh		;b5d5
 	exx			;b5d7
 	ret			;b5d8
-L_B5D9:
+rutina_14:
 	push hl			;b5d9
 	exx			;b5da
 	pop hl			;b5db
@@ -1516,11 +1516,11 @@ L_B5D9:
 	and 01fh		;b5fa
 	exx			;b5fc
 	ret			;b5fd
-L_B5FE:
-	ld bc,0e983h		;b5fe
+pon_buffers:
+	ld bc,0e983h		;b5fe   ; 0xE983: la contrasena: la que se ensena y la tecleada (p06:B43E)
 	ld a,(bc)			;b601
 	inc bc			;b602
-	ld (0ec0ah),a		;b603
+	ld (0ec0ah),a		;b603   ; 0xEC0A: buffers de pantallas y dibujos
 	ld a,(bc)			;b606
 	inc bc			;b607
 	ld h,a			;b608
@@ -1533,52 +1533,52 @@ L_B5FE:
 	or h			;b60f
 	ld l,a			;b610
 	ld h,000h		;b611
-	ld (0ec10h),hl		;b613
+	ld (0ec10h),hl		;b613   ; 0xEC10: buffers de pantallas y dibujos
 	ld a,(bc)			;b616
 	inc bc			;b617
-	ld (0ec12h),a		;b618
+	ld (0ec12h),a		;b618   ; 0xEC12: buffers de pantallas y dibujos
 	ld a,(bc)			;b61b
 	add a,a			;b61c
 	add a,a			;b61d
 	add a,a			;b61e
 	inc bc			;b61f
-	ld (0ec13h),a		;b620
+	ld (0ec13h),a		;b620   ; 0xEC13: buffers de pantallas y dibujos
 	ld a,(bc)			;b623
 	add a,a			;b624
 	add a,a			;b625
 	add a,a			;b626
 	inc bc			;b627
-	ld (0ec14h),a		;b628
+	ld (0ec14h),a		;b628   ; 0xEC14: buffers de pantallas y dibujos
 	ld a,(bc)			;b62b
 	inc bc			;b62c
-	ld (0ec00h),a		;b62d
+	ld (0ec00h),a		;b62d   ; 0xEC00: buffers de pantallas y dibujos
 	ld a,(bc)			;b630
 	inc bc			;b631
-	ld (0ec01h),a		;b632
+	ld (0ec01h),a		;b632   ; 0xEC01: buffers de pantallas y dibujos
 	ld a,(bc)			;b635
 	inc bc			;b636
-	ld (0ec02h),a		;b637
+	ld (0ec02h),a		;b637   ; 0xEC02: buffers de pantallas y dibujos
 	ld a,(bc)			;b63a
 	inc bc			;b63b
-	ld (0ec03h),a		;b63c
+	ld (0ec03h),a		;b63c   ; 0xEC03: buffers de pantallas y dibujos
 	ld a,(bc)			;b63f
 	inc bc			;b640
-	ld (0ec04h),a		;b641
+	ld (0ec04h),a		;b641   ; 0xEC04: buffers de pantallas y dibujos
 	ld a,(bc)			;b644
 	inc bc			;b645
-	ld (0ec05h),a		;b646
+	ld (0ec05h),a		;b646   ; 0xEC05: buffers de pantallas y dibujos
 	ld a,(bc)			;b649
 	inc bc			;b64a
-	ld (0ec06h),a		;b64b
+	ld (0ec06h),a		;b64b   ; 0xEC06: buffers de pantallas y dibujos
 	ld a,(bc)			;b64e
 	inc bc			;b64f
-	ld (0ec07h),a		;b650
+	ld (0ec07h),a		;b650   ; 0xEC07: buffers de pantallas y dibujos
 	ld a,(bc)			;b653
 	inc bc			;b654
-	ld (0ec08h),a		;b655
-	ld a,(0e987h)		;b658
+	ld (0ec08h),a		;b655   ; 0xEC08: buffers de pantallas y dibujos
+	ld a,(0e987h)		;b658   ; 0xE987: la contrasena: la que se ensena y la tecleada (p06:B43E)
 	ld h,a			;b65b
-	ld a,(0e988h)		;b65c
+	ld a,(0e988h)		;b65c   ; 0xE988: la contrasena: la que se ensena y la tecleada (p06:B43E)
 	add a,h			;b65f
 	and 01fh		;b660
 	ld h,a			;b662
@@ -1589,7 +1589,7 @@ L_B5FE:
 	push hl			;b667
 	push de			;b668
 	push bc			;b669
-	ld hl,0c850h		;b66a
+	ld hl,0c850h		;b66a   ; 0xC850: el OBJETO 1 (byte 0 de 4; p06:BAC2)
 	ld bc,000afh		;b66d
 	call 05de9h		;b670
 	pop bc			;b673
@@ -1597,93 +1597,93 @@ L_B5FE:
 	pop hl			;b675
 	ld a,(bc)			;b676
 	inc bc			;b677
-	ld (0ec09h),a		;b678
+	ld (0ec09h),a		;b678   ; 0xEC09: buffers de pantallas y dibujos
 	ld a,(bc)			;b67b
 	inc bc			;b67c
-	ld (0c840h),a		;b67d
+	ld (0c840h),a		;b67d   ; 0xC840: elige los 32 bytes de p07:70AE que van a los patrones de 0xF8A0 (p00:5671) y el sumando de la dificultad (p01:704D); 6 es especial (p02:8F4F)
 	ld a,(bc)			;b680
-	ld (0c4aah),a		;b681
-	ld a,(0ec0ah)		;b684
-	ld (0c486h),a		;b687
-	ld hl,(0ec10h)		;b68a
-	ld (0c487h),hl		;b68d
-	ld a,(0ec12h)		;b690
+	ld (0c4aah),a		;b681   ; 0xC4AA: la dificultad: 0xC172 + lo de la tabla p01:7062 segun 0xC840, hasta 15 (p01:7049)
+	ld a,(0ec0ah)		;b684   ; 0xEC0A: buffers de pantallas y dibujos
+	ld (0c486h),a		;b687   ; 0xC486: el area a la que se va (p01:6549)
+	ld hl,(0ec10h)		;b68a   ; 0xEC10: buffers de pantallas y dibujos
+	ld (0c487h),hl		;b68d   ; 0xC487: la fila del mapa con que se entra (p00:5924)
+	ld a,(0ec12h)		;b690   ; 0xEC12: buffers de pantallas y dibujos
 	ld l,a			;b693
 	ld h,000h		;b694
 	call 04893h		;b696
 	ld a,e			;b699
-	ld (0c160h),a		;b69a
-	ld a,(0ec13h)		;b69d
-	ld (0c48ah),a		;b6a0
-	ld a,(0ec14h)		;b6a3
-	ld (0c489h),a		;b6a6
-	ld a,(0ec00h)		;b6a9
+	ld (0c160h),a		;b69a   ; 0xC160: las VIDAS, en BCD (p00:4417; GAOOOOOOOOOOH suma 10)
+	ld a,(0ec13h)		;b69d   ; 0xEC13: buffers de pantallas y dibujos
+	ld (0c48ah),a		;b6a0   ; 0xC48A: la x de Gao al entrar (p01:6553)
+	ld a,(0ec14h)		;b6a3   ; 0xEC14: buffers de pantallas y dibujos
+	ld (0c489h),a		;b6a6   ; 0xC489: la y de Gao al entrar (p01:6571)
+	ld a,(0ec00h)		;b6a9   ; 0xEC00: buffers de pantallas y dibujos
 	and 003h		;b6ac
-	ld (0c850h),a		;b6ae
-	ld a,(0ec03h)		;b6b1
+	ld (0c850h),a		;b6ae   ; 0xC850: el OBJETO 1 (byte 0 de 4; p06:BAC2)
+	ld a,(0ec03h)		;b6b1   ; 0xEC03: buffers de pantallas y dibujos
 	and 007h		;b6b4
-	ld (0c85ch),a		;b6b6
-	ld a,(0ec05h)		;b6b9
+	ld (0c85ch),a		;b6b6   ; 0xC85C: el ARMA de Gao: su cuenta es la del objeto 4 (p01:7FAB)
+	ld a,(0ec05h)		;b6b9   ; 0xEC05: buffers de pantallas y dibujos
 	add a,a			;b6bc
 	add a,a			;b6bd
-	ld (0c845h),a		;b6be
-	ld a,(0ec06h)		;b6c1
-	ld (0c870h),a		;b6c4
-	ld a,(0ec07h)		;b6c7
-	ld (0c874h),a		;b6ca
-	ld a,(0ec03h)		;b6cd
+	ld (0c845h),a		;b6be   ; 0xC845: la VIDA de Gao, hasta 200 (p03:AD1C; METALSLAVE la llena)
+	ld a,(0ec06h)		;b6c1   ; 0xEC06: buffers de pantallas y dibujos
+	ld (0c870h),a		;b6c4   ; 0xC870: el OBJETO 9 (byte 0 de 4; p06:BAC2)
+	ld a,(0ec07h)		;b6c7   ; 0xEC07: buffers de pantallas y dibujos
+	ld (0c874h),a		;b6ca   ; 0xC874: el OBJETO 10 (byte 0 de 4; p06:BAC2)
+	ld a,(0ec03h)		;b6cd   ; 0xEC03: buffers de pantallas y dibujos
 	and 010h		;b6d0
 	rlca			;b6d2
 	ld l,a			;b6d3
-	ld a,(0ec08h)		;b6d4
+	ld a,(0ec08h)		;b6d4   ; 0xEC08: buffers de pantallas y dibujos
 	or l			;b6d7
-	ld (0c879h),a		;b6d8
-	call L_B74D		;b6db
-	ld (0c878h),a		;b6de
-	ld a,(0ec03h)		;b6e1
+	ld (0c879h),a		;b6d8   ; 0xC879: el OBJETO 11 (byte 1 de 4; p06:BAC2)
+	call bucle_3		;b6db
+	ld (0c878h),a		;b6de   ; 0xC878: el OBJETO 11 (byte 0 de 4; p06:BAC2)
+	ld a,(0ec03h)		;b6e1   ; 0xEC03: buffers de pantallas y dibujos
 	and 008h		;b6e4
 	jr z,L_B6ED		;b6e6
 	ld a,001h		;b6e8
-	ld (0c884h),a		;b6ea
+	ld (0c884h),a		;b6ea   ; 0xC884: el OBJETO 14 (byte 0 de 4; p06:BAC2)
 L_B6ED:
-	ld a,(0ec00h)		;b6ed
+	ld a,(0ec00h)		;b6ed   ; 0xEC00: buffers de pantallas y dibujos
 	and 004h		;b6f0
 	rrca			;b6f2
 	rrca			;b6f3
-	ld (0c8b8h),a		;b6f4
-	ld a,(0ec01h)		;b6f7
-	ld hl,0c88ch		;b6fa
-	call L_B5D9		;b6fd
-	ld a,(0ec02h)		;b700
-	ld hl,0c8a4h		;b703
-	call L_B5D9		;b706
-	ld a,(0ec00h)		;b709
+	ld (0c8b8h),a		;b6f4   ; 0xC8B8: el OBJETO 27 (byte 0 de 4; p06:BAC2)
+	ld a,(0ec01h)		;b6f7   ; 0xEC01: buffers de pantallas y dibujos
+	ld hl,0c88ch		;b6fa   ; 0xC88C: el OBJETO 16 (byte 0 de 4; p06:BAC2)
+	call rutina_14		;b6fd
+	ld a,(0ec02h)		;b700   ; 0xEC02: buffers de pantallas y dibujos
+	ld hl,0c8a4h		;b703   ; 0xC8A4: el OBJETO 22 (byte 0 de 4; p06:BAC2)
+	call rutina_14		;b706
+	ld a,(0ec00h)		;b709   ; 0xEC00: buffers de pantallas y dibujos
 	and 008h		;b70c
 	rrca			;b70e
 	rrca			;b70f
 	rrca			;b710
-	ld (0c8a0h),a		;b711
-	ld a,(0ec04h)		;b714
-	ld hl,0c8bch		;b717
-	call L_B5D9		;b71a
-	ld a,(0ec09h)		;b71d
-	ld hl,0c8dch		;b720
-	call L_B5D9		;b723
-	ld hl,0c158h		;b726
+	ld (0c8a0h),a		;b711   ; 0xC8A0: el OBJETO 21 (byte 0 de 4; p06:BAC2)
+	ld a,(0ec04h)		;b714   ; 0xEC04: buffers de pantallas y dibujos
+	ld hl,0c8bch		;b717   ; 0xC8BC: el OBJETO 28 (byte 0 de 4; p06:BAC2)
+	call rutina_14		;b71a
+	ld a,(0ec09h)		;b71d   ; 0xEC09: buffers de pantallas y dibujos
+	ld hl,0c8dch		;b720   ; 0xC8DC: el OBJETO 36 (byte 0 de 4; p06:BAC2)
+	call rutina_14		;b723
+	ld hl,0c158h		;b726   ; 0xC158: variables del juego
 	ld bc,00002h		;b729
 	call 05de9h		;b72c
 	ld a,080h		;b72f
-	ld (0c481h),a		;b731
-	ld (0c485h),a		;b734
+	ld (0c481h),a		;b731   ; 0xC481: la FASE, 1-6 (p01:65B4)
+	ld (0c485h),a		;b734   ; 0xC485: bit 7: hay que cambiar de area (p01:64CD)
 	call 07fabh		;b737
 	call 0566eh		;b73a
 	call 080d1h		;b73d
 	ld a,005h		;b740
-	ld (0c4dah),a		;b742
-	ld a,058h		;b745
+	ld (0c4dah),a		;b742   ; 0xC4DA: el final: lo pone ENDDEMOGAMITAINA (p06:B98A)
+	ld a,058h		;b745   ; el sonido 0x58 (p14:9C47 + 2*0x58)
 	call 041ach		;b747
 	jp 04ca3h		;b74a
-L_B74D:
+bucle_3:
 	ld bc,00800h		;b74d
 L_B750:
 	rra			;b750
@@ -1693,16 +1693,16 @@ L_B754:
 	djnz L_B750		;b754
 	ld a,c			;b756
 	ret			;b757
-L_B758:
+rutina_15:
 	ld a,(hl)			;b758
 	cp 0ffh		;b759
 	ret z			;b75b
-	call L_B766		;b75c
-	call L_B59F		;b75f
+	call rutina_16		;b75c
+	call rutina_11		;b75f
 	ld (hl),a			;b762
 	inc hl			;b763
-	jr L_B758		;b764
-L_B766:
+	jr rutina_15		;b764
+rutina_16:
 	cp 00ah		;b766
 	ld c,030h		;b768
 	jr c,L_B76E		;b76a
@@ -1710,16 +1710,16 @@ L_B766:
 L_B76E:
 	add a,c			;b76e
 	ret			;b76f
-L_B770:
+rutina_17:
 	ld a,(hl)			;b770
 	cp 0ffh		;b771
 	ret z			;b773
-	call L_B593		;b774
-	call L_B77E		;b777
+	call rutina_10		;b774
+	call rutina_18		;b777
 	ld (hl),a			;b77a
 	inc hl			;b77b
-	jr L_B770		;b77c
-L_B77E:
+	jr rutina_17		;b77c
+rutina_18:
 	sub 030h		;b77e
 	ret c			;b780
 	cp 00ah		;b781
@@ -1733,14 +1733,14 @@ L_B77E:
 L_B78C:
 	call 00156h		;b78c   ; BIOS KILBUF - Clears keyboard buffer
 L_B78F:
-	ld hl,0e980h		;b78f
+	ld hl,0e980h		;b78f   ; 0xE980: la contrasena: la que se ensena y la tecleada (p06:B43E)
 	call 04fbeh		;b792
 L_B795:
 	call 00156h		;b795   ; BIOS KILBUF - Clears keyboard buffer
 	xor a			;b798
 	ld (0fcach),a		;b799
 	call 0009fh		;b79c   ; BIOS CHGET - One character input (waiting)
-	call L_B5AB		;b79f
+	call rutina_12		;b79f
 	cp 008h		;b7a2
 	jr z,$+56		;b7a4
 	cp 00dh		;b7a6
@@ -1755,15 +1755,15 @@ L_B795:
 	cp 03ah		;b7b8
 	jr nc,L_B795		;b7ba
 L_B7BC:
-	ld de,(0c4b4h)		;b7bc
+	ld de,(0c4b4h)		;b7bc   ; 0xC4B4: donde va la siguiente letra de la contrasena (p06:B7BC)
 	ld a,e			;b7c0
 	cp 097h		;b7c1
 	jr nc,L_B78F		;b7c3
 	ld a,c			;b7c5
 	ld (de),a			;b7c6
 	inc de			;b7c7
-	ld (0c4b4h),de		;b7c8
-	ld a,001h		;b7cc
+	ld (0c4b4h),de		;b7c8   ; 0xC4B4: donde va la siguiente letra de la contrasena (p06:B7BC)
+	ld a,001h		;b7cc   ; el sonido 0x01 (p14:9C47 + 2*0x01)
 	call 041ach		;b7ce
 	jr L_B78F		;b7d1
 
@@ -1781,18 +1781,18 @@ DATA_sin_llamar_B7D3:
 
 
 L_B7DC:
-	ld de,(0c4b4h)		;b7dc
+	ld de,(0c4b4h)		;b7dc   ; 0xC4B4: donde va la siguiente letra de la contrasena (p06:B7BC)
 	ld a,e			;b7e0
 	cp 082h		;b7e1
 	jr z,$-84		;b7e3
 	dec de			;b7e5
 	xor a			;b7e6
 	ld (de),a			;b7e7
-	ld (0c4b4h),de		;b7e8
+	ld (0c4b4h),de		;b7e8   ; 0xC4B4: donde va la siguiente letra de la contrasena (p06:B7BC)
 	jr $-93		;b7ec
-L_B7EE:
+pon_espera:
 	xor a			;b7ee
-	ld hl,0e982h		;b7ef
+	ld hl,0e982h		;b7ef   ; 0xE982: la contrasena tecleada (p06:B7EF)
 L_B7F2:
 	ld d,(hl)			;b7f2
 	inc hl			;b7f3
@@ -1802,35 +1802,35 @@ L_B7F2:
 	xor d			;b7f7
 	jr L_B7F2		;b7f8
 L_B7FA:
-	call L_B85E		;b7fa
+	call pon_contrasena_buena		;b7fa
 	jr nz,L_B822		;b7fd
-	ld hl,0e982h		;b7ff
-	call L_B770		;b802
-	ld hl,0e982h		;b805
-	call L_B46E		;b808
-	call L_B7EE		;b80b
+	ld hl,0e982h		;b7ff   ; 0xE982: la contrasena tecleada (p06:B7EF)
+	call rutina_17		;b802
+	ld hl,0e982h		;b805   ; 0xE982: la contrasena tecleada (p06:B7EF)
+	call rutina_8		;b808
+	call pon_espera		;b80b
 	or a			;b80e
 	jr nz,L_B827		;b80f
-	call L_B5FE		;b811
-	ld a,(0c485h)		;b814
+	call pon_buffers		;b811
+	ld a,(0c485h)		;b814   ; 0xC485: bit 7: hay que cambiar de area (p01:64CD)
 	cp 080h		;b817
 	jr nz,L_B827		;b819
-	ld a,(0e902h)		;b81b
+	ld a,(0e902h)		;b81b   ; 0xE902: la contrasena: la que se ensena y la tecleada (p06:B43E)
 	cp 0ffh		;b81e
 	jr z,L_B827		;b820
 L_B822:
-	call L_B852		;b822
+	call rutina_19		;b822
 	jr L_B833		;b825
 L_B827:
-	ld hl,0b3ech		;b827
+	ld hl,0b3ech		;b827   ; p06:B3EC tabla_B3EC: tabla que lee p06:B3D3, p06:B3D9, p06:B42B, p06:B436, p06:B827, p06:B852 (35 bytes)
 	call 04fc2h		;b82a
 	ld hl,0b84ah		;b82d
 	call 04fbeh		;b830
 L_B833:
 	ld a,01eh		;b833
-	ld (0c104h),a		;b835
+	ld (0c104h),a		;b835   ; 0xC104: cuenta atras del paso del estado (p00:4345)
 	ld a,05bh		;b838
-	ld (0c0f4h),a		;b83a
+	ld (0c0f4h),a		;b83a   ; 0xC0F4: el sonido que se pide para el cuadro siguiente (p14:94C1)
 	jp L_B3E7		;b83d
 
 ; ----------------------------------------------------------------------
@@ -1845,31 +1845,31 @@ DATA_tabla_B840:
 ; ======================================================================
 
 
-L_B852:
-	ld hl,0b3ech		;b852
+rutina_19:
+	ld hl,0b3ech		;b852   ; p06:B3EC tabla_B3EC: tabla que lee p06:B3D3, p06:B3D9, p06:B42B, p06:B436, p06:B827, p06:B852 (35 bytes)
 	call 04fc2h		;b855
-	ld hl,0b840h		;b858
+	ld hl,0b840h		;b858   ; p06:B840 tabla_B840: tabla que lee p06:B82D, p06:B858 (18 bytes)
 	jp 04fbeh		;b85b
-L_B85E:
+pon_contrasena_buena:
 	xor a			;b85e
-	ld (0c4dch),a		;b85f
+	ld (0c4dch),a		;b85f   ; 0xC4DC: se ha aceptado una de las 17 (p06:B895)
 	ld hl,00000h		;b862
-	ld (0c4dah),hl		;b865
-	ld b,011h		;b868
+	ld (0c4dah),hl		;b865   ; 0xC4DA: el final: lo pone ENDDEMOGAMITAINA (p06:B98A)
+	ld b,011h		;b868   ; 17 vueltas
 L_B86A:
 	push bc			;b86a
-	call L_B876		;b86b
+	call pon_contrasena_buena_2		;b86b
 	pop bc			;b86e
 	djnz L_B86A		;b86f
-	ld a,(0c4dch)		;b871
+	ld a,(0c4dch)		;b871   ; 0xC4DC: se ha aceptado una de las 17 (p06:B895)
 	or a			;b874
 	ret			;b875
-L_B876:
-	ld de,0b8a0h		;b876
+pon_contrasena_buena_2:
+	ld de,0b8a0h		;b876   ; p06:B8A0 tabla_B8A0: tabla que lee p06:B876 (44 bytes)
 	ld a,b			;b879
 	dec a			;b87a
 	call 0486fh		;b87b
-	ld hl,0e982h		;b87e
+	ld hl,0e982h		;b87e   ; 0xE982: la contrasena tecleada (p06:B7EF)
 L_B881:
 	ld a,(de)			;b881
 	inc de			;b882
@@ -1879,14 +1879,14 @@ L_B881:
 	ld a,(hl)			;b887
 	inc a			;b888
 	ret nz			;b889
-	ld hl,0c600h		;b88a
+	ld hl,0c600h		;b88a   ; 0xC600: una por contrasena: ya se ha usado en esta partida (p06:B88A)
 	ld a,b			;b88d
-	call 040a4h		;b88e
+	call 040a4h		;b88e   ; p00:40A4 hl_mas_a
 	ld a,(hl)			;b891
 	or a			;b892
 	ret nz			;b893
 	inc a			;b894
-	ld (0c4dch),a		;b895
+	ld (0c4dch),a		;b895   ; 0xC4DC: se ha aceptado una de las 17 (p06:B895)
 	ld (hl),a			;b898
 	ex de,hl			;b899
 	jp (hl)			;b89a
@@ -1910,7 +1910,7 @@ DATA_tabla_B8A0:
 
 
 L_B8CC:
-	ld hl,0c8dch		;b8cc
+	ld hl,0c8dch		;b8cc   ; 0xC8DC: el OBJETO 36 (byte 0 de 4; p06:BAC2)
 	ld bc,00013h		;b8cf
 	jr $+24		;b8d2
 
@@ -1927,7 +1927,7 @@ DATA_sin_lector_B8D4:
 
 
 L_B8E4:
-	ld hl,0c88ch		;b8e4
+	ld hl,0c88ch		;b8e4   ; 0xC88C: el OBJETO 16 (byte 0 de 4; p06:BAC2)
 	ld bc,00047h		;b8e7
 L_B8EA:
 	ld a,001h		;b8ea
@@ -1953,7 +1953,7 @@ DATA_sin_lector_B8F3:
 
 L_B902:
 	ld a,001h		;b902
-	ld (0c4e3h),a		;b904
+	ld (0c4e3h),a		;b904   ; 0xC4E3: HANEYOKAGAYAKE: las cosas que dan 1 de vida dan 10 (p03:AC8F)
 	ret			;b907
 
 ; ----------------------------------------------------------------------
@@ -1970,7 +1970,7 @@ DATA_sin_lector_B908:
 
 L_B911:
 	ld a,009h		;b911
-	ld (0c870h),a		;b913
+	ld (0c870h),a		;b913   ; 0xC870: el OBJETO 9 (byte 0 de 4; p06:BAC2)
 	ret			;b916
 
 ; ----------------------------------------------------------------------
@@ -1987,7 +1987,7 @@ DATA_sin_lector_B917:
 
 L_B91D:
 	ld a,003h		;b91d
-	ld (0c850h),a		;b91f
+	ld (0c850h),a		;b91f   ; 0xC850: el OBJETO 1 (byte 0 de 4; p06:BAC2)
 	ret			;b922
 
 ; ----------------------------------------------------------------------
@@ -2004,7 +2004,7 @@ DATA_sin_lector_B923:
 
 L_B92E:
 	ld a,0c8h		;b92e
-	ld (0c845h),a		;b930
+	ld (0c845h),a		;b930   ; 0xC845: la VIDA de Gao, hasta 200 (p03:AD1C; METALSLAVE la llena)
 	ret			;b933
 
 ; ----------------------------------------------------------------------
@@ -2021,7 +2021,7 @@ DATA_sin_lector_B934:
 
 L_B943:
 	ld a,009h		;b943
-	ld (0c884h),a		;b945
+	ld (0c884h),a		;b945   ; 0xC884: el OBJETO 14 (byte 0 de 4; p06:BAC2)
 	ret			;b948
 
 ; ----------------------------------------------------------------------
@@ -2037,7 +2037,7 @@ DATA_sin_lector_B949:
 
 
 L_B958:
-	ld hl,0c850h		;b958
+	ld hl,0c850h		;b958   ; 0xC850: el OBJETO 1 (byte 0 de 4; p06:BAC2)
 	ld bc,0003bh		;b95b
 	jr $-116		;b95e
 
@@ -2054,11 +2054,11 @@ DATA_sin_lector_B960:
 
 
 L_B96E:
-	ld a,(0c160h)		;b96e
+	ld a,(0c160h)		;b96e   ; 0xC160: las VIDAS, en BCD (p00:4417; GAOOOOOOOOOOH suma 10)
 	add a,010h		;b971
 	daa			;b973
 	ret c			;b974
-	ld (0c160h),a		;b975
+	ld (0c160h),a		;b975   ; 0xC160: las VIDAS, en BCD (p00:4417; GAOOOOOOOOOOH suma 10)
 	ret			;b978
 
 ; ----------------------------------------------------------------------
@@ -2076,15 +2076,15 @@ DATA_sin_lector_B979:
 
 L_B98A:
 	ld hl,0000ch		;b98a
-	ld (0c4dah),hl		;b98d
+	ld (0c4dah),hl		;b98d   ; 0xC4DA: el final: lo pone ENDDEMOGAMITAINA (p06:B98A)
 	xor a			;b990
-	ld (0c388h),a		;b991
-	ld (0c0f2h),a		;b994
-	ld (0c092h),a		;b997
-	ld (0c0b2h),a		;b99a
-	ld (0c0d2h),a		;b99d
+	ld (0c388h),a		;b991   ; 0xC388: lo que se ha movido el mapa este cuadro (p00:56E8)
+	ld (0c0f2h),a		;b994   ; 0xC0F2: la musica de la pausa esta sonando (p14:9411)
+	ld (0c092h),a		;b997   ; 0xC092: los canales del sonido (0x20 bytes cada uno, p14:94CA)
+	ld (0c0b2h),a		;b99a   ; 0xC0B2: los canales del sonido (0x20 bytes cada uno, p14:94CA)
+	ld (0c0d2h),a		;b99d   ; 0xC0D2: los canales del sonido (0x20 bytes cada uno, p14:94CA)
 	ld a,014h		;b9a0
-	ld (0c4a8h),a		;b9a2
+	ld (0c4a8h),a		;b9a2   ; 0xC4A8: variables de la partida
 	ret			;b9a5
 
 ; ----------------------------------------------------------------------
@@ -2101,8 +2101,8 @@ DATA_sin_lector_B9A6:
 
 L_B9AC:
 	ld a,001h		;b9ac
-	ld (0c4d1h),a		;b9ae
-	ld hl,0c850h		;b9b1
+	ld (0c4d1h),a		;b9ae   ; 0xC4D1: lo pone la contrasena 'aaaaa', que no se puede teclear (p06:B9AC)
+	ld hl,0c850h		;b9b1   ; 0xC850: el OBJETO 1 (byte 0 de 4; p06:BAC2)
 	ld bc,000a7h		;b9b4
 	ld a,003h		;b9b7
 	jp L_B8EC		;b9b9
@@ -2121,9 +2121,9 @@ DATA_sin_lector_B9BC:
 
 L_B9C7:
 	ld a,006h		;b9c7
-	ld (0c874h),a		;b9c9
+	ld (0c874h),a		;b9c9   ; 0xC874: el OBJETO 10 (byte 0 de 4; p06:BAC2)
 	ld a,03fh		;b9cc
-	ld (0c875h),a		;b9ce
+	ld (0c875h),a		;b9ce   ; 0xC875: el OBJETO 10 (byte 1 de 4; p06:BAC2)
 	ret			;b9d1
 
 ; ----------------------------------------------------------------------
@@ -2140,7 +2140,7 @@ DATA_sin_lector_B9D2:
 
 L_B9E2:
 	ld a,001h		;b9e2
-	ld (0c4e0h),a		;b9e4
+	ld (0c4e0h),a		;b9e4   ; 0xC4E0: NANDANANDANANDA: al perder una vida se devuelve (p00:441A)
 	ret			;b9e7
 
 ; ----------------------------------------------------------------------
@@ -2157,8 +2157,8 @@ DATA_sin_lector_B9E8:
 
 L_B9F1:
 	ld a,003h		;b9f1
-	ld (0c85ch),a		;b9f3
-	ld (0c4e1h),a		;b9f6
+	ld (0c85ch),a		;b9f3   ; 0xC85C: el ARMA de Gao: su cuenta es la del objeto 4 (p01:7FAB)
+	ld (0c4e1h),a		;b9f6   ; 0xC4E1: AUTOSHOT: el arma 4 en cada cuadro (p02:8F56)
 	jp 07fabh		;b9f9
 
 ; ----------------------------------------------------------------------
@@ -2175,7 +2175,7 @@ DATA_sin_lector_B9FC:
 
 L_BA0A:
 	ld a,001h		;ba0a
-	ld (0c4e2h),a		;ba0c
+	ld (0c4e2h),a		;ba0c   ; 0xC4E2: ILOVEHINOTORI: invencible (p02:8600)
 	ret			;ba0f
 
 ; ----------------------------------------------------------------------
@@ -2192,9 +2192,9 @@ DATA_sin_lector_BA10:
 
 L_BA1C:
 	ld a,006h		;ba1c
-	ld (0c878h),a		;ba1e
+	ld (0c878h),a		;ba1e   ; 0xC878: el OBJETO 11 (byte 0 de 4; p06:BAC2)
 	ld a,03fh		;ba21
-	ld (0c879h),a		;ba23
+	ld (0c879h),a		;ba23   ; 0xC879: el OBJETO 11 (byte 1 de 4; p06:BAC2)
 	ret			;ba26
 
 ; ----------------------------------------------------------------------
@@ -2211,16 +2211,16 @@ DATA_sin_lector_BA27:
 
 L_BA2E:
 	ld a,003h		;ba2e
-	ld (0c85ch),a		;ba30
+	ld (0c85ch),a		;ba30   ; 0xC85C: el ARMA de Gao: su cuenta es la del objeto 4 (p01:7FAB)
 	jp 07fabh		;ba33
 L_BA36:
-	ld a,(0c012h)		;ba36
+	ld a,(0c012h)		;ba36   ; 0xC012: el sonido del primer canal (p14:9420)
 	or a			;ba39
 	ret nz			;ba3a
 	ld hl,01720h		;ba3b
-	ld bc,0d040h		;ba3e
+	ld bc,0d040h		;ba3e   ; 0xD040: la ficha del bicho 0, byte 0x40 (p01:74B7)
 	call 04972h		;ba41
-	call 04cf8h		;ba44
+	call 04cf8h		;ba44   ; p00:4CF8 enciende_los_sprites
 	jp L_B3E7		;ba47
 L_BA4A:
 	ret			;ba4a
@@ -2234,19 +2234,19 @@ L_BA4B:
 	ld hl,01720h		;ba57
 	ld de,01018h		;ba5a
 	ld a,0cch		;ba5d
-	ld bc,0d058h		;ba5f
+	ld bc,0d058h		;ba5f   ; 0xD058: la ficha del bicho 0, byte 0x58 (p01:74B7)
 	call 04944h		;ba62
 	ld a,0ffh		;ba65
 	ld hl,01923h		;ba67
-	ld bc,0ca52h		;ba6a
+	ld bc,0ca52h		;ba6a   ; 0xCA52: 6 fichas de 0x20 (p02:9368)
 	call 04961h		;ba6d
-	ld hl,0ba87h		;ba70
+	ld hl,0ba87h		;ba70   ; p06:BA87 tabla_BA87: tabla que lee p06:BA70 (19 bytes)
 	call 04fbeh		;ba73
 	call 04348h		;ba76
 	ld de,06810h		;ba79
-	ld bc,0e068h		;ba7c
-	call 04cedh		;ba7f
-	ld a,034h		;ba82
+	ld bc,0e068h		;ba7c   ; 0xE068: la tabla de 32x32 dibujos de la pantalla
+	call 04cedh		;ba7f   ; p00:4CED apaga_los_sprites
+	ld a,034h		;ba82   ; el sonido 0x34 (p14:9C47 + 2*0x34)
 	jp 041ach		;ba84
 
 ; ----------------------------------------------------------------------
@@ -2262,46 +2262,46 @@ DATA_tabla_BA87:
 
 
 L_BA9A:
-	call L_BAC2		;ba9a
+	call mira_objeto_1		;ba9a
 	jp 04348h		;ba9d
 L_BAA0:
-	ld a,(0c106h)		;baa0
+	ld a,(0c106h)		;baa0   ; 0xC106: cursores, ESPACIO y los disparos pulsados en este cuadro (p00:533B)
 	or a			;baa3
 	ret z			;baa4
 	jp 04348h		;baa5
 L_BAA8:
 	ld hl,01720h		;baa8
 	ld de,01018h		;baab
-	ld bc,0d058h		;baae
+	ld bc,0d058h		;baae   ; 0xD058: la ficha del bicho 0, byte 0x58 (p01:74B7)
 	call 0497bh		;bab1
 	call 055a2h		;bab4
-	call 04cf8h		;bab7
+	call 04cf8h		;bab7   ; p00:4CF8 enciende_los_sprites
 	call 0488dh		;baba
 	ld b,005h		;babd
 	jp 043edh		;babf
-L_BAC2:
-	ld hl,0c850h		;bac2
+mira_objeto_1:
+	ld hl,0c850h		;bac2   ; 0xC850: el OBJETO 1 (byte 0 de 4; p06:BAC2)
 	ld de,00004h		;bac5
-	ld b,029h		;bac8
+	ld b,029h		;bac8   ; 41 vueltas
 L_BACA:
 	ld a,(hl)			;baca
 	or a			;bacb
 	push hl			;bacc
 	push de			;bacd
 	push bc			;bace
-	call nz,L_BAD9		;bacf
+	call nz,mira_buffer		;bacf
 	pop bc			;bad2
 	pop de			;bad3
 	pop hl			;bad4
 	add hl,de			;bad5
 	djnz L_BACA		;bad6
 	ret			;bad8
-L_BAD9:
-	ld (0e880h),a		;bad9
+mira_buffer:
+	ld (0e880h),a		;bad9   ; 0xE880: buffer de trabajo
 	ld a,02ah		;badc
 	sub b			;bade
-	ld (0e801h),a		;badf
-	ld de,0bb11h		;bae2
+	ld (0e801h),a		;badf   ; 0xE801: buffer de trabajo
+	ld de,0bb11h		;bae2   ; p06:BB11 tabla_BB11: tabla que lee p06:BAE2 (88 bytes)
 	dec a			;bae5
 	call 0486fh		;bae6
 	ld a,d			;bae9
@@ -2311,7 +2311,7 @@ L_BAD9:
 	rrca			;baee
 	jr c,L_BB03		;baef
 	push de			;baf1
-	ld hl,0e880h		;baf2
+	ld hl,0e880h		;baf2   ; 0xE880: buffer de trabajo
 	ld b,001h		;baf5
 	ld a,d			;baf7
 	add a,010h		;baf8
@@ -2322,11 +2322,11 @@ L_BAD9:
 	call 04853h		;baff
 	pop de			;bb02
 L_BB03:
-	ld hl,0e800h		;bb03
+	ld hl,0e800h		;bb03   ; 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
 	ld a,e			;bb06
-	ld (0e802h),a		;bb07
+	ld (0e802h),a		;bb07   ; 0xE802: buffer de trabajo
 	ld a,d			;bb0a
-	ld (0e803h),a		;bb0b
+	ld (0e803h),a		;bb0b   ; 0xE803: buffer de trabajo
 	jp 07b60h		;bb0e
 
 ; ----------------------------------------------------------------------
@@ -2354,19 +2354,19 @@ L_BB69:
 	ld hl,01720h		;bb74
 	ld de,01018h		;bb77
 	ld a,0cch		;bb7a
-	ld bc,0d060h		;bb7c
+	ld bc,0d060h		;bb7c   ; 0xD060: la ficha del bicho 0, byte 0x60 (p01:74B7)
 	call 04944h		;bb7f
 	ld a,0ffh		;bb82
 	ld hl,01923h		;bb84
-	ld bc,0ca5ah		;bb87
+	ld bc,0ca5ah		;bb87   ; 0xCA5A: 6 fichas de 0x20 (p02:9368)
 	call 04961h		;bb8a
-	call L_BBFD		;bb8d
+	call pon_partida		;bb8d
 	call 04348h		;bb90
-	call 04cedh		;bb93
-	ld hl,0ea00h		;bb96
+	call 04cedh		;bb93   ; p00:4CED apaga_los_sprites
+	ld hl,0ea00h		;bb96   ; 0xEA00: buffers de pantallas y dibujos
 	ld bc,003ffh		;bb99
 	call 05de9h		;bb9c
-	ld hl,0bd3eh		;bb9f
+	ld hl,0bd3eh		;bb9f   ; p06:BD3E tabla_BD3E: tabla que lee p06:BB9F, p06:BBC7, p06:BBF0 (588 bytes)
 	ld de,04728h		;bba2
 	ld bc,01006h		;bba5
 	call 051c8h		;bba8
@@ -2375,79 +2375,79 @@ L_BB69:
 	ld hl,09e18h		;bbb1
 	call 055c6h		;bbb4
 	call 058dch		;bbb7
-	ld a,034h		;bbba
+	ld a,034h		;bbba   ; el sonido 0x34 (p14:9C47 + 2*0x34)
 	jp 041c1h		;bbbc
 L_BBBF:
 	ld a,078h		;bbbf
-	ld (0c104h),a		;bbc1
-	ld a,(0c4bdh)		;bbc4
+	ld (0c104h),a		;bbc1   ; 0xC104: cuenta atras del paso del estado (p00:4345)
+	ld a,(0c4bdh)		;bbc4   ; 0xC4BD: variables de la partida
 	ld hl,0be43h		;bbc7
 	call 04878h		;bbca
-	call L_BBD2		;bbcd
+	call mira_buffer_2		;bbcd
 	jr L_BC13		;bbd0
-L_BBD2:
-	ld de,0e800h		;bbd2
-	call L_BBDC		;bbd5
+mira_buffer_2:
+	ld de,0e800h		;bbd2   ; 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
+	call rutina_20		;bbd5
 	ld a,0ffh		;bbd8
 	ld (de),a			;bbda
 	ret			;bbdb
-L_BBDC:
+rutina_20:
 	ld a,(hl)			;bbdc
 	cp 0ffh		;bbdd
 	ret z			;bbdf
 	inc hl			;bbe0
 	cp 0c0h		;bbe1
-	call nc,L_BBEC		;bbe3
-	jr nc,L_BBDC		;bbe6
+	call nc,rutina_21		;bbe3
+	jr nc,rutina_20		;bbe6
 	ld (de),a			;bbe8
 	inc de			;bbe9
-	jr L_BBDC		;bbea
-L_BBEC:
+	jr rutina_20		;bbea
+rutina_21:
 	push hl			;bbec
 	push de			;bbed
 	sub 0c0h		;bbee
 	ld hl,0bd9eh		;bbf0
 	call 04878h		;bbf3
 	pop de			;bbf6
-	call L_BBDC		;bbf7
+	call rutina_20		;bbf7
 	pop hl			;bbfa
 	or a			;bbfb
 	ret			;bbfc
-L_BBFD:
+pon_partida:
 	ld bc,00001h		;bbfd
-	ld (0c4bbh),bc		;bc00
-L_BC04:
+	ld (0c4bbh),bc		;bc00   ; 0xC4BB: variables de la partida
+pon_partida_2:
 	ld bc,01605h		;bc04
-	ld (0c4b6h),bc		;bc07
+	ld (0c4b6h),bc		;bc07   ; 0xC4B6: variables de la partida
 	ld bc,0040bh		;bc0b
-	ld (0c4b8h),bc		;bc0e
+	ld (0c4b8h),bc		;bc0e   ; 0xC4B8: variables de la partida
 	ret			;bc12
 L_BC13:
-	call L_BC04		;bc13
+	call pon_partida_2		;bc13
 	ld bc,00000h		;bc16
-	ld a,(0c4b6h)		;bc19
+	ld a,(0c4b6h)		;bc19   ; 0xC4B6: variables de la partida
 	dec a			;bc1c
 	ld d,a			;bc1d
-	ld a,(0c4b8h)		;bc1e
+	ld a,(0c4b8h)		;bc1e   ; 0xC4B8: variables de la partida
 	ld e,a			;bc21
-	ld hl,0e800h		;bc22
+	ld hl,0e800h		;bc22   ; 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
 L_BC25:
 	push bc			;bc25
-	call L_BCA7		;bc26
+	call mira_partida		;bc26
 	pop bc			;bc29
-	call c,L_BC7D		;bc2a
+	call c,rutina_22		;bc2a
 	inc bc			;bc2d
 	or a			;bc2e
 	push hl			;bc2f
-	ld hl,(0c4bbh)		;bc30
+	ld hl,(0c4bbh)		;bc30   ; 0xC4BB: variables de la partida
 	sbc hl,bc		;bc33
 	pop hl			;bc35
 	jr nz,L_BC25		;bc36
 	inc bc			;bc38
-	ld (0c4bbh),bc		;bc39
+	ld (0c4bbh),bc		;bc39   ; 0xC4BB: variables de la partida
 	cp 07eh		;bc3d
 	jr z,L_BC86		;bc3f
-	ld a,(0c4b8h)		;bc41
+	ld a,(0c4b8h)		;bc41   ; 0xC4B8: variables de la partida
 	sub e			;bc44
 	neg		;bc45
 	add a,a			;bc47
@@ -2456,7 +2456,7 @@ L_BC25:
 	add a,a			;bc4a
 	add a,c			;bc4b
 	ld e,a			;bc4c
-	ld a,(0c4b8h)		;bc4d
+	ld a,(0c4b8h)		;bc4d   ; 0xC4B8: variables de la partida
 	add a,a			;bc50
 	add a,a			;bc51
 	add a,a			;bc52
@@ -2488,7 +2488,7 @@ L_BC65:
 	ld a,048h		;bc75
 	ld bc,01010h		;bc77
 	jp 051eah		;bc7a
-L_BC7D:
+rutina_22:
 	dec a			;bc7d
 	jr z,L_BC84		;bc7e
 	pop hl			;bc80
@@ -2496,29 +2496,29 @@ L_BC7D:
 L_BC84:
 	jr L_BC84		;bc84
 L_BC86:
-	ld a,(0c4b6h)		;bc86
+	ld a,(0c4b6h)		;bc86   ; 0xC4B6: variables de la partida
 	add a,a			;bc89
 	add a,a			;bc8a
 	add a,a			;bc8b
 	ld h,a			;bc8c
-	ld a,(0c4b8h)		;bc8d
+	ld a,(0c4b8h)		;bc8d   ; 0xC4B8: variables de la partida
 	add a,a			;bc90
 	add a,a			;bc91
 	add a,a			;bc92
 	ld l,a			;bc93
-	ld a,(0c4b7h)		;bc94
+	ld a,(0c4b7h)		;bc94   ; 0xC4B7: variables de la partida
 	add a,a			;bc97
 	add a,a			;bc98
 	add a,a			;bc99
 	ld b,a			;bc9a
-	ld a,(0c4b9h)		;bc9b
+	ld a,(0c4b9h)		;bc9b   ; 0xC4B9: variables de la partida
 	add a,a			;bc9e
 	add a,a			;bc9f
 	add a,a			;bca0
 	ld c,a			;bca1
 	ld d,000h		;bca2
-	jp 04e0bh		;bca4
-L_BCA7:
+	jp 04e0bh		;bca4   ; p00:4E0B hmmv
+mira_partida:
 	ld a,(hl)			;bca7
 	inc hl			;bca8
 	cp 07eh		;bca9
@@ -2530,16 +2530,16 @@ L_BCA7:
 	cp 080h		;bcb5
 	jr nc,L_BCC5		;bcb7
 	cp 020h		;bcb9
-	jr nz,L_BCC8		;bcbb
-	ld a,(0c4b6h)		;bcbd
+	jr nz,rutina_23		;bcbb
+	ld a,(0c4b6h)		;bcbd   ; 0xC4B6: variables de la partida
 	cp d			;bcc0
-	jr nz,L_BCC8		;bcc1
-	jr L_BCA7		;bcc3
+	jr nz,rutina_23		;bcc1
+	jr mira_partida		;bcc3
 L_BCC5:
-	call L_BCC8		;bcc5
-L_BCC8:
+	call rutina_23		;bcc5
+rutina_23:
 	push hl			;bcc8
-	call L_BCEF		;bcc9
+	call mira_partida_2		;bcc9
 	pop hl			;bccc
 	ret nc			;bccd
 	ld a,001h		;bcce
@@ -2550,32 +2550,32 @@ L_BCD1:
 	ret			;bcd3
 L_BCD4:
 	push hl			;bcd4
-	ld hl,0c4b6h		;bcd5
+	ld hl,0c4b6h		;bcd5   ; 0xC4B6: variables de la partida
 	ld a,(hl)			;bcd8
 	inc hl			;bcd9
 	add a,(hl)			;bcda
 	ld d,a			;bcdb
 	pop hl			;bcdc
-	jr L_BCA7		;bcdd
+	jr mira_partida		;bcdd
 L_BCDF:
-	call L_BC04		;bcdf
+	call pon_partida_2		;bcdf
 	ld bc,00000h		;bce2
-	ld a,(0c4b6h)		;bce5
+	ld a,(0c4b6h)		;bce5   ; 0xC4B6: variables de la partida
 	dec a			;bce8
 	ld d,a			;bce9
-	ld a,(0c4b8h)		;bcea
+	ld a,(0c4b8h)		;bcea   ; 0xC4B8: variables de la partida
 	ld e,a			;bced
 	ret			;bcee
-L_BCEF:
+mira_partida_2:
 	inc d			;bcef
 	ld a,d			;bcf0
-	ld hl,0c4b6h		;bcf1
+	ld hl,0c4b6h		;bcf1   ; 0xC4B6: variables de la partida
 	sub (hl)			;bcf4
 	inc hl			;bcf5
 	cp (hl)			;bcf6
 	ccf			;bcf7
 	ret nc			;bcf8
-	ld a,(0c4b6h)		;bcf9
+	ld a,(0c4b6h)		;bcf9   ; 0xC4B6: variables de la partida
 	ld d,a			;bcfc
 	inc e			;bcfd
 	ld a,e			;bcfe
@@ -2593,28 +2593,28 @@ L_BCEF:
 	scf			;bd0a
 	ret			;bd0b
 L_BD0C:
-	ld a,(0c104h)		;bd0c
+	ld a,(0c104h)		;bd0c   ; 0xC104: cuenta atras del paso del estado (p00:4345)
 	or a			;bd0f
 	jr nz,L_BD19		;bd10
-	ld a,(0c102h)		;bd12
+	ld a,(0c102h)		;bd12   ; 0xC102: bit 0: es la demostracion; bit 6: hay partida (p00:46A5)
 	and 001h		;bd15
 	jr nz,L_BD1E		;bd17
 L_BD19:
-	ld a,(0c106h)		;bd19
+	ld a,(0c106h)		;bd19   ; 0xC106: cursores, ESPACIO y los disparos pulsados en este cuadro (p00:533B)
 	or a			;bd1c
 	ret z			;bd1d
 L_BD1E:
 	ld hl,01720h		;bd1e
 	ld de,01018h		;bd21
-	ld bc,0d060h		;bd24
+	ld bc,0d060h		;bd24   ; 0xD060: la ficha del bicho 0, byte 0x60 (p01:74B7)
 	call 0497bh		;bd27
 	call 055a2h		;bd2a
-	call 04cf8h		;bd2d
+	call 04cf8h		;bd2d   ; p00:4CF8 enciende_los_sprites
 	call 04884h		;bd30
 	xor a			;bd33
-	ld (0c4bdh),a		;bd34
+	ld (0c4bdh),a		;bd34   ; 0xC4BD: variables de la partida
 	ld hl,00005h		;bd37
-	ld (0c100h),hl		;bd3a
+	ld (0c100h),hl		;bd3a   ; 0xC100: el ESTADO del juego (p00:4254): 1 titulo, 2 demostracion, 4 empieza el area, 5 jugando, 9 MENU, 0x0A pausa...
 	ret			;bd3d
 
 ; ----------------------------------------------------------------------

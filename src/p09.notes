@@ -164,3 +164,133 @@ D 0xBD96 0xBDA3 tabla_BD96  tabla que lee p09:BD63, p09:BD80, p09:BD8B, p09:BEF6
 D 0xBE63 0xBE68 tabla_BE63  tabla que lee p09:BE47, p09:BE55 (5 bytes)
 D 0xBE89 0xBE91 tabla_BE89  tabla que lee p09:BE76, p09:BEBB (8 bytes)
 # --- fin del resto ---
+
+# --- ANOTA (seccion que reescribe tools/anota.py; no editar a mano) ---
+L 0xB8A4 pon_grabando
+L 0xB8BD rutina
+L 0xB8D6 mira_ranura_del_otro
+L 0xB8DE lee_de_otra_ranura
+L 0xB8EA mira_init_de_king_kong
+L 0xB919 mira_codigo_en_ram
+L 0xBB76 pon_canales
+L 0xBBAC mira_king_kong
+L 0xBBB5 rutina_2
+L 0xBBBD mira_pantalla
+L 0xBBC5 con_hmmv
+L 0xBBD4 con_hmmv_2
+L 0xBBD9 mira_king_kong_2
+L 0xBC34 mira_king_kong_3
+L 0xBC49 mira_king_kong_4
+L 0xBC4E bucle
+L 0xBDA3 mira_pantalla_2
+L 0xBDB1 pon_buffer
+L 0xBDF6 mira_nivel_c840
+L 0xBE08 mira_pantalla_3
+L 0xBE26 multiplica
+L 0xBE68 con_hl_mas_a
+C 0xB883 0xF100: la ranura de Hinotori (p09:B883)
+C 0xB88C 0xF102: el INIT de King Kong 2, leido de su 0x4002 (p09:B88C)
+C 0xB8A1 0xF120: el INIT de King Kong 2 y el gancho de Hinotori, copiados (p09:B8EA, p09:B919)
+C 0xB8A9 0xF220: el INIT de King Kong 2 y el gancho de Hinotori, copiados (p09:B8EA, p09:B919)
+C 0xB8B2 0xF106: se esta grabando o cargando la partida de King Kong 2
+C 0xB8B5 0xF101: la ranura del otro cartucho (p00:5E36)
+C 0xB8D6 0xF101: la ranura del otro cartucho (p00:5E36)
+C 0xB8EA 0xF102: el INIT de King Kong 2, leido de su 0x4002 (p09:B88C)
+C 0xB8ED 0xF120: el INIT de King Kong 2 y el gancho de Hinotori, copiados (p09:B8EA, p09:B919)
+C 0xB8F0 0 vueltas
+C 0xB8F4 0xF101: la ranura del otro cartucho (p00:5E36)
+C 0xB904 0xF120: el INIT de King Kong 2 y el gancho de Hinotori, copiados (p09:B8EA, p09:B919)
+C 0xB912 0xF104: la interrupcion de King Kong 2 (p09:B917)
+C 0xB919 p09:B925 codigo_para_f220: 0xAA bytes de CODIGO que p09:B919 copia a 0xF220 (ldir) y que corre alli: p09:B8A4 pone 0xF220 en el gancho H.
+C 0xB91C 0xF220: el INIT de King Kong 2 y el gancho de Hinotori, copiados (p09:B8EA, p09:B919)
+C 0xB9CF 0xF108: lo de arrancar King Kong 2 (p09:B880)
+C 0xB9D2 p00:40AE despacha
+C 0xB9EE 0xF108: lo de arrancar King Kong 2 (p09:B880)
+C 0xBA11 10 vueltas
+C 0xBA1F 6 vueltas
+C 0xBA21 0xF10A: lo de arrancar King Kong 2 (p09:B880)
+C 0xBA7F 0xF108: lo de arrancar King Kong 2 (p09:B880)
+C 0xBA98 0xF108: lo de arrancar King Kong 2 (p09:B880)
+C 0xBA9C 0xF108: lo de arrancar King Kong 2 (p09:B880)
+C 0xBA9F p00:40AE despacha
+C 0xBAD4 10 vueltas
+C 0xBAE4 6 vueltas
+C 0xBAE6 0xF110: lo de arrancar King Kong 2 (p09:B880)
+C 0xBAF4 0xF110: lo de arrancar King Kong 2 (p09:B880)
+C 0xBAF7 0xF10A: lo de arrancar King Kong 2 (p09:B880)
+C 0xBAFA 6 vueltas
+C 0xBB3C 0xC125: la fila 7 del teclado que se tiene pulsada
+C 0xBB57 0xF107: 1 grabar (F4), 2 cargar (F5)
+C 0xBB5F 0xC148: variables del juego
+C 0xBB62 0xC139: semaforo de la interrupcion (p00:4051)
+C 0xBB67 0xC201: el logotipo y el titulo (p01:66D4)
+C 0xBB6D 0xC13B: la demostracion se esta acabando (p01:63DB)
+C 0xBB73 0xF2BB: el INIT de King Kong 2 y el gancho de Hinotori, copiados (p09:B8EA, p09:B919)
+C 0xBB78 0xC023: los canales del sonido (0x20 bytes cada uno, p14:94CA)
+C 0xBB7B 0xC037: los canales del sonido (0x20 bytes cada uno, p14:94CA)
+C 0xBB7E 0xC04B: los canales del sonido (0x20 bytes cada uno, p14:94CA)
+C 0xBB81 0xC098: los canales del sonido (0x20 bytes cada uno, p14:94CA)
+C 0xBB86 0xC01A: los canales del sonido (0x20 bytes cada uno, p14:94CA)
+C 0xBB89 0xC02E: los canales del sonido (0x20 bytes cada uno, p14:94CA)
+C 0xBB8C 0xC042: los canales del sonido (0x20 bytes cada uno, p14:94CA)
+C 0xBB9F 0xF108: lo de arrancar King Kong 2 (p09:B880)
+C 0xBBAF 0xF110: lo de arrancar King Kong 2 (p09:B880)
+C 0xBBBD 0xE058: la tabla de 32x32 dibujos de la pantalla
+C 0xBBD6 p00:4E0B hmmv
+C 0xBBE1 0xF109: lo de arrancar King Kong 2 (p09:B880)
+C 0xBBE4 0xF10A: lo de arrancar King Kong 2 (p09:B880)
+C 0xBBE8 p00:40A9 de_mas_a
+C 0xBC37 0xF10A: lo de arrancar King Kong 2 (p09:B880)
+C 0xBC3A 6 vueltas
+C 0xBC49 0xF109: lo de arrancar King Kong 2 (p09:B880)
+C 0xBC4C 14 vueltas
+C 0xBD31 0xC205: el logotipo y el titulo (p01:66D4)
+C 0xBD42 el sonido 0x2F (p14:9C47 + 2*0x2F)
+C 0xBD4F 0xD040: la ficha del bicho 0, byte 0x40 (p01:74B7)
+C 0xBD55 p00:4CED apaga_los_sprites
+C 0xBD5D 0xCA3A: 6 fichas de 0x20 (p02:9368)
+C 0xBD63 p09:BD96 tabla_BD96: tabla que lee p09:BD63, p09:BD80, p09:BD8B, p09:BEF6, p09:BF01 (13 bytes)
+C 0xBD6F 0xD0C0: la ficha del bicho 1, byte 0x40 (p01:74B7)
+C 0xBDA3 0xE000: la tabla de 32x32 dibujos de la pantalla (p00:58A4)
+C 0xBDB4 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
+C 0xBDB8 0xE802: buffer de trabajo
+C 0xBDBC 0xE804: buffer de trabajo
+C 0xBDC2 0xE806: buffer de trabajo
+C 0xBDC5 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
+C 0xBDCB 0xC845: la VIDA de Gao, hasta 200 (p03:AD1C; METALSLAVE la llena)
+C 0xBDD8 0xE802: buffer de trabajo
+C 0xBDDC 0xE803: buffer de trabajo
+C 0xBDE9 0xE802: buffer de trabajo
+C 0xBDED 0xE802: buffer de trabajo
+C 0xBDF6 0xC840: elige los 32 bytes de p07:70AE que van a los patrones de 0xF8A0 (p00:5671) y el sumando de la dificultad (p01:704D); 6 es especial (p02:8F4F)
+C 0xBDFD 0xC4D2: variables de la partida
+C 0xBE0B 0xC4D2: variables de la partida
+C 0xBE1C 0xE000: la tabla de 32x32 dibujos de la pantalla (p00:58A4)
+C 0xBE47 p09:BE63 tabla_BE63: tabla que lee p09:BE47, p09:BE55 (5 bytes)
+C 0xBE76 p09:BE89 tabla_BE89: tabla que lee p09:BE76, p09:BEBB (8 bytes)
+C 0xBE79 p00:40A4 hl_mas_a
+C 0xBE93 0xC104: cuenta atras del paso del estado (p00:4345)
+C 0xBE96 0xC106: cursores, ESPACIO y los disparos pulsados en este cuadro (p00:533B)
+C 0xBEA8 0xC108: F1, F2 y F3 pulsadas en este cuadro, bits 0-2 (p00:5318)
+C 0xBEB1 0xC4D2: variables de la partida
+C 0xBEB4 0xC840: elige los 32 bytes de p07:70AE que van a los patrones de 0xF8A0 (p00:5671) y el sumando de la dificultad (p01:704D); 6 es especial (p02:8F4F)
+C 0xBEBB p09:BE89 tabla_BE89: tabla que lee p09:BE76, p09:BEBB (8 bytes)
+C 0xBEBE p00:40A4 hl_mas_a
+C 0xBEC1 0xC845: la VIDA de Gao, hasta 200 (p03:AD1C; METALSLAVE la llena)
+C 0xBEC7 0xC845: la VIDA de Gao, hasta 200 (p03:AD1C; METALSLAVE la llena)
+C 0xBECA 0xC4D2: variables de la partida
+C 0xBED1 0xC160: las VIDAS, en BCD (p00:4417; GAOOOOOOOOOOH suma 10)
+C 0xBED9 0xC160: las VIDAS, en BCD (p00:4417; GAOOOOOOOOOOH suma 10)
+C 0xBEDC el sonido 0x36 (p14:9C47 + 2*0x36)
+C 0xBEE3 0xC840: elige los 32 bytes de p07:70AE que van a los patrones de 0xF8A0 (p00:5671) y el sumando de la dificultad (p01:704D); 6 es especial (p02:8F4F)
+C 0xBEE6 el sonido 0x33 (p14:9C47 + 2*0x33)
+C 0xBEED 0xC104: cuenta atras del paso del estado (p00:4345)
+C 0xBF0C el sonido 0x04 (p14:9C47 + 2*0x04)
+C 0xBF14 0xC4D2: variables de la partida
+C 0xBF1D 0xC4D2: variables de la partida
+C 0xBF29 0xC4D2: variables de la partida
+C 0xBF34 0xC103: cuenta los cuadros (p00:4238)
+C 0xBF3C 0xC104: cuenta atras del paso del estado (p00:4345)
+C 0xBF44 0xD040: la ficha del bicho 0, byte 0x40 (p01:74B7)
+C 0xBF4A p00:4CF8 enciende_los_sprites
+# --- fin de anota ---

@@ -98,7 +98,7 @@ D 0x6F77 0x707A rle_6F77  patrones de sprite en RLE de la cosa 0 (p00:56C1); lo 
 F 0x6F77 16
 D 0x707A 0x70AE rle_707A  patrones de sprite en RLE de la cosa 39 (p00:56C1); lo leen p00:56C7 (52 bytes)
 F 0x707A 16
-D 0x70AE 0x70BC colores_de_gao  7 palabras, por 0xC840: los 32 bytes que p00:566E sube a la VRAM 0xF8A0; lo leen p00:5674 (14 bytes)
+D 0x70AE 0x70BC patrones_f8a0  7 palabras, por 0xC840: los 32 bytes que p00:566E sube a la VRAM 0xF8A0 (un patron de sprite de 16x16); lo leen p00:5674 (14 bytes)
 F 0x70AE 2
 D 0x70BC 0x70D3 rle_70BC  patrones en RLE para la VRAM 0xF880 (p00:4A8D: 0 acaba, 0x80 cambia de direccion, bit 7 = tal cual, sin el = repetir); lo leen p00:4ACA (lista 0x6030) (23 bytes)
 F 0x70BC 16

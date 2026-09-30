@@ -76,3 +76,167 @@ D 0x8D4B 0x9400 tabla_8D4B  tabla que lee p01:645E, p01:64A1, p01:64B3 (1717 byt
 D 0x9854 0x9860 tabla_9854  tabla que lee p14:972E (12 bytes)
 D 0x9976 0x9C47 leido_9976  lo leen en la partida medida en openMSX p14:9787 (52 bytes), p14:9584 (48 bytes), p14:9521 (14 bytes), p14:9552 (14 bytes) (721 bytes)
 # --- fin del resto ---
+
+# --- ANOTA (seccion que reescribe tools/anota.py; no editar a mano) ---
+L 0x9491 rutina
+L 0x94EA ficha_patron
+L 0x95FD rutina_2
+L 0x97B9 ficha_y
+L 0x980E mira_sonido_ruido
+L 0x982C ficha_patron_2
+L 0x9860 mira_sonido_pedido
+L 0x987E mira_sonido_ruido_2
+L 0x98D1 pon_sonido_0f1
+L 0x9935 ficha_y_2
+L 0x993D pon_mezclador
+L 0x9966 pon_mezclador_2
+L 0x996F rutina_3
+L 0x9973 rutina_4
+C 0x9401 0xC0F2: la musica de la pausa esta sonando (p14:9411)
+C 0x9413 0xC0F2: la musica de la pausa esta sonando (p14:9411)
+C 0x9417 0xC010: los canales del sonido (0x20 bytes cada uno, p14:94CA)
+C 0x941A 0xC090: los canales del sonido (0x20 bytes cada uno, p14:94CA)
+C 0x9420 0xC012: el sonido del primer canal (p14:9420)
+C 0x9439 0xC072: el sonido que lleva el ruido del PSG (p14:9439)
+C 0x9441 0xC052: el sonido del tercer canal
+C 0x9447 0xC012: el sonido del primer canal (p14:9420)
+C 0x9455 p14:9C47 sonidos: 120 palabras: la pista de cada sonido y canal (p14:9454); 0xBF49 es la pista vacia
+C 0x9497 0xC0F0: la copia del registro 7 del PSG (p00:52C1)
+C 0x94A8 0xC0F1: lo pone p00:4588 al volver de la pausa: 1 si no sonaba la musica de pausa
+C 0x94B0 0xC090: los canales del sonido (0x20 bytes cada uno, p14:94CA)
+C 0x94B3 0xC010: los canales del sonido (0x20 bytes cada uno, p14:94CA)
+C 0x94B9 0xC0F2: la musica de la pausa esta sonando (p14:9411)
+C 0x94C1 0xC0F4: el sonido que se pide para el cuadro siguiente (p14:94C1)
+C 0x94CA 0xC010: los canales del sonido (0x20 bytes cada uno, p14:94CA)
+C 0x94D0 ix+0x02: el sonido que suena en el canal; 0 = libre (p14:94D0)
+C 0x94EA ix+0x0E: el tipo de pista: 0 notas, si no efecto (p14:94EA)
+C 0x94F1 ix+0x10: la orden 0xEx de un byte (p14:96A3)
+C 0x94F4 ix+0x00: cuadros que le quedan a la nota (p14:94F4)
+C 0x94FA ix+0x03: el puntero de la pista, byte bajo (p14:94FA)
+C 0x94FD ix+0x04: el puntero de la pista, byte alto
+C 0x9509 ix+0x0E: el tipo de pista: 0 notas, si no efecto (p14:94EA)
+C 0x9519 ix+0x05: el byte de la nota que suena (p14:9519)
+C 0x951D ix+0x10: la orden 0xEx de un byte (p14:96A3)
+C 0x9524 ix+0x01: lo que dura la nota (p14:95B1 lo copia en ix+0)
+C 0x9527 ix+0x14: lo que dura la nota (p14:9527)
+C 0x952B ix+0x05: el byte de la nota que suena (p14:9519)
+C 0x9565 0xC072: el sonido que lleva el ruido del PSG (p14:9439)
+C 0x957A ix+0x05: el byte de la nota que suena (p14:9519)
+C 0x9585 ix+0x10: la orden 0xEx de un byte (p14:96A3)
+C 0x9590 ix+0x15: el tono, byte bajo (p14:9590)
+C 0x9593 ix+0x16: el tono, byte alto
+C 0x959E ix+0x17: el volumen que se escribe en el PSG (p14:959E)
+C 0x95A1 ix+0x10: la orden 0xEx de un byte (p14:96A3)
+C 0x95A8 ix+0x14: lo que dura la nota (p14:9527)
+C 0x95AB ix+0x13: copia de ix+0x14
+C 0x95B1 ix+0x01: lo que dura la nota (p14:95B1 lo copia en ix+0)
+C 0x95B4 ix+0x00: cuadros que le quedan a la nota (p14:94F4)
+C 0x95BA ix+0x00: cuadros que le quedan a la nota (p14:94F4)
+C 0x95C0 0xC0F7: todo el sonido callado (p14:95C0)
+C 0x95C5 ix+0x10: la orden 0xEx de un byte (p14:96A3)
+C 0x95CC ix+0x0F: banderas: bit 2 vibrato, bit 3 envolvente (p14:96C7)
+C 0x95D3 ix+0x0A: cuenta de la caida del volumen (p14:95D3)
+C 0x95D6 ix+0x0A: cuenta de la caida del volumen (p14:95D3)
+C 0x95D9 ix+0x00: cuadros que le quedan a la nota (p14:94F4)
+C 0x95E0 ix+0x0D: hasta donde cae (p14:9684)
+C 0x95EA ix+0x0A: cuenta de la caida del volumen (p14:95D3)
+C 0x95ED ix+0x08: el volumen que va quedando (p14:95ED)
+C 0x95F4 ix+0x08: el volumen que va quedando (p14:95ED)
+C 0x95F7 ix+0x17: el volumen que se escribe en el PSG (p14:959E)
+C 0x95FD ix+0x0F: banderas: bit 2 vibrato, bit 3 envolvente (p14:96C7)
+C 0x9604 ix+0x1A: cuenta del vibrato (p14:9604)
+C 0x960D ix+0x0F: banderas: bit 2 vibrato, bit 3 envolvente (p14:96C7)
+C 0x9614 ix+0x1C: el vibrato: nibble alto la espera, bajo el paso (p14:9614)
+C 0x961E ix+0x1A: cuenta del vibrato (p14:9604)
+C 0x9626 ix+0x15: el tono, byte bajo (p14:9590)
+C 0x9629 ix+0x16: el tono, byte alto
+C 0x962C ix+0x1C: el vibrato: nibble alto la espera, bajo el paso (p14:9614)
+C 0x9632 ix+0x1B: hacia donde va el vibrato (p14:9632)
+C 0x9636 ix+0x1B: hacia donde va el vibrato (p14:9632)
+C 0x964D ix+0x15: el tono, byte bajo (p14:9590)
+C 0x9650 ix+0x16: el tono, byte alto
+C 0x9657 ix+0x1A: cuenta del vibrato (p14:9604)
+C 0x9666 ix+0x06: el tempo: la duracion base (0xDx, p14:9666)
+C 0x9673 ix+0x07: el volumen (0xFx, p14:9673)
+C 0x967E ix+0x0C: cuando empieza a caer el volumen (p14:967E)
+C 0x9684 ix+0x0D: hasta donde cae (p14:9684)
+C 0x96A3 ix+0x10: la orden 0xEx de un byte (p14:96A3)
+C 0x96AA ix+0x0F: banderas: bit 2 vibrato, bit 3 envolvente (p14:96C7)
+C 0x96AD ix+0x10: la orden 0xEx de un byte (p14:96A3)
+C 0x96B1 0xC0F7: todo el sonido callado (p14:95C0)
+C 0x96B9 ix+0x05: el byte de la nota que suena (p14:9519)
+C 0x96BC ix+0x17: el volumen que se escribe en el PSG (p14:959E)
+C 0x96C7 ix+0x0F: banderas: bit 2 vibrato, bit 3 envolvente (p14:96C7)
+C 0x96CD ix+0x1C: el vibrato: nibble alto la espera, bajo el paso (p14:9614)
+C 0x96D3 ix+0x0F: banderas: bit 2 vibrato, bit 3 envolvente (p14:96C7)
+C 0x96DB ix+0x09: la octava (0xE0-0xE7, p14:96DB)
+C 0x96E3 ix+0x06: el tempo: la duracion base (0xDx, p14:9666)
+C 0x96E8 ix+0x06: el tempo: la duracion base (0xDx, p14:9666)
+C 0x96ED ix+0x01: lo que dura la nota (p14:95B1 lo copia en ix+0)
+C 0x96FB ix+0x10: la orden 0xEx de un byte (p14:96A3)
+C 0x9707 ix+0x07: el volumen (0xFx, p14:9673)
+C 0x970A ix+0x08: el volumen que va quedando (p14:95ED)
+C 0x970D ix+0x17: el volumen que se escribe en el PSG (p14:959E)
+C 0x9710 ix+0x0F: banderas: bit 2 vibrato, bit 3 envolvente (p14:96C7)
+C 0x9715 ix+0x1A: cuenta del vibrato (p14:9604)
+C 0x9718 ix+0x1B: hacia donde va el vibrato (p14:9632)
+C 0x971B ix+0x01: lo que dura la nota (p14:95B1 lo copia en ix+0)
+C 0x971E ix+0x00: cuadros que le quedan a la nota (p14:94F4)
+C 0x9721 0xC0F7: todo el sonido callado (p14:95C0)
+C 0x9726 ix+0x0C: cuando empieza a caer el volumen (p14:967E)
+C 0x972A ix+0x0A: cuenta de la caida del volumen (p14:95D3)
+C 0x972E p14:9854 tabla_9854: tabla que lee p14:972E (12 bytes)
+C 0x9739 ix+0x09: la octava (0xE0-0xE7, p14:96DB)
+C 0x9743 ix+0x15: el tono, byte bajo (p14:9590)
+C 0x9746 ix+0x16: el tono, byte alto
+C 0x975D ix+0x01: lo que dura la nota (p14:95B1 lo copia en ix+0)
+C 0x9760 ix+0x00: cuadros que le quedan a la nota (p14:94F4)
+C 0x9763 0xC0F7: todo el sonido callado (p14:95C0)
+C 0x977D cuenta atras en ix+0x13: hasta que llegue a 0, nada mas
+C 0x979A ix+0x05: el byte de la nota que suena (p14:9519)
+C 0x979D ix+0x17: el volumen que se escribe en el PSG (p14:959E)
+C 0x97A4 ix+0x15: el tono, byte bajo (p14:9590)
+C 0x97A7 ix+0x16: el tono, byte alto
+C 0x97AA ix+0x17: el volumen que se escribe en el PSG (p14:959E)
+C 0x97AD ix+0x01: lo que dura la nota (p14:95B1 lo copia en ix+0)
+C 0x97B0 ix+0x00: cuadros que le quedan a la nota (p14:94F4)
+C 0x97C0 ix+0x04: el puntero de la pista, byte alto
+C 0x97C6 ix+0x03: el puntero de la pista, byte bajo (p14:94FA)
+C 0x97CD ix+0x00: cuadros que le quedan a la nota (p14:94F4)
+C 0x97D5 ix+0x02: el sonido que suena en el canal; 0 = libre (p14:94D0)
+C 0x97D8 ix+0x05: el byte de la nota que suena (p14:9519)
+C 0x97DE ix+0x10: la orden 0xEx de un byte (p14:96A3)
+C 0x97E1 ix+0x15: el tono, byte bajo (p14:9590)
+C 0x97E4 ix+0x16: el tono, byte alto
+C 0x97E7 ix+0x17: el volumen que se escribe en el PSG (p14:959E)
+C 0x97EA ix+0x1B: hacia donde va el vibrato (p14:9632)
+C 0x97F5 0xC050: los canales del sonido (0x20 bytes cada uno, p14:94CA)
+C 0x97F9 ix+0x17: el volumen que se escribe en el PSG (p14:959E)
+C 0x980E 0xC072: el sonido que lleva el ruido del PSG (p14:9439)
+C 0x982C ix+0x15: el tono, byte bajo (p14:9590)
+C 0x982F ix+0x16: el tono, byte alto
+C 0x9832 ix+0x0F: banderas: bit 2 vibrato, bit 3 envolvente (p14:96C7)
+C 0x9845 ix+0x10: la orden 0xEx de un byte (p14:96A3)
+C 0x984A ix+0x0E: el tipo de pista: 0 notas, si no efecto (p14:94EA)
+C 0x984F ix+0x05: el byte de la nota que suena (p14:9519)
+C 0x9871 0xC0F4: el sonido que se pide para el cuadro siguiente (p14:94C1)
+C 0x987E 0xC072: el sonido que lleva el ruido del PSG (p14:9439)
+C 0x989E ix+0x17: el volumen que se escribe en el PSG (p14:959E)
+C 0x98A1 ix+0x0E: el tipo de pista: 0 notas, si no efecto (p14:94EA)
+C 0x98B2 ix+0x05: el byte de la nota que suena (p14:9519)
+C 0x98B8 ix+0x05: el byte de la nota que suena (p14:9519)
+C 0x98D8 0xC0F1: lo pone p00:4588 al volver de la pausa: 1 si no sonaba la musica de pausa
+C 0x98F4 ix+0x03: el puntero de la pista, byte bajo (p14:94FA)
+C 0x98F9 ix+0x04: el puntero de la pista, byte alto
+C 0x9908 ix+0x00: cuadros que le quedan a la nota (p14:94F4)
+C 0x990E ix+0x0E: el tipo de pista: 0 notas, si no efecto (p14:94EA)
+C 0x9914 ix+0x0E: el tipo de pista: 0 notas, si no efecto (p14:94EA)
+C 0x991A ix+0x0E: el tipo de pista: 0 notas, si no efecto (p14:94EA)
+C 0x9922 ix+0x03: el puntero de la pista, byte bajo (p14:94FA)
+C 0x9927 ix+0x04: el puntero de la pista, byte alto
+C 0x9936 ix+0x03: el puntero de la pista, byte bajo (p14:94FA)
+C 0x9939 ix+0x04: el puntero de la pista, byte alto
+C 0x993D 0xC0F0: la copia del registro 7 del PSG (p00:52C1)
+C 0x9941 ix+0x05: el byte de la nota que suena (p14:9519)
+C 0x9966 0xC0F0: la copia del registro 7 del PSG (p00:52C1)
+# --- fin de anota ---

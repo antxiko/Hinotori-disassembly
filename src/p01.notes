@@ -64,3 +64,682 @@ D 0x7F7B 0x7FA3 tabla_7F7B  tabla que lee p01:7F73 (40 bytes)
 D 0x7FBD 0x7FCC tabla_7FBD  tabla que lee p01:7FAE (15 bytes)
 D 0x7FFF 0x8000 sin_lector_7FFF  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (1 bytes)
 # --- fin del resto ---
+
+# --- ANOTA (seccion que reescribe tools/anota.py; no editar a mano) ---
+L 0x602E con_hl_mas_a
+L 0x60D2 mira_truco_aaaaa
+L 0x6152 bucle
+L 0x625A ficha_y
+L 0x6279 ficha_y_2
+L 0x6298 ficha_y_3
+L 0x62B7 ficha_y_4
+L 0x62E2 rutina
+L 0x63BD pon_vida
+L 0x63F8 pon_f1_f3_nuevas
+L 0x6434 rutina_2
+L 0x647B mira_scroll
+L 0x64A1 mira_scroll_2
+L 0x658A mira_partida
+L 0x6593 pon_columna
+L 0x65B0 pon_columna_2
+L 0x65BF rutina_3
+L 0x65F5 mira_columna
+L 0x666C rutina_4
+L 0x6670 pon_objeto_2
+L 0x6681 pon_avance_del_cuadro
+L 0x6710 con_copia_dibujo_en_la_hoja
+L 0x6730 mira_fichas
+L 0x6864 ficha_y_5
+L 0x6871 ficha_tipo
+L 0x68EC tipo_51
+L 0x68F9 ficha_campo_07
+L 0x6920 ficha_campo_07_2
+L 0x6947 ficha_tipo_2
+L 0x69CE nace_tipo_43
+L 0x69F5 rutina_5
+L 0x6A50 tipo_43
+L 0x6A74 ficha_y_6
+L 0x6A85 mira_atributos_de_sprites
+L 0x6AA1 rutina_6
+L 0x6AC3 ficha_tipo_3
+L 0x6B0F tipo_57
+L 0x6B36 copia_bytes
+L 0x6BF3 pon_buffer
+L 0x6C67 pon_partida
+L 0x6C81 mira_control_de_bichos
+L 0x6CA2 mira_avanza
+L 0x6CFC pon_buffer_2
+L 0x6D12 mira_bichos_del_mapa
+L 0x6D21 pon_buffer_3
+L 0x6D48 pon_buffer_4
+L 0x6D64 pon_buffer_5
+L 0x6EF5 ficha_tipo_4
+L 0x6F12 mira_buffer
+L 0x7073 copia_bytes_2
+L 0x70A1 con_hl_mas_a_2
+L 0x70B3 mira_y_de_gao
+L 0x70BD mira_x_de_gao
+L 0x70D6 mira_x_de_gao_2
+L 0x713F mira_dificultad
+L 0x71AF mira_control_de_bichos_2
+L 0x720C pon_buffer_6
+L 0x723E mira_control_de_bichos_3
+L 0x725A mira_control_de_bichos_4
+L 0x7262 mira_control_de_bichos_5
+L 0x726C mira_control_de_bichos_6
+L 0x728F mira_dificultad_2
+L 0x72A9 mira_avanza_2
+L 0x7323 pon_cosas
+L 0x7352 ficha_campo_40
+L 0x73BE cosa_06
+L 0x73E3 rutina_7
+L 0x7400 rutina_8
+L 0x7436 rutina_9
+L 0x7470 mira_fila
+L 0x749F mira_disparos
+L 0x74AE mira_bichos_grandes
+L 0x74B5 mira_bicho_0
+L 0x74D3 mira_area
+L 0x74E9 pon_cosas_2
+L 0x7531 rutina_10
+L 0x7550 mira_avance_del_cuadro
+L 0x75A9 mira_bicho_0_2
+L 0x75C0 rutina_11
+L 0x75FB rutina_12
+L 0x761A pon_contrasena
+L 0x7641 con_despacha
+L 0x7703 ficha_campo_40_2
+L 0x7709 ficha_campo_40_3
+L 0x771E bucle_2
+L 0x773B mira_scroll_3
+L 0x7847 pon_buffer_7
+L 0x7933 rutina_13
+L 0x7948 pon_buffer_8
+L 0x794A pon_buffer_9
+L 0x795E pon_buffer_10
+L 0x7997 mira_y_de_gao_2
+L 0x79A3 pon_buffer_11
+L 0x79EB cambia_de_signo
+L 0x79F3 mira_buffer_2
+L 0x7A05 bucle_3
+L 0x7AFA mira_bichos_del_mapa_2
+L 0x7B03 mira_fichas_2
+L 0x7B0C mira_fichas_3
+L 0x7B33 mira_scroll_4
+L 0x7B68 mira_scroll_5
+L 0x7BDE mira_avance_del_cuadro_2
+L 0x7C76 rutina_14
+L 0x7CD0 mira_buffers
+L 0x7D23 mira_nivel_c840
+L 0x7D5F mira_invulnerable
+L 0x7D66 rutina_15
+L 0x7DB3 mira_buffers_2
+L 0x7E22 ficha_tipo_5
+L 0x7E9D rutina_16
+L 0x7EC0 con_despacha_2
+L 0x7F5D rutina_17
+L 0x7F64 mira_objeto_1
+L 0x7F7A pon_arma_dato
+L 0x7FCC bucle_4
+C 0x6002 0xC117: las vidas con que empieza la partida (MENU)
+C 0x6005 0xC160: las VIDAS, en BCD (p00:4417; GAOOOOOOOOOOH suma 10)
+C 0x6034 p01:6041 tabla_6041: tabla que lee p01:6034, p06:AD68, p06:AE74 (56 bytes)
+C 0x6037 p00:40A4 hl_mas_a
+C 0x607D el banco 9 en 0xA000
+C 0x608F 0xC485: bit 7: hay que cambiar de area (p01:64CD)
+C 0x60A3 el banco 3 en 0xA000
+C 0x60B0 0xC102: bit 0: es la demostracion; bit 6: hay partida (p00:46A5)
+C 0x60BA 0xC482: el juego de dibujos, 0-7 (p01:65BB)
+C 0x60BD p01:60C8 tabla_60C8: tabla que lee p01:60BD (9 bytes)
+C 0x60D2 0xC4D1: lo pone la contrasena 'aaaaa', que no se puede teclear (p06:B9AC)
+C 0x60D7 0xC302: la FILA de 8 puntos del mapa que se esta pintando; sube al avanzar (p00:57B8)
+C 0x60DD 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
+C 0x60EB 0xD412: lo que controla la salida de bichos
+C 0x60F3 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
+C 0x610E 0xC820: la ficha de Gao
+C 0x6111 ix+0x05: la X (p01:70BD la compara con la de Gao)
+C 0x6119 0xC821: la ficha de Gao
+C 0x611C ix+0x03: la Y (p01:70B3 la compara con la de Gao)
+C 0x6136 HL = la ficha
+C 0x6139 0xCB04: las cosas del camino que se van poniendo (p01:72ED)
+C 0x6145 31 vueltas
+C 0x6162 HL = la ficha
+C 0x6186 HL = la ficha
+C 0x625A ix+0x03: la Y (p01:70B3 la compara con la de Gao)
+C 0x6279 ix+0x03: la Y (p01:70B3 la compara con la de Gao)
+C 0x6298 ix+0x03: la Y (p01:70B3 la compara con la de Gao)
+C 0x62B7 ix+0x03: la Y (p01:70B3 la compara con la de Gao)
+C 0x62DD 0xC834: cuadros de invulnerabilidad de Gao (p02:860C)
+C 0x6335 0xC102: bit 0: es la demostracion; bit 6: hay partida (p00:46A5)
+C 0x633B 0xC13C: variables del juego
+C 0x6350 p01:63B0 tabla_63B0: tabla que lee p01:6350 (13 bytes)
+C 0x6353 p00:40A4 hl_mas_a
+C 0x6357 0xC486: el area a la que se va (p01:6549)
+C 0x635A 0xC480: el AREA (0-23): 3*(fase-1) + columna, o 18 + fase - 1 (p01:64D5)
+C 0x6369 0xC487: la fila del mapa con que se entra (p00:5924)
+C 0x636F 0xC840: elige los 32 bytes de p07:70AE que van a los patrones de 0xF8A0 (p00:5671) y el sumando de la dificultad (p01:704D); 6 es especial (p02:8F4F)
+C 0x637A 0xC850: el OBJETO 1 (byte 0 de 4; p06:BAC2)
+C 0x637F 0xC874: el OBJETO 10 (byte 0 de 4; p06:BAC2)
+C 0x6384 0xC850: el OBJETO 1 (byte 0 de 4; p06:BAC2)
+C 0x6387 0xC851: el OBJETO 1 (byte 1 de 4; p06:BAC2)
+C 0x639E 0xC4DB: variables de la partida
+C 0x63A4 0xC4C0: variables de la partida
+C 0x63A8 0xC4BF: variables de la partida
+C 0x63AC 0xC163: hay una partida en marcha (p00:4388)
+C 0x63BF 0xC845: la VIDA de Gao, hasta 200 (p03:AD1C; METALSLAVE la llena)
+C 0x63C4 0xC85C: el ARMA de Gao: su cuenta es la del objeto 4 (p01:7FAB)
+C 0x63C7 0xC4E1: AUTOSHOT: el arma 4 en cada cuadro (p02:8F56)
+C 0x63CD 0xC13B: la demostracion se esta acabando (p01:63DB)
+C 0x63D4 0xC834: cuadros de invulnerabilidad de Gao (p02:860C)
+C 0x63DB 0xC13B: la demostracion se esta acabando (p01:63DB)
+C 0x63E6 0xC108: F1, F2 y F3 pulsadas en este cuadro, bits 0-2 (p00:5318)
+C 0x63E9 0xC124: F4 y F5 pulsadas en este cuadro (p00:5330)
+C 0x63ED el banco 14 en 0x8000
+C 0x63F9 0xC108: F1, F2 y F3 pulsadas en este cuadro, bits 0-2 (p00:5318)
+C 0x63FC 0xC124: F4 y F5 pulsadas en este cuadro (p00:5330)
+C 0x63FF 0xC10E: cuadros que quedan de la tecla de la demostracion (p01:63FF)
+C 0x6420 0xC13B: la demostracion se esta acabando (p01:63DB)
+C 0x6425 0xC163: hay una partida en marcha (p00:4388)
+C 0x6428 0xC102: bit 0: es la demostracion; bit 6: hay partida (p00:46A5)
+C 0x6439 p01:642E tabla_642E: tabla que lee p00:5495, p01:6439 (6 bytes)
+C 0x644C 0xC108: F1, F2 y F3 pulsadas en este cuadro, bits 0-2 (p00:5318)
+C 0x6452 0xC124: F4 y F5 pulsadas en este cuadro (p00:5330)
+C 0x6456 el sonido 0x2E (p14:9C47 + 2*0x2E)
+C 0x6464 0xC4DB: variables de la partida
+C 0x646C p00:40A9 de_mas_a
+C 0x647D 0xC385: el SCROLL vertical: R#23 del VDP (p00:4C65)
+C 0x64A1 p14:8D4B tabla_8D4B: tabla que lee p01:645E, p01:64A1, p01:64B3 (1717 bytes)
+C 0x64A7 0xC385: el SCROLL vertical: R#23 del VDP (p00:4C65)
+C 0x64BF 0xC13C: variables del juego
+C 0x64C9 0xC13C: variables del juego
+C 0x64CD 0xC485: bit 7: hay que cambiar de area (p01:64CD)
+C 0x64D2 0xC486: el area a la que se va (p01:6549)
+C 0x64D5 0xC480: el AREA (0-23): 3*(fase-1) + columna, o 18 + fase - 1 (p01:64D5)
+C 0x64DC 0xC481: la FASE, 1-6 (p01:65B4)
+C 0x64E2 0xC482: el juego de dibujos, 0-7 (p01:65BB)
+C 0x64FA 0xC172: sube al cambiar de fase, hasta 10 (p01:64FA); entra en la dificultad (p01:7049)
+C 0x6508 0xC4C9: variables de la partida
+C 0x650F 0xC800: lo que hace Gao (p00:5C68)
+C 0x6515 0xC84B: la ficha de Gao
+C 0x651A 0xC4C8: variables de la partida
+C 0x6522 0xC809: la X de Gao (p01:70BD)
+C 0x652E 0xC483: la COLUMNA: 0-2 el camino, 3 la sala (p01:6543)
+C 0x6536 0xC483: la COLUMNA: 0-2 el camino, 3 la sala (p01:6543)
+C 0x6543 0xC483: la COLUMNA: 0-2 el camino, 3 la sala (p01:6543)
+C 0x6549 0xC486: el area a la que se va (p01:6549)
+C 0x654C 0xC302: la FILA de 8 puntos del mapa que se esta pintando; sube al avanzar (p00:57B8)
+C 0x654F 0xC487: la fila del mapa con que se entra (p00:5924)
+C 0x6553 0xC48A: la x de Gao al entrar (p01:6553)
+C 0x6558 0xC485: bit 7: hay que cambiar de area (p01:64CD)
+C 0x655B 0xC4C9: variables de la partida
+C 0x6560 0xC80D: la ficha de Gao
+C 0x6566 0xC385: el SCROLL vertical: R#23 del VDP (p00:4C65)
+C 0x656C 0xC80B: la Y de Gao (p01:70B3)
+C 0x6571 0xC489: la y de Gao al entrar (p01:6571)
+C 0x6574 0xC80B: la Y de Gao (p01:70B3)
+C 0x657A 0xC489: la y de Gao al entrar (p01:6571)
+C 0x657F 0xC489: la y de Gao al entrar (p01:6571)
+C 0x6582 0xC302: la FILA de 8 puntos del mapa que se esta pintando; sube al avanzar (p00:57B8)
+C 0x6586 0xC487: la fila del mapa con que se entra (p00:5924)
+C 0x658D 0xC4C9: variables de la partida
+C 0x65B0 0xC483: la COLUMNA: 0-2 el camino, 3 la sala (p01:6543)
+C 0x65B4 0xC481: la FASE, 1-6 (p01:65B4)
+C 0x65B7 0xC161: la fase que se ensena (p01:65B7)
+C 0x65BB 0xC482: el juego de dibujos, 0-7 (p01:65BB)
+C 0x65BF p01:660B fase_juego_columna: por area (0xC480): la fase (0xC481), el juego de dibujos (0xC482) y la columna (0xC483)
+C 0x65CF 0xC481: la FASE, 1-6 (p01:65B4)
+C 0x65D4 0xC483: la COLUMNA: 0-2 el camino, 3 la sala (p01:6543)
+C 0x65DA 0xC486: el area a la que se va (p01:6549)
+C 0x65DF 0xC48A: la x de Gao al entrar (p01:6553)
+C 0x65E2 0xC485: bit 7: hay que cambiar de area (p01:64CD)
+C 0x65E7 0xC489: la y de Gao al entrar (p01:6571)
+C 0x65F1 0xC487: la fila del mapa con que se entra (p00:5924)
+C 0x65F5 0xC483: la COLUMNA: 0-2 el camino, 3 la sala (p01:6543)
+C 0x6602 0xC481: la FASE, 1-6 (p01:65B4)
+C 0x6656 0xC4D0: variables de la partida
+C 0x665F 0xC857: el OBJETO 2 (byte 3 de 4; p06:BAC2)
+C 0x6662 0xC204: el logotipo y el titulo (p01:66D4)
+C 0x6670 0xC580: variables del avance del mapa
+C 0x6675 0xC857: el OBJETO 2 (byte 3 de 4; p06:BAC2)
+C 0x6679 0xC580: variables del avance del mapa
+C 0x667C el sonido 0x21 (p14:9C47 + 2*0x21)
+C 0x6681 0xC581: variables del avance del mapa
+C 0x6686 0xC204: el logotipo y el titulo (p01:66D4)
+C 0x668A 0xC388: lo que se ha movido el mapa este cuadro (p00:56E8)
+C 0x6691 p00:4CED apaga_los_sprites
+C 0x6697 p00:4D2D paleta_inicial
+C 0x669A p01:66E0 tabla_66E0: tabla que lee p01:669A (16 bytes)
+C 0x669D p00:4D3F pon_paleta
+C 0x66B7 p00:4E0B hmmv
+C 0x66C1 p00:4E0B hmmv
+C 0x66C4 el banco 9 en 0xA000
+C 0x66CC el banco 3 en 0xA000
+C 0x66D4 0xC200: el logotipo y el titulo (p01:66D4)
+C 0x66F0 0xC200: el logotipo y el titulo (p01:66D4)
+C 0x66FB 0xC202: el logotipo y el titulo (p01:66D4)
+C 0x670D p00:4E47 hmmm
+C 0x6726 p00:5049 copia_dibujo_en_la_hoja
+C 0x6730 p09:AB3C letras_AB3C: 13 letras de 8x8 a 1 bit (8 bytes cada una) que p01:6739 sube a la hoja (p00:4ED7)
+C 0x6739 p00:4ED7 sube_letras
+C 0x673C p09:ABA4 letras_ABA4: 13 letras de 8x8 a 1 bit (8 bytes cada una) que p01:6745 sube a la hoja (p00:4ED7)
+C 0x6745 p00:4ED7 sube_letras
+C 0x6748 p09:AC0C letras_AC0C: 26 letras de 8x8 a 1 bit (8 bytes cada una) que p01:6751 sube a la hoja (p00:4ED7)
+C 0x674B 0xD800: fichas de lo que se mueve
+C 0x6751 p00:4ED7 sube_letras
+C 0x6757 p01:675E tabla_675E: tabla que lee p01:6757 (65 bytes)
+C 0x681E 0xD700: fichas de lo que se mueve
+C 0x6824 ix+0x00: el TIPO de la ficha (0 = libre; p01:6D12)
+C 0x682B 0xC857: el OBJETO 2 (byte 3 de 4; p06:BAC2)
+C 0x6840 ix+0x06: cuenta atras (p01:6124)
+C 0x6864 ix+0x03: la Y (p01:70B3 la compara con la de Gao)
+C 0x686A ix+0x05: la X (p01:70BD la compara con la de Gao)
+C 0x6871 ix+0x00: el TIPO de la ficha (0 = libre; p01:6D12)
+C 0x6875 p00:40AE despacha
+C 0x68EC 0xD409: lo que controla la salida de bichos
+C 0x68F5 ix+0x74: el tipo de choque (p01:7093)
+C 0x68FF ix+0x07: el paso de la animacion (p01:6124)
+C 0x6906 ix+0x07: el paso de la animacion (p01:6124)
+C 0x6920 ix+0x07: el paso de la animacion (p01:6124)
+C 0x6929 ix+0x03: la Y (p01:70B3 la compara con la de Gao)
+C 0x6930 ix+0x03: la Y (p01:70B3 la compara con la de Gao)
+C 0x693C ix+0x05: la X (p01:70BD la compara con la de Gao)
+C 0x6943 ix+0x05: la X (p01:70BD la compara con la de Gao)
+C 0x694B ix+0x00: el TIPO de la ficha (0 = libre; p01:6D12)
+C 0x6953 p01:6A1A tabla_6A1A: tabla que lee p01:6953 (54 bytes)
+C 0x6956 p00:40A4 hl_mas_a
+C 0x6960 ix+0x00: el TIPO de la ficha (0 = libre; p01:6D12)
+C 0x6973 0xD454: lo que controla la salida de bichos
+C 0x6980 0xD450: lo que controla la salida de bichos
+C 0x6996 ix+0x05: la X (p01:70BD la compara con la de Gao)
+C 0x6999 ix+0x03: la Y (p01:70B3 la compara con la de Gao)
+C 0x69A2 ix+0x00: el TIPO de la ficha (0 = libre; p01:6D12)
+C 0x69A6 la ficha pasa al paso 0
+C 0x69B6 HL = la ficha
+C 0x69BD 2 vueltas
+C 0x69C0 0xE628: y, x, patron y color de los 32 sprites (p00:4B7A)
+C 0x69CE ix+0x06: cuenta atras (p01:6124)
+C 0x69D2 ix+0x10: el PATRON del sprite (p01:70FB)
+C 0x69D6 ix+0x11: cuenta atras de lo que hace
+C 0x69DA ix+0x74: el tipo de choque (p01:7093)
+C 0x69EC 0xD400: lo que controla la salida de bichos
+C 0x6A50 cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
+C 0x6A54 ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
+C 0x6A5C ix+0x10: el PATRON del sprite (p01:70FB)
+C 0x6A60 ix+0x10: el PATRON del sprite (p01:70FB)
+C 0x6A63 0xD400: lo que controla la salida de bichos
+C 0x6A6D ix+0x11: cuenta atras de lo que hace
+C 0x6A70 la ficha pasa al paso siguiente
+C 0x6A74 ix+0x03: la Y (p01:70B3 la compara con la de Gao)
+C 0x6A7B ix+0x05: la X (p01:70BD la compara con la de Gao)
+C 0x6A85 HL = la ficha
+C 0x6A92 0xE628: y, x, patron y color de los 32 sprites (p00:4B7A)
+C 0x6AA5 p01:6AB7 tabla_6AB7: tabla que lee p01:6AA5 (12 bytes)
+C 0x6AC3 0xD400: lo que controla la salida de bichos
+C 0x6AC8 ix+0x00: el TIPO de la ficha (0 = libre; p01:6D12)
+C 0x6AD3 HL = la ficha
+C 0x6ADA ix+0x00: el TIPO de la ficha (0 = libre; p01:6D12)
+C 0x6AED ix+0x00: el TIPO de la ficha (0 = libre; p01:6D12)
+C 0x6AF1 ix+0x06: cuenta atras (p01:6124)
+C 0x6AF9 ix+0x11: cuenta atras de lo que hace
+C 0x6B0F cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
+C 0x6B1A 0xDC00: fichas de lo que se mueve
+C 0x6B21 0xD700: fichas de lo que se mueve
+C 0x6B24 10 vueltas
+C 0x6B86 p01:6B9F tabla_6B9F: tabla que lee p01:6B74, p01:6B7A, p01:6B80, p01:6B86 (52 bytes)
+C 0x6BD3 0xDC00: fichas de lo que se mueve
+C 0x6BDC 0xD700: fichas de lo que se mueve
+C 0x6BDF 10 vueltas
+C 0x6BF8 0xCF00: que cosa hay en cada sitio de los patrones (p00:56A2)
+C 0x6BFB p00:40A9 de_mas_a
+C 0x6BFF 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
+C 0x6C14 0xE628: y, x, patron y color de los 32 sprites (p00:4B7A)
+C 0x6C2D 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
+C 0x6C41 0xC4BE: variables de la partida
+C 0x6C54 0 vueltas
+C 0x6C5C 16 vueltas
+C 0x6C67 0xC4C2: variables de la partida
+C 0x6C6D 0xC4C3: variables de la partida
+C 0x6C71 0xC4C5: variables de la partida
+C 0x6C78 0xC4C2: variables de la partida
+C 0x6C7B 0xC4C4: variables de la partida
+C 0x6C8A 0xD410: lo que controla la salida de bichos
+C 0x6C8F 0xD500: 10 fichas de 0x10: los bichos que pone la lista del area (p01:6D12)
+C 0x6C92 10 vueltas
+C 0x6CA2 0xC389: 1: el mapa avanza (p01:6CA2); p00:57CE lo pone a 0 con la orden 0xFC
+C 0x6CA7 0xC480: el AREA (0-23): 3*(fase-1) + columna, o 18 + fase - 1 (p01:64D5)
+C 0x6CAE el banco 9 en 0xA000
+C 0x6CBA el banco 3 en 0xA000
+C 0x6CBF 0xD412: lo que controla la salida de bichos
+C 0x6CC5 p00:40A9 de_mas_a
+C 0x6CC8 el banco 9 en 0xA000
+C 0x6CD1 el banco 3 en 0xA000
+C 0x6CD8 0xC302: la FILA de 8 puntos del mapa que se esta pintando; sube al avanzar (p00:57B8)
+C 0x6CE7 la ficha es la de HL
+C 0x6CEA 0xE801: buffer de trabajo
+C 0x6CED ix+0x06: cuenta atras (p01:6124)
+C 0x6CF5 0xD412: lo que controla la salida de bichos
+C 0x6D03 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
+C 0x6D0C 0xE801: buffer de trabajo
+C 0x6D12 0xD500: 10 fichas de 0x10: los bichos que pone la lista del area (p01:6D12)
+C 0x6D18 10 vueltas
+C 0x6D21 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
+C 0x6D25 p00:40AE despacha
+C 0x6D67 0xE805: buffer de trabajo
+C 0x6D6B 0xD411: lo que controla la salida de bichos
+C 0x6D6F 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
+C 0x6D72 0xE801: buffer de trabajo
+C 0x6D76 0xD700: fichas de lo que se mueve
+C 0x6D7C 10 vueltas
+C 0x6D86 la ficha es la de HL
+C 0x6D89 0xE803: buffer de trabajo
+C 0x6D8C 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
+C 0x6D92 p00:40A4 hl_mas_a
+C 0x6DA4 0xE628: y, x, patron y color de los 32 sprites (p00:4B7A)
+C 0x6DA7 0xC4A8: variables de la partida
+C 0x6DEF 0xE803: buffer de trabajo
+C 0x6DF7 0xE628: y, x, patron y color de los 32 sprites (p00:4B7A)
+C 0x6DFB p00:40A4 hl_mas_a
+C 0x6E0B 0xE628: y, x, patron y color de los 32 sprites (p00:4B7A)
+C 0x6E0E 0xC4A8: variables de la partida
+C 0x6E29 0xD411: lo que controla la salida de bichos
+C 0x6E2C 0xE803: buffer de trabajo
+C 0x6E2F 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
+C 0x6E36 0xE801: buffer de trabajo
+C 0x6E48 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
+C 0x6E4E p00:40A4 hl_mas_a
+C 0x6E5D 0xE805: buffer de trabajo
+C 0x6E63 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
+C 0x6E6F p00:40A4 hl_mas_a
+C 0x6E7C ix+0x00: el TIPO de la ficha (0 = libre; p01:6D12)
+C 0x6E80 p00:40AE despacha
+C 0x6EF5 ix+0x00: el TIPO de la ficha (0 = libre; p01:6D12)
+C 0x6F01 HL = la ficha
+C 0x6F13 0xE803: buffer de trabajo
+C 0x6F1C p00:40A4 hl_mas_a
+C 0x7049 0xC172: sube al cambiar de fase, hasta 10 (p01:64FA); entra en la dificultad (p01:7049)
+C 0x704D 0xC840: elige los 32 bytes de p07:70AE que van a los patrones de 0xF8A0 (p00:5671) y el sumando de la dificultad (p01:704D); 6 es especial (p02:8F4F)
+C 0x7050 p01:7062 tabla_7062: tabla que lee p01:7050 (8 bytes)
+C 0x7053 p00:40A4 hl_mas_a
+C 0x705E 0xC4AA: la dificultad: 0xC172 + lo de la tabla p01:7062 segun 0xC840, hasta 15 (p01:7049)
+C 0x70A3 HL = la ficha
+C 0x70A6 p00:40A4 hl_mas_a
+C 0x70B3 0xC80B: la Y de Gao (p01:70B3)
+C 0x70B6 ix+0x03: la Y (p01:70B3 la compara con la de Gao)
+C 0x70BD 0xC809: la X de Gao (p01:70BD)
+C 0x70C0 ix+0x05: la X (p01:70BD la compara con la de Gao)
+C 0x70CF 0xC80B: la Y de Gao (p01:70B3)
+C 0x70D2 ix+0x03: la Y (p01:70B3 la compara con la de Gao)
+C 0x70D6 0xC809: la X de Gao (p01:70BD)
+C 0x70D9 ix+0x05: la X (p01:70BD la compara con la de Gao)
+C 0x70F1 ix+0x60: cuenta de cuadros (p01:70F1)
+C 0x70F4 ix+0x60: cuenta de cuadros (p01:70F1)
+C 0x70FB ix+0x10: el PATRON del sprite (p01:70FB)
+C 0x70FF ix+0x60: cuenta de cuadros (p01:70F1)
+C 0x7102 ix+0x60: cuenta de cuadros (p01:70F1)
+C 0x710F 0xC388: lo que se ha movido el mapa este cuadro (p00:56E8)
+C 0x7112 ix+0x03: la Y (p01:70B3 la compara con la de Gao)
+C 0x7115 ix+0x03: la Y (p01:70B3 la compara con la de Gao)
+C 0x7119 0xC4C8: variables de la partida
+C 0x7130 0xC4AA: la dificultad: 0xC172 + lo de la tabla p01:7062 segun 0xC840, hasta 15 (p01:7049)
+C 0x7135 cuenta atras en ix+0x61: hasta que llegue a 0, nada mas
+C 0x713F 0xC4AA: la dificultad: 0xC172 + lo de la tabla p01:7062 segun 0xC840, hasta 15 (p01:7049)
+C 0x7151 ix+0x61: cuenta atras de la dificultad (p01:7135)
+C 0x7155 0xC4B0: cuenta los cuadros; el bit 0 alterna los colores de los sprites (p02:93AA)
+C 0x7162 cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
+C 0x716B 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
+C 0x716F 0xE80B: buffer de trabajo
+C 0x7173 0xE80A: buffer de trabajo
+C 0x7176 ix+0x05: la X (p01:70BD la compara con la de Gao)
+C 0x7179 ix+0x03: la Y (p01:70B3 la compara con la de Gao)
+C 0x7193 ix+0x05: la X (p01:70BD la compara con la de Gao)
+C 0x71AF 0xD43B: lo que controla la salida de bichos
+C 0x71B8 0xD43C: lo que controla la salida de bichos
+C 0x71C0 0xC480: el AREA (0-23): 3*(fase-1) + columna, o 18 + fase - 1 (p01:64D5)
+C 0x71C9 el banco 9 en 0xA000
+C 0x71CE 0xC480: el AREA (0-23): 3*(fase-1) + columna, o 18 + fase - 1 (p01:64D5)
+C 0x71D7 0xC302: la FILA de 8 puntos del mapa que se esta pintando; sube al avanzar (p00:57B8)
+C 0x71DF p00:40A9 de_mas_a
+C 0x71E4 el banco 3 en 0xA000
+C 0x720C 0xD430: lo que controla la salida de bichos
+C 0x720F p01:72BF tabla_72BF: tabla que lee p01:720F, p01:7241, p01:7251, p01:725D, p01:7265, p01:726F (46 bytes)
+C 0x7212 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
+C 0x721C 0xC809: la X de Gao (p01:70BD)
+C 0x7228 0xD439: lo que controla la salida de bichos
+C 0x7231 0xD450: lo que controla la salida de bichos
+C 0x7234 p00:40A4 hl_mas_a
+C 0x7237 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
+C 0x723E 0xD431: lo que controla la salida de bichos
+C 0x724A 0xD436: lo que controla la salida de bichos
+C 0x7254 p00:40A4 hl_mas_a
+C 0x725A 0xD432: lo que controla la salida de bichos
+C 0x7262 0xD433: lo que controla la salida de bichos
+C 0x726C 0xD434: lo que controla la salida de bichos
+C 0x7278 0xD437: lo que controla la salida de bichos
+C 0x727E 0xD435: lo que controla la salida de bichos
+C 0x728A el sonido 0x19 (p14:9C47 + 2*0x19)
+C 0x7291 0xC4AA: la dificultad: 0xC172 + lo de la tabla p01:7062 segun 0xC840, hasta 15 (p01:7049)
+C 0x72A9 0xC389: 1: el mapa avanza (p01:6CA2); p00:57CE lo pone a 0 con la orden 0xFC
+C 0x72AE 0xC302: la FILA de 8 puntos del mapa que se esta pintando; sube al avanzar (p00:57B8)
+C 0x72B4 0xD430: lo que controla la salida de bichos
+C 0x72B7 6 vueltas
+C 0x72ED 0xCB40: las cosas del camino que se van poniendo (p01:72ED)
+C 0x72F3 0xCB04: las cosas del camino que se van poniendo (p01:72ED)
+C 0x72F6 0xCB41: las cosas del camino que se van poniendo (p01:72ED)
+C 0x72F9 0xCB06: las cosas del camino que se van poniendo (p01:72ED)
+C 0x72FF 0xCB40: las cosas del camino que se van poniendo (p01:72ED)
+C 0x7302 0xCB04: las cosas del camino que se van poniendo (p01:72ED)
+C 0x7308 0xC389: 1: el mapa avanza (p01:6CA2); p00:57CE lo pone a 0 con la orden 0xFC
+C 0x7310 0xC302: la FILA de 8 puntos del mapa que se esta pintando; sube al avanzar (p00:57B8)
+C 0x7314 0xCB00: las cosas del camino que se van poniendo (p01:72ED)
+C 0x731E 0xCB02: las cosas del camino que se van poniendo (p01:72ED)
+C 0x7323 el banco 9 en 0xA000
+C 0x732D 0xCB06: las cosas del camino que se van poniendo (p01:72ED)
+C 0x7331 el banco 3 en 0xA000
+C 0x7344 0xCB00: las cosas del camino que se van poniendo (p01:72ED)
+C 0x734D 0xCB04: las cosas del camino que se van poniendo (p01:72ED)
+C 0x7352 0xCB00: las cosas del camino que se van poniendo (p01:72ED)
+C 0x7355 0xCB4C: las cosas del camino que se van poniendo (p01:72ED)
+C 0x735E 0xCB04: las cosas del camino que se van poniendo (p01:72ED)
+C 0x736F la ficha es la de HL
+C 0x7372 ix+0x40: dato del tipo (p01:7372)
+C 0x7379 0xCB04: las cosas del camino que se van poniendo (p01:72ED)
+C 0x737D p00:40AE despacha
+C 0x7425 0xC385: el SCROLL vertical: R#23 del VDP (p00:4C65)
+C 0x7456 la ficha es la de HL
+C 0x7459 ix+0x40: dato del tipo (p01:7372)
+C 0x7470 0xC302: la FILA de 8 puntos del mapa que se esta pintando; sube al avanzar (p00:57B8)
+C 0x748F 0xCB02: las cosas del camino que se van poniendo (p01:72ED)
+C 0x749F 0xCC00: 16 fichas de 0x10 (p01:749F)
+C 0x74A5 16 vueltas
+C 0x74AE 0xD300: dos fichas de 0x80 (p01:74AE)
+C 0x74B1 2 vueltas
+C 0x74B5 6 vueltas
+C 0x74B7 0xD000: la ficha del bicho 0, byte 0x00 (p01:74B7)
+C 0x74CD 0xCB00: las cosas del camino que se van poniendo (p01:72ED)
+C 0x74D3 el banco 9 en 0xA000
+C 0x74DB 0xC480: el AREA (0-23): 3*(fase-1) + columna, o 18 + fase - 1 (p01:64D5)
+C 0x74E1 0xCB02: las cosas del camino que se van poniendo (p01:72ED)
+C 0x74E4 el banco 3 en 0xA000
+C 0x74EA 0xCB00: las cosas del camino que se van poniendo (p01:72ED)
+C 0x74ED 0xD000: la ficha del bicho 0, byte 0x00 (p01:74B7)
+C 0x74F8 0xCC00: 16 fichas de 0x10 (p01:749F)
+C 0x7539 0xD000: la ficha del bicho 0, byte 0x00 (p01:74B7)
+C 0x753C 8 vueltas
+C 0x7550 la ficha es la de HL
+C 0x7553 ix+0x40: dato del tipo (p01:7372)
+C 0x7557 0xC388: lo que se ha movido el mapa este cuadro (p00:56E8)
+C 0x7567 p00:40AE despacha
+C 0x75A9 0xD000: la ficha del bicho 0, byte 0x00 (p01:74B7)
+C 0x75AC 8 vueltas
+C 0x75CE HL = la ficha
+C 0x7603 0xD000: la ficha del bicho 0, byte 0x00 (p01:74B7)
+C 0x7606 8 vueltas
+C 0x761A la ficha es la de HL
+C 0x7624 0xE900: la contrasena: la que se ensena y la tecleada (p06:B43E)
+C 0x7648 p00:40AE despacha
+C 0x76E1 0xC385: el SCROLL vertical: R#23 del VDP (p00:4C65)
+C 0x7709 ix+0x40: dato del tipo (p01:7372)
+C 0x7721 24 vueltas
+C 0x773B 0xE900: la contrasena: la que se ensena y la tecleada (p06:B43E)
+C 0x7740 0xC385: el SCROLL vertical: R#23 del VDP (p00:4C65)
+C 0x7746 0xE901: la contrasena: la que se ensena y la tecleada (p06:B43E)
+C 0x7757 0xDC00: fichas de lo que se mueve
+C 0x775D ix+0x00: el TIPO de la ficha (0 = libre; p01:6D12)
+C 0x7771 ix+0x07: el paso de la animacion (p01:6124)
+C 0x7778 ix+0x07: el paso de la animacion (p01:6124)
+C 0x7791 ix+0x06: cuenta atras (p01:6124)
+C 0x7797 ix+0x07: el paso de la animacion (p01:6124)
+C 0x77A0 ix+0x03: la Y (p01:70B3 la compara con la de Gao)
+C 0x77A7 ix+0x03: la Y (p01:70B3 la compara con la de Gao)
+C 0x77B3 ix+0x05: la X (p01:70BD la compara con la de Gao)
+C 0x77BA ix+0x05: la X (p01:70BD la compara con la de Gao)
+C 0x77BD ix+0x11: cuenta atras de lo que hace
+C 0x77C3 ix+0x03: la Y (p01:70B3 la compara con la de Gao)
+C 0x77C6 ix+0x05: la X (p01:70BD la compara con la de Gao)
+C 0x77CE ix+0x03: la Y (p01:70B3 la compara con la de Gao)
+C 0x77D5 ix+0x05: la X (p01:70BD la compara con la de Gao)
+C 0x77E1 ix+0x00: el TIPO de la ficha (0 = libre; p01:6D12)
+C 0x77E4 HL = la ficha
+C 0x77EC 0xE628: y, x, patron y color de los 32 sprites (p00:4B7A)
+C 0x7806 0xD41A: lo que controla la salida de bichos
+C 0x7809 ix+0x03: la Y (p01:70B3 la compara con la de Gao)
+C 0x780C ix+0x05: la X (p01:70BD la compara con la de Gao)
+C 0x780F ix+0x00: el TIPO de la ficha (0 = libre; p01:6D12)
+C 0x7812 0xE80F: buffer de trabajo
+C 0x781A 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
+C 0x781E 0xE801: buffer de trabajo
+C 0x7822 0xE805: buffer de trabajo
+C 0x7825 0xE807: buffer de trabajo
+C 0x782A 0xD41A: lo que controla la salida de bichos
+C 0x7847 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
+C 0x7851 p00:40A4 hl_mas_a
+C 0x7855 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
+C 0x7858 0xDC00: fichas de lo que se mueve
+C 0x785E 8 vueltas
+C 0x7868 la ficha es la de HL
+C 0x786B 0xE803: buffer de trabajo
+C 0x7871 0xE678: y, x, patron y color de los 32 sprites (p00:4B7A)
+C 0x7874 0xC4A9: variables de la partida
+C 0x788D 0xE803: buffer de trabajo
+C 0x7890 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
+C 0x7897 0xE801: buffer de trabajo
+C 0x78A7 0xE805: buffer de trabajo
+C 0x78AE 0xE807: buffer de trabajo
+C 0x78B9 ix+0x10: el PATRON del sprite (p01:70FB)
+C 0x78BD ix+0x11: cuenta atras de lo que hace
+C 0x78C8 ix+0x00: el TIPO de la ficha (0 = libre; p01:6D12)
+C 0x78CC p00:40AE despacha
+C 0x78E2 0xC480: el AREA (0-23): 3*(fase-1) + columna, o 18 + fase - 1 (p01:64D5)
+C 0x78E8 ix+0x11: cuenta atras de lo que hace
+C 0x78ED p01:7907 ficha_7907: 11 bytes de la ficha del bicho desde ix+7 (p01:7073)
+C 0x792C ix+0x07: el paso de la animacion (p01:6124)
+C 0x794A ix+0x03: la Y (p01:70B3 la compara con la de Gao)
+C 0x794D ix+0x05: la X (p01:70BD la compara con la de Gao)
+C 0x7954 0xC4AA: la dificultad: 0xC172 + lo de la tabla p01:7062 segun 0xC840, hasta 15 (p01:7049)
+C 0x7958 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
+C 0x795E 0xE808: buffer de trabajo
+C 0x7973 0xE807: buffer de trabajo
+C 0x797A 0xE801: buffer de trabajo
+C 0x7981 0xE803: buffer de trabajo
+C 0x7985 0xE807: buffer de trabajo
+C 0x798C 0xE802: buffer de trabajo
+C 0x7993 0xE803: buffer de trabajo
+C 0x7997 0xC80B: la Y de Gao (p01:70B3)
+C 0x799A 0xE80A: buffer de trabajo
+C 0x799D 0xC809: la X de Gao (p01:70BD)
+C 0x79A0 0xE80B: buffer de trabajo
+C 0x79A3 0xE801: buffer de trabajo
+C 0x79A8 0xE80A: buffer de trabajo
+C 0x79B9 0xE80B: buffer de trabajo
+C 0x79CA p01:7A11 tabla_7A11: tabla que lee p01:7969, p01:79CA, p03:A43A (128 bytes)
+C 0x79CD p00:40A4 hl_mas_a
+C 0x79D1 0xE808: buffer de trabajo
+C 0x79D5 0xE801: buffer de trabajo
+C 0x79E7 0xE809: buffer de trabajo
+C 0x79F3 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
+C 0x7A05 8 vueltas
+C 0x7A91 0xC480: el AREA (0-23): 3*(fase-1) + columna, o 18 + fase - 1 (p01:64D5)
+C 0x7A95 p01:7AA5 tabla_7AA5: tabla que lee p01:7A95 (48 bytes)
+C 0x7A98 p00:40A4 hl_mas_a
+C 0x7A9C 0xC4A8: variables de la partida
+C 0x7AA1 0xC4A9: variables de la partida
+C 0x7AD6 0xD412: lo que controla la salida de bichos
+C 0x7AD9 0xD400: lo que controla la salida de bichos
+C 0x7ADC 0xD402: lo que controla la salida de bichos
+C 0x7ADF 0xD454: lo que controla la salida de bichos
+C 0x7AEF 0xD413: lo que controla la salida de bichos
+C 0x7AF6 0xD439: lo que controla la salida de bichos
+C 0x7AFA 0xD500: 10 fichas de 0x10: los bichos que pone la lista del area (p01:6D12)
+C 0x7B03 0xD700: fichas de lo que se mueve
+C 0x7B0C 0xDC00: fichas de lo que se mueve
+C 0x7B15 0xCC00: 16 fichas de 0x10 (p01:749F)
+C 0x7B51 0xC385: el SCROLL vertical: R#23 del VDP (p00:4C65)
+C 0x7B6F 0xC385: el SCROLL vertical: R#23 del VDP (p00:4C65)
+C 0x7B90 p01:7B99 tabla_7B99: tabla que lee p01:7B90 (26 bytes)
+C 0x7B93 p00:40A9 de_mas_a
+C 0x7BB8 0xC385: el SCROLL vertical: R#23 del VDP (p00:4C65)
+C 0x7BDE 0xC388: lo que se ha movido el mapa este cuadro (p00:56E8)
+C 0x7BFE 0xEA00: buffers de pantallas y dibujos
+C 0x7C01 0xEA01: buffers de pantallas y dibujos
+C 0x7C09 0xC809: la X de Gao (p01:70BD)
+C 0x7C0D 0xC80B: la Y de Gao (p01:70B3)
+C 0x7C11 0xEA00: buffers de pantallas y dibujos
+C 0x7C35 0xEA09: buffers de pantallas y dibujos
+C 0x7C39 0xCA00: 6 fichas de 0x20 (p02:9368)
+C 0x7C42 la ficha es la de HL
+C 0x7C49 ix+0x03: la Y (p01:70B3 la compara con la de Gao)
+C 0x7C4E ix+0x05: la X (p01:70BD la compara con la de Gao)
+C 0x7C5F 0xD000: la ficha del bicho 0, byte 0x00 (p01:74B7)
+C 0x7C62 8 vueltas
+C 0x7CEC 0xEAFF: buffers de pantallas y dibujos
+C 0x7D10 0xEA08: buffers de pantallas y dibujos
+C 0x7D17 0xEAFF: buffers de pantallas y dibujos
+C 0x7D3D 0xC840: elige los 32 bytes de p07:70AE que van a los patrones de 0xF8A0 (p00:5671) y el sumando de la dificultad (p01:704D); 6 es especial (p02:8F4F)
+C 0x7D43 p01:7D70 tabla_7D70: tabla que lee p01:7D43 (7 bytes)
+C 0x7D4C 0xC80D: la ficha de Gao
+C 0x7D52 0xC858: el OBJETO 3 (byte 0 de 4; p06:BAC2)
+C 0x7D60 0xC834: cuadros de invulnerabilidad de Gao (p02:860C)
+C 0x7D77 0xEA09: buffers de pantallas y dibujos
+C 0x7D7B 0xCA00: 6 fichas de 0x20 (p02:9368)
+C 0x7D96 0xD700: fichas de lo que se mueve
+C 0x7DB7 la ficha es la de HL
+C 0x7DDA 0xEAFF: buffers de pantallas y dibujos
+C 0x7E07 0xEA08: buffers de pantallas y dibujos
+C 0x7E0C 0xEAFF: buffers de pantallas y dibujos
+C 0x7E22 ix+0x00: el TIPO de la ficha (0 = libre; p01:6D12)
+C 0x7E25 0xC4C7: variables de la partida
+C 0x7E32 0xC860: el OBJETO 5 (byte 0 de 4; p06:BAC2)
+C 0x7E49 0xC860: el OBJETO 5 (byte 0 de 4; p06:BAC2)
+C 0x7E5B 0xC860: el OBJETO 5 (byte 0 de 4; p06:BAC2)
+C 0x7E68 la ficha es la de HL
+C 0x7E71 0xC800: lo que hace Gao (p00:5C68)
+C 0x7E77 0xC821: la ficha de Gao
+C 0x7E7D 0xC820: la ficha de Gao
+C 0x7E84 0xCC00: 16 fichas de 0x10 (p01:749F)
+C 0x7ED4 p00:40AE despacha
+C 0x7EFB el sonido 0x28 (p14:9C47 + 2*0x28)
+C 0x7F08 0xC580: variables del avance del mapa
+C 0x7F11 0xC0F2: la musica de la pausa esta sonando (p14:9411)
+C 0x7F16 el sonido 0x4C (p14:9C47 + 2*0x4C)
+C 0x7F1C 0xC860: el OBJETO 5 (byte 0 de 4; p06:BAC2)
+C 0x7F22 0xC858: el OBJETO 3 (byte 0 de 4; p06:BAC2)
+C 0x7F2A el sonido 0x18 (p14:9C47 + 2*0x18)
+C 0x7F35 el sonido 0x18 (p14:9C47 + 2*0x18)
+C 0x7F3F 0xC481: la FASE, 1-6 (p01:65B4)
+C 0x7F48 el sonido 0x18 (p14:9C47 + 2*0x18)
+C 0x7F50 el sonido 0x18 (p14:9C47 + 2*0x18)
+C 0x7F58 el sonido 0x18 (p14:9C47 + 2*0x18)
+C 0x7F6B 0xC850: el OBJETO 1 (byte 0 de 4; p06:BAC2)
+C 0x7F73 p01:7F7B tabla_7F7B: tabla que lee p01:7F73 (40 bytes)
+C 0x7FA6 el sonido 0x18 (p14:9C47 + 2*0x18)
+C 0x7FAB 0xC85C: el ARMA de Gao: su cuenta es la del objeto 4 (p01:7FAB)
+C 0x7FAE p01:7FBD tabla_7FBD: tabla que lee p01:7FAE (15 bytes)
+C 0x7FB5 0xC84A: lo que sale de p01:7FBD para el arma (p01:7FB5)
+C 0x7FB9 0xC842: lo que sale de p01:7FBD para el arma (p01:7FB9)
+C 0x7FD2 0xC80D: la ficha de Gao
+C 0x7FD8 0xC858: el OBJETO 3 (byte 0 de 4; p06:BAC2)
+C 0x7FDD 0xC80B: la Y de Gao (p01:70B3)
+C 0x7FE3 0xC809: la X de Gao (p01:70BD)
+C 0x7FEA 0xDC00: fichas de lo que se mueve
+C 0x7FF0 ix+0x00: el TIPO de la ficha (0 = libre; p01:6D12)
+# --- fin de anota ---

@@ -317,8 +317,8 @@ def banco_7(t, bl):
             nb = H.palabra(e + 4, B789)
             bl.anota(B789, src, src + nb, "patrones_%04X" % src,
                      "%d bytes de patrones de sprite de la cosa %d (p00:56CA)" % (nb, k), "p00:56D5")
-    bl.anota(B789, 0x70AE, 0x70AE + 14, "colores_de_gao",
-             "7 palabras, por 0xC840: los 32 bytes que p00:566E sube a la VRAM 0xF8A0", "p00:5674", ancho=2)
+    bl.anota(B789, 0x70AE, 0x70AE + 14, "patrones_f8a0",
+             "7 palabras, por 0xC840: los 32 bytes que p00:566E sube a la VRAM 0xF8A0 (un patron de sprite de 16x16)", "p00:5674", ancho=2)
     for k in range(7):
         a = H.palabra(0x70AE + 2 * k, B789)
         bl.anota(B789, a, a + 32, "f8a0_%04X" % a, "32 bytes para la VRAM 0xF8A0 (p00:566E)", "p00:5680")

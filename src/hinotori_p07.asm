@@ -780,10 +780,11 @@ DATA_rle_707A:
 	defb 020h,000h,000h,000h	; 70aa
 
 ; ----------------------------------------------------------------------
-; DATOS colores_de_gao: 7 palabras, por 0xC840: los 32 bytes que p00:566E sube
-;   a la VRAM 0xF8A0; lo leen p00:5674 (14 bytes)
+; DATOS patrones_f8a0: 7 palabras, por 0xC840: los 32 bytes que p00:566E sube
+;   a la VRAM 0xF8A0 (un patron de sprite de 16x16); lo leen p00:5674 (14
+;   bytes)
 ;   0x70ae..0x70bc  (14 bytes)
-DATA_colores_de_gao:
+DATA_patrones_f8a0:
 	defb 0d3h,070h	; 70ae
 	defb 0f3h,070h	; 70b0
 	defb 0f3h,070h	; 70b2

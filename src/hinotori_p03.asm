@@ -35,29 +35,29 @@ lb39dh:	equ 0x0b39d
 
 
 L_A000:
-	ld hl,0a04fh		;a000
+	ld hl,0a04fh		;a000   ; p03:A04F ficha_A04F: 11 bytes de la ficha del bicho desde ix+7 (p01:7073)
 	call 07073h		;a003
 	push ix		;a006
 	pop iy		;a008
-	ld (ix+019h),010h		;a00a
-	ld (ix+01ah),080h		;a00e
-	push ix		;a012
+	ld (ix+019h),010h		;a00a   ; ix+0x19: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+01ah),080h		;a00e   ; ix+0x1A: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	push ix		;a012   ; HL = la ficha
 	pop hl			;a014
-	ld (0d417h),hl		;a015
-	ld (0e810h),hl		;a018
+	ld (0d417h),hl		;a015   ; 0xD417: lo que controla la salida de bichos
+	ld (0e810h),hl		;a018   ; 0xE810: buffer de trabajo
 	ld de,00050h		;a01b
 	add hl,de			;a01e
 	ld b,004h		;a01f
 L_A021:
 	push bc			;a021
 	push hl			;a022
-	ld e,(iy+003h)		;a023
-	ld d,(iy+005h)		;a026
+	ld e,(iy+003h)		;a023   ; iy+0x03: la Y (p01:70B3 la compara con la de Gao)
+	ld d,(iy+005h)		;a026   ; iy+0x05: la X (p01:70BD la compara con la de Gao)
 	ld c,00bh		;a029
 	call 06d64h		;a02b
 	pop hl			;a02e
 	pop bc			;a02f
-	ld a,(0d411h)		;a030
+	ld a,(0d411h)		;a030   ; 0xD411: lo que controla la salida de bichos
 	and a			;a033
 	jr z,L_A043		;a034
 	push ix		;a036
@@ -66,13 +66,13 @@ L_A021:
 	inc l			;a03a
 	ld (hl),d			;a03b
 	inc l			;a03c
-	ld (0d417h),de		;a03d
+	ld (0d417h),de		;a03d   ; 0xD417: lo que controla la salida de bichos
 	djnz L_A021		;a041
 L_A043:
 	ld (hl),0ffh		;a043
-	ld hl,(0d417h)		;a045
-	ld (iy+017h),l		;a048
-	ld (iy+018h),h		;a04b
+	ld hl,(0d417h)		;a045   ; 0xD417: lo que controla la salida de bichos
+	ld (iy+017h),l		;a048   ; iy+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (iy+018h),h		;a04b   ; iy+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ret			;a04e
 
 ; ----------------------------------------------------------------------
@@ -94,10 +94,10 @@ DATA_ficha_A05A:
 ; ======================================================================
 
 
-L_A05E:
-	call L_A101		;a05e
-	ld a,(ix+019h)		;a061
-	sub (ix+003h)		;a064
+tipo_09:
+	call ficha_campo_11		;a05e
+	ld a,(ix+019h)		;a061   ; ix+0x19: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	sub (ix+003h)		;a064   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 	ld h,000h		;a067
 	jr nc,L_A06C		;a069
 	dec h			;a06b
@@ -109,8 +109,8 @@ L_A06C:
 	add hl,hl			;a070
 	ld (ix+00ch),l		;a071
 	ld (ix+00dh),h		;a074
-	ld a,(ix+01ah)		;a077
-	sub (ix+005h)		;a07a
+	ld a,(ix+01ah)		;a077   ; ix+0x1A: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	sub (ix+005h)		;a07a   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	ld h,000h		;a07d
 	jr nc,L_A082		;a07f
 	dec h			;a081
@@ -118,33 +118,33 @@ L_A082:
 	ld l,a			;a082
 	ld (ix+00eh),l		;a083
 	ld (ix+00fh),h		;a086
-	ld a,(0c388h)		;a089
+	ld a,(0c388h)		;a089   ; 0xC388: lo que se ha movido el mapa este cuadro (p00:56E8)
 	and a			;a08c
 	ret z			;a08d
-	inc (ix+003h)		;a08e
-	inc (ix+019h)		;a091
+	inc (ix+003h)		;a08e   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
+	inc (ix+019h)		;a091   ; ix+0x19: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ret			;a094
-L_A095:
-	ld hl,0a05ah		;a095
+nace_tipo_10:
+	ld hl,0a05ah		;a095   ; p03:A05A ficha_A05A: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
 	call 07084h		;a098
-	ld hl,(0d417h)		;a09b
-	ld (ix+017h),l		;a09e
-	ld (ix+018h),h		;a0a1
+	ld hl,(0d417h)		;a09b   ; 0xD417: lo que controla la salida de bichos
+	ld (ix+017h),l		;a09e   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+018h),h		;a0a1   ; ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	xor a			;a0a4
-	ld (ix+019h),a		;a0a5
-	ld (ix+006h),a		;a0a8
-	ld (ix+010h),014h		;a0ab
-	ld (ix+011h),040h		;a0af
-	ld hl,(0e810h)		;a0b3
-	ld (ix+01ah),l		;a0b6
-	ld (ix+01bh),h		;a0b9
-	push ix		;a0bc
+	ld (ix+019h),a		;a0a5   ; ix+0x19: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+006h),a		;a0a8   ; ix+0x06: cuenta atras (p01:6124)
+	ld (ix+010h),014h		;a0ab   ; ix+0x10: el PATRON del sprite (p01:70FB)
+	ld (ix+011h),040h		;a0af   ; ix+0x11: cuenta atras de lo que hace
+	ld hl,(0e810h)		;a0b3   ; 0xE810: buffer de trabajo
+	ld (ix+01ah),l		;a0b6   ; ix+0x1A: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+01bh),h		;a0b9   ; ix+0x1B: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	push ix		;a0bc   ; HL = la ficha
 	pop hl			;a0be
 	ld de,00040h		;a0bf
 	add hl,de			;a0c2
-	ld e,(ix+003h)		;a0c3
-	ld d,(ix+005h)		;a0c6
-	ld b,008h		;a0c9
+	ld e,(ix+003h)		;a0c3   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
+	ld d,(ix+005h)		;a0c6   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
+	ld b,008h		;a0c9   ; 8 vueltas
 L_A0CB:
 	ld (hl),e			;a0cb
 	inc l			;a0cc
@@ -152,10 +152,10 @@ L_A0CB:
 	inc l			;a0ce
 	djnz L_A0CB		;a0cf
 	ret			;a0d1
-L_A0D2:
-	call L_A101		;a0d2
-	ld l,(ix+017h)		;a0d5
-	ld h,(ix+018h)		;a0d8
+tipo_10:
+	call ficha_campo_11		;a0d2
+	ld l,(ix+017h)		;a0d5   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld h,(ix+018h)		;a0d8   ; ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	inc l			;a0db
 	inc l			;a0dc
 	inc l			;a0dd
@@ -163,30 +163,30 @@ L_A0D2:
 	inc l			;a0df
 	inc l			;a0e0
 	ld d,(hl)			;a0e1
-	push ix		;a0e2
+	push ix		;a0e2   ; HL = la ficha
 	pop hl			;a0e4
 	ld bc,00040h		;a0e5
 	add hl,bc			;a0e8
-	ld a,(ix+019h)		;a0e9
-	inc (ix+019h)		;a0ec
+	ld a,(ix+019h)		;a0e9   ; ix+0x19: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	inc (ix+019h)		;a0ec   ; ix+0x19: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	and 007h		;a0ef
 	add a,a			;a0f1
-	call 040a4h		;a0f2
+	call 040a4h		;a0f2   ; p00:40A4 hl_mas_a
 	ld a,(hl)			;a0f5
-	ld (ix+003h),a		;a0f6
+	ld (ix+003h),a		;a0f6   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 	ld (hl),e			;a0f9
 	inc l			;a0fa
 	ld a,(hl)			;a0fb
-	ld (ix+005h),a		;a0fc
+	ld (ix+005h),a		;a0fc   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	ld (hl),d			;a0ff
 	ret			;a100
-L_A101:
-	dec (ix+011h)		;a101
+ficha_campo_11:
+	dec (ix+011h)		;a101   ; cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 	ret nz			;a104
-	ld (ix+011h),040h		;a105
+	ld (ix+011h),040h		;a105   ; ix+0x11: cuenta atras de lo que hace
 	jp 07809h		;a109
-L_A10C:
-	ld hl,0a112h		;a10c
+rutina:
+	ld hl,0a112h		;a10c   ; p03:A112 tabla_A112: tabla que lee p03:A10C (6 bytes)
 	jp 09dech		;a10f
 
 ; ----------------------------------------------------------------------
@@ -200,12 +200,12 @@ DATA_tabla_A112:
 ; ======================================================================
 
 
-L_A118:
+nace_tipo_11:
 	call 07119h		;a118
-	ld hl,0a136h		;a11b
+	ld hl,0a136h		;a11b   ; p03:A136 ficha_A136: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
 	call 07084h		;a11e
-	ld (ix+006h),000h		;a121
-	ld hl,0a12bh		;a125
+	ld (ix+006h),000h		;a121   ; ix+0x06: cuenta atras (p01:6124)
+	ld hl,0a12bh		;a125   ; p03:A12B tabla_A12B: tabla que lee p03:A125 (11 bytes)
 	jp 07073h		;a128
 
 ; ----------------------------------------------------------------------
@@ -226,10 +226,10 @@ DATA_ficha_A136:
 ; ======================================================================
 
 
-L_A13A:
+tipo_11:
 	call 0710fh		;a13a
-	ld a,(ix+001h)		;a13d
-	call 040aeh		;a140
+	ld a,(ix+001h)		;a13d   ; reparte por el PASO de la ficha (ix+1): la tabla va detras del call
+	call 040aeh		;a140   ; p00:40AE despacha
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_A143: 7 destinos del despachador de 0x40AE (call en p03:A140):
@@ -251,18 +251,18 @@ DATA_tabla_A143:
 
 
 L_A151:
-	dec (ix+011h)		;a151
+	dec (ix+011h)		;a151   ; ix+0x11: cuenta atras de lo que hace
 	jp m,L_A158		;a154
 	ret nz			;a157
 L_A158:
-	ld a,(0c80bh)		;a158
-	sub (ix+003h)		;a15b
+	ld a,(0c80bh)		;a158   ; 0xC80B: la Y de Gao (p01:70B3)
+	sub (ix+003h)		;a15b   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 	jr nc,L_A162		;a15e
 	neg		;a160
 L_A162:
 	ld c,a			;a162
-	ld a,(0c809h)		;a163
-	sub (ix+005h)		;a166
+	ld a,(0c809h)		;a163   ; 0xC809: la X de Gao (p01:70BD)
+	sub (ix+005h)		;a166   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	jr nc,L_A16D		;a169
 	neg		;a16b
 L_A16D:
@@ -270,62 +270,62 @@ L_A16D:
 	jr nc,L_A191		;a16e
 	jr L_A1AF		;a170
 L_A172:
-	dec (ix+011h)		;a172
+	dec (ix+011h)		;a172   ; cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 	ret nz			;a175
-	inc (ix+001h)		;a176
+	inc (ix+001h)		;a176   ; la ficha pasa al paso siguiente
 	ret			;a179
-L_A17A:
-	ld a,(0c809h)		;a17a
-	sub (ix+005h)		;a17d
+mira_x_de_gao:
+	ld a,(0c809h)		;a17a   ; 0xC809: la X de Gao (p01:70BD)
+	sub (ix+005h)		;a17d   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	add a,010h		;a180
 	cp 020h		;a182
 	jr c,L_A1AF		;a184
-	ld a,(0c80bh)		;a186
-	sub (ix+003h)		;a189
+	ld a,(0c80bh)		;a186   ; 0xC80B: la Y de Gao (p01:70B3)
+	sub (ix+003h)		;a189   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 	add a,010h		;a18c
 	cp 020h		;a18e
 	ret nc			;a190
 L_A191:
-	ld a,(0c809h)		;a191
-	sub (ix+005h)		;a194
+	ld a,(0c809h)		;a191   ; 0xC809: la X de Gao (p01:70BD)
+	sub (ix+005h)		;a194   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	jr c,L_A1A4		;a197
 	ld hl,02000h		;a199
-	call L_A1D9		;a19c
+	call ficha_y		;a19c
 	ret c			;a19f
 	ld c,005h		;a1a0
-	jr L_A1CB		;a1a2
+	jr ficha_paso		;a1a2
 L_A1A4:
-	ld hl,0e000h		;a1a4
-	call L_A1D9		;a1a7
+	ld hl,0e000h		;a1a4   ; 0xE000: la tabla de 32x32 dibujos de la pantalla (p00:58A4)
+	call ficha_y		;a1a7
 	ret c			;a1aa
 	ld c,004h		;a1ab
-	jr L_A1CB		;a1ad
+	jr ficha_paso		;a1ad
 L_A1AF:
-	ld a,(0c80bh)		;a1af
-	sub (ix+003h)		;a1b2
+	ld a,(0c80bh)		;a1af   ; 0xC80B: la Y de Gao (p01:70B3)
+	sub (ix+003h)		;a1b2   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 	jr c,L_A1C2		;a1b5
 	ld hl,00020h		;a1b7
-	call L_A1D9		;a1ba
+	call ficha_y		;a1ba
 	ret c			;a1bd
 	ld c,003h		;a1be
-	jr L_A1CB		;a1c0
+	jr ficha_paso		;a1c0
 L_A1C2:
 	ld hl,000e0h		;a1c2
-	call L_A1D9		;a1c5
+	call ficha_y		;a1c5
 	ret c			;a1c8
 	ld c,002h		;a1c9
-L_A1CB:
-	ld (ix+001h),c		;a1cb
+ficha_paso:
+	ld (ix+001h),c		;a1cb   ; ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 	xor a			;a1ce
-	ld (ix+011h),a		;a1cf
-	ld (ix+017h),a		;a1d2
-	ld (ix+018h),a		;a1d5
+	ld (ix+011h),a		;a1cf   ; ix+0x11: cuenta atras de lo que hace
+	ld (ix+017h),a		;a1d2   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+018h),a		;a1d5   ; ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ret			;a1d8
-L_A1D9:
-	ld a,(ix+003h)		;a1d9
+ficha_y:
+	ld a,(ix+003h)		;a1d9   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 	add a,l			;a1dc
 	ld e,a			;a1dd
-	ld a,(ix+005h)		;a1de
+	ld a,(ix+005h)		;a1de   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	add a,h			;a1e1
 	ld d,a			;a1e2
 	call 04913h		;a1e3
@@ -342,7 +342,7 @@ L_A1F3:
 	ld hl,0a302h		;a1f3
 L_A1F6:
 	ld c,001h		;a1f6
-	ld a,(ix+017h)		;a1f8
+	ld a,(ix+017h)		;a1f8   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	cp 008h		;a1fb
 	jr z,L_A241		;a1fd
 	jr L_A22E		;a1ff
@@ -355,7 +355,7 @@ L_A208:
 	ld b,016h		;a20b
 L_A20D:
 	ld c,001h		;a20d
-	ld a,(ix+017h)		;a20f
+	ld a,(ix+017h)		;a20f   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	cp b			;a212
 	jr z,L_A241		;a213
 	jr L_A22E		;a215
@@ -368,26 +368,26 @@ L_A21E:
 	ld b,016h		;a221
 L_A223:
 	ld c,000h		;a223
-	ld a,(ix+017h)		;a225
+	ld a,(ix+017h)		;a225   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	cp b			;a228
 	jr z,L_A241		;a229
 	sub b			;a22b
 	neg		;a22c
 L_A22E:
-	inc (ix+017h)		;a22e
-	call 040a4h		;a231
+	inc (ix+017h)		;a22e   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	call 040a4h		;a231   ; p00:40A4 hl_mas_a
 	ld a,(hl)			;a234
 	dec c			;a235
 	jr z,L_A23A		;a236
 	neg		;a238
 L_A23A:
-	add a,(ix+003h)		;a23a
-	ld (ix+003h),a		;a23d
+	add a,(ix+003h)		;a23a   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
+	ld (ix+003h),a		;a23d   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 	ret			;a240
 L_A241:
-	ld (ix+001h),006h		;a241
-	ld (ix+018h),001h		;a245
-	ld (ix+011h),004h		;a249
+	ld (ix+001h),006h		;a241   ; la ficha pasa al paso 6
+	ld (ix+018h),001h		;a245   ; ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+011h),004h		;a249   ; ix+0x11: cuenta atras de lo que hace
 	ret			;a24d
 L_A24E:
 	ld de,0fd00h		;a24e
@@ -401,23 +401,23 @@ L_A25B:
 L_A25E:
 	call 06939h		;a25e
 	ld c,016h		;a261
-	ld hl,0a28eh		;a263
+	ld hl,0a28eh		;a263   ; p03:A28E tabla_A28E: tabla que lee p03:A1EE, p03:A1F3, p03:A201, p03:A208, p03:A217, p03:A21E (132 bytes)
 L_A266:
-	ld a,(ix+017h)		;a266
-	inc (ix+017h)		;a269
+	ld a,(ix+017h)		;a266   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	inc (ix+017h)		;a269   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	cp c			;a26c
 	jr z,L_A241		;a26d
-	call 040a4h		;a26f
+	call 040a4h		;a26f   ; p00:40A4 hl_mas_a
 	ld a,(hl)			;a272
 	jr L_A23A		;a273
 L_A275:
-	dec (ix+005h)		;a275
+	dec (ix+005h)		;a275   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 L_A278:
 	ld c,008h		;a278
 	ld hl,0a2fah		;a27a
 	jr L_A266		;a27d
 L_A27F:
-	inc (ix+005h)		;a27f
+	inc (ix+005h)		;a27f   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	jr L_A278		;a282
 L_A284:
 	ld de,00300h		;a284
@@ -447,7 +447,7 @@ DATA_tabla_A28E:
 
 
 L_A312:
-	ld hl,0a318h		;a312
+	ld hl,0a318h		;a312   ; p03:A318 tabla_A318: tabla que lee p03:A312 (6 bytes)
 	jp 09dech		;a315
 
 ; ----------------------------------------------------------------------
@@ -461,15 +461,15 @@ DATA_tabla_A318:
 ; ======================================================================
 
 
-L_A31E:
+nace_tipo_12:
 	ld bc,02020h		;a31e
 	call 07123h		;a321
-	ld hl,0a33eh		;a324
+	ld hl,0a33eh		;a324   ; p03:A33E ficha_A33E: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
 	call 07084h		;a327
-	ld (ix+010h),019h		;a32a
-	ld (ix+011h),008h		;a32e
+	ld (ix+010h),019h		;a32a   ; ix+0x10: el PATRON del sprite (p01:70FB)
+	ld (ix+011h),008h		;a32e   ; ix+0x11: cuenta atras de lo que hace
 	ld de,00000h		;a332
-	ld (ix+017h),d		;a335
+	ld (ix+017h),d		;a335   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	call 0792ch		;a338
 	jp 07933h		;a33b
 
@@ -485,47 +485,47 @@ DATA_ficha_A33E:
 ; ======================================================================
 
 
-L_A342:
-	ld a,(ix+001h)		;a342
+tipo_12:
+	ld a,(ix+001h)		;a342   ; ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 	dec a			;a345
 	jr z,L_A36F		;a346
 	ret p			;a348
-	ld (ix+074h),003h		;a349
+	ld (ix+074h),003h		;a349   ; ix+0x74: el tipo de choque (p01:7093)
 	call 0710fh		;a34d
-	dec (ix+011h)		;a350
+	dec (ix+011h)		;a350   ; cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 	ret nz			;a353
-	bit 0,(ix+017h)		;a354
+	bit 0,(ix+017h)		;a354   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	jr nz,L_A362		;a358
-	inc (ix+017h)		;a35a
+	inc (ix+017h)		;a35a   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ld bc,01808h		;a35d
 	jr L_A368		;a360
 L_A362:
-	inc (ix+001h)		;a362
+	inc (ix+001h)		;a362   ; la ficha pasa al paso siguiente
 	ld bc,01710h		;a365
 L_A368:
-	ld (ix+010h),b		;a368
-	ld (ix+011h),c		;a36b
+	ld (ix+010h),b		;a368   ; ix+0x10: el PATRON del sprite (p01:70FB)
+	ld (ix+011h),c		;a36b   ; ix+0x11: cuenta atras de lo que hace
 	ret			;a36e
 L_A36F:
-	ld (ix+074h),000h		;a36f
+	ld (ix+074h),000h		;a36f   ; ix+0x74: el tipo de choque (p01:7093)
 	call 0710fh		;a373
-	dec (ix+011h)		;a376
+	dec (ix+011h)		;a376   ; cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 	ret nz			;a379
-	inc (ix+001h)		;a37a
+	inc (ix+001h)		;a37a   ; la ficha pasa al paso siguiente
 	ld a,0a0h		;a37d
 	jp 07189h		;a37f
-L_A382:
-	ld hl,0a3aah		;a382
+nace_tipo_13:
+	ld hl,0a3aah		;a382   ; p03:A3AA ficha_A3AA: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
 	call 07084h		;a385
-	bit 7,(ix+005h)		;a388
+	bit 7,(ix+005h)		;a388   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	ld a,000h		;a38c
 	jr z,L_A391		;a38e
 	inc a			;a390
 L_A391:
-	ld (ix+017h),a		;a391
+	ld (ix+017h),a		;a391   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ld b,030h		;a394
 	call 0713fh		;a396
-	ld hl,0a39fh		;a399
+	ld hl,0a39fh		;a399   ; p03:A39F tabla_A39F: tabla que lee p03:A399 (11 bytes)
 	jp 07073h		;a39c
 
 ; ----------------------------------------------------------------------
@@ -546,62 +546,62 @@ DATA_ficha_A3AA:
 ; ======================================================================
 
 
-L_A3AE:
+tipo_13:
 	ld bc,01a08h		;a3ae
 	call 070f1h		;a3b1
 	ld b,030h		;a3b4
 	call 07130h		;a3b6
-	ld a,(ix+001h)		;a3b9
+	ld a,(ix+001h)		;a3b9   ; ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 	dec a			;a3bc
 	jr z,L_A3EA		;a3bd
 	ret p			;a3bf
-	dec (ix+011h)		;a3c0
+	dec (ix+011h)		;a3c0   ; cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 	ret nz			;a3c3
-	inc (ix+001h)		;a3c4
-	ld (ix+006h),000h		;a3c7
-	ld (ix+011h),030h		;a3cb
-	ld (ix+018h),080h		;a3cf
-	ld a,(ix+003h)		;a3d3
-	ld (ix+01ah),a		;a3d6
-	bit 0,(ix+017h)		;a3d9
+	inc (ix+001h)		;a3c4   ; la ficha pasa al paso siguiente
+	ld (ix+006h),000h		;a3c7   ; ix+0x06: cuenta atras (p01:6124)
+	ld (ix+011h),030h		;a3cb   ; ix+0x11: cuenta atras de lo que hace
+	ld (ix+018h),080h		;a3cf   ; ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld a,(ix+003h)		;a3d3   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
+	ld (ix+01ah),a		;a3d6   ; ix+0x1A: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	bit 0,(ix+017h)		;a3d9   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ld a,040h		;a3dd
 	jr z,L_A3E3		;a3df
 	ld a,0c0h		;a3e1
 L_A3E3:
-	add a,(ix+005h)		;a3e3
-	ld (ix+01bh),a		;a3e6
+	add a,(ix+005h)		;a3e3   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
+	ld (ix+01bh),a		;a3e6   ; ix+0x1B: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ret			;a3e9
 L_A3EA:
-	call L_A40A		;a3ea
-	ld a,(0c4b0h)		;a3ed
+	call ficha_y_2		;a3ea
+	ld a,(0c4b0h)		;a3ed   ; 0xC4B0: cuenta los cuadros; el bit 0 alterna los colores de los sprites (p02:93AA)
 	and 003h		;a3f0
 	ret nz			;a3f2
-	dec (ix+011h)		;a3f3
+	dec (ix+011h)		;a3f3   ; cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 	ret nz			;a3f6
-	inc (ix+001h)		;a3f7
-	ld (ix+006h),001h		;a3fa
+	inc (ix+001h)		;a3f7   ; la ficha pasa al paso siguiente
+	ld (ix+006h),001h		;a3fa   ; ix+0x06: cuenta atras (p01:6124)
 	ld de,00000h		;a3fe
 	call 07933h		;a401
 	ld de,0fc00h		;a404
 	jp 0792ch		;a407
-L_A40A:
+ficha_y_2:
 	ld a,004h		;a40a
-	add a,(ix+018h)		;a40c
-	ld (ix+018h),a		;a40f
-	call L_A432		;a412
-	add a,(ix+01ah)		;a415
-	ld (ix+003h),a		;a418
-	bit 0,(ix+017h)		;a41b
+	add a,(ix+018h)		;a40c   ; ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+018h),a		;a40f   ; ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	call con_hl_mas_a		;a412
+	add a,(ix+01ah)		;a415   ; ix+0x1A: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+003h),a		;a418   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
+	bit 0,(ix+017h)		;a41b   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ld a,040h		;a41f
 	jr z,L_A425		;a421
 	ld a,0c0h		;a423
 L_A425:
-	add a,(ix+018h)		;a425
-	call L_A432		;a428
-	add a,(ix+01bh)		;a42b
-	ld (ix+005h),a		;a42e
+	add a,(ix+018h)		;a425   ; ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	call con_hl_mas_a		;a428
+	add a,(ix+01bh)		;a42b   ; ix+0x1B: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+005h),a		;a42e   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	ret			;a431
-L_A432:
+con_hl_mas_a:
 	ld c,a			;a432
 	bit 6,a		;a433
 	jr z,L_A438		;a435
@@ -609,7 +609,7 @@ L_A432:
 L_A438:
 	and 03fh		;a438
 	ld hl,07a51h		;a43a
-	call 040a4h		;a43d
+	call 040a4h		;a43d   ; p00:40A4 hl_mas_a
 	ld a,(hl)			;a440
 	srl a		;a441
 	srl a		;a443
@@ -618,7 +618,7 @@ L_A438:
 	neg		;a448
 	ret			;a44a
 L_A44B:
-	ld hl,0a451h		;a44b
+	ld hl,0a451h		;a44b   ; p03:A451 tabla_A451: tabla que lee p03:A44B (6 bytes)
 	jp 09dech		;a44e
 
 ; ----------------------------------------------------------------------
@@ -632,19 +632,19 @@ DATA_tabla_A451:
 ; ======================================================================
 
 
-L_A457:
+nace_tipo_14:
 	call 07119h		;a457
-	ld hl,0a481h		;a45a
+	ld hl,0a481h		;a45a   ; p03:A481 ficha_A481: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
 	call 07084h		;a45d
-	call L_A469		;a460
-	ld hl,0a476h		;a463
+	call mira_dificultad		;a460
+	ld hl,0a476h		;a463   ; p03:A476 tabla_A476: tabla que lee p03:A463 (11 bytes)
 	jp 07073h		;a466
-L_A469:
-	ld a,(0c4aah)		;a469
+mira_dificultad:
+	ld a,(0c4aah)		;a469   ; 0xC4AA: la dificultad: 0xC172 + lo de la tabla p01:7062 segun 0xC840, hasta 15 (p01:7049)
 	srl a		;a46c
 	sub 017h		;a46e
 	neg		;a470
-	ld (ix+01fh),a		;a472
+	ld (ix+01fh),a		;a472   ; ix+0x1F: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ret			;a475
 
 ; ----------------------------------------------------------------------
@@ -665,17 +665,17 @@ DATA_ficha_A481:
 ; ======================================================================
 
 
-L_A485:
-	call L_A4DB		;a485
-	call L_A4CC		;a488
-	call L_A4B0		;a48b
-	ld hl,0a4edh		;a48e
-	ld a,(ix+001h)		;a491
+tipo_14:
+	call ficha_paso_4		;a485
+	call ficha_paso_3		;a488
+	call ficha_paso_2		;a48b
+	ld hl,0a4edh		;a48e   ; p03:A4ED tabla_A4ED: tabla que lee p03:A48E (14 bytes)
+	ld a,(ix+001h)		;a491   ; ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 	cp 002h		;a494
 	jr c,L_A499		;a496
 	push hl			;a498
 L_A499:
-	call 040aeh		;a499
+	call 040aeh		;a499   ; p00:40AE despacha
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_A49C: 10 destinos del despachador de 0x40AE (call en p03:A499):
@@ -699,39 +699,39 @@ DATA_tabla_A49C:
 ; ======================================================================
 
 
-L_A4B0:
-	ld a,(ix+001h)		;a4b0
+ficha_paso_2:
+	ld a,(ix+001h)		;a4b0   ; ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 	sub 002h		;a4b3
 	cp 004h		;a4b5
 	jr nc,L_A4C7		;a4b7
-	ld a,(ix+017h)		;a4b9
+	ld a,(ix+017h)		;a4b9   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	sub 004h		;a4bc
 	cp 018h		;a4be
 	jr nc,L_A4C7		;a4c0
-	set 0,(ix+074h)		;a4c2
+	set 0,(ix+074h)		;a4c2   ; ix+0x74: el tipo de choque (p01:7093)
 	ret			;a4c6
 L_A4C7:
 	xor a			;a4c7
-	ld (ix+074h),a		;a4c8
+	ld (ix+074h),a		;a4c8   ; ix+0x74: el tipo de choque (p01:7093)
 	ret			;a4cb
-L_A4CC:
+ficha_paso_3:
 	ld c,01ch		;a4cc
-	ld a,(ix+001h)		;a4ce
+	ld a,(ix+001h)		;a4ce   ; ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 	cp 002h		;a4d1
 	jr c,L_A4D7		;a4d3
 	ld c,01dh		;a4d5
 L_A4D7:
-	ld (ix+010h),c		;a4d7
+	ld (ix+010h),c		;a4d7   ; ix+0x10: el PATRON del sprite (p01:70FB)
 	ret			;a4da
-L_A4DB:
-	ld a,(ix+001h)		;a4db
+ficha_paso_4:
+	ld a,(ix+001h)		;a4db   ; ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 	ret z			;a4de
-	dec (ix+01fh)		;a4df
+	dec (ix+01fh)		;a4df   ; cuenta atras en ix+0x1F: hasta que llegue a 0, nada mas
 	ret nz			;a4e2
 	push ix		;a4e3
 	call 07805h		;a4e5
 	pop ix		;a4e8
-	jp L_A469		;a4ea
+	jp mira_dificultad		;a4ea
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_A4ED: tabla que lee p03:A48E (14 bytes)
@@ -746,83 +746,83 @@ DATA_tabla_A4ED:
 
 L_A4FB:
 	ld bc,00000h		;a4fb
-	ld a,(0c80bh)		;a4fe
-	sub (ix+003h)		;a501
+	ld a,(0c80bh)		;a4fe   ; 0xC80B: la Y de Gao (p01:70B3)
+	sub (ix+003h)		;a501   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 	jr nc,L_A508		;a504
 	neg		;a506
 L_A508:
 	ld e,a			;a508
-	ld a,(0c809h)		;a509
-	sub (ix+005h)		;a50c
+	ld a,(0c809h)		;a509   ; 0xC809: la X de Gao (p01:70BD)
+	sub (ix+005h)		;a50c   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	jr nc,L_A513		;a50f
 	neg		;a511
 L_A513:
 	cp e			;a513
 	jr c,L_A520		;a514
-	call L_A52A		;a516
+	call mira_x_de_gao_2		;a516
 	ret nc			;a519
-	call L_A546		;a51a
+	call mira_y_de_gao		;a51a
 	ret nc			;a51d
 	jr L_A566		;a51e
 L_A520:
-	call L_A546		;a520
+	call mira_y_de_gao		;a520
 	ret nc			;a523
-	call L_A52A		;a524
+	call mira_x_de_gao_2		;a524
 	ret nc			;a527
 	jr L_A566		;a528
-L_A52A:
-	ld a,(0c809h)		;a52a
-	cp (ix+003h)		;a52d
+mira_x_de_gao_2:
+	ld a,(0c809h)		;a52a   ; 0xC809: la X de Gao (p01:70BD)
+	cp (ix+003h)		;a52d   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 	jr c,L_A53C		;a530
 	ld a,003h		;a532
-	call L_A59D		;a534
+	call pon_buffer		;a534
 	ret c			;a537
 	ld c,005h		;a538
 	jr L_A55F		;a53a
 L_A53C:
 	ld a,002h		;a53c
-	call L_A59D		;a53e
+	call pon_buffer		;a53e
 	ret c			;a541
 	ld c,004h		;a542
 	jr L_A55F		;a544
-L_A546:
-	ld a,(0c80bh)		;a546
-	cp (ix+003h)		;a549
+mira_y_de_gao:
+	ld a,(0c80bh)		;a546   ; 0xC80B: la Y de Gao (p01:70B3)
+	cp (ix+003h)		;a549   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 	jr c,L_A558		;a54c
 	ld a,001h		;a54e
-	call L_A59D		;a550
+	call pon_buffer		;a550
 	ret c			;a553
 	ld c,003h		;a554
 	jr L_A55F		;a556
 L_A558:
 	xor a			;a558
-	call L_A59D		;a559
+	call pon_buffer		;a559
 	ret c			;a55c
 	ld c,002h		;a55d
 L_A55F:
 	add a,c			;a55f
 	ld c,a			;a560
-	call L_A1CB		;a561
+	call ficha_paso		;a561
 	xor a			;a564
 	ret			;a565
 L_A566:
 	ld a,r		;a566
 	and 00ch		;a568
-	ld hl,0a58dh		;a56a
-	call 040a4h		;a56d
-	ld b,004h		;a570
+	ld hl,0a58dh		;a56a   ; p03:A58D tabla_A58D: tabla que lee p03:A56A (16 bytes)
+	call 040a4h		;a56d   ; p00:40A4 hl_mas_a
+	ld b,004h		;a570   ; 4 vueltas
 L_A572:
 	push hl			;a572
 	push bc			;a573
 	ld a,(hl)			;a574
-	call L_A59D		;a575
+	call pon_buffer		;a575
 	pop bc			;a578
 	pop hl			;a579
 	jr nc,L_A588		;a57a
 	inc hl			;a57c
 	djnz L_A572		;a57d
-	ld (ix+001h),000h		;a57f
-	ld (ix+011h),008h		;a583
+	ld (ix+001h),000h		;a57f   ; la ficha pasa al paso 0
+	ld (ix+011h),008h		;a583   ; ix+0x11: cuenta atras de lo que hace
 	ret			;a587
 L_A588:
 	ld c,(hl)			;a588
@@ -841,28 +841,28 @@ DATA_tabla_A58D:
 ; ======================================================================
 
 
-L_A59D:
-	ld (0e800h),a		;a59d
+pon_buffer:
+	ld (0e800h),a		;a59d   ; 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
 	ld c,060h		;a5a0
-	call L_A5B3		;a5a2
+	call rutina_2		;a5a2
 	ld a,000h		;a5a5
 	ret nc			;a5a7
-	ld a,(0e800h)		;a5a8
+	ld a,(0e800h)		;a5a8   ; 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
 	ld c,010h		;a5ab
-	call L_A5B3		;a5ad
+	call rutina_2		;a5ad
 	ld a,004h		;a5b0
 	ret			;a5b2
-L_A5B3:
-	call L_A5BF		;a5b3
+rutina_2:
+	call ficha_y_3		;a5b3
 	ret c			;a5b6
 	call 04913h		;a5b7
 	cp 028h		;a5ba
 	ret z			;a5bc
 	scf			;a5bd
 	ret			;a5be
-L_A5BF:
-	ld e,(ix+003h)		;a5bf
-	ld d,(ix+005h)		;a5c2
+ficha_y_3:
+	ld e,(ix+003h)		;a5bf   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
+	ld d,(ix+005h)		;a5c2   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	dec a			;a5c5
 	jr z,L_A5D2		;a5c6
 	dec a			;a5c8
@@ -891,10 +891,10 @@ L_A5DD:
 	ld d,a			;a5df
 	ret			;a5e0
 L_A5E1:
-	ld a,(ix+006h)		;a5e1
+	ld a,(ix+006h)		;a5e1   ; ix+0x06: cuenta atras (p01:6124)
 	ld d,a			;a5e4
 	ld e,000h		;a5e5
-	ld b,004h		;a5e7
+	ld b,004h		;a5e7   ; 4 vueltas
 L_A5E9:
 	push bc			;a5e9
 	push de			;a5ea
@@ -907,25 +907,25 @@ L_A5E9:
 	pop bc			;a5f5
 	djnz L_A5E9		;a5f6
 	ret			;a5f8
-L_A5F9:
+nace_tipo_07:
 	ret			;a5f9
-L_A5FA:
+tipo_07:
 	ret			;a5fa
-L_A5FB:
-	ld hl,0a627h		;a5fb
+nace_tipo_15:
+	ld hl,0a627h		;a5fb   ; p03:A627 ficha_A627: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 3) (p01:7080)
 	call 07080h		;a5fe
-	ld (ix+006h),000h		;a601
-	ld a,(ix+015h)		;a605
-	ld (ix+015h),000h		;a608
-L_A60C:
+	ld (ix+006h),000h		;a601   ; ix+0x06: cuenta atras (p01:6124)
+	ld a,(ix+015h)		;a605   ; ix+0x15: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+015h),000h		;a608   ; ix+0x15: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+ficha_patron:
 	xor a			;a60c
-	ld (ix+010h),021h		;a60d
-	ld (ix+014h),a		;a611
-	ld (ix+017h),001h		;a614
-	ld (ix+025h),a		;a618
-	ld (ix+02ah),a		;a61b
-	ld (ix+074h),003h		;a61e
-	ld (ix+011h),01eh		;a622
+	ld (ix+010h),021h		;a60d   ; ix+0x10: el PATRON del sprite (p01:70FB)
+	ld (ix+014h),a		;a611   ; ix+0x14: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+017h),001h		;a614   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+025h),a		;a618   ; ix+0x25: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+02ah),a		;a61b   ; ix+0x2A: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+074h),003h		;a61e   ; ix+0x74: el tipo de choque (p01:7093)
+	ld (ix+011h),01eh		;a622   ; ix+0x11: cuenta atras de lo que hace
 	ret			;a626
 
 ; ----------------------------------------------------------------------
@@ -940,9 +940,9 @@ DATA_ficha_A627:
 ; ======================================================================
 
 
-L_A62B:
+tipo_15:
 	call 0710fh		;a62b
-	ld a,(ix+001h)		;a62e
+	ld a,(ix+001h)		;a62e   ; ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 	dec a			;a631
 	jr z,L_A64D		;a632
 	dec a			;a634
@@ -950,52 +950,52 @@ L_A62B:
 	dec a			;a637
 	jr z,L_A677		;a638
 	jp p,L_A68A		;a63a
-	dec (ix+011h)		;a63d
+	dec (ix+011h)		;a63d   ; cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 	ret nz			;a640
-	ld (ix+014h),001h		;a641
-	ld (ix+011h),004h		;a645
-	inc (ix+001h)		;a649
+	ld (ix+014h),001h		;a641   ; ix+0x14: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+011h),004h		;a645   ; ix+0x11: cuenta atras de lo que hace
+	inc (ix+001h)		;a649   ; la ficha pasa al paso siguiente
 	ret			;a64c
 L_A64D:
-	dec (ix+011h)		;a64d
+	dec (ix+011h)		;a64d   ; cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 	ret nz			;a650
-	ld (ix+074h),000h		;a651
-	call L_A696		;a655
-	inc (ix+017h)		;a658
-	ld a,(ix+017h)		;a65b
+	ld (ix+074h),000h		;a651   ; ix+0x74: el tipo de choque (p01:7093)
+	call ficha_patron_2		;a655
+	inc (ix+017h)		;a658   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld a,(ix+017h)		;a65b   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	cp 004h		;a65e
 	ret c			;a660
-	inc (ix+001h)		;a661
+	inc (ix+001h)		;a661   ; la ficha pasa al paso siguiente
 	ret			;a664
 L_A665:
-	dec (ix+011h)		;a665
+	dec (ix+011h)		;a665   ; cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 	ret nz			;a668
-	inc (ix+001h)		;a669
-	ld (ix+011h),008h		;a66c
-	ld (ix+017h),002h		;a670
+	inc (ix+001h)		;a669   ; la ficha pasa al paso siguiente
+	ld (ix+011h),008h		;a66c   ; ix+0x11: cuenta atras de lo que hace
+	ld (ix+017h),002h		;a670   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	jp 07809h		;a674
 L_A677:
-	dec (ix+011h)		;a677
+	dec (ix+011h)		;a677   ; cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 	ret nz			;a67a
-	call L_A696		;a67b
-	dec (ix+017h)		;a67e
+	call ficha_patron_2		;a67b
+	dec (ix+017h)		;a67e   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ret p			;a681
-	ld (ix+074h),003h		;a682
-	inc (ix+001h)		;a686
+	ld (ix+074h),003h		;a682   ; ix+0x74: el tipo de choque (p01:7093)
+	inc (ix+001h)		;a686   ; la ficha pasa al paso siguiente
 	ret			;a689
 L_A68A:
-	dec (ix+011h)		;a68a
+	dec (ix+011h)		;a68a   ; cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 	ret nz			;a68d
-	call L_A60C		;a68e
-	ld (ix+001h),000h		;a691
+	call ficha_patron		;a68e
+	ld (ix+001h),000h		;a691   ; la ficha pasa al paso 0
 	ret			;a695
-L_A696:
-	ld hl,0a6a8h		;a696
-	ld a,(ix+017h)		;a699
-	call 040a4h		;a69c
+ficha_patron_2:
+	ld hl,0a6a8h		;a696   ; p03:A6A8 tabla_A6A8: tabla que lee p03:A696 (4 bytes)
+	ld a,(ix+017h)		;a699   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	call 040a4h		;a69c   ; p00:40A4 hl_mas_a
 	ld a,(hl)			;a69f
-	ld (ix+010h),a		;a6a0
-	ld (ix+011h),004h		;a6a3
+	ld (ix+010h),a		;a6a0   ; ix+0x10: el PATRON del sprite (p01:70FB)
+	ld (ix+011h),004h		;a6a3   ; ix+0x11: cuenta atras de lo que hace
 	ret			;a6a7
 
 ; ----------------------------------------------------------------------
@@ -1010,7 +1010,7 @@ DATA_tabla_A6A8:
 
 
 L_A6AC:
-	ld hl,0a6b2h		;a6ac
+	ld hl,0a6b2h		;a6ac   ; p03:A6B2 tabla_A6B2: tabla que lee p03:A6AC (6 bytes)
 	jp 09dech		;a6af
 
 ; ----------------------------------------------------------------------
@@ -1024,13 +1024,13 @@ DATA_tabla_A6B2:
 ; ======================================================================
 
 
-L_A6B8:
+nace_tipo_16:
 	call 07119h		;a6b8
-	ld hl,0a6dbh		;a6bb
+	ld hl,0a6dbh		;a6bb   ; p03:A6DB ficha_A6DB: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
 	call 07084h		;a6be
-	ld hl,0a6d0h		;a6c1
+	ld hl,0a6d0h		;a6c1   ; p03:A6D0 ficha_A6D0: 11 bytes de la ficha del bicho desde ix+7 (p01:7073)
 	call 07073h		;a6c4
-	ld (ix+006h),001h		;a6c7
+	ld (ix+006h),001h		;a6c7   ; ix+0x06: cuenta atras (p01:6124)
 	ld b,020h		;a6cb
 	jp 0713fh		;a6cd
 
@@ -1053,20 +1053,20 @@ DATA_ficha_A6DB:
 ; ======================================================================
 
 
-L_A6DF:
+tipo_16:
 	ld bc,02208h		;a6df
 	call 070f1h		;a6e2
-	call L_A734		;a6e5
+	call ficha_cuenta_atras		;a6e5
 	xor a			;a6e8
-	cp (ix+006h)		;a6e9
+	cp (ix+006h)		;a6e9   ; ix+0x06: cuenta atras (p01:6124)
 	jr z,L_A6F3		;a6ec
 	cp (ix+008h)		;a6ee
 	jr nz,L_A6F6		;a6f1
 L_A6F3:
 	call 0710fh		;a6f3
 L_A6F6:
-	ld a,(ix+001h)		;a6f6
-	call 040aeh		;a6f9
+	ld a,(ix+001h)		;a6f6   ; reparte por el PASO de la ficha (ix+1): la tabla va detras del call
+	call 040aeh		;a6f9   ; p00:40AE despacha
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_A6FC: 3 destinos del despachador de 0x40AE (call en p03:A6F9):
@@ -1083,21 +1083,21 @@ DATA_tabla_A6FC:
 
 
 L_A702:
-	dec (ix+011h)		;a702
+	dec (ix+011h)		;a702   ; cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 	ret nz			;a705
-	ld (ix+011h),020h		;a706
-	ld (ix+07bh),000h		;a70a
+	ld (ix+011h),020h		;a706   ; ix+0x11: cuenta atras de lo que hace
+	ld (ix+07bh),000h		;a70a   ; ix+0x7B: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	jr L_A71D		;a70e
 L_A710:
-	ld (ix+006h),000h		;a710
-	ld (ix+011h),020h		;a714
-	call L_A74B		;a718
+	ld (ix+006h),000h		;a710   ; ix+0x06: cuenta atras (p01:6124)
+	ld (ix+011h),020h		;a714   ; ix+0x11: cuenta atras de lo que hace
+	call rutina_4		;a718
 	jr L_A71D		;a71b
 L_A71D:
-	inc (ix+001h)		;a71d
+	inc (ix+001h)		;a71d   ; la ficha pasa al paso siguiente
 	ret			;a720
 L_A721:
-	dec (ix+001h)		;a721
+	dec (ix+001h)		;a721   ; ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 	ret			;a724
 
 ; ----------------------------------------------------------------------
@@ -1112,60 +1112,60 @@ DATA_sin_llamar_A725:
 ; ======================================================================
 
 
-L_A72A:
-	ld a,(ix+07bh)		;a72a
+rutina_3:
+	ld a,(ix+07bh)		;a72a   ; ix+0x7B: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	inc a			;a72d
 	and 003h		;a72e
-	ld (ix+07bh),a		;a730
+	ld (ix+07bh),a		;a730   ; ix+0x7B: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ret			;a733
-L_A734:
-	dec (ix+061h)		;a734
+ficha_cuenta_atras:
+	dec (ix+061h)		;a734   ; cuenta atras en ix+0x61: hasta que llegue a 0, nada mas
 	ret nz			;a737
 	ld b,030h		;a738
 	call 0713fh		;a73a
 	jp 07809h		;a73d
 L_A740:
-	call L_A7CB		;a740
+	call ficha_campo_06		;a740
 	jr c,$-34		;a743
-	dec (ix+011h)		;a745
+	dec (ix+011h)		;a745   ; ix+0x11: cuenta atras de lo que hace
 	jr z,$-39		;a748
 	ret			;a74a
-L_A74B:
-	call L_A72A		;a74b
-	ld a,(ix+07bh)		;a74e
+rutina_4:
+	call rutina_3		;a74b
+	ld a,(ix+07bh)		;a74e   ; ix+0x7B: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	or a			;a751
 	jr nz,L_A782		;a752
-	call L_A75E		;a754
+	call rutina_5		;a754
 	ret nz			;a757
-	call L_A770		;a758
+	call rutina_6		;a758
 	ret nz			;a75b
-	jr L_A75E		;a75c
-L_A75E:
+	jr rutina_5		;a75c
+rutina_5:
 	call 070d6h		;a75e
 	ret z			;a761
 	jr nc,L_A76A		;a762
-	call L_A7A9		;a764
+	call rutina_10		;a764
 	or 001h		;a767
 	ret			;a769
 L_A76A:
-	call L_A7A4		;a76a
+	call rutina_9		;a76a
 	or 001h		;a76d
 	ret			;a76f
-L_A770:
+rutina_6:
 	call 070cfh		;a770
 	ret z			;a773
 	jr nc,L_A77C		;a774
-	call L_A79A		;a776
+	call rutina_7		;a776
 	or 001h		;a779
 	ret			;a77b
 L_A77C:
-	call L_A79F		;a77c
+	call rutina_8		;a77c
 	or 001h		;a77f
 	ret			;a781
 L_A782:
 	call 0987fh		;a782
 	and 007h		;a785
-	call 040aeh		;a787
+	call 040aeh		;a787   ; p00:40AE despacha
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_A78A: 8 destinos del despachador de 0x40AE (call en p03:A787):
@@ -1187,16 +1187,16 @@ DATA_tabla_A78A:
 ; ======================================================================
 
 
-L_A79A:
-	ld hl,0a7bbh		;a79a
+rutina_7:
+	ld hl,0a7bbh		;a79a   ; p03:A7BB tabla_A7BB: tabla que lee p03:A79A, p03:A79F, p03:A7A4, p03:A7A9 (16 bytes)
 	jr L_A7AC		;a79d
-L_A79F:
+rutina_8:
 	ld hl,0a7bfh		;a79f
 	jr L_A7AC		;a7a2
-L_A7A4:
+rutina_9:
 	ld hl,0a7c3h		;a7a4
 	jr L_A7AC		;a7a7
-L_A7A9:
+rutina_10:
 	ld hl,0a7c7h		;a7a9
 L_A7AC:
 	ld e,(hl)			;a7ac
@@ -1223,8 +1223,8 @@ DATA_tabla_A7BB:
 ; ======================================================================
 
 
-L_A7CB:
-	ld (ix+006h),001h		;a7cb
+ficha_campo_06:
+	ld (ix+006h),001h		;a7cb   ; ix+0x06: cuenta atras (p01:6124)
 	ld b,008h		;a7cf
 	ld a,(ix+008h)		;a7d1
 	add a,b			;a7d4
@@ -1232,8 +1232,8 @@ L_A7CB:
 	ld a,(ix+00ah)		;a7d6
 	add a,b			;a7d9
 	ld h,a			;a7da
-	ld e,(ix+003h)		;a7db
-	ld d,(ix+005h)		;a7de
+	ld e,(ix+003h)		;a7db   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
+	ld d,(ix+005h)		;a7de   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	add hl,de			;a7e1
 	push de			;a7e2
 	ex de,hl			;a7e3
@@ -1253,26 +1253,26 @@ L_A7CB:
 	ret nc			;a7fb
 L_A7FC:
 	xor a			;a7fc
-	ld (ix+006h),a		;a7fd
+	ld (ix+006h),a		;a7fd   ; ix+0x06: cuenta atras (p01:6124)
 	scf			;a800
 	ret			;a801
-L_A802:
-	call L_A8A9		;a802
+nace_tipo_17:
+	call ficha_x_3		;a802
 	ld a,080h		;a805
 	call 07189h		;a807
 	ld (ix+00bh),000h		;a80a
-	ld (ix+010h),024h		;a80e
+	ld (ix+010h),024h		;a80e   ; ix+0x10: el PATRON del sprite (p01:70FB)
 	ret			;a812
-L_A813:
+tipo_17:
 	ld bc,02404h		;a813
 	call 070f1h		;a816
-	jp L_A87B		;a819
-L_A81C:
-	ld hl,0a837h		;a81c
-	call L_A8A6		;a81f
-	ld a,(ix+005h)		;a822
+	jp mira_dificultad_2		;a819
+nace_tipo_19:
+	ld hl,0a837h		;a81c   ; p03:A837 tabla_A837: tabla que lee p03:A81C (11 bytes)
+	call ficha_x_2		;a81f
+	ld a,(ix+005h)		;a822   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	sra a		;a825
-	ld (ix+005h),a		;a827
+	ld (ix+005h),a		;a827   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	cp 080h		;a82a
 	ld de,00220h		;a82c
 	jr nc,L_A834		;a82f
@@ -1291,11 +1291,11 @@ DATA_tabla_A837:
 ; ======================================================================
 
 
-L_A842:
-	ld a,(0c012h)		;a842
+tipo_19:
+	ld a,(0c012h)		;a842   ; 0xC012: el sonido del primer canal (p14:9420)
 	or a			;a845
 	jr z,L_A852		;a846
-	ld a,(0c072h)		;a848
+	ld a,(0c072h)		;a848   ; 0xC072: el sonido que lleva el ruido del PSG (p14:9439)
 	ld b,a			;a84b
 	ld a,00fh		;a84c
 	cp b			;a84e
@@ -1303,15 +1303,15 @@ L_A842:
 L_A852:
 	ld bc,02804h		;a852
 	call 070f1h		;a855
-	call L_A87B		;a858
-	call L_A86B		;a85b
+	call mira_dificultad_2		;a858
+	call ficha_x		;a85b
 	ret nc			;a85e
 	ld e,(ix+009h)		;a85f
 	ld d,(ix+00ah)		;a862
 	call 079ebh		;a865
 	jp 07933h		;a868
-L_A86B:
-	ld a,(ix+005h)		;a86b
+ficha_x:
+	ld a,(ix+005h)		;a86b   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	bit 7,(ix+00ah)		;a86e
 	jr z,L_A877		;a872
 	cp 020h		;a874
@@ -1320,22 +1320,22 @@ L_A877:
 	cp 0e0h		;a877
 	ccf			;a879
 	ret			;a87a
-L_A87B:
-	ld a,(0c4aah)		;a87b
+mira_dificultad_2:
+	ld a,(0c4aah)		;a87b   ; 0xC4AA: la dificultad: 0xC172 + lo de la tabla p01:7062 segun 0xC840, hasta 15 (p01:7049)
 	cp 00ch		;a87e
 	ret c			;a880
-	dec (ix+017h)		;a881
+	dec (ix+017h)		;a881   ; cuenta atras en ix+0x17: hasta que llegue a 0, nada mas
 	ret nz			;a884
-	call L_A88B		;a885
+	call mira_dificultad_3		;a885
 	jp 07805h		;a888
-L_A88B:
+mira_dificultad_3:
 	ld c,030h		;a88b
-L_A88D:
+mira_dificultad_4:
 	ld a,r		;a88d
 	and 007h		;a88f
 	add a,c			;a891
 	ld c,a			;a892
-	ld a,(0c4aah)		;a893
+	ld a,(0c4aah)		;a893   ; 0xC4AA: la dificultad: 0xC172 + lo de la tabla p01:7062 segun 0xC840, hasta 15 (p01:7049)
 	add a,a			;a896
 	sub c			;a897
 	neg		;a898
@@ -1344,24 +1344,24 @@ L_A88D:
 	jp p,L_A8A2		;a89d
 	ld c,006h		;a8a0
 L_A8A2:
-	ld (ix+017h),c		;a8a2
+	ld (ix+017h),c		;a8a2   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ret			;a8a5
-L_A8A6:
+ficha_x_2:
 	call 07073h		;a8a6
-L_A8A9:
+ficha_x_3:
 	ld c,010h		;a8a9
-	call L_A88D		;a8ab
-	ld hl,0a8c8h		;a8ae
+	call mira_dificultad_4		;a8ab
+	ld hl,0a8c8h		;a8ae   ; p03:A8C8 ficha_A8C8: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
 	call 07084h		;a8b1
 L_A8B4:
-	ld hl,0d438h		;a8b4
+	ld hl,0d438h		;a8b4   ; 0xD438: lo que controla la salida de bichos
 	inc (hl)			;a8b7
 	ld a,(hl)			;a8b8
 	and 003h		;a8b9
-	ld hl,0a8cch		;a8bb
-	call 040a4h		;a8be
+	ld hl,0a8cch		;a8bb   ; p03:A8CC tabla_A8CC: tabla que lee p03:A8BB (4 bytes)
+	call 040a4h		;a8be   ; p00:40A4 hl_mas_a
 	ld a,(hl)			;a8c1
-	ld (ix+005h),a		;a8c2
+	ld (ix+005h),a		;a8c2   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	jp 07119h		;a8c5
 
 ; ----------------------------------------------------------------------
@@ -1382,20 +1382,20 @@ DATA_tabla_A8CC:
 ; ======================================================================
 
 
-L_A8D0:
+nace_tipo_18:
 	call 07119h		;a8d0
-	ld hl,0a904h		;a8d3
+	ld hl,0a904h		;a8d3   ; p03:A904 ficha_A904: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
 	call 07084h		;a8d6
-	ld (ix+010h),026h		;a8d9
-	ld hl,0d437h		;a8dd
+	ld (ix+010h),026h		;a8d9   ; ix+0x10: el PATRON del sprite (p01:70FB)
+	ld hl,0d437h		;a8dd   ; 0xD437: lo que controla la salida de bichos
 	inc (hl)			;a8e0
 	ld a,(hl)			;a8e1
 	and 003h		;a8e2
 	add a,a			;a8e4
-	ld hl,0a8f8h		;a8e5
-	call 040a4h		;a8e8
+	ld hl,0a8f8h		;a8e5   ; p03:A8F8 tabla_A8F8: tabla que lee p03:A8E5 (12 bytes)
+	call 040a4h		;a8e8   ; p00:40A4 hl_mas_a
 	ld a,(hl)			;a8eb
-	ld (ix+011h),a		;a8ec
+	ld (ix+011h),a		;a8ec   ; ix+0x11: cuenta atras de lo que hace
 	inc hl			;a8ef
 	ld c,(hl)			;a8f0
 	inc hl			;a8f1
@@ -1421,17 +1421,17 @@ DATA_ficha_A904:
 ; ======================================================================
 
 
-L_A908:
-	ld a,(ix+001h)		;a908
+tipo_18:
+	ld a,(ix+001h)		;a908   ; ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 	dec a			;a90b
 	ret z			;a90c
-	dec (ix+011h)		;a90d
+	dec (ix+011h)		;a90d   ; cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 	ret nz			;a910
-	inc (ix+001h)		;a911
+	inc (ix+001h)		;a911   ; la ficha pasa al paso siguiente
 	ld a,090h		;a914
 	jp 07189h		;a916
 L_A919:
-	ld hl,0a91fh		;a919
+	ld hl,0a91fh		;a919   ; p03:A91F tabla_A91F: tabla que lee p03:A919 (6 bytes)
 	jp 09dech		;a91c
 
 ; ----------------------------------------------------------------------
@@ -1445,11 +1445,11 @@ DATA_tabla_A91F:
 ; ======================================================================
 
 
-L_A925:
-	ld hl,0a940h		;a925
+nace_tipo_20:
+	ld hl,0a940h		;a925   ; p03:A940 ficha_A940: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
 	call 07084h		;a928
-	ld (ix+006h),000h		;a92b
-	ld hl,0a935h		;a92f
+	ld (ix+006h),000h		;a92b   ; ix+0x06: cuenta atras (p01:6124)
+	ld hl,0a935h		;a92f   ; p03:A935 tabla_A935: tabla que lee p03:A92F (11 bytes)
 	jp 07073h		;a932
 
 ; ----------------------------------------------------------------------
@@ -1470,10 +1470,10 @@ DATA_ficha_A940:
 ; ======================================================================
 
 
-L_A944:
+tipo_20:
 	call 071a4h		;a944
 	call 0710fh		;a947
-	ld a,(ix+001h)		;a94a
+	ld a,(ix+001h)		;a94a   ; ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 	dec a			;a94d
 	jr z,L_A962		;a94e
 	dec a			;a950
@@ -1482,39 +1482,39 @@ L_A944:
 	call 070b3h		;a954
 	cp 030h		;a957
 	ret nc			;a959
-	inc (ix+001h)		;a95a
-	ld (ix+011h),010h		;a95d
+	inc (ix+001h)		;a95a   ; la ficha pasa al paso siguiente
+	ld (ix+011h),010h		;a95d   ; ix+0x11: cuenta atras de lo que hace
 	ret			;a961
 L_A962:
-	call L_A98F		;a962
+	call mira_cuadros_2		;a962
 	call 070b3h		;a965
 	cp 010h		;a968
 	ret nc			;a96a
 	call 070bdh		;a96b
 	cp 040h		;a96e
 	ret nc			;a970
-	inc (ix+001h)		;a971
-	inc (ix+006h)		;a974
+	inc (ix+001h)		;a971   ; la ficha pasa al paso siguiente
+	inc (ix+006h)		;a974   ; ix+0x06: cuenta atras (p01:6124)
 	call 070d6h		;a977
 	ret nc			;a97a
 	jp 07099h		;a97b
 L_A97E:
 	ld bc,02a04h		;a97e
 	call 070f1h		;a981
-	dec (ix+011h)		;a984
+	dec (ix+011h)		;a984   ; cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 	ret nz			;a987
-	inc (ix+001h)		;a988
-	dec (ix+006h)		;a98b
+	inc (ix+001h)		;a988   ; la ficha pasa al paso siguiente
+	dec (ix+006h)		;a98b   ; ix+0x06: cuenta atras (p01:6124)
 	ret			;a98e
-L_A98F:
-	ld a,(0c4b0h)		;a98f
+mira_cuadros_2:
+	ld a,(0c4b0h)		;a98f   ; 0xC4B0: cuenta los cuadros; el bit 0 alterna los colores de los sprites (p02:93AA)
 	and 002h		;a992
 	ld a,001h		;a994
 	jr z,L_A99A		;a996
 	neg		;a998
 L_A99A:
-	add a,(ix+005h)		;a99a
-	ld (ix+005h),a		;a99d
+	add a,(ix+005h)		;a99a   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
+	ld (ix+005h),a		;a99d   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	ret			;a9a0
 
 ; ----------------------------------------------------------------------
@@ -1531,10 +1531,10 @@ DATA_sin_lector_A9A1:
 ; ======================================================================
 
 
-L_A9CB:
-	ld hl,0a9dah		;a9cb
+nace_tipo_21:
+	ld hl,0a9dah		;a9cb   ; p03:A9DA ficha_A9DA: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
 	call 07084h		;a9ce
-	ld (ix+010h),02ch		;a9d1
+	ld (ix+010h),02ch		;a9d1   ; ix+0x10: el PATRON del sprite (p01:70FB)
 	ld a,090h		;a9d5
 	jp 07189h		;a9d7
 
@@ -1550,25 +1550,25 @@ DATA_ficha_A9DA:
 ; ======================================================================
 
 
-L_A9DE:
+tipo_21:
 	ld bc,02c04h		;a9de
 	jp 070f1h		;a9e1
 L_A9E4:
-	call L_A10C		;a9e4
-	ld (ix+003h),017h		;a9e7
+	call rutina		;a9e4
+	ld (ix+003h),017h		;a9e7   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 	ret			;a9eb
-L_A9EC:
+nace_tipo_22:
 	xor a			;a9ec
-	ld (ix+014h),a		;a9ed
-	ld (ix+01ah),a		;a9f0
-	ld (ix+01dh),a		;a9f3
-	call L_A118		;a9f6
-	ld (ix+074h),003h		;a9f9
+	ld (ix+014h),a		;a9ed   ; ix+0x14: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+01ah),a		;a9f0   ; ix+0x1A: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+01dh),a		;a9f3   ; ix+0x1D: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	call nace_tipo_11		;a9f6
+	ld (ix+074h),003h		;a9f9   ; ix+0x74: el tipo de choque (p01:7093)
 	ret			;a9fd
-L_A9FE:
+tipo_22:
 	call 0710fh		;a9fe
-	ld a,(ix+001h)		;aa01
-	call 040aeh		;aa04
+	ld a,(ix+001h)		;aa01   ; reparte por el PASO de la ficha (ix+1): la tabla va detras del call
+	call 040aeh		;aa04   ; p00:40AE despacha
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_AA07: 7 destinos del despachador de 0x40AE (call en p03:AA04):
@@ -1590,48 +1590,48 @@ DATA_tabla_AA07:
 
 
 L_AA15:
-	ld a,(ix+01ah)		;aa15
+	ld a,(ix+01ah)		;aa15   ; ix+0x1A: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	and a			;aa18
 	jr nz,L_AA3E		;aa19
-	call L_A17A		;aa1b
-	ld a,(ix+001h)		;aa1e
+	call mira_x_de_gao		;aa1b
+	ld a,(ix+001h)		;aa1e   ; ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 	cp 001h		;aa21
 	ret z			;aa23
-	ld a,(ix+01dh)		;aa24
+	ld a,(ix+01dh)		;aa24   ; ix+0x1D: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	and a			;aa27
 	ret nz			;aa28
-	ld a,(ix+001h)		;aa29
-	ld (ix+01bh),a		;aa2c
-	ld (ix+001h),001h		;aa2f
-	inc (ix+01ah)		;aa33
-	ld (ix+01ch),010h		;aa36
-	inc (ix+01dh)		;aa3a
+	ld a,(ix+001h)		;aa29   ; ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
+	ld (ix+01bh),a		;aa2c   ; ix+0x1B: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+001h),001h		;aa2f   ; la ficha pasa al paso 1
+	inc (ix+01ah)		;aa33   ; ix+0x1A: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+01ch),010h		;aa36   ; ix+0x1C: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	inc (ix+01dh)		;aa3a   ; ix+0x1D: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ret			;aa3d
 L_AA3E:
-	ld a,(0c4b0h)		;aa3e
+	ld a,(0c4b0h)		;aa3e   ; 0xC4B0: cuenta los cuadros; el bit 0 alterna los colores de los sprites (p02:93AA)
 	and 001h		;aa41
-	ld (ix+014h),a		;aa43
-	dec (ix+01ch)		;aa46
+	ld (ix+014h),a		;aa43   ; ix+0x14: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	dec (ix+01ch)		;aa46   ; cuenta atras en ix+0x1C: hasta que llegue a 0, nada mas
 	ret nz			;aa49
-	ld (ix+014h),001h		;aa4a
-	ld (ix+074h),000h		;aa4e
-	ld a,(ix+01bh)		;aa52
-	ld (ix+001h),a		;aa55
+	ld (ix+014h),001h		;aa4a   ; ix+0x14: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+074h),000h		;aa4e   ; ix+0x74: el tipo de choque (p01:7093)
+	ld a,(ix+01bh)		;aa52   ; ix+0x1B: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+001h),a		;aa55   ; ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 	ret			;aa58
 L_AA59:
 	call 09c20h		;aa59
-	ld (ix+003h),018h		;aa5c
+	ld (ix+003h),018h		;aa5c   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 	ret			;aa60
-L_AA61:
-	ld hl,0aa76h		;aa61
+mira_x_de_gao_3:
+	ld hl,0aa76h		;aa61   ; p03:AA76 ficha_AA76: los 6 primeros bytes de la ficha del bicho (ix+0..5) (p01:706A)
 	call 0706ah		;aa64
-	ld a,(0c809h)		;aa67
+	ld a,(0c809h)		;aa67   ; 0xC809: la X de Gao (p01:70BD)
 	cp 080h		;aa6a
 	ld b,040h		;aa6c
 	jr nc,L_AA72		;aa6e
 	ld b,0c0h		;aa70
 L_AA72:
-	ld (ix+005h),b		;aa72
+	ld (ix+005h),b		;aa72   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	ret			;aa75
 
 ; ----------------------------------------------------------------------
@@ -1647,20 +1647,20 @@ DATA_ficha_AA76:
 
 
 L_AA7C:
-	call L_AA61		;aa7c
-	ld (ix+003h),01ah		;aa7f
+	call mira_x_de_gao_3		;aa7c
+	ld (ix+003h),01ah		;aa7f   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 	ret			;aa83
-L_AA84:
+nace_tipo_23:
 	call 07119h		;aa84
-	ld (ix+01ah),000h		;aa87
-	ld hl,0aa9fh		;aa8b
-	call L_AAB1		;aa8e
-	ld a,(0c4aah)		;aa91
+	ld (ix+01ah),000h		;aa87   ; ix+0x1A: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld hl,0aa9fh		;aa8b   ; p03:AA9F tabla_AA9F: tabla que lee p03:AA8B (11 bytes)
+	call mira_dificultad_5		;aa8e
+	ld a,(0c4aah)		;aa91   ; 0xC4AA: la dificultad: 0xC172 + lo de la tabla p01:7062 segun 0xC840, hasta 15 (p01:7049)
 	ld b,a			;aa94
 	ld a,015h		;aa95
 	sub b			;aa97
-	ld (ix+01bh),a		;aa98
-	ld (ix+019h),a		;aa9b
+	ld (ix+01bh),a		;aa98   ; ix+0x1B: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+019h),a		;aa9b   ; ix+0x19: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ret			;aa9e
 
 ; ----------------------------------------------------------------------
@@ -1674,27 +1674,27 @@ DATA_tabla_AA9F:
 ; ======================================================================
 
 
-L_AAAA:
-	ld (ix+01ah),001h		;aaaa
-	ld hl,0aad7h		;aaae
-L_AAB1:
+nace_tipo_24:
+	ld (ix+01ah),001h		;aaaa   ; ix+0x1A: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld hl,0aad7h		;aaae   ; p03:AAD7 ficha_AAD7: 11 bytes de la ficha del bicho desde ix+7 (p01:7073)
+mira_dificultad_5:
 	call 07073h		;aab1
-	ld hl,0aae2h		;aab4
+	ld hl,0aae2h		;aab4   ; p03:AAE2 ficha_AAE2: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
 	call 07084h		;aab7
-	ld a,(0c4aah)		;aaba
+	ld a,(0c4aah)		;aaba   ; 0xC4AA: la dificultad: 0xC172 + lo de la tabla p01:7062 segun 0xC840, hasta 15 (p01:7049)
 	ld b,a			;aabd
 	ld a,01ah		;aabe
 	sub b			;aac0
-	ld (ix+01bh),a		;aac1
-	ld (ix+019h),a		;aac4
+	ld (ix+01bh),a		;aac1   ; ix+0x1B: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+019h),a		;aac4   ; ix+0x19: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ld a,b			;aac7
 	srl a		;aac8
 	srl a		;aaca
 	ld b,a			;aacc
 	ld a,009h		;aacd
 	sub b			;aacf
-	ld (ix+018h),a		;aad0
-	ld (ix+017h),a		;aad3
+	ld (ix+018h),a		;aad0   ; ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+017h),a		;aad3   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ret			;aad6
 
 ; ----------------------------------------------------------------------
@@ -1716,11 +1716,11 @@ DATA_ficha_AAE2:
 ; ======================================================================
 
 
-L_AAE6:
-	ld (ix+01ah),002h		;aae6
-	ld hl,0aaf8h		;aaea
-	call L_AAB1		;aaed
-	bit 7,(ix+005h)		;aaf0
+nace_tipo_25:
+	ld (ix+01ah),002h		;aae6   ; ix+0x1A: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld hl,0aaf8h		;aaea   ; p03:AAF8 tabla_AAF8: tabla que lee p03:AAEA (11 bytes)
+	call mira_dificultad_5		;aaed
+	bit 7,(ix+005h)		;aaf0   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	ret z			;aaf4
 	jp 07099h		;aaf5
 
@@ -1735,10 +1735,10 @@ DATA_tabla_AAF8:
 ; ======================================================================
 
 
-L_AB03:
-	call L_AC0B		;ab03
-	call L_ABCE		;ab06
-	call 040aeh		;ab09
+tipo_23:
+	call ficha_x_5		;ab03
+	call ficha_paso_5		;ab06
+	call 040aeh		;ab09   ; p00:40AE despacha
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_AB0C: 3 destinos del despachador de 0x40AE (call en p03:AB09):
@@ -1755,39 +1755,39 @@ DATA_tabla_AB0C:
 
 
 L_AB12:
-	call L_ABBF		;ab12
-	dec (ix+017h)		;ab15
+	call rutina_11		;ab12
+	dec (ix+017h)		;ab15   ; cuenta atras en ix+0x17: hasta que llegue a 0, nada mas
 	ret nz			;ab18
 	call 0709dh		;ab19
-	ld a,(ix+018h)		;ab1c
-	ld (ix+017h),a		;ab1f
+	ld a,(ix+018h)		;ab1c   ; ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+017h),a		;ab1f   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	jr $+95		;ab22
 L_AB24:
-	call L_ABBF		;ab24
-	dec (ix+017h)		;ab27
+	call rutina_11		;ab24
+	dec (ix+017h)		;ab27   ; cuenta atras en ix+0x17: hasta que llegue a 0, nada mas
 	ret nz			;ab2a
-	ld (ix+017h),030h		;ab2b
+	ld (ix+017h),030h		;ab2b   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	xor a			;ab2f
-	ld (ix+006h),a		;ab30
+	ld (ix+006h),a		;ab30   ; ix+0x06: cuenta atras (p01:6124)
 	ld (ix+00bh),a		;ab33
 	call 0709dh		;ab36
 	jr $+72		;ab39
 L_AB3B:
-	call L_ABD5		;ab3b
-	dec (ix+017h)		;ab3e
+	call ficha_x_4		;ab3b
+	dec (ix+017h)		;ab3e   ; cuenta atras en ix+0x17: hasta que llegue a 0, nada mas
 	ret nz			;ab41
 	ld a,001h		;ab42
-	ld (ix+006h),a		;ab44
+	ld (ix+006h),a		;ab44   ; ix+0x06: cuenta atras (p01:6124)
 	ld (ix+00bh),a		;ab47
-	ld a,(ix+018h)		;ab4a
-	ld (ix+017h),a		;ab4d
-	call L_ABF6		;ab50
-	ld (ix+001h),000h		;ab53
+	ld a,(ix+018h)		;ab4a   ; ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+017h),a		;ab4d   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	call rutina_12		;ab50
+	ld (ix+001h),000h		;ab53   ; la ficha pasa al paso 0
 	ret			;ab57
-L_AB58:
-	call L_AC0B		;ab58
-	call L_ABCE		;ab5b
-	call 040aeh		;ab5e
+tipo_25:
+	call ficha_x_5		;ab58
+	call ficha_paso_5		;ab5b
+	call 040aeh		;ab5e   ; p00:40AE despacha
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_AB61: 4 destinos del despachador de 0x40AE (call en p03:AB5E):
@@ -1812,22 +1812,22 @@ L_AB69:
 	call 070bdh		;ab73
 	cp 008h		;ab76
 	ret nc			;ab78
-	ld (ix+006h),000h		;ab79
-	ld (ix+017h),030h		;ab7d
+	ld (ix+006h),000h		;ab79   ; ix+0x06: cuenta atras (p01:6124)
+	ld (ix+017h),030h		;ab7d   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 L_AB81:
-	inc (ix+001h)		;ab81
+	inc (ix+001h)		;ab81   ; la ficha pasa al paso siguiente
 	ret			;ab84
 L_AB85:
-	call L_ABD5		;ab85
-	dec (ix+017h)		;ab88
+	call ficha_x_4		;ab85
+	dec (ix+017h)		;ab88   ; cuenta atras en ix+0x17: hasta que llegue a 0, nada mas
 	ret nz			;ab8b
 	call 07095h		;ab8c
-	ld (ix+006h),001h		;ab8f
+	ld (ix+006h),001h		;ab8f   ; ix+0x06: cuenta atras (p01:6124)
 	jr L_AB81		;ab93
 L_AB95:
 	ld bc,05a08h		;ab95
 	call 070f1h		;ab98
-	call L_AC41		;ab9b
+	call ficha_x_7		;ab9b
 	ret nc			;ab9e
 	call 070cfh		;ab9f
 	jr nc,L_ABB2		;aba2
@@ -1843,8 +1843,8 @@ L_ABB2:
 L_ABB9:
 	ld bc,05a08h		;abb9
 	jp 070f1h		;abbc
-L_ABBF:
-	ld a,(ix+01ah)		;abbf
+rutina_11:
+	ld a,(ix+01ah)		;abbf   ; ix+0x1A: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	and a			;abc2
 	ld b,056h		;abc3
 	jr z,L_ABC9		;abc5
@@ -1852,27 +1852,27 @@ L_ABBF:
 L_ABC9:
 	ld c,008h		;abc9
 	jp 070f1h		;abcb
-L_ABCE:
+ficha_paso_5:
 	call 0710fh		;abce
-	ld a,(ix+001h)		;abd1
+	ld a,(ix+001h)		;abd1   ; ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 	ret			;abd4
-L_ABD5:
-	dec (ix+019h)		;abd5
+ficha_x_4:
+	dec (ix+019h)		;abd5   ; cuenta atras en ix+0x19: hasta que llegue a 0, nada mas
 	ret nz			;abd8
-	ld a,(ix+01bh)		;abd9
-	ld (ix+019h),a		;abdc
-	ld a,(ix+01ah)		;abdf
+	ld a,(ix+01bh)		;abd9   ; ix+0x1B: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+019h),a		;abdc   ; ix+0x19: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld a,(ix+01ah)		;abdf   ; ix+0x1A: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	and a			;abe2
 	jp nz,07809h		;abe3
-	ld d,(ix+005h)		;abe6
-	ld e,(ix+003h)		;abe9
+	ld d,(ix+005h)		;abe6   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
+	ld e,(ix+003h)		;abe9   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 	ld c,030h		;abec
 	push ix		;abee
 	call 06d64h		;abf0
 	pop ix		;abf3
 	ret			;abf5
-L_ABF6:
-	ld a,(ix+01ah)		;abf6
+rutina_12:
+	ld a,(ix+01ah)		;abf6   ; ix+0x1A: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	or a			;abf9
 	ret z			;abfa
 	call 070cfh		;abfb
@@ -1882,43 +1882,43 @@ L_AC02:
 	call 070d6h		;ac02
 	call c,079ebh		;ac05
 	jp 07933h		;ac08
-L_AC0B:
-	call L_AC2C		;ac0b
+ficha_x_5:
+	call ficha_x_6		;ac0b
 	call c,07099h		;ac0e
-	ld a,(ix+01ah)		;ac11
+	ld a,(ix+01ah)		;ac11   ; ix+0x1A: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	and a			;ac14
 	ret nz			;ac15
 	call 070bdh		;ac16
 	and a			;ac19
 	ld de,00000h		;ac1a
 	jr z,L_AC02		;ac1d
-	call L_AC2C		;ac1f
+	call ficha_x_6		;ac1f
 	ld de,00000h		;ac22
 	jr c,L_AC02		;ac25
 	ld de,00100h		;ac27
 	jr L_AC02		;ac2a
-L_AC2C:
+ficha_x_6:
 	bit 7,(ix+00ah)		;ac2c
 	ld a,008h		;ac30
 	jr z,L_AC36		;ac32
 	neg		;ac34
 L_AC36:
-	add a,(ix+005h)		;ac36
+	add a,(ix+005h)		;ac36   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	ld d,a			;ac39
-	ld e,(ix+003h)		;ac3a
+	ld e,(ix+003h)		;ac3a   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 	call 048fbh		;ac3d
 	ret			;ac40
-L_AC41:
-	ld d,(ix+005h)		;ac41
+ficha_x_7:
+	ld d,(ix+005h)		;ac41   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	ld a,0f0h		;ac44
-	add a,(ix+003h)		;ac46
+	add a,(ix+003h)		;ac46   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 	ld e,a			;ac49
 	call 048fbh		;ac4a
 	ret			;ac4d
-L_AC4E:
-	ld hl,0ac6bh		;ac4e
+nace_tipo_46:
+	ld hl,0ac6bh		;ac4e   ; p03:AC6B ficha_AC6B: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
 	call 07084h		;ac51
-	ld hl,0ac60h		;ac54
+	ld hl,0ac60h		;ac54   ; p03:AC60 ficha_AC60: 11 bytes de la ficha del bicho desde ix+7 (p01:7073)
 	call 07073h		;ac57
 	ld hl,0000ah		;ac5a
 	jp 04818h		;ac5d
@@ -1942,41 +1942,41 @@ DATA_ficha_AC6B:
 ; ======================================================================
 
 
-L_AC6F:
-	ld a,(ix+001h)		;ac6f
+tipo_46:
+	ld a,(ix+001h)		;ac6f   ; ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 	dec a			;ac72
 	jr z,L_AC85		;ac73
-	dec (ix+011h)		;ac75
+	dec (ix+011h)		;ac75   ; cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 	ret nz			;ac78
-	inc (ix+001h)		;ac79
-	ld (ix+006h),000h		;ac7c
-	ld (ix+011h),018h		;ac80
+	inc (ix+001h)		;ac79   ; la ficha pasa al paso siguiente
+	ld (ix+006h),000h		;ac7c   ; ix+0x06: cuenta atras (p01:6124)
+	ld (ix+011h),018h		;ac80   ; ix+0x11: cuenta atras de lo que hace
 	ret			;ac84
 L_AC85:
 	call 0710fh		;ac85
-	dec (ix+011h)		;ac88
+	dec (ix+011h)		;ac88   ; cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 	ret nz			;ac8b
 	jp 06a85h		;ac8c
-L_AC8F:
-	ld a,(0c4e3h)		;ac8f
+nace_tipo_44:
+	ld a,(0c4e3h)		;ac8f   ; 0xC4E3: HANEYOKAGAYAKE: las cosas que dan 1 de vida dan 10 (p03:AC8F)
 	or a			;ac92
 	jr z,L_AC99		;ac93
-	ld (ix+000h),02dh		;ac95
+	ld (ix+000h),02dh		;ac95   ; ix+0x00: el TIPO de la ficha (0 = libre; p01:6D12)
 L_AC99:
-	ld hl,0acd1h		;ac99
+	ld hl,0acd1h		;ac99   ; p03:ACD1 ficha_ACD1: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
 	call 07084h		;ac9c
-	ld (ix+017h),000h		;ac9f
-	ld (ix+074h),001h		;aca3
-	ld a,(ix+000h)		;aca7
+	ld (ix+017h),000h		;ac9f   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+074h),001h		;aca3   ; ix+0x74: el tipo de choque (p01:7093)
+	ld a,(ix+000h)		;aca7   ; ix+0x00: el TIPO de la ficha (0 = libre; p01:6D12)
 	cp 02dh		;acaa
 	ld hl,0000ah		;acac
 	jr z,L_ACB4		;acaf
 	ld hl,00001h		;acb1
 L_ACB4:
 	call 04818h		;acb4
-	ld hl,0acc6h		;acb7
+	ld hl,0acc6h		;acb7   ; p03:ACC6 ficha_ACC6: 11 bytes de la ficha del bicho desde ix+7 (p01:7073)
 	call 07073h		;acba
-	ld a,(ix+005h)		;acbd
+	ld a,(ix+005h)		;acbd   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	cp 080h		;acc0
 	ret c			;acc2
 	jp 07099h		;acc3
@@ -2000,15 +2000,15 @@ DATA_ficha_ACD1:
 ; ======================================================================
 
 
-L_ACD5:
-	ld a,(ix+000h)		;acd5
+tipo_44:
+	ld a,(ix+000h)		;acd5   ; ix+0x00: el TIPO de la ficha (0 = libre; p01:6D12)
 	cp 02dh		;acd8
 	ld b,004h		;acda
-	ld de,0acf0h		;acdc
+	ld de,0acf0h		;acdc   ; p03:ACF0 tabla_ACF0: tabla que lee p03:ACDC (1 bytes)
 	call z,070ffh		;acdf
-	call L_ACF1		;ace2
-	call L_AD38		;ace5
-	ld a,(0c800h)		;ace8
+	call mira_teclas_nuevas		;ace2
+	call ficha_x_8		;ace5
+	ld a,(0c800h)		;ace8   ; 0xC800: lo que hace Gao (p00:5C68)
 	cp 002h		;aceb
 	ret z			;aced
 	jr $+13		;acee
@@ -2024,30 +2024,30 @@ DATA_tabla_ACF0:
 ; ======================================================================
 
 
-L_ACF1:
-	ld a,(0c106h)		;acf1
+mira_teclas_nuevas:
+	ld a,(0c106h)		;acf1   ; 0xC106: cursores, ESPACIO y los disparos pulsados en este cuadro (p00:533B)
 	and 010h		;acf4
 	ret z			;acf6
-	inc (ix+017h)		;acf7
+	inc (ix+017h)		;acf7   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ret			;acfa
 L_ACFB:
-	ld a,(0c820h)		;acfb
-	sub (ix+005h)		;acfe
+	ld a,(0c820h)		;acfb   ; 0xC820: la ficha de Gao
+	sub (ix+005h)		;acfe   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	add a,00ch		;ad01
 	cp 018h		;ad03
 	ret nc			;ad05
-	ld a,(0c821h)		;ad06
+	ld a,(0c821h)		;ad06   ; 0xC821: la ficha de Gao
 	add a,008h		;ad09
-	sub (ix+003h)		;ad0b
+	sub (ix+003h)		;ad0b   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 	cp 020h		;ad0e
 	ret nc			;ad10
-	ld a,(ix+000h)		;ad11
+	ld a,(ix+000h)		;ad11   ; ix+0x00: el TIPO de la ficha (0 = libre; p01:6D12)
 	cp 02dh		;ad14
 	ld a,001h		;ad16
 	jr nz,L_AD1C		;ad18
 	ld a,00ah		;ad1a
 L_AD1C:
-	ld hl,0c845h		;ad1c
+	ld hl,0c845h		;ad1c   ; 0xC845: la VIDA de Gao, hasta 200 (p03:AD1C; METALSLAVE la llena)
 	add a,(hl)			;ad1f
 	ld d,0c8h		;ad20
 	cp d			;ad22
@@ -2055,18 +2055,18 @@ L_AD1C:
 	ld a,d			;ad25
 L_AD26:
 	ld (hl),a			;ad26
-	ld a,(ix+000h)		;ad27
+	ld a,(ix+000h)		;ad27   ; ix+0x00: el TIPO de la ficha (0 = libre; p01:6D12)
 	cp 02dh		;ad2a
 	ld a,020h		;ad2c
 	jr z,L_AD32		;ad2e
-	ld a,01fh		;ad30
+	ld a,01fh		;ad30   ; el sonido 0x1F (p14:9C47 + 2*0x1F)
 L_AD32:
 	call 041ach		;ad32
 	jp 06a85h		;ad35
-L_AD38:
-	call L_AD5C		;ad38
-	ld a,(ix+005h)		;ad3b
-	ld (ix+078h),a		;ad3e
+ficha_x_8:
+	call ficha_x_9		;ad38
+	ld a,(ix+005h)		;ad3b   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
+	ld (ix+078h),a		;ad3e   ; ix+0x78: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ld c,(ix+009h)		;ad41
 	ld b,(ix+00ah)		;ad44
 	ld a,b			;ad47
@@ -2084,29 +2084,29 @@ L_AD53:
 	sbc hl,bc		;ad56
 	ret nc			;ad58
 	jp 070a1h		;ad59
-L_AD5C:
+ficha_x_9:
 	ld a,080h		;ad5c
-	sub (ix+005h)		;ad5e
+	sub (ix+005h)		;ad5e   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	ld l,a			;ad61
 	rlca			;ad62
 	sbc a,a			;ad63
 	ld h,a			;ad64
-	ld d,(ix+005h)		;ad65
+	ld d,(ix+005h)		;ad65   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	ld e,(ix+004h)		;ad68
 	add hl,hl			;ad6b
 	add hl,hl			;ad6c
 	add hl,hl			;ad6d
 	add hl,hl			;ad6e
 	add hl,de			;ad6f
-	ld (ix+005h),h		;ad70
+	ld (ix+005h),h		;ad70   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	ld (ix+004h),l		;ad73
 	ret			;ad76
-L_AD77:
-	ld hl,0ad8ah		;ad77
+nace_tipo_41:
+	ld hl,0ad8ah		;ad77   ; p03:AD8A ficha_AD8A: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
 	call 07084h		;ad7a
-	ld (ix+006h),000h		;ad7d
-	ld (ix+010h),04dh		;ad81
-	ld (ix+011h),008h		;ad85
+	ld (ix+006h),000h		;ad7d   ; ix+0x06: cuenta atras (p01:6124)
+	ld (ix+010h),04dh		;ad81   ; ix+0x10: el PATRON del sprite (p01:70FB)
+	ld (ix+011h),008h		;ad85   ; ix+0x11: cuenta atras de lo que hace
 	ret			;ad89
 
 ; ----------------------------------------------------------------------
@@ -2121,24 +2121,24 @@ DATA_ficha_AD8A:
 ; ======================================================================
 
 
-L_AD8E:
-	call L_AE55		;ad8e
+tipo_41:
+	call rutina_13		;ad8e
 	ld bc,04d01h		;ad91
 	call 070f1h		;ad94
-	ld a,(ix+001h)		;ad97
+	ld a,(ix+001h)		;ad97   ; ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 	dec a			;ad9a
 	ret z			;ad9b
 	call 0710fh		;ad9c
-	dec (ix+011h)		;ad9f
+	dec (ix+011h)		;ad9f   ; cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 	ret nz			;ada2
-	inc (ix+001h)		;ada3
-	inc (ix+006h)		;ada6
+	inc (ix+001h)		;ada3   ; la ficha pasa al paso siguiente
+	inc (ix+006h)		;ada6   ; ix+0x06: cuenta atras (p01:6124)
 	ld a,060h		;ada9
 	jp 07189h		;adab
-L_ADAE:
-	ld hl,0adbdh		;adae
+nace_tipo_42:
+	ld hl,0adbdh		;adae   ; p03:ADBD ficha_ADBD: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
 	call 07084h		;adb1
-	ld (ix+010h),03ch		;adb4
+	ld (ix+010h),03ch		;adb4   ; ix+0x10: el PATRON del sprite (p01:70FB)
 	ld a,058h		;adb8
 	jp 07189h		;adba
 
@@ -2154,17 +2154,17 @@ DATA_ficha_ADBD:
 ; ======================================================================
 
 
-L_ADC1:
-	jp L_AE55		;adc1
-L_ADC4:
+tipo_42:
+	jp rutina_13		;adc1
+nace_tipo_47:
 	ld bc,02810h		;adc4
 	call 07123h		;adc7
-	ld hl,0addeh		;adca
+	ld hl,0addeh		;adca   ; p03:ADDE ficha_ADDE: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
 	call 07084h		;adcd
-	ld a,(0c481h)		;add0
+	ld a,(0c481h)		;add0   ; 0xC481: la FASE, 1-6 (p01:65B4)
 	cp 005h		;add3
 	jr nz,L_ADDB		;add5
-	ld (ix+025h),00fh		;add7
+	ld (ix+025h),00fh		;add7   ; ix+0x25: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 L_ADDB:
 	jp 078edh		;addb
 
@@ -2180,14 +2180,14 @@ DATA_ficha_ADDE:
 ; ======================================================================
 
 
-L_ADE2:
-	jp L_AE55		;ade2
+tipo_47:
+	jp rutina_13		;ade2
 L_ADE5:
-	call L_B02D		;ade5
-	ld a,(0d400h)		;ade8
+	call mira_area		;ade5
+	ld a,(0d400h)		;ade8   ; 0xD400: lo que controla la salida de bichos
 	dec a			;adeb
 	ret m			;adec
-	call 040aeh		;aded
+	call 040aeh		;aded   ; p00:40AE despacha
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_ADF0: 6 destinos del despachador de 0x40AE (call en p03:ADED):
@@ -2207,40 +2207,40 @@ DATA_tabla_ADF0:
 ; ======================================================================
 
 
-L_ADFC:
-	ld a,(ix+025h)		;adfc
+mira_estado_de_gao:
+	ld a,(ix+025h)		;adfc   ; ix+0x25: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	cp 08ch		;adff
 	ld de,06fach		;ae01
 	call z,06ef5h		;ae04
-	ld a,(0c800h)		;ae07
+	ld a,(0c800h)		;ae07   ; 0xC800: lo que hace Gao (p00:5C68)
 	cp 002h		;ae0a
 	jr nz,L_AE12		;ae0c
-	ld (ix+013h),000h		;ae0e
+	ld (ix+013h),000h		;ae0e   ; ix+0x13: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 L_AE12:
-	ld a,(ix+013h)		;ae12
+	ld a,(ix+013h)		;ae12   ; ix+0x13: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	and 00bh		;ae15
 	ret z			;ae17
-	ld a,(0c480h)		;ae18
+	ld a,(0c480h)		;ae18   ; 0xC480: el AREA (0-23): 3*(fase-1) + columna, o 18 + fase - 1 (p01:64D5)
 	cp 017h		;ae1b
 	ld a,030h		;ae1d
 	jr nz,L_AE23		;ae1f
-	ld a,031h		;ae21
+	ld a,031h		;ae21   ; el sonido 0x31 (p14:9C47 + 2*0x31)
 L_AE23:
 	call 041ach		;ae23
-	ld de,0ae49h		;ae26
+	ld de,0ae49h		;ae26   ; p03:AE49 tabla_AE49: tabla que lee p03:AE26 (12 bytes)
 	call 06efbh		;ae29
 	call 069f5h		;ae2c
 	ret nc			;ae2f
-	ld l,(ix+003h)		;ae30
-	ld h,(ix+005h)		;ae33
-	ld (0d405h),hl		;ae36
+	ld l,(ix+003h)		;ae30   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
+	ld h,(ix+005h)		;ae33   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
+	ld (0d405h),hl		;ae36   ; 0xD405: lo que controla la salida de bichos
 	xor a			;ae39
-	ld (ix+068h),a		;ae3a
+	ld (ix+068h),a		;ae3a   ; ix+0x68: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	inc a			;ae3d
-	ld (0d402h),a		;ae3e
-	ld a,(0c4abh)		;ae41
+	ld (0d402h),a		;ae3e   ; 0xD402: lo que controla la salida de bichos
+	ld a,(0c4abh)		;ae41   ; 0xC4AB: variables de la partida
 	inc a			;ae44
-	ld (0c4abh),a		;ae45
+	ld (0c4abh),a		;ae45   ; 0xC4AB: variables de la partida
 	ret			;ae48
 
 ; ----------------------------------------------------------------------
@@ -2254,43 +2254,43 @@ DATA_tabla_AE49:
 ; ======================================================================
 
 
-L_AE55:
-	ld a,(ix+013h)		;ae55
+rutina_13:
+	ld a,(ix+013h)		;ae55   ; ix+0x13: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	and a			;ae58
 	ret z			;ae59
 	call 069f5h		;ae5a
 	ret nc			;ae5d
-	ld a,011h		;ae5e
+	ld a,011h		;ae5e   ; el sonido 0x11 (p14:9C47 + 2*0x11)
 	call 041ach		;ae60
 	jp 06a85h		;ae63
 L_AE66:
-	ld hl,0d403h		;ae66
+	ld hl,0d403h		;ae66   ; 0xD403: lo que controla la salida de bichos
 	dec (hl)			;ae69
 	ret nz			;ae6a
 	xor a			;ae6b
-	ld (0d400h),a		;ae6c
-	ld (0d40ah),a		;ae6f
-	ld (0d40bh),a		;ae72
-	ld hl,0c581h		;ae75
+	ld (0d400h),a		;ae6c   ; 0xD400: lo que controla la salida de bichos
+	ld (0d40ah),a		;ae6f   ; 0xD40A: lo que controla la salida de bichos
+	ld (0d40bh),a		;ae72   ; 0xD40B: lo que controla la salida de bichos
+	ld hl,0c581h		;ae75   ; 0xC581: variables del avance del mapa
 	res 0,(hl)		;ae78
-	ld a,043h		;ae7a
+	ld a,043h		;ae7a   ; el sonido 0x43 (p14:9C47 + 2*0x43)
 	jp 041ach		;ae7c
-L_AE7F:
-	ld a,(0c481h)		;ae7f
+mira_fase:
+	ld a,(0c481h)		;ae7f   ; 0xC481: la FASE, 1-6 (p01:65B4)
 	ld hl,0ae9eh		;ae82
-	call 040a4h		;ae85
+	call 040a4h		;ae85   ; p00:40A4 hl_mas_a
 	ld a,(hl)			;ae88
 	ld b,a			;ae89
 	add a,a			;ae8a
 	add a,a			;ae8b
-	ld hl,0c8b8h		;ae8c
-	call 040a4h		;ae8f
+	ld hl,0c8b8h		;ae8c   ; 0xC8B8: el OBJETO 27 (byte 0 de 4; p06:BAC2)
+	call 040a4h		;ae8f   ; p00:40A4 hl_mas_a
 	ld a,(hl)			;ae92
 	and a			;ae93
 	ret nz			;ae94
 	ld a,01bh		;ae95
 	add a,b			;ae97
-	ld de,(0d405h)		;ae98
+	ld de,(0d405h)		;ae98   ; 0xD405: lo que controla la salida de bichos
 	jp 073e3h		;ae9c
 
 ; ----------------------------------------------------------------------
@@ -2305,14 +2305,14 @@ DATA_sin_lector_AE9F:
 ; ======================================================================
 
 
-L_AEA4:
-	ld (ix+006h),000h		;aea4
-	dec (ix+011h)		;aea8
+mira_cuadros_2_2:
+	ld (ix+006h),000h		;aea4   ; ix+0x06: cuenta atras (p01:6124)
+	dec (ix+011h)		;aea8   ; ix+0x11: cuenta atras de lo que hace
 	jr z,L_AEC7		;aeab
-	ld a,(ix+011h)		;aead
+	ld a,(ix+011h)		;aead   ; ix+0x11: cuenta atras de lo que hace
 	cp 038h		;aeb0
 	jr nc,L_AEC2		;aeb2
-	ld a,(0c4b0h)		;aeb4
+	ld a,(0c4b0h)		;aeb4   ; 0xC4B0: cuenta los cuadros; el bit 0 alterna los colores de los sprites (p02:93AA)
 	and 002h		;aeb7
 	ld c,000h		;aeb9
 	jr z,L_AEBE		;aebb
@@ -2325,48 +2325,48 @@ L_AEC2:
 	ld c,a			;aec4
 	jr L_AECD		;aec5
 L_AEC7:
-	inc (ix+001h)		;aec7
+	inc (ix+001h)		;aec7   ; la ficha pasa al paso siguiente
 	xor a			;aeca
 	ld c,001h		;aecb
 L_AECD:
-	ld (ix+014h),c		;aecd
-	ld (0d409h),a		;aed0
+	ld (ix+014h),c		;aecd   ; ix+0x14: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (0d409h),a		;aed0   ; 0xD409: lo que controla la salida de bichos
 	xor 001h		;aed3
 	ret			;aed5
-L_AED6:
-	ld a,(0d40ah)		;aed6
+pon_control_de_bichos:
+	ld a,(0d40ah)		;aed6   ; 0xD40A: lo que controla la salida de bichos
 	and a			;aed9
 	ret z			;aeda
 	ld b,a			;aedb
-	ld a,(0d40bh)		;aedc
+	ld a,(0d40bh)		;aedc   ; 0xD40B: lo que controla la salida de bichos
 	and a			;aedf
 	jr nz,L_AEE5		;aee0
-	ld a,(ix+012h)		;aee2
+	ld a,(ix+012h)		;aee2   ; ix+0x12: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 L_AEE5:
 	add a,b			;aee5
 	srl a		;aee6
-	ld (ix+012h),a		;aee8
+	ld (ix+012h),a		;aee8   ; ix+0x12: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ld a,b			;aeeb
-	ld (0d40bh),a		;aeec
+	ld (0d40bh),a		;aeec   ; 0xD40B: lo que controla la salida de bichos
 	ret			;aeef
-L_AEF0:
-	ld a,(ix+012h)		;aef0
-	ld (0d40ah),a		;aef3
+pon_control_de_bichos_2:
+	ld a,(ix+012h)		;aef0   ; ix+0x12: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (0d40ah),a		;aef3   ; 0xD40A: lo que controla la salida de bichos
 	ret			;aef6
-L_AEF7:
+pon_control_de_bichos_3:
 	push hl			;aef7
 	push bc			;aef8
-	call L_AF7A		;aef9
+	call mira_fichas		;aef9
 	pop bc			;aefc
 	pop hl			;aefd
 	ld c,02ch		;aefe
 L_AF00:
-	ld a,(0d405h)		;af00
+	ld a,(0d405h)		;af00   ; 0xD405: lo que controla la salida de bichos
 	ld e,(hl)			;af03
 	inc hl			;af04
 	add a,e			;af05
 	ld e,a			;af06
-	ld a,(0d406h)		;af07
+	ld a,(0d406h)		;af07   ; 0xD406: lo que controla la salida de bichos
 	ld d,(hl)			;af0a
 	inc hl			;af0b
 	add a,d			;af0c
@@ -2378,28 +2378,28 @@ L_AF00:
 	pop hl			;af14
 	djnz L_AF00		;af15
 	ld a,03ch		;af17
-	ld (0d403h),a		;af19
+	ld (0d403h),a		;af19   ; 0xD403: lo que controla la salida de bichos
 	ret			;af1c
-L_AF1D:
+nace_tipo_51:
 	ld hl,0af48h		;af1d
 	jr L_AF39		;af20
-L_AF22:
+nace_tipo_52:
 	ld hl,0af4ch		;af22
 	jr L_AF39		;af25
-L_AF27:
+nace_tipo_53:
 	ld hl,0af50h		;af27
 	jr L_AF39		;af2a
-L_AF2C:
+nace_tipo_54:
 	ld hl,0af54h		;af2c
 	jr L_AF39		;af2f
-L_AF31:
+nace_tipo_55:
 	ld hl,0af58h		;af31
 	jr L_AF39		;af34
-L_AF36:
-	ld hl,0af44h		;af36
+nace_tipo_56:
+	ld hl,0af44h		;af36   ; p03:AF44 tabla_AF44: tabla que lee p03:AF1D, p03:AF22, p03:AF27, p03:AF2C, p03:AF31, p03:AF36 (24 bytes)
 L_AF39:
-	ld (ix+006h),000h		;af39
-	ld (ix+010h),037h		;af3d
+	ld (ix+006h),000h		;af39   ; ix+0x06: cuenta atras (p01:6124)
+	ld (ix+010h),037h		;af3d   ; ix+0x10: el PATRON del sprite (p01:70FB)
 	jp 07080h		;af41
 
 ; ----------------------------------------------------------------------
@@ -2416,7 +2416,7 @@ DATA_tabla_AF44:
 
 
 L_AF5C:
-	ld hl,0d700h		;af5c
+	ld hl,0d700h		;af5c   ; 0xD700: fichas de lo que se mueve
 	ld b,00ah		;af5f
 L_AF61:
 	ld a,(hl)			;af61
@@ -2426,7 +2426,7 @@ L_AF61:
 	jr nc,L_AF73		;af67
 	push bc			;af69
 	push hl			;af6a
-	push hl			;af6b
+	push hl			;af6b   ; la ficha es la de HL
 	pop ix		;af6c
 	call 0699fh		;af6e
 	pop hl			;af71
@@ -2436,9 +2436,9 @@ L_AF73:
 	add hl,de			;af76
 	djnz L_AF61		;af77
 	ret			;af79
-L_AF7A:
-	ld hl,0d700h		;af7a
-	ld b,00ah		;af7d
+mira_fichas:
+	ld hl,0d700h		;af7a   ; 0xD700: fichas de lo que se mueve
+	ld b,00ah		;af7d   ; 10 vueltas
 L_AF7F:
 	ld a,(hl)			;af7f
 	and a			;af80
@@ -2454,10 +2454,10 @@ L_AF8A:
 	djnz L_AF7F		;af8e
 	ret			;af90
 L_AF91:
-	ld hl,0afa2h		;af91
-	call L_AF9A		;af94
+	ld hl,0afa2h		;af91   ; p03:AFA2 tabla_AFA2: tabla que lee p03:AF91, p03:AF97 (6 bytes)
+	call rutina_14		;af94
 	ld hl,0afa5h		;af97
-L_AF9A:
+rutina_14:
 	ld c,(hl)			;af9a
 	inc hl			;af9b
 	ld d,(hl)			;af9c
@@ -2476,14 +2476,14 @@ DATA_tabla_AFA2:
 ; ======================================================================
 
 
-L_AFA8:
-	ld hl,0afc4h		;afa8
+nace_tipo_32:
+	ld hl,0afc4h		;afa8   ; p03:AFC4 ficha_AFC4: 11 bytes de la ficha del bicho desde ix+7 (p01:7073)
 	call 07073h		;afab
 	xor a			;afae
-	ld (ix+016h),a		;afaf
-	bit 7,(ix+005h)		;afb2
+	ld (ix+016h),a		;afaf   ; ix+0x16: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	bit 7,(ix+005h)		;afb2   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	ret z			;afb6
-	ld (ix+016h),006h		;afb7
+	ld (ix+016h),006h		;afb7   ; ix+0x16: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	call 07095h		;afbb
 	call 07099h		;afbe
 	jp 0709dh		;afc1
@@ -2500,40 +2500,40 @@ DATA_ficha_AFC4:
 ; ======================================================================
 
 
-L_AFCF:
+tipo_32:
 	ld bc,04b04h		;afcf
 	call 070f1h		;afd2
-	ld b,(ix+001h)		;afd5
+	ld b,(ix+001h)		;afd5   ; ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 	djnz L_B002		;afd8
-	dec (ix+011h)		;afda
+	dec (ix+011h)		;afda   ; ix+0x11: cuenta atras de lo que hace
 	jr nz,L_AFE2		;afdd
 	jp 06a85h		;afdf
 L_AFE2:
-	ld a,(ix+016h)		;afe2
+	ld a,(ix+016h)		;afe2   ; ix+0x16: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	add a,a			;afe5
-	ld hl,0b015h		;afe6
-	call 040a4h		;afe9
-	ld a,(ix+016h)		;afec
+	ld hl,0b015h		;afe6   ; p03:B015 tabla_B015: tabla que lee p03:AFE6 (24 bytes)
+	call 040a4h		;afe9   ; p00:40A4 hl_mas_a
+	ld a,(ix+016h)		;afec   ; ix+0x16: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	inc a			;afef
 	cp 00ch		;aff0
 	jr c,L_AFF5		;aff2
 	xor a			;aff4
 L_AFF5:
-	ld (ix+016h),a		;aff5
+	ld (ix+016h),a		;aff5   ; ix+0x16: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ld a,(hl)			;aff8
-	ld (ix+003h),a		;aff9
+	ld (ix+003h),a		;aff9   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 	inc hl			;affc
 	ld a,(hl)			;affd
-	ld (ix+005h),a		;affe
+	ld (ix+005h),a		;affe   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	ret			;b001
 L_B002:
-	dec (ix+011h)		;b002
+	dec (ix+011h)		;b002   ; cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 	ret nz			;b005
 	xor a			;b006
-	ld (ix+006h),a		;b007
+	ld (ix+006h),a		;b007   ; ix+0x06: cuenta atras (p01:6124)
 	ld (ix+00bh),a		;b00a
-	ld (ix+011h),038h		;b00d
-	inc (ix+001h)		;b011
+	ld (ix+011h),038h		;b00d   ; ix+0x11: cuenta atras de lo que hace
+	inc (ix+001h)		;b011   ; la ficha pasa al paso siguiente
 	ret			;b014
 
 ; ----------------------------------------------------------------------
@@ -2548,26 +2548,26 @@ DATA_tabla_B015:
 ; ======================================================================
 
 
-L_B02D:
-	ld a,(0d400h)		;b02d
+mira_area:
+	ld a,(0d400h)		;b02d   ; 0xD400: lo que controla la salida de bichos
 	and a			;b030
 	ret nz			;b031
-	ld a,(0c480h)		;b032
+	ld a,(0c480h)		;b032   ; 0xC480: el AREA (0-23): 3*(fase-1) + columna, o 18 + fase - 1 (p01:64D5)
 	sub 012h		;b035
 	ret c			;b037
 	ld hl,00023h		;b038
-	ld bc,(0c302h)		;b03b
+	ld bc,(0c302h)		;b03b   ; 0xC302: la FILA de 8 puntos del mapa que se esta pintando; sube al avanzar (p00:57B8)
 	and a			;b03f
 	sbc hl,bc		;b040
 	ret nz			;b042
-	ld a,(0d402h)		;b043
+	ld a,(0d402h)		;b043   ; 0xD402: lo que controla la salida de bichos
 	and a			;b046
 	ret nz			;b047
-	ld a,(0c481h)		;b048
+	ld a,(0c481h)		;b048   ; 0xC481: la FASE, 1-6 (p01:65B4)
 	cp 006h		;b04b
 	jr nz,L_B060		;b04d
-	ld hl,0c8dch		;b04f
-	ld b,005h		;b052
+	ld hl,0c8dch		;b04f   ; 0xC8DC: el OBJETO 36 (byte 0 de 4; p06:BAC2)
+	ld b,005h		;b052   ; 5 vueltas
 	xor a			;b054
 L_B055:
 	cp (hl)			;b055
@@ -2577,23 +2577,23 @@ L_B055:
 	djnz L_B055		;b05c
 	ld a,006h		;b05e
 L_B060:
-	ld hl,0c581h		;b060
+	ld hl,0c581h		;b060   ; 0xC581: variables del avance del mapa
 	set 0,(hl)		;b063
 	ld l,a			;b065
 	ld h,000h		;b066
-	ld (0d400h),hl		;b068
+	ld (0d400h),hl		;b068   ; 0xD400: lo que controla la salida de bichos
 	xor a			;b06b
-	ld (0d402h),a		;b06c
+	ld (0d402h),a		;b06c   ; 0xD402: lo que controla la salida de bichos
 	ret			;b06f
 L_B070:
 	ld a,001h		;b070
-	ld (0d402h),a		;b072
+	ld (0d402h),a		;b072   ; 0xD402: lo que controla la salida de bichos
 	ld a,028h		;b075
-	ld (0c4bdh),a		;b077
+	ld (0c4bdh),a		;b077   ; 0xC4BD: variables de la partida
 	ld a,012h		;b07a
 	jp 0432eh		;b07c
 L_B07F:
-	ld a,(0d401h)		;b07f
+	ld a,(0d401h)		;b07f   ; 0xD401: lo que controla la salida de bichos
 	dec a			;b082
 	jr z,L_B09D		;b083
 	jp p,L_AE66		;b085
@@ -2604,23 +2604,23 @@ L_B07F:
 	ld de,08030h		;b092
 	call 06d64h		;b095
 L_B098:
-	ld hl,0d401h		;b098
+	ld hl,0d401h		;b098   ; 0xD401: lo que controla la salida de bichos
 	inc (hl)			;b09b
 	ret			;b09c
 L_B09D:
-	ld a,(0d402h)		;b09d
+	ld a,(0d402h)		;b09d   ; 0xD402: lo que controla la salida de bichos
 	and a			;b0a0
 	ret z			;b0a1
-	call L_AE7F		;b0a2
-	ld hl,0d407h		;b0a5
+	call mira_fase		;b0a2
+	ld hl,0d407h		;b0a5   ; 0xD407: lo que controla la salida de bichos
 	set 0,(hl)		;b0a8
 	ld hl,00064h		;b0aa
 	call 04818h		;b0ad
-	ld a,04fh		;b0b0
+	ld a,04fh		;b0b0   ; el sonido 0x4F (p14:9C47 + 2*0x4F)
 	call 041ach		;b0b2
 	ld b,006h		;b0b5
-	ld hl,0b0bfh		;b0b7
-	call L_AEF7		;b0ba
+	ld hl,0b0bfh		;b0b7   ; p03:B0BF tabla_B0BF: tabla que lee p03:B0B7 (12 bytes)
+	call pon_control_de_bichos_3		;b0ba
 	jr L_B098		;b0bd
 
 ; ----------------------------------------------------------------------
@@ -2634,16 +2634,16 @@ DATA_tabla_B0BF:
 ; ======================================================================
 
 
-L_B0CB:
-	ld hl,0b0f3h		;b0cb
+nace_tipo_26:
+	ld hl,0b0f3h		;b0cb   ; p03:B0F3 ficha_B0F3: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 3) (p01:7080)
 	call 07080h		;b0ce
-	ld hl,0b0e8h		;b0d1
+	ld hl,0b0e8h		;b0d1   ; p03:B0E8 ficha_B0E8: 11 bytes de la ficha del bicho desde ix+7 (p01:7073)
 	call 07073h		;b0d4
-	call L_AED6		;b0d7
+	call pon_control_de_bichos		;b0d7
 	xor a			;b0da
-	ld (ix+016h),a		;b0db
-	ld (ix+019h),a		;b0de
-	ld (ix+068h),001h		;b0e1
+	ld (ix+016h),a		;b0db   ; ix+0x16: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+019h),a		;b0de   ; ix+0x19: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+068h),001h		;b0e1   ; ix+0x68: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	jp L_AF91		;b0e5
 
 ; ----------------------------------------------------------------------
@@ -2665,14 +2665,14 @@ DATA_ficha_B0F3:
 ; ======================================================================
 
 
-L_B0F7:
-	call L_ADFC		;b0f7
-	ld a,(0d402h)		;b0fa
+tipo_26:
+	call mira_estado_de_gao		;b0f7
+	ld a,(0d402h)		;b0fa   ; 0xD402: lo que controla la salida de bichos
 	and a			;b0fd
 	ret nz			;b0fe
-	call L_AEF0		;b0ff
-	ld a,(ix+001h)		;b102
-	call 040aeh		;b105
+	call pon_control_de_bichos_2		;b0ff
+	ld a,(ix+001h)		;b102   ; reparte por el PASO de la ficha (ix+1): la tabla va detras del call
+	call 040aeh		;b105   ; p00:40AE despacha
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_B108: 5 destinos del despachador de 0x40AE (call en p03:B105):
@@ -2691,11 +2691,11 @@ DATA_tabla_B108:
 
 
 L_B112:
-	call L_AEA4		;b112
+	call mira_cuadros_2_2		;b112
 	ret z			;b115
-	ld (ix+006h),001h		;b116
-	ld (ix+011h),009h		;b11a
-	ld (ix+074h),000h		;b11e
+	ld (ix+006h),001h		;b116   ; ix+0x06: cuenta atras (p01:6124)
+	ld (ix+011h),009h		;b11a   ; ix+0x11: cuenta atras de lo que hace
+	ld (ix+074h),000h		;b11e   ; ix+0x74: el tipo de choque (p01:7093)
 	ret			;b122
 L_B123:
 	ld bc,02e08h		;b123
@@ -2703,28 +2703,28 @@ L_B123:
 	ld a,(ix+00ah)		;b129
 	and a			;b12c
 	jr z,L_B14E		;b12d
-	bit 0,(ix+019h)		;b12f
+	bit 0,(ix+019h)		;b12f   ; ix+0x19: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	jr nz,L_B14E		;b133
-	ld a,(0c809h)		;b135
-	sub (ix+005h)		;b138
+	ld a,(0c809h)		;b135   ; 0xC809: la X de Gao (p01:70BD)
+	sub (ix+005h)		;b138   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	add a,004h		;b13b
 	cp 008h		;b13d
 	jr c,L_B187		;b13f
-	ld a,(ix+005h)		;b141
+	ld a,(ix+005h)		;b141   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	add a,034h		;b144
 	cp 068h		;b146
 	jr nc,L_B14E		;b148
-	ld (ix+011h),001h		;b14a
+	ld (ix+011h),001h		;b14a   ; ix+0x11: cuenta atras de lo que hace
 L_B14E:
-	dec (ix+011h)		;b14e
+	dec (ix+011h)		;b14e   ; cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 	ret nz			;b151
-	ld a,(ix+003h)		;b152
+	ld a,(ix+003h)		;b152   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 	cp 048h		;b155
 	ld c,001h		;b157
 	jr c,L_B15D		;b159
 	ld c,002h		;b15b
 L_B15D:
-	ld a,(ix+005h)		;b15d
+	ld a,(ix+005h)		;b15d   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	cp 060h		;b160
 	jr c,L_B166		;b162
 	set 3,c		;b164
@@ -2733,49 +2733,49 @@ L_B166:
 	jr nc,L_B16C		;b168
 	set 2,c		;b16a
 L_B16C:
-	ld (ix+016h),c		;b16c
+	ld (ix+016h),c		;b16c   ; ix+0x16: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	call 0987fh		;b16f
 	and 003h		;b172
-L_B174:
+tipo_49:
 	jp z,L_B1DC		;b174
 	ld (ix+00ah),000h		;b177
 	ld (ix+008h),000h		;b17b
 L_B17F:
-	ld (ix+018h),008h		;b17f
-	inc (ix+001h)		;b183
+	ld (ix+018h),008h		;b17f   ; ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	inc (ix+001h)		;b183   ; la ficha pasa al paso siguiente
 	ret			;b186
 L_B187:
-	ld (ix+001h),003h		;b187
-	ld (ix+006h),000h		;b18b
+	ld (ix+001h),003h		;b187   ; la ficha pasa al paso 3
+	ld (ix+006h),000h		;b18b   ; ix+0x06: cuenta atras (p01:6124)
 	jr L_B17F		;b18f
 L_B191:
-	dec (ix+018h)		;b191
-	ld a,(ix+018h)		;b194
+	dec (ix+018h)		;b191   ; ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld a,(ix+018h)		;b194   ; ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	cp 006h		;b197
 	jr z,L_B1A6		;b199
 	ret nc			;b19b
 	and a			;b19c
 	ret nz			;b19d
-	ld (ix+011h),002h		;b19e
-	inc (ix+001h)		;b1a2
+	ld (ix+011h),002h		;b19e   ; ix+0x11: cuenta atras de lo que hace
+	inc (ix+001h)		;b1a2   ; la ficha pasa al paso siguiente
 	ret			;b1a5
 L_B1A6:
-	ld (ix+010h),030h		;b1a6
-	ld a,(0c012h)		;b1aa
+	ld (ix+010h),030h		;b1a6   ; ix+0x10: el PATRON del sprite (p01:70FB)
+	ld a,(0c012h)		;b1aa   ; 0xC012: el sonido del primer canal (p14:9420)
 	or a			;b1ad
 	jr z,L_B1B5		;b1ae
-	ld a,029h		;b1b0
+	ld a,029h		;b1b0   ; el sonido 0x29 (p14:9C47 + 2*0x29)
 	call 041ach		;b1b2
 L_B1B5:
 	ld c,024h		;b1b5
-	ld e,(ix+003h)		;b1b7
-	ld d,(ix+005h)		;b1ba
-L_B1BD:
+	ld e,(ix+003h)		;b1b7   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
+	ld d,(ix+005h)		;b1ba   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
+nace_tipo_48:
 	jp 06d64h		;b1bd
 L_B1C0:
 	ld bc,02e08h		;b1c0
 	call 070f1h		;b1c3
-	ld a,(ix+011h)		;b1c6
+	ld a,(ix+011h)		;b1c6   ; ix+0x11: cuenta atras de lo que hace
 	cp 01ah		;b1c9
 	jr nc,L_B1DC		;b1cb
 	bit 2,a		;b1cd
@@ -2784,10 +2784,10 @@ L_B1C0:
 	neg		;b1d3
 L_B1D5:
 	ld (ix+00ah),a		;b1d5
-	inc (ix+011h)		;b1d8
+	inc (ix+011h)		;b1d8   ; ix+0x11: cuenta atras de lo que hace
 	ret			;b1db
 L_B1DC:
-	ld (ix+019h),000h		;b1dc
+	ld (ix+019h),000h		;b1dc   ; ix+0x19: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	call 0987fh		;b1e0
 	and 001h		;b1e3
 	jr z,L_B209		;b1e5
@@ -2797,7 +2797,7 @@ L_B1DC:
 	jr z,L_B1F2		;b1ee
 	ld c,00ch		;b1f0
 L_B1F2:
-	ld a,(ix+016h)		;b1f2
+	ld a,(ix+016h)		;b1f2   ; ix+0x16: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	and c			;b1f5
 	cp 00ch		;b1f6
 	jr c,L_B222		;b1f8
@@ -2811,23 +2811,23 @@ L_B206:
 	pop af			;b206
 	jr L_B219		;b207
 L_B209:
-	ld a,(0c809h)		;b209
-	ld c,(ix+005h)		;b20c
+	ld a,(0c809h)		;b209   ; 0xC809: la X de Gao (p01:70BD)
+	ld c,(ix+005h)		;b20c   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	cp c			;b20f
 	ld c,004h		;b210
 	jr nc,L_B216		;b212
 	ld c,008h		;b214
 L_B216:
-	ld a,(ix+016h)		;b216
+	ld a,(ix+016h)		;b216   ; ix+0x16: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 L_B219:
 	and c			;b219
 	and a			;b21a
 	jr nz,L_B222		;b21b
-	ld a,(ix+016h)		;b21d
+	ld a,(ix+016h)		;b21d   ; ix+0x16: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	and 003h		;b220
 L_B222:
 	bit 0,a		;b222
-	ld hl,0b24dh		;b224
+	ld hl,0b24dh		;b224   ; p03:B24D tabla_B24D: tabla que lee p03:B224, p03:B22B, p03:B232, p03:B237 (12 bytes)
 	jr nz,L_B23A		;b227
 	bit 1,a		;b229
 	ld hl,0b250h		;b22b
@@ -2844,8 +2844,8 @@ L_B23A:
 	ld (ix+00ah),a		;b240
 	inc hl			;b243
 	ld a,(hl)			;b244
-	ld (ix+011h),a		;b245
-	ld (ix+001h),001h		;b248
+	ld (ix+011h),a		;b245   ; ix+0x11: cuenta atras de lo que hace
+	ld (ix+001h),001h		;b248   ; la ficha pasa al paso 1
 	ret			;b24c
 
 ; ----------------------------------------------------------------------
@@ -2861,24 +2861,24 @@ DATA_tabla_B24D:
 
 
 L_B259:
-	dec (ix+018h)		;b259
-	ld a,(ix+018h)		;b25c
+	dec (ix+018h)		;b259   ; ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld a,(ix+018h)		;b25c   ; ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	cp 006h		;b25f
 	jp z,L_B1A6		;b261
 	ret nc			;b264
 	and a			;b265
 	ret nz			;b266
-	inc (ix+019h)		;b267
-	inc (ix+006h)		;b26a
-	ld (ix+001h),001h		;b26d
+	inc (ix+019h)		;b267   ; ix+0x19: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	inc (ix+006h)		;b26a   ; ix+0x06: cuenta atras (p01:6124)
+	ld (ix+001h),001h		;b26d   ; la ficha pasa al paso 1
 	ret			;b271
-L_B272:
-	ld hl,0b2a6h		;b272
+nace_tipo_35:
+	ld hl,0b2a6h		;b272   ; p03:B2A6 ficha_B2A6: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
 	call 07084h		;b275
-	ld hl,0b29bh		;b278
+	ld hl,0b29bh		;b278   ; p03:B29B ficha_B29B: 11 bytes de la ficha del bicho desde ix+7 (p01:7073)
 	call 07073h		;b27b
-	ld a,(0c809h)		;b27e
-	ld c,(ix+005h)		;b281
+	ld a,(0c809h)		;b27e   ; 0xC809: la X de Gao (p01:70BD)
+	ld c,(ix+005h)		;b281   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	sub c			;b284
 	ld b,000h		;b285
 	jr nc,L_B28C		;b287
@@ -2913,10 +2913,10 @@ DATA_ficha_B2A6:
 ; ======================================================================
 
 
-L_B2AA:
-	jp L_AE55		;b2aa
+tipo_35:
+	jp rutina_13		;b2aa
 L_B2AD:
-	ld a,(0d401h)		;b2ad
+	ld a,(0d401h)		;b2ad   ; 0xD401: lo que controla la salida de bichos
 	dec a			;b2b0
 	jr z,L_B2C9		;b2b1
 	jp p,L_AE66		;b2b3
@@ -2928,19 +2928,19 @@ L_B2AD:
 	call 06d64h		;b2c3
 	jp L_B098		;b2c6
 L_B2C9:
-	ld a,(0d402h)		;b2c9
+	ld a,(0d402h)		;b2c9   ; 0xD402: lo que controla la salida de bichos
 	and a			;b2cc
 	ret z			;b2cd
-	call L_AE7F		;b2ce
-	ld hl,0d407h		;b2d1
+	call mira_fase		;b2ce
+	ld hl,0d407h		;b2d1   ; 0xD407: lo que controla la salida de bichos
 	set 2,(hl)		;b2d4
 	ld hl,00064h		;b2d6
 	call 04818h		;b2d9
-	ld a,04fh		;b2dc
+	ld a,04fh		;b2dc   ; el sonido 0x4F (p14:9C47 + 2*0x4F)
 	call 041ach		;b2de
 	ld b,006h		;b2e1
-	ld hl,0b2ech		;b2e3
-	call L_AEF7		;b2e6
+	ld hl,0b2ech		;b2e3   ; p03:B2EC tabla_B2EC: tabla que lee p03:B2E3 (12 bytes)
+	call pon_control_de_bichos_3		;b2e6
 	jp L_B098		;b2e9
 
 ; ----------------------------------------------------------------------
@@ -2954,15 +2954,15 @@ DATA_tabla_B2EC:
 ; ======================================================================
 
 
-L_B2F8:
-	ld hl,0b321h		;b2f8
+nace_tipo_27:
+	ld hl,0b321h		;b2f8   ; p03:B321 ficha_B321: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 3) (p01:7080)
 	call 07080h		;b2fb
-	ld hl,0b316h		;b2fe
+	ld hl,0b316h		;b2fe   ; p03:B316 ficha_B316: 11 bytes de la ficha del bicho desde ix+7 (p01:7073)
 	call 07073h		;b301
-	call L_AED6		;b304
-	ld (ix+017h),000h		;b307
-	ld (ix+016h),034h		;b30b
-	ld (ix+068h),001h		;b30f
+	call pon_control_de_bichos		;b304
+	ld (ix+017h),000h		;b307   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+016h),034h		;b30b   ; ix+0x16: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+068h),001h		;b30f   ; ix+0x68: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	jp L_AF91		;b313
 
 ; ----------------------------------------------------------------------
@@ -2984,19 +2984,19 @@ DATA_ficha_B321:
 ; ======================================================================
 
 
-L_B325:
-	call L_ADFC		;b325
-	ld a,(0d402h)		;b328
+tipo_27:
+	call mira_estado_de_gao		;b325
+	ld a,(0d402h)		;b328   ; 0xD402: lo que controla la salida de bichos
 	and a			;b32b
 	ret nz			;b32c
-	call L_AEF0		;b32d
-	ld b,(ix+001h)		;b330
+	call pon_control_de_bichos_2		;b32d
+	ld b,(ix+001h)		;b330   ; ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 	djnz $+107		;b333
-	dec (ix+016h)		;b335
+	dec (ix+016h)		;b335   ; ix+0x16: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	jr z,L_B384		;b338
-	ld a,(ix+017h)		;b33a
+	ld a,(ix+017h)		;b33a   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	bit 0,a		;b33d
-	ld a,(ix+011h)		;b33f
+	ld a,(ix+011h)		;b33f   ; ix+0x11: cuenta atras de lo que hace
 	ld e,a			;b342
 	ld d,000h		;b343
 	jr nz,L_B34D		;b345
@@ -3009,32 +3009,32 @@ L_B34D:
 L_B352:
 	ld a,(hl)			;b352
 	add a,030h		;b353
-	ld (ix+003h),a		;b355
-	ld a,(ix+005h)		;b358
+	ld (ix+003h),a		;b355   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
+	ld a,(ix+005h)		;b358   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	add a,02bh		;b35b
 	cp 056h		;b35d
 	jr nc,L_B36F		;b35f
-	ld a,(ix+018h)		;b361
+	ld a,(ix+018h)		;b361   ; ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	and a			;b364
 	jr nz,L_B373		;b365
-	inc (ix+018h)		;b367
+	inc (ix+018h)		;b367   ; ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	call 07099h		;b36a
 	jr L_B373		;b36d
 L_B36F:
-	ld (ix+018h),000h		;b36f
+	ld (ix+018h),000h		;b36f   ; ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 L_B373:
-	inc (ix+011h)		;b373
-	ld a,(ix+011h)		;b376
+	inc (ix+011h)		;b373   ; ix+0x11: cuenta atras de lo que hace
+	ld a,(ix+011h)		;b376   ; ix+0x11: cuenta atras de lo que hace
 	cp 00eh		;b379
 	ret c			;b37b
-	ld (ix+011h),000h		;b37c
-	inc (ix+017h)		;b380
+	ld (ix+011h),000h		;b37c   ; ix+0x11: cuenta atras de lo que hace
+	inc (ix+017h)		;b380   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ret			;b383
 L_B384:
 	xor a			;b384
-	inc (ix+001h)		;b385
-	ld (ix+006h),a		;b388
-	ld (ix+010h),032h		;b38b
+	inc (ix+001h)		;b385   ; la ficha pasa al paso siguiente
+	ld (ix+006h),a		;b388   ; ix+0x06: cuenta atras (p01:6124)
+	ld (ix+010h),032h		;b38b   ; ix+0x10: el PATRON del sprite (p01:70FB)
 	ret			;b38f
 L_B390:
 	ld sp,hl			;b390
@@ -3049,49 +3049,49 @@ L_B390:
 	cpl			;b39c
 L_B39D:
 	jr nc,L_B3AF		;b39d
-L_B39F:
+tipo_50:
 	dec l			;b39f
-	ld a,(ix+016h)		;b3a0
+	ld a,(ix+016h)		;b3a0   ; ix+0x16: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	and 00fh		;b3a3
-	ld d,(ix+005h)		;b3a5
-	ld e,(ix+003h)		;b3a8
+	ld d,(ix+005h)		;b3a5   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
+	ld e,(ix+003h)		;b3a8   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 	ld c,029h		;b3ab
 	push ix		;b3ad
 L_B3AF:
 	call z,06d64h		;b3af
 	pop ix		;b3b2
-	inc (ix+016h)		;b3b4
-	ld a,(ix+016h)		;b3b7
+	inc (ix+016h)		;b3b4   ; ix+0x16: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld a,(ix+016h)		;b3b7   ; ix+0x16: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	cp 040h		;b3ba
 	ret c			;b3bc
-	dec (ix+001h)		;b3bd
-	ld (ix+006h),001h		;b3c0
-	ld (ix+010h),031h		;b3c4
-	ld (ix+016h),034h		;b3c8
+	dec (ix+001h)		;b3bd   ; ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
+	ld (ix+006h),001h		;b3c0   ; ix+0x06: cuenta atras (p01:6124)
+	ld (ix+010h),031h		;b3c4   ; ix+0x10: el PATRON del sprite (p01:70FB)
+	ld (ix+016h),034h		;b3c8   ; ix+0x16: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ret			;b3cc
 L_B3CD:
-	call L_AEA4		;b3cd
+	call mira_cuadros_2_2		;b3cd
 	ret z			;b3d0
-	ld (ix+074h),000h		;b3d1
-	ld (ix+006h),001h		;b3d5
+	ld (ix+074h),000h		;b3d1   ; ix+0x74: el tipo de choque (p01:7093)
+	ld (ix+006h),001h		;b3d5   ; ix+0x06: cuenta atras (p01:6124)
 	ret			;b3d9
-L_B3DA:
-	ld a,(0c012h)		;b3da
+nace_tipo_40:
+	ld a,(0c012h)		;b3da   ; 0xC012: el sonido del primer canal (p14:9420)
 	or a			;b3dd
 	jr z,L_B3E5		;b3de
-	ld a,02ah		;b3e0
+	ld a,02ah		;b3e0   ; el sonido 0x2A (p14:9C47 + 2*0x2A)
 	call 041ach		;b3e2
 L_B3E5:
-	ld hl,0b412h		;b3e5
+	ld hl,0b412h		;b3e5   ; p03:B412 ficha_B412: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
 	call 07084h		;b3e8
-	ld hl,0b407h		;b3eb
+	ld hl,0b407h		;b3eb   ; p03:B407 ficha_B407: 11 bytes de la ficha del bicho desde ix+7 (p01:7073)
 	call 07073h		;b3ee
-	ld a,(0c809h)		;b3f1
-	ld c,(ix+005h)		;b3f4
+	ld a,(0c809h)		;b3f1   ; 0xC809: la X de Gao (p01:70BD)
+	ld c,(ix+005h)		;b3f4   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	cp c			;b3f7
-	ld (ix+016h),000h		;b3f8
+	ld (ix+016h),000h		;b3f8   ; ix+0x16: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ret c			;b3fc
-	ld (ix+016h),001h		;b3fd
+	ld (ix+016h),001h		;b3fd   ; ix+0x16: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	call 07099h		;b401
 	jp 070a1h		;b404
 
@@ -3114,21 +3114,21 @@ DATA_ficha_B412:
 ; ======================================================================
 
 
-L_B416:
-	call L_AE55		;b416
-	dec (ix+011h)		;b419
+tipo_40:
+	call rutina_13		;b416
+	dec (ix+011h)		;b419   ; cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 	ret nz			;b41c
-	ld a,(ix+016h)		;b41d
+	ld a,(ix+016h)		;b41d   ; ix+0x16: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	and a			;b420
-	ld a,(0c809h)		;b421
-	ld c,(ix+005h)		;b424
+	ld a,(0c809h)		;b421   ; 0xC809: la X de Gao (p01:70BD)
+	ld c,(ix+005h)		;b424   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	jr z,L_B435		;b427
 	cp c			;b429
 	ld a,015h		;b42a
 	jr c,L_B430		;b42c
 	ld a,019h		;b42e
 L_B430:
-	ld (ix+011h),a		;b430
+	ld (ix+011h),a		;b430   ; ix+0x11: cuenta atras de lo que hace
 	jr L_B43F		;b433
 L_B435:
 	cp c			;b435
@@ -3136,12 +3136,12 @@ L_B435:
 	jr c,L_B43C		;b438
 	ld a,015h		;b43a
 L_B43C:
-	ld (ix+011h),a		;b43c
+	ld (ix+011h),a		;b43c   ; ix+0x11: cuenta atras de lo que hace
 L_B43F:
 	call 068f9h		;b43f
 	jp 070a1h		;b442
 L_B445:
-	ld a,(0d401h)		;b445
+	ld a,(0d401h)		;b445   ; 0xD401: lo que controla la salida de bichos
 	dec a			;b448
 	jr z,L_B461		;b449
 	jp p,L_AE66		;b44b
@@ -3153,19 +3153,19 @@ L_B445:
 	call 06d64h		;b45b
 	jp L_B098		;b45e
 L_B461:
-	ld a,(0d402h)		;b461
+	ld a,(0d402h)		;b461   ; 0xD402: lo que controla la salida de bichos
 	and a			;b464
 	ret z			;b465
-	call L_AE7F		;b466
-	ld hl,0d407h		;b469
+	call mira_fase		;b466
+	ld hl,0d407h		;b469   ; 0xD407: lo que controla la salida de bichos
 	set 1,(hl)		;b46c
 	ld hl,00064h		;b46e
 	call 04818h		;b471
-	ld a,04fh		;b474
+	ld a,04fh		;b474   ; el sonido 0x4F (p14:9C47 + 2*0x4F)
 	call 041ach		;b476
-	ld hl,0b484h		;b479
+	ld hl,0b484h		;b479   ; p03:B484 tabla_B484: tabla que lee p03:B479 (12 bytes)
 	ld b,006h		;b47c
-	call L_AEF7		;b47e
+	call pon_control_de_bichos_3		;b47e
 	jp L_B098		;b481
 
 ; ----------------------------------------------------------------------
@@ -3179,15 +3179,15 @@ DATA_tabla_B484:
 ; ======================================================================
 
 
-L_B490:
-	ld hl,0b4bfh		;b490
+nace_tipo_28:
+	ld hl,0b4bfh		;b490   ; p03:B4BF ficha_B4BF: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 3) (p01:7080)
 	call 07080h		;b493
-	call L_AED6		;b496
-	ld (ix+011h),040h		;b499
-	ld (ix+010h),034h		;b49d
-	ld (ix+068h),001h		;b4a1
-	ld a,(0c809h)		;b4a5
-	sub (ix+005h)		;b4a8
+	call pon_control_de_bichos		;b496
+	ld (ix+011h),040h		;b499   ; ix+0x11: cuenta atras de lo que hace
+	ld (ix+010h),034h		;b49d   ; ix+0x10: el PATRON del sprite (p01:70FB)
+	ld (ix+068h),001h		;b4a1   ; ix+0x68: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld a,(0c809h)		;b4a5   ; 0xC809: la X de Gao (p01:70BD)
+	sub (ix+005h)		;b4a8   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	ld de,00300h		;b4ab
 	jr nc,L_B4B3		;b4ae
 	ld de,0fd00h		;b4b0
@@ -3209,119 +3209,119 @@ DATA_ficha_B4BF:
 ; ======================================================================
 
 
-L_B4C3:
-	call L_ADFC		;b4c3
-	ld a,(0d402h)		;b4c6
+tipo_28:
+	call mira_estado_de_gao		;b4c3
+	ld a,(0d402h)		;b4c6   ; 0xD402: lo que controla la salida de bichos
 	and a			;b4c9
 	ret nz			;b4ca
-	call L_AEF0		;b4cb
-	ld a,(ix+001h)		;b4ce
+	call pon_control_de_bichos_2		;b4cb
+	ld a,(ix+001h)		;b4ce   ; ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 	dec a			;b4d1
 	jr z,L_B4EF		;b4d2
 	jp p,L_B515		;b4d4
-	call L_AEA4		;b4d7
+	call mira_cuadros_2_2		;b4d7
 	ret z			;b4da
-	ld (ix+006h),001h		;b4db
-	ld (ix+011h),040h		;b4df
+	ld (ix+006h),001h		;b4db   ; ix+0x06: cuenta atras (p01:6124)
+	ld (ix+011h),040h		;b4df   ; ix+0x11: cuenta atras de lo que hace
 	xor a			;b4e3
-	ld (ix+016h),a		;b4e4
-	ld (ix+017h),020h		;b4e7
-	ld (ix+074h),a		;b4eb
+	ld (ix+016h),a		;b4e4   ; ix+0x16: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+017h),020h		;b4e7   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+074h),a		;b4eb   ; ix+0x74: el tipo de choque (p01:7093)
 	ret			;b4ee
 L_B4EF:
 	ld bc,03308h		;b4ef
 	call 070f1h		;b4f2
-	call L_B534		;b4f5
-	dec (ix+011h)		;b4f8
+	call rutina_15		;b4f5
+	dec (ix+011h)		;b4f8   ; ix+0x11: cuenta atras de lo que hace
 	jr nz,L_B50B		;b4fb
 	call 07099h		;b4fd
 	call 0987fh		;b500
 	and 00fh		;b503
 	add a,a			;b505
 	add a,040h		;b506
-	ld (ix+011h),a		;b508
+	ld (ix+011h),a		;b508   ; ix+0x11: cuenta atras de lo que hace
 L_B50B:
-	ld bc,0da26h		;b50b
+	ld bc,0da26h		;b50b   ; 0xDA26: fichas de lo que se mueve
 	ld de,00300h		;b50e
 	call 07193h		;b511
 	ret			;b514
 L_B515:
-	dec (ix+011h)		;b515
+	dec (ix+011h)		;b515   ; cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 	ret nz			;b518
-	dec (ix+001h)		;b519
-	ld (ix+006h),001h		;b51c
-	ld (ix+011h),040h		;b520
-	ld (ix+016h),000h		;b524
+	dec (ix+001h)		;b519   ; ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
+	ld (ix+006h),001h		;b51c   ; ix+0x06: cuenta atras (p01:6124)
+	ld (ix+011h),040h		;b520   ; ix+0x11: cuenta atras de lo que hace
+	ld (ix+016h),000h		;b524   ; ix+0x16: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	call 0987fh		;b528
 	and 00fh		;b52b
 	add a,a			;b52d
 	add a,020h		;b52e
-	ld (ix+017h),a		;b530
+	ld (ix+017h),a		;b530   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ret			;b533
-L_B534:
-	ld a,(ix+016h)		;b534
+rutina_15:
+	ld a,(ix+016h)		;b534   ; ix+0x16: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	dec a			;b537
 	jr z,L_B549		;b538
 	jp p,L_B56C		;b53a
-	dec (ix+017h)		;b53d
+	dec (ix+017h)		;b53d   ; cuenta atras en ix+0x17: hasta que llegue a 0, nada mas
 	ret nz			;b540
-	ld (ix+017h),01fh		;b541
+	ld (ix+017h),01fh		;b541   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 L_B545:
-	inc (ix+016h)		;b545
+	inc (ix+016h)		;b545   ; ix+0x16: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ret			;b548
 L_B549:
-	ld a,(ix+017h)		;b549
+	ld a,(ix+017h)		;b549   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	and 007h		;b54c
 	jr nz,L_B562		;b54e
 	ld c,022h		;b550
-	call L_B58E		;b552
+	call ficha_x_10		;b552
 	jr z,L_B562		;b555
-	ld a,(0c012h)		;b557
+	ld a,(0c012h)		;b557   ; 0xC012: el sonido del primer canal (p14:9420)
 	or a			;b55a
 	jr z,L_B562		;b55b
-	ld a,01ch		;b55d
+	ld a,01ch		;b55d   ; el sonido 0x1C (p14:9C47 + 2*0x1C)
 	call 041ach		;b55f
 L_B562:
-	dec (ix+017h)		;b562
+	dec (ix+017h)		;b562   ; cuenta atras en ix+0x17: hasta que llegue a 0, nada mas
 	ret nz			;b565
-	ld (ix+017h),020h		;b566
+	ld (ix+017h),020h		;b566   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	jr L_B545		;b56a
 L_B56C:
-	dec (ix+017h)		;b56c
+	dec (ix+017h)		;b56c   ; cuenta atras en ix+0x17: hasta que llegue a 0, nada mas
 	ret nz			;b56f
-	inc (ix+001h)		;b570
-	ld (ix+006h),000h		;b573
-	ld (ix+011h),008h		;b577
-	call L_B5A0		;b57b
+	inc (ix+001h)		;b570   ; la ficha pasa al paso siguiente
+	ld (ix+006h),000h		;b573   ; ix+0x06: cuenta atras (p01:6124)
+	ld (ix+011h),008h		;b577   ; ix+0x11: cuenta atras de lo que hace
+	call ficha_patron_3		;b57b
 	ld c,023h		;b57e
-	call L_B58E		;b580
+	call ficha_x_10		;b580
 	ret z			;b583
-	ld a,(0c012h)		;b584
+	ld a,(0c012h)		;b584   ; 0xC012: el sonido del primer canal (p14:9420)
 	or a			;b587
 	ret z			;b588
-	ld a,01dh		;b589
+	ld a,01dh		;b589   ; el sonido 0x1D (p14:9C47 + 2*0x1D)
 	jp 041ach		;b58b
-L_B58E:
-	ld d,(ix+005h)		;b58e
-	ld e,(ix+003h)		;b591
+ficha_x_10:
+	ld d,(ix+005h)		;b58e   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
+	ld e,(ix+003h)		;b591   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 	push ix		;b594
 	call 06d64h		;b596
 	pop ix		;b599
-	ld a,(0d411h)		;b59b
+	ld a,(0d411h)		;b59b   ; 0xD411: lo que controla la salida de bichos
 	and a			;b59e
 	ret			;b59f
-L_B5A0:
+ficha_patron_3:
 	call 070d6h		;b5a0
 	ld b,035h		;b5a3
 	jr nc,L_B5A8		;b5a5
 	inc b			;b5a7
 L_B5A8:
-	ld (ix+010h),b		;b5a8
+	ld (ix+010h),b		;b5a8   ; ix+0x10: el PATRON del sprite (p01:70FB)
 	ret			;b5ab
-L_B5AC:
-	ld hl,0b5c2h		;b5ac
+nace_tipo_33:
+	ld hl,0b5c2h		;b5ac   ; p03:B5C2 ficha_B5C2: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
 	call 07084h		;b5af
-	ld (ix+010h),03fh		;b5b2
+	ld (ix+010h),03fh		;b5b2   ; ix+0x10: el PATRON del sprite (p01:70FB)
 	ld de,00500h		;b5b6
 	call 0792ch		;b5b9
 	ld de,00000h		;b5bc
@@ -3339,19 +3339,19 @@ DATA_ficha_B5C2:
 ; ======================================================================
 
 
-L_B5C6:
-	ld hl,0b5f6h		;b5c6
+nace_tipo_34:
+	ld hl,0b5f6h		;b5c6   ; p03:B5F6 ficha_B5F6: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
 	call 07084h		;b5c9
-	ld hl,0b5ebh		;b5cc
+	ld hl,0b5ebh		;b5cc   ; p03:B5EB ficha_B5EB: 11 bytes de la ficha del bicho desde ix+7 (p01:7073)
 	call 07073h		;b5cf
 	call 070d6h		;b5d2
-	ld a,(ix+005h)		;b5d5
+	ld a,(ix+005h)		;b5d5   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	ld b,010h		;b5d8
 	jr nc,L_B5DE		;b5da
 	ld b,0f0h		;b5dc
 L_B5DE:
 	add a,b			;b5de
-	ld (ix+005h),a		;b5df
+	ld (ix+005h),a		;b5df   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	bit 7,b		;b5e2
 	ret z			;b5e4
 	call 07099h		;b5e5
@@ -3376,28 +3376,28 @@ DATA_ficha_B5F6:
 ; ======================================================================
 
 
-L_B5FA:
-	jp L_AE55		;b5fa
-L_B5FD:
-	ld a,(ix+013h)		;b5fd
+tipo_33:
+	jp rutina_13		;b5fa
+tipo_34:
+	ld a,(ix+013h)		;b5fd   ; ix+0x13: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	and a			;b600
-	ld (ix+013h),000h		;b601
+	ld (ix+013h),000h		;b601   ; ix+0x13: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	jr nz,L_B625		;b605
-	ld a,(ix+001h)		;b607
+	ld a,(ix+001h)		;b607   ; ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 	dec a			;b60a
 	jr z,L_B61D		;b60b
-	dec (ix+011h)		;b60d
+	dec (ix+011h)		;b60d   ; cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 	ret nz			;b610
-	inc (ix+001h)		;b611
-	ld (ix+006h),000h		;b614
-	ld (ix+011h),03ch		;b618
+	inc (ix+001h)		;b611   ; la ficha pasa al paso siguiente
+	ld (ix+006h),000h		;b614   ; ix+0x06: cuenta atras (p01:6124)
+	ld (ix+011h),03ch		;b618   ; ix+0x11: cuenta atras de lo que hace
 	ret			;b61c
 L_B61D:
-	dec (ix+011h)		;b61d
+	dec (ix+011h)		;b61d   ; cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 	ret nz			;b620
-	ld (ix+011h),00ah		;b621
+	ld (ix+011h),00ah		;b621   ; ix+0x11: cuenta atras de lo que hace
 L_B625:
-	ld hl,0dc00h		;b625
+	ld hl,0dc00h		;b625   ; 0xDC00: fichas de lo que se mueve
 	ld de,00080h		;b628
 	ld bc,00804h		;b62b
 	xor a			;b62e
@@ -3412,10 +3412,10 @@ L_B635:
 	ret			;b638
 L_B639:
 	ld a,001h		;b639
-	ld (0d41ah),a		;b63b
+	ld (0d41ah),a		;b63b   ; 0xD41A: lo que controla la salida de bichos
 	call 06a85h		;b63e
 	ld b,008h		;b641
-	ld hl,0b670h		;b643
+	ld hl,0b670h		;b643   ; p03:B670 tabla_B670: tabla que lee p03:B643 (32 bytes)
 L_B646:
 	push bc			;b646
 	ld a,c			;b647
@@ -3429,8 +3429,8 @@ L_B646:
 	push hl			;b64f
 	ld h,b			;b650
 	ld l,c			;b651
-	ld b,(ix+005h)		;b652
-	ld c,(ix+003h)		;b655
+	ld b,(ix+005h)		;b652   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
+	ld c,(ix+003h)		;b655   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 	ld a,003h		;b658
 	call 07819h		;b65a
 	pop hl			;b65d
@@ -3438,11 +3438,11 @@ L_B646:
 	inc hl			;b65f
 	djnz L_B646		;b660
 	xor a			;b662
-	ld (0d41ah),a		;b663
-	ld a,(0c012h)		;b666
+	ld (0d41ah),a		;b663   ; 0xD41A: lo que controla la salida de bichos
+	ld a,(0c012h)		;b666   ; 0xC012: el sonido del primer canal (p14:9420)
 	or a			;b669
 	ret z			;b66a
-	ld a,01eh		;b66b
+	ld a,01eh		;b66b   ; el sonido 0x1E (p14:9C47 + 2*0x1E)
 	jp 041ach		;b66d
 
 ; ----------------------------------------------------------------------
@@ -3458,7 +3458,7 @@ DATA_tabla_B670:
 
 
 L_B690:
-	ld a,(0d401h)		;b690
+	ld a,(0d401h)		;b690   ; 0xD401: lo que controla la salida de bichos
 	dec a			;b693
 	jr z,L_B6AC		;b694
 	jp p,L_AE66		;b696
@@ -3470,22 +3470,22 @@ L_B690:
 	call 06d64h		;b6a6
 	jp L_B098		;b6a9
 L_B6AC:
-	ld a,(0d402h)		;b6ac
+	ld a,(0d402h)		;b6ac   ; 0xD402: lo que controla la salida de bichos
 	and a			;b6af
 	ret z			;b6b0
-	call L_AE7F		;b6b1
-	ld hl,0d407h		;b6b4
+	call mira_fase		;b6b1
+	ld hl,0d407h		;b6b4   ; 0xD407: lo que controla la salida de bichos
 	set 3,(hl)		;b6b7
 	ld hl,00064h		;b6b9
 	call 04818h		;b6bc
-	ld a,04fh		;b6bf
+	ld a,04fh		;b6bf   ; el sonido 0x4F (p14:9C47 + 2*0x4F)
 	call 041ach		;b6c1
-	ld hl,0b6d7h		;b6c4
+	ld hl,0b6d7h		;b6c4   ; p03:B6D7 tabla_B6D7: tabla que lee p03:B6C4, p03:B8DE (16 bytes)
 	ld b,008h		;b6c7
-	call L_AEF7		;b6c9
+	call pon_control_de_bichos_3		;b6c9
 	ld a,008h		;b6cc
 	ld de,04404h		;b6ce
-	call 04d03h		;b6d1
+	call 04d03h		;b6d1   ; p00:4D03 pon_un_color
 	jp L_B098		;b6d4
 
 ; ----------------------------------------------------------------------
@@ -3499,19 +3499,19 @@ DATA_tabla_B6D7:
 ; ======================================================================
 
 
-L_B6E7:
-	ld hl,0b70ch		;b6e7
+nace_tipo_29:
+	ld hl,0b70ch		;b6e7   ; p03:B70C ficha_B70C: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 3) (p01:7080)
 	call 07080h		;b6ea
-	call L_AED6		;b6ed
+	call pon_control_de_bichos		;b6ed
 	xor a			;b6f0
-	ld (ix+006h),a		;b6f1
-	ld (ix+010h),037h		;b6f4
-	ld (ix+011h),040h		;b6f8
-	ld (ix+016h),a		;b6fc
+	ld (ix+006h),a		;b6f1   ; ix+0x06: cuenta atras (p01:6124)
+	ld (ix+010h),037h		;b6f4   ; ix+0x10: el PATRON del sprite (p01:70FB)
+	ld (ix+011h),040h		;b6f8   ; ix+0x11: cuenta atras de lo que hace
+	ld (ix+016h),a		;b6fc   ; ix+0x16: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	inc a			;b6ff
-	ld (ix+068h),a		;b700
-	ld (0d409h),a		;b703
-	call L_B7C1		;b706
+	ld (ix+068h),a		;b700   ; ix+0x68: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (0d409h),a		;b703   ; 0xD409: lo que controla la salida de bichos
+	call mira_scroll		;b706
 	jp L_AF91		;b709
 
 ; ----------------------------------------------------------------------
@@ -3526,17 +3526,17 @@ DATA_ficha_B70C:
 ; ======================================================================
 
 
-L_B710:
-	call L_B833		;b710
-	call L_ADFC		;b713
-	ld a,(0d402h)		;b716
+tipo_29:
+	call con_pon_paleta		;b710
+	call mira_estado_de_gao		;b713
+	ld a,(0d402h)		;b716   ; 0xD402: lo que controla la salida de bichos
 	and a			;b719
 	jr z,L_B71F		;b71a
-	call L_B7DB		;b71c
+	call mira_scroll_2		;b71c
 L_B71F:
-	call L_AEF0		;b71f
-	ld a,(ix+001h)		;b722
-	call 040aeh		;b725
+	call pon_control_de_bichos_2		;b71f
+	ld a,(ix+001h)		;b722   ; reparte por el PASO de la ficha (ix+1): la tabla va detras del call
+	call 040aeh		;b725   ; p00:40AE despacha
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_B728: 5 destinos del despachador de 0x40AE (call en p03:B725):
@@ -3555,52 +3555,52 @@ DATA_tabla_B728:
 
 
 L_B732:
-	dec (ix+011h)		;b732
+	dec (ix+011h)		;b732   ; ix+0x11: cuenta atras de lo que hace
 	jr z,L_B741		;b735
-	bit 1,(ix+011h)		;b737
-	jp nz,L_B7DB		;b73b
+	bit 1,(ix+011h)		;b737   ; ix+0x11: cuenta atras de lo que hace
+	jp nz,mira_scroll_2		;b73b
 	jp L_B7F5		;b73e
 L_B741:
-	inc (ix+001h)		;b741
-	ld (ix+011h),018h		;b744
+	inc (ix+001h)		;b741   ; la ficha pasa al paso siguiente
+	ld (ix+011h),018h		;b744   ; ix+0x11: cuenta atras de lo que hace
 	xor a			;b748
-	ld (ix+074h),a		;b749
-	ld (0d409h),a		;b74c
+	ld (ix+074h),a		;b749   ; ix+0x74: el tipo de choque (p01:7093)
+	ld (0d409h),a		;b74c   ; 0xD409: lo que controla la salida de bichos
 	jp L_B7F5		;b74f
 L_B752:
-	dec (ix+011h)		;b752
+	dec (ix+011h)		;b752   ; cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 	ret nz			;b755
-	inc (ix+001h)		;b756
-	ld (ix+011h),018h		;b759
+	inc (ix+001h)		;b756   ; la ficha pasa al paso siguiente
+	ld (ix+011h),018h		;b759   ; ix+0x11: cuenta atras de lo que hace
 	jp L_B80F		;b75d
 L_B760:
-	dec (ix+011h)		;b760
+	dec (ix+011h)		;b760   ; cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 	ret nz			;b763
-	inc (ix+001h)		;b764
-	ld (ix+011h),030h		;b767
-	ld (ix+074h),003h		;b76b
+	inc (ix+001h)		;b764   ; la ficha pasa al paso siguiente
+	ld (ix+011h),030h		;b767   ; ix+0x11: cuenta atras de lo que hace
+	ld (ix+074h),003h		;b76b   ; ix+0x74: el tipo de choque (p01:7093)
 	ld a,001h		;b76f
-	ld (0d409h),a		;b771
+	ld (0d409h),a		;b771   ; 0xD409: lo que controla la salida de bichos
 	jr $+103		;b774
 L_B776:
-	dec (ix+011h)		;b776
+	dec (ix+011h)		;b776   ; cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 	ret nz			;b779
-	inc (ix+001h)		;b77a
-	inc (ix+016h)		;b77d
-	ld a,(ix+016h)		;b780
+	inc (ix+001h)		;b77a   ; la ficha pasa al paso siguiente
+	inc (ix+016h)		;b77d   ; ix+0x16: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld a,(ix+016h)		;b780   ; ix+0x16: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	cp 009h		;b783
 	jr c,L_B78B		;b785
-	ld (ix+016h),000h		;b787
+	ld (ix+016h),000h		;b787   ; ix+0x16: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 L_B78B:
 	add a,a			;b78b
 	ld hl,0b79ch		;b78c
-	call 040a4h		;b78f
+	call 040a4h		;b78f   ; p00:40A4 hl_mas_a
 	ld a,(hl)			;b792
-	ld (ix+005h),a		;b793
+	ld (ix+005h),a		;b793   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	inc hl			;b796
 	ld a,(hl)			;b797
-	ld (ix+003h),a		;b798
-	jp L_B7C1		;b79b
+	ld (ix+003h),a		;b798   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
+	jp mira_scroll		;b79b
 
 ; ----------------------------------------------------------------------
 ; DATOS sin_lector_B79E: bytes sin lector conocido: ninguna instruccion
@@ -3616,55 +3616,55 @@ DATA_sin_lector_B79E:
 
 
 L_B7B0:
-	ld (ix+001h),001h		;b7b0
-	ld (ix+011h),018h		;b7b4
+	ld (ix+001h),001h		;b7b0   ; la ficha pasa al paso 1
+	ld (ix+011h),018h		;b7b4   ; ix+0x11: cuenta atras de lo que hace
 	xor a			;b7b8
-	ld (ix+074h),a		;b7b9
-	ld (0d409h),a		;b7bc
+	ld (ix+074h),a		;b7b9   ; ix+0x74: el tipo de choque (p01:7093)
+	ld (0d409h),a		;b7bc   ; 0xD409: lo que controla la salida de bichos
 	jr L_B7F5		;b7bf
-L_B7C1:
-	ld a,(ix+005h)		;b7c1
+mira_scroll:
+	ld a,(ix+005h)		;b7c1   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	sub 010h		;b7c4
 	ld h,a			;b7c6
-	ld a,(0c385h)		;b7c7
-	add a,(ix+003h)		;b7ca
+	ld a,(0c385h)		;b7c7   ; 0xC385: el SCROLL vertical: R#23 del VDP (p00:4C65)
+	add a,(ix+003h)		;b7ca   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 	sub 02fh		;b7cd
 	ld l,a			;b7cf
-	ld de,0e040h		;b7d0
+	ld de,0e040h		;b7d0   ; 0xE040: la tabla de 32x32 dibujos de la pantalla
 	ld bc,02030h		;b7d3
 	ld a,004h		;b7d6
 	jp 05252h		;b7d8
-L_B7DB:
-	ld a,(ix+005h)		;b7db
+mira_scroll_2:
+	ld a,(ix+005h)		;b7db   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	sub 010h		;b7de
 	ld d,a			;b7e0
-	ld a,(0c385h)		;b7e1
-	add a,(ix+003h)		;b7e4
+	ld a,(0c385h)		;b7e1   ; 0xC385: el SCROLL vertical: R#23 del VDP (p00:4C65)
+	add a,(ix+003h)		;b7e4   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 	sub 02fh		;b7e7
 	ld e,a			;b7e9
-	ld hl,0e040h		;b7ea
+	ld hl,0e040h		;b7ea   ; 0xE040: la tabla de 32x32 dibujos de la pantalla
 	ld bc,02030h		;b7ed
 	ld a,001h		;b7f0
 	jp 05226h		;b7f2
 L_B7F5:
-	ld a,(ix+005h)		;b7f5
+	ld a,(ix+005h)		;b7f5   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	sub 010h		;b7f8
 	ld d,a			;b7fa
-	ld a,(0c385h)		;b7fb
-	add a,(ix+003h)		;b7fe
+	ld a,(0c385h)		;b7fb   ; 0xC385: el SCROLL vertical: R#23 del VDP (p00:4C65)
+	add a,(ix+003h)		;b7fe   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 	sub 02fh		;b801
 	ld e,a			;b803
-	ld hl,0e0b0h		;b804
+	ld hl,0e0b0h		;b804   ; 0xE0B0: la tabla de 32x32 dibujos de la pantalla
 	ld bc,02030h		;b807
 	ld a,048h		;b80a
 	jp 051f2h		;b80c
 L_B80F:
 	ld bc,00725h		;b80f
-	ld d,(ix+005h)		;b812
-	ld e,(ix+003h)		;b815
+	ld d,(ix+005h)		;b812   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
+	ld e,(ix+003h)		;b815   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 L_B818:
 	ld a,b			;b818
-	ld (0d408h),a		;b819
+	ld (0d408h),a		;b819   ; 0xD408: lo que controla la salida de bichos
 	push bc			;b81c
 	push de			;b81d
 	push ix		;b81e
@@ -3673,19 +3673,19 @@ L_B818:
 	pop de			;b825
 	pop bc			;b826
 	djnz L_B818		;b827
-	ld a,(0c012h)		;b829
+	ld a,(0c012h)		;b829   ; 0xC012: el sonido del primer canal (p14:9420)
 	or a			;b82c
 	ret z			;b82d
-	ld a,01dh		;b82e
+	ld a,01dh		;b82e   ; el sonido 0x1D (p14:9C47 + 2*0x1D)
 	jp 041ach		;b830
-L_B833:
-	ld a,(ix+013h)		;b833
+con_pon_paleta:
+	ld a,(ix+013h)		;b833   ; ix+0x13: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	and 00bh		;b836
-	ld hl,0b843h		;b838
+	ld hl,0b843h		;b838   ; p03:B843 tabla_B843: tabla que lee p03:B838, p03:B83D (26 bytes)
 	jr z,L_B840		;b83b
 	ld hl,0b850h		;b83d
 L_B840:
-	jp 04d3fh		;b840
+	jp 04d3fh		;b840   ; p00:4D3F pon_paleta
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_B843: tabla que lee p03:B838, p03:B83D (26 bytes)
@@ -3699,15 +3699,15 @@ DATA_tabla_B843:
 ; ======================================================================
 
 
-L_B85D:
-	ld hl,0b8a1h		;b85d
+nace_tipo_36:
+	ld hl,0b8a1h		;b85d   ; p03:B8A1 ficha_B8A1: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
 	call 07084h		;b860
-	ld (ix+010h),042h		;b863
+	ld (ix+010h),042h		;b863   ; ix+0x10: el PATRON del sprite (p01:70FB)
 	ld hl,0b881h		;b867
-	ld a,(0d408h)		;b86a
+	ld a,(0d408h)		;b86a   ; 0xD408: lo que controla la salida de bichos
 	add a,a			;b86d
 	add a,a			;b86e
-	call 040a4h		;b86f
+	call 040a4h		;b86f   ; p00:40A4 hl_mas_a
 	ld e,(hl)			;b872
 	inc hl			;b873
 	ld d,(hl)			;b874
@@ -3740,10 +3740,10 @@ DATA_ficha_B8A1:
 ; ======================================================================
 
 
-L_B8A5:
-	jp L_AE55		;b8a5
+tipo_36:
+	jp rutina_13		;b8a5
 L_B8A8:
-	ld a,(0d401h)		;b8a8
+	ld a,(0d401h)		;b8a8   ; 0xD401: lo que controla la salida de bichos
 	dec a			;b8ab
 	jr z,L_B8C4		;b8ac
 	jp p,L_AE66		;b8ae
@@ -3755,28 +3755,28 @@ L_B8A8:
 	call 06d64h		;b8be
 	jp L_B098		;b8c1
 L_B8C4:
-	ld a,(0d402h)		;b8c4
+	ld a,(0d402h)		;b8c4   ; 0xD402: lo que controla la salida de bichos
 	and a			;b8c7
 	ret z			;b8c8
-	call L_AE7F		;b8c9
-	ld hl,0d407h		;b8cc
+	call mira_fase		;b8c9
+	ld hl,0d407h		;b8cc   ; 0xD407: lo que controla la salida de bichos
 	set 4,(hl)		;b8cf
 	ld hl,00064h		;b8d1
 	call 04818h		;b8d4
-	ld a,04fh		;b8d7
+	ld a,04fh		;b8d7   ; el sonido 0x4F (p14:9C47 + 2*0x4F)
 	call 041ach		;b8d9
 	ld b,008h		;b8dc
-	ld hl,0b6d7h		;b8de
-	call L_AEF7		;b8e1
+	ld hl,0b6d7h		;b8de   ; p03:B6D7 tabla_B6D7: tabla que lee p03:B6C4, p03:B8DE (16 bytes)
+	call pon_control_de_bichos_3		;b8e1
 	jp L_B098		;b8e4
-L_B8E7:
-	ld hl,0b903h		;b8e7
+nace_tipo_30:
+	ld hl,0b903h		;b8e7   ; p03:B903 ficha_B903: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 3) (p01:7080)
 	call 07080h		;b8ea
-	call L_AED6		;b8ed
-	ld (ix+010h),038h		;b8f0
-	ld (ix+011h),040h		;b8f4
-	ld (ix+018h),005h		;b8f8
-	ld (ix+068h),001h		;b8fc
+	call pon_control_de_bichos		;b8ed
+	ld (ix+010h),038h		;b8f0   ; ix+0x10: el PATRON del sprite (p01:70FB)
+	ld (ix+011h),040h		;b8f4   ; ix+0x11: cuenta atras de lo que hace
+	ld (ix+018h),005h		;b8f8   ; ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+068h),001h		;b8fc   ; ix+0x68: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	jp L_AF91		;b900
 
 ; ----------------------------------------------------------------------
@@ -3791,16 +3791,16 @@ DATA_ficha_B903:
 ; ======================================================================
 
 
-L_B907:
-	call L_ADFC		;b907
-	ld a,(0d402h)		;b90a
+tipo_30:
+	call mira_estado_de_gao		;b907
+	ld a,(0d402h)		;b90a   ; 0xD402: lo que controla la salida de bichos
 	and a			;b90d
 	ret nz			;b90e
-	call L_AEF0		;b90f
+	call pon_control_de_bichos_2		;b90f
 	ld bc,03810h		;b912
 	call 070f1h		;b915
-	ld a,(ix+001h)		;b918
-	call 040aeh		;b91b
+	ld a,(ix+001h)		;b918   ; reparte por el PASO de la ficha (ix+1): la tabla va detras del call
+	call 040aeh		;b91b   ; p00:40AE despacha
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_B91E: 7 destinos del despachador de 0x40AE (call en p03:B91B):
@@ -3822,22 +3822,22 @@ DATA_tabla_B91E:
 
 
 L_B92C:
-	call L_AEA4		;b92c
+	call mira_cuadros_2_2		;b92c
 	ret z			;b92f
 	xor a			;b930
-	ld (ix+074h),a		;b931
+	ld (ix+074h),a		;b931   ; ix+0x74: el tipo de choque (p01:7093)
 	inc a			;b934
-	ld (ix+006h),a		;b935
-	ld (ix+011h),a		;b938
-	ld (ix+017h),a		;b93b
+	ld (ix+006h),a		;b935   ; ix+0x06: cuenta atras (p01:6124)
+	ld (ix+011h),a		;b938   ; ix+0x11: cuenta atras de lo que hace
+	ld (ix+017h),a		;b93b   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ret			;b93e
 L_B93F:
-	dec (ix+011h)		;b93f
+	dec (ix+011h)		;b93f   ; cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 	ret nz			;b942
-	ld a,(ix+018h)		;b943
+	ld a,(ix+018h)		;b943   ; ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	and a			;b946
 	ld a,001h		;b947
-	ld (ix+011h),004h		;b949
+	ld (ix+011h),004h		;b949   ; ix+0x11: cuenta atras de lo que hace
 	jp z,L_BA14		;b94d
 	call 070bdh		;b950
 	cp 010h		;b953
@@ -3845,7 +3845,7 @@ L_B93F:
 	call 070b3h		;b957
 	cp 050h		;b95a
 	ld a,001h		;b95c
-	ld (ix+011h),004h		;b95e
+	ld (ix+011h),004h		;b95e   ; ix+0x11: cuenta atras de lo que hace
 	jp nc,L_BA14		;b962
 L_B965:
 	call 070d6h		;b965
@@ -3855,9 +3855,9 @@ L_B965:
 L_B96D:
 	jp L_BA10		;b96d
 L_B970:
-	dec (ix+011h)		;b970
+	dec (ix+011h)		;b970   ; cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 	ret nz			;b973
-	ld a,(ix+018h)		;b974
+	ld a,(ix+018h)		;b974   ; ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	and a			;b977
 	ld a,006h		;b978
 	jp z,L_BA10		;b97a
@@ -3872,9 +3872,9 @@ L_B970:
 L_B98E:
 	jp L_BA10		;b98e
 L_B991:
-	dec (ix+011h)		;b991
+	dec (ix+011h)		;b991   ; cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 	ret nz			;b994
-	ld a,(ix+018h)		;b995
+	ld a,(ix+018h)		;b995   ; ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	and a			;b998
 	ld a,009h		;b999
 	jp z,L_BA10		;b99b
@@ -3884,11 +3884,11 @@ L_B991:
 	call 070b3h		;b9a5
 	cp 050h		;b9a8
 	ld a,007h		;b9aa
-	ld (ix+011h),004h		;b9ac
+	ld (ix+011h),004h		;b9ac   ; ix+0x11: cuenta atras de lo que hace
 	jr nc,L_BA14		;b9b0
 	cp 030h		;b9b2
 	ld a,008h		;b9b4
-	ld (ix+011h),004h		;b9b6
+	ld (ix+011h),004h		;b9b6   ; ix+0x11: cuenta atras de lo que hace
 	jr nc,L_BA14		;b9ba
 L_B9BC:
 	call 070d6h		;b9bc
@@ -3898,9 +3898,9 @@ L_B9BC:
 L_B9C4:
 	jr L_BA10		;b9c4
 L_B9C6:
-	dec (ix+011h)		;b9c6
+	dec (ix+011h)		;b9c6   ; cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 	ret nz			;b9c9
-	ld a,(ix+018h)		;b9ca
+	ld a,(ix+018h)		;b9ca   ; ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	and a			;b9cd
 	ld a,00dh		;b9ce
 	jr z,L_BA10		;b9d0
@@ -3915,12 +3915,12 @@ L_B9C6:
 L_B9E2:
 	jr L_BA10		;b9e2
 L_B9E4:
-	dec (ix+011h)		;b9e4
+	dec (ix+011h)		;b9e4   ; cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 	ret nz			;b9e7
-	ld a,(ix+018h)		;b9e8
+	ld a,(ix+018h)		;b9e8   ; ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	and a			;b9eb
 	ld a,00eh		;b9ec
-	ld (ix+011h),004h		;b9ee
+	ld (ix+011h),004h		;b9ee   ; ix+0x11: cuenta atras de lo que hace
 	jr z,L_BA14		;b9f2
 	call 070bdh		;b9f4
 	cp 010h		;b9f7
@@ -3928,7 +3928,7 @@ L_B9E4:
 	call 070b3h		;b9fb
 	cp 030h		;b9fe
 	ld a,00eh		;ba00
-	ld (ix+011h),004h		;ba02
+	ld (ix+011h),004h		;ba02   ; ix+0x11: cuenta atras de lo que hace
 	jr nc,L_BA14		;ba06
 L_BA08:
 	call 070d6h		;ba08
@@ -3936,40 +3936,40 @@ L_BA08:
 	jr c,L_BA10		;ba0d
 	inc a			;ba0f
 L_BA10:
-	ld (ix+011h),00ch		;ba10
+	ld (ix+011h),00ch		;ba10   ; ix+0x11: cuenta atras de lo que hace
 L_BA14:
-	ld (ix+001h),006h		;ba14
-	ld (ix+006h),001h		;ba18
+	ld (ix+001h),006h		;ba14   ; la ficha pasa al paso 6
+	ld (ix+006h),001h		;ba18   ; ix+0x06: cuenta atras (p01:6124)
 	jr L_BA48		;ba1c
 L_BA1E:
-	dec (ix+011h)		;ba1e
+	dec (ix+011h)		;ba1e   ; cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 	ret nz			;ba21
-	ld a,(ix+018h)		;ba22
+	ld a,(ix+018h)		;ba22   ; ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	and a			;ba25
 	jr nz,L_BA2C		;ba26
-	ld (ix+018h),006h		;ba28
+	ld (ix+018h),006h		;ba28   ; ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 L_BA2C:
-	dec (ix+018h)		;ba2c
-	ld (ix+006h),000h		;ba2f
-	ld (ix+011h),00ah		;ba33
-	ld a,(ix+016h)		;ba37
-	ld (ix+001h),a		;ba3a
-	dec (ix+017h)		;ba3d
+	dec (ix+018h)		;ba2c   ; ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+006h),000h		;ba2f   ; ix+0x06: cuenta atras (p01:6124)
+	ld (ix+011h),00ah		;ba33   ; ix+0x11: cuenta atras de lo que hace
+	ld a,(ix+016h)		;ba37   ; ix+0x16: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+001h),a		;ba3a   ; ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
+	dec (ix+017h)		;ba3d   ; cuenta atras en ix+0x17: hasta que llegue a 0, nada mas
 	ret nz			;ba40
-	ld (ix+017h),005h		;ba41
+	ld (ix+017h),005h		;ba41   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	jp L_BAAA		;ba45
 L_BA48:
 	add a,a			;ba48
 	ld hl,0ba68h		;ba49
-	call 040a4h		;ba4c
+	call 040a4h		;ba4c   ; p00:40A4 hl_mas_a
 	ld a,(hl)			;ba4f
-	ld (ix+016h),a		;ba50
+	ld (ix+016h),a		;ba50   ; ix+0x16: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	inc hl			;ba53
 	ld a,(hl)			;ba54
 	add a,a			;ba55
 	add a,a			;ba56
 	ld hl,0ba8ah		;ba57
-	call 040a4h		;ba5a
+	call 040a4h		;ba5a   ; p00:40A4 hl_mas_a
 	ld e,(hl)			;ba5d
 	inc hl			;ba5e
 	ld d,(hl)			;ba5f
@@ -3996,27 +3996,27 @@ DATA_tabla_BA6A:
 
 L_BAAA:
 	ld bc,00526h		;baaa
-	ld d,(ix+005h)		;baad
-	ld e,(ix+003h)		;bab0
+	ld d,(ix+005h)		;baad   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
+	ld e,(ix+003h)		;bab0   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 L_BAB3:
 	ld a,b			;bab3
-	ld (0d408h),a		;bab4
+	ld (0d408h),a		;bab4   ; 0xD408: lo que controla la salida de bichos
 	push bc			;bab7
 	push de			;bab8
 	call 06d64h		;bab9
 	pop de			;babc
 	pop bc			;babd
 	djnz L_BAB3		;babe
-	ld a,(0c012h)		;bac0
+	ld a,(0c012h)		;bac0   ; 0xC012: el sonido del primer canal (p14:9420)
 	or a			;bac3
 	ret z			;bac4
-	ld a,01dh		;bac5
+	ld a,01dh		;bac5   ; el sonido 0x1D (p14:9C47 + 2*0x1D)
 	jp 041ach		;bac7
-L_BACA:
-	ld hl,0bae6h		;baca
+nace_tipo_37:
+	ld hl,0bae6h		;baca   ; p03:BAE6 ficha_BAE6: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
 	call 07084h		;bacd
-	ld (ix+010h),043h		;bad0
-	ld a,(0d408h)		;bad4
+	ld (ix+010h),043h		;bad0   ; ix+0x10: el PATRON del sprite (p01:70FB)
+	ld a,(0d408h)		;bad4   ; 0xD408: lo que controla la salida de bichos
 	ld de,0bae8h		;bad7
 	call 0486fh		;bada
 	call 07933h		;badd
@@ -4042,35 +4042,35 @@ DATA_sin_lector_BAEA:
 ; ======================================================================
 
 
-L_BAF4:
-	call L_AE55		;baf4
+tipo_37:
+	call rutina_13		;baf4
 	ld bc,04304h		;baf7
 	call 070f1h		;bafa
-	ld a,(ix+060h)		;bafd
+	ld a,(ix+060h)		;bafd   ; ix+0x60: cuenta de cuadros (p01:70F1)
 	and 003h		;bb00
 	jr nz,L_BB14		;bb02
-	ld a,(0c012h)		;bb04
+	ld a,(0c012h)		;bb04   ; 0xC012: el sonido del primer canal (p14:9420)
 	or a			;bb07
 	jr z,L_BB14		;bb08
-	ld a,(0c072h)		;bb0a
+	ld a,(0c072h)		;bb0a   ; 0xC072: el sonido que lleva el ruido del PSG (p14:9439)
 	ld b,a			;bb0d
 	ld a,02bh		;bb0e
 	cp b			;bb10
 	call nz,041ach		;bb11
 L_BB14:
-	ld a,(ix+001h)		;bb14
+	ld a,(ix+001h)		;bb14   ; ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 	dec a			;bb17
 	ret z			;bb18
-	ld a,(ix+003h)		;bb19
+	ld a,(ix+003h)		;bb19   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 	cp 0cfh		;bb1c
 	ret c			;bb1e
-	inc (ix+001h)		;bb1f
+	inc (ix+001h)		;bb1f   ; la ficha pasa al paso siguiente
 	ld de,00000h		;bb22
 	call 07933h		;bb25
 	ld de,0fc00h		;bb28
 	jp 0792ch		;bb2b
 L_BB2E:
-	ld a,(0d401h)		;bb2e
+	ld a,(0d401h)		;bb2e   ; 0xD401: lo que controla la salida de bichos
 	dec a			;bb31
 	jr z,L_BB4A		;bb32
 	jp p,L_BB79		;bb34
@@ -4082,16 +4082,16 @@ L_BB2E:
 	call 06d64h		;bb44
 	jp L_B098		;bb47
 L_BB4A:
-	ld a,(0d402h)		;bb4a
+	ld a,(0d402h)		;bb4a   ; 0xD402: lo que controla la salida de bichos
 	and a			;bb4d
 	ret z			;bb4e
 	ld hl,00064h		;bb4f
 	call 04818h		;bb52
-	ld a,052h		;bb55
+	ld a,052h		;bb55   ; el sonido 0x52 (p14:9C47 + 2*0x52)
 	call 041ach		;bb57
-	ld hl,0bb65h		;bb5a
+	ld hl,0bb65h		;bb5a   ; p03:BB65 tabla_BB65: tabla que lee p03:BB5A (20 bytes)
 	ld b,00ah		;bb5d
-	call L_AEF7		;bb5f
+	call pon_control_de_bichos_3		;bb5f
 	jp L_B098		;bb62
 
 ; ----------------------------------------------------------------------
@@ -4107,22 +4107,22 @@ DATA_tabla_BB65:
 
 
 L_BB79:
-	ld hl,0d403h		;bb79
+	ld hl,0d403h		;bb79   ; 0xD403: lo que controla la salida de bichos
 	dec (hl)			;bb7c
 	ret nz			;bb7d
 	xor a			;bb7e
-	ld (0d400h),a		;bb7f
+	ld (0d400h),a		;bb7f   ; 0xD400: lo que controla la salida de bichos
 	ld a,00ch		;bb82
 	jp 0432eh		;bb84
-L_BB87:
-	ld hl,0bbb0h		;bb87
+nace_tipo_31:
+	ld hl,0bbb0h		;bb87   ; p03:BBB0 ficha_BBB0: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 3) (p01:7080)
 	call 07080h		;bb8a
-	ld hl,0bba5h		;bb8d
+	ld hl,0bba5h		;bb8d   ; p03:BBA5 ficha_BBA5: 11 bytes de la ficha del bicho desde ix+7 (p01:7073)
 	call 07073h		;bb90
-	call L_AED6		;bb93
-	ld (ix+016h),050h		;bb96
-	ld (ix+017h),020h		;bb9a
-	ld (ix+068h),001h		;bb9e
+	call pon_control_de_bichos		;bb93
+	ld (ix+016h),050h		;bb96   ; ix+0x16: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+017h),020h		;bb9a   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+068h),001h		;bb9e   ; ix+0x68: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	jp L_AF91		;bba2
 
 ; ----------------------------------------------------------------------
@@ -4144,43 +4144,43 @@ DATA_ficha_BBB0:
 ; ======================================================================
 
 
-L_BBB4:
-	call L_ADFC		;bbb4
-	ld a,(0d402h)		;bbb7
+tipo_31:
+	call mira_estado_de_gao		;bbb4
+	ld a,(0d402h)		;bbb7   ; 0xD402: lo que controla la salida de bichos
 	and a			;bbba
 	ret nz			;bbbb
-	call L_AEF0		;bbbc
-	ld a,(ix+001h)		;bbbf
+	call pon_control_de_bichos_2		;bbbc
+	ld a,(ix+001h)		;bbbf   ; ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 	dec a			;bbc2
 	jr z,L_BBDD		;bbc3
 	dec a			;bbc5
 	jp z,L_BC18		;bbc6
 	jp p,L_BC32		;bbc9
-	call L_AEA4		;bbcc
+	call mira_cuadros_2_2		;bbcc
 	ret z			;bbcf
-	ld (ix+006h),001h		;bbd0
-	ld (ix+011h),070h		;bbd4
-	ld (ix+074h),000h		;bbd8
+	ld (ix+006h),001h		;bbd0   ; ix+0x06: cuenta atras (p01:6124)
+	ld (ix+011h),070h		;bbd4   ; ix+0x11: cuenta atras de lo que hace
+	ld (ix+074h),000h		;bbd8   ; ix+0x74: el tipo de choque (p01:7093)
 	ret			;bbdc
 L_BBDD:
 	ld bc,03a08h		;bbdd
 	call 070f1h		;bbe0
-	ld bc,0d030h		;bbe3
+	ld bc,0d030h		;bbe3   ; 0xD030: la ficha del bicho 0, byte 0x30 (p01:74B7)
 	ld de,00300h		;bbe6
 	call 07193h		;bbe9
-	call L_BC5D		;bbec
-	ld a,(0c4b0h)		;bbef
+	call mira_sonido_1		;bbec
+	ld a,(0c4b0h)		;bbef   ; 0xC4B0: cuenta los cuadros; el bit 0 alterna los colores de los sprites (p02:93AA)
 	and 001h		;bbf2
 	ret nz			;bbf4
-	dec (ix+016h)		;bbf5
+	dec (ix+016h)		;bbf5   ; ix+0x16: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	jr nz,L_BC01		;bbf8
-	ld (ix+016h),050h		;bbfa
+	ld (ix+016h),050h		;bbfa   ; ix+0x16: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	jp 07099h		;bbfe
 L_BC01:
-	dec (ix+011h)		;bc01
+	dec (ix+011h)		;bc01   ; cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 	ret nz			;bc04
-	inc (ix+001h)		;bc05
-	ld (ix+011h),028h		;bc08
+	inc (ix+001h)		;bc05   ; la ficha pasa al paso siguiente
+	ld (ix+011h),028h		;bc08   ; ix+0x11: cuenta atras de lo que hace
 	ld de,00000h		;bc0c
 	call 07933h		;bc0f
 	ld de,00300h		;bc12
@@ -4188,35 +4188,35 @@ L_BC01:
 L_BC18:
 	ld bc,03a08h		;bc18
 	call 070f1h		;bc1b
-	call L_BC5D		;bc1e
-	dec (ix+011h)		;bc21
+	call mira_sonido_1		;bc1e
+	dec (ix+011h)		;bc21   ; cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 	ret nz			;bc24
-	inc (ix+001h)		;bc25
-	ld (ix+011h),028h		;bc28
+	inc (ix+001h)		;bc25   ; la ficha pasa al paso siguiente
+	ld (ix+011h),028h		;bc28   ; ix+0x11: cuenta atras de lo que hace
 	ld de,0fd00h		;bc2c
 	jp 0792ch		;bc2f
 L_BC32:
 	ld bc,03a08h		;bc32
 	call 070f1h		;bc35
-	call L_BC5D		;bc38
-	dec (ix+011h)		;bc3b
+	call mira_sonido_1		;bc38
+	dec (ix+011h)		;bc3b   ; cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 	ret nz			;bc3e
-	ld (ix+001h),001h		;bc3f
+	ld (ix+001h),001h		;bc3f   ; la ficha pasa al paso 1
 	call 0987fh		;bc43
 	and 01fh		;bc46
 	add a,070h		;bc48
-	ld (ix+011h),a		;bc4a
-	ld (ix+016h),050h		;bc4d
+	ld (ix+011h),a		;bc4a   ; ix+0x11: cuenta atras de lo que hace
+	ld (ix+016h),050h		;bc4d   ; ix+0x16: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ld de,00300h		;bc51
 	call 07933h		;bc54
 	ld de,00000h		;bc57
 	jp 0792ch		;bc5a
-L_BC5D:
-	dec (ix+017h)		;bc5d
+mira_sonido_1:
+	dec (ix+017h)		;bc5d   ; cuenta atras en ix+0x17: hasta que llegue a 0, nada mas
 	ret nz			;bc60
-	ld (ix+017h),020h		;bc61
-	ld d,(ix+005h)		;bc65
-	ld e,(ix+003h)		;bc68
+	ld (ix+017h),020h		;bc61   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld d,(ix+005h)		;bc65   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
+	ld e,(ix+003h)		;bc68   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 	ld c,027h		;bc6b
 	push de			;bc6d
 	call 06d64h		;bc6e
@@ -4229,17 +4229,17 @@ L_BC75:
 	pop bc			;bc7a
 	pop de			;bc7b
 	djnz L_BC75		;bc7c
-	ld hl,0d408h		;bc7e
+	ld hl,0d408h		;bc7e   ; 0xD408: lo que controla la salida de bichos
 	inc (hl)			;bc81
-	ld a,(0c012h)		;bc82
+	ld a,(0c012h)		;bc82   ; 0xC012: el sonido del primer canal (p14:9420)
 	or a			;bc85
 	ret z			;bc86
-	ld a,019h		;bc87
+	ld a,019h		;bc87   ; el sonido 0x19 (p14:9C47 + 2*0x19)
 	jp 041ach		;bc89
-L_BC8C:
-	ld hl,0bca2h		;bc8c
+nace_tipo_38:
+	ld hl,0bca2h		;bc8c   ; p03:BCA2 ficha_BCA2: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
 	call 07084h		;bc8f
-	ld (ix+010h),045h		;bc92
+	ld (ix+010h),045h		;bc92   ; ix+0x10: el PATRON del sprite (p01:70FB)
 	ld de,00000h		;bc96
 	call 07933h		;bc99
 	ld de,00400h		;bc9c
@@ -4257,26 +4257,26 @@ DATA_ficha_BCA2:
 ; ======================================================================
 
 
-L_BCA6:
-	call L_AE55		;bca6
+tipo_38:
+	call rutina_13		;bca6
 	ld bc,04504h		;bca9
 	jp 070f1h		;bcac
-L_BCAF:
-	ld hl,0bca2h		;bcaf
+nace_tipo_39:
+	ld hl,0bca2h		;bcaf   ; p03:BCA2 ficha_BCA2: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
 	call 07084h		;bcb2
-	ld (ix+010h),045h		;bcb5
-	ld hl,0bcdeh		;bcb9
-	ld a,(0d408h)		;bcbc
+	ld (ix+010h),045h		;bcb5   ; ix+0x10: el PATRON del sprite (p01:70FB)
+	ld hl,0bcdeh		;bcb9   ; p03:BCDE tabla_BCDE: tabla que lee p03:BCB9 (16 bytes)
+	ld a,(0d408h)		;bcbc   ; 0xD408: lo que controla la salida de bichos
 	and 003h		;bcbf
 	add a,a			;bcc1
 	add a,a			;bcc2
-	call 040a4h		;bcc3
+	call 040a4h		;bcc3   ; p00:40A4 hl_mas_a
 	ld a,(hl)			;bcc6
-	ld (ix+011h),a		;bcc7
+	ld (ix+011h),a		;bcc7   ; ix+0x11: cuenta atras de lo que hace
 	inc hl			;bcca
 	ld c,(hl)			;bccb
-	bit 0,(ix+015h)		;bccc
-	ld (ix+015h),000h		;bcd0
+	bit 0,(ix+015h)		;bccc   ; ix+0x15: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+015h),000h		;bcd0   ; ix+0x15: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	inc hl			;bcd4
 	jr z,L_BCD8		;bcd5
 	inc hl			;bcd7
@@ -4296,43 +4296,43 @@ DATA_tabla_BCDE:
 ; ======================================================================
 
 
-L_BCEE:
-	call L_AE55		;bcee
+tipo_39:
+	call rutina_13		;bcee
 	ld bc,04504h		;bcf1
 	call 070f1h		;bcf4
-	ld a,(ix+001h)		;bcf7
+	ld a,(ix+001h)		;bcf7   ; ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 	dec a			;bcfa
 	ret z			;bcfb
-	dec (ix+011h)		;bcfc
+	dec (ix+011h)		;bcfc   ; cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 	ret nz			;bcff
-	inc (ix+001h)		;bd00
+	inc (ix+001h)		;bd00   ; la ficha pasa al paso siguiente
 	ld a,0b0h		;bd03
 	jp 07189h		;bd05
 L_BD08:
 	call 0623eh		;bd08
-	ld a,(ix+001h)		;bd0b
+	ld a,(ix+001h)		;bd0b   ; ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 	dec a			;bd0e
 	jr z,L_BD40		;bd0f
 	jp p,L_BD78		;bd11
 	ld de,00101h		;bd14
 	ld hl,00001h		;bd17
-	ld a,(ix+055h)		;bd1a
+	ld a,(ix+055h)		;bd1a   ; ix+0x55: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	call 062e2h		;bd1d
 	neg		;bd20
-	add a,(ix+043h)		;bd22
-	ld (ix+043h),a		;bd25
+	add a,(ix+043h)		;bd22   ; ix+0x43: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+043h),a		;bd25   ; ix+0x43: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ret nc			;bd28
-	ld (ix+046h),0a0h		;bd29
-	ld (ix+001h),001h		;bd2d
-	ld (ix+056h),001h		;bd31
-	ld a,013h		;bd35
+	ld (ix+046h),0a0h		;bd29   ; ix+0x46: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+001h),001h		;bd2d   ; la ficha pasa al paso 1
+	ld (ix+056h),001h		;bd31   ; ix+0x56: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld a,013h		;bd35   ; el sonido 0x13 (p14:9C47 + 2*0x13)
 	call 041ach		;bd37
 	ld hl,0000ah		;bd3a
 	jp 04818h		;bd3d
 L_BD40:
-	ld a,(ix+029h)		;bd40
+	ld a,(ix+029h)		;bd40   ; ix+0x29: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	or a			;bd43
-	ld a,(ix+003h)		;bd44
+	ld a,(ix+003h)		;bd44   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 	jr z,L_BD59		;bd47
 	jp p,L_BD53		;bd49
 	sub 040h		;bd4c
@@ -4348,67 +4348,67 @@ L_BD59:
 	cp 0d8h		;bd59
 	ret nc			;bd5b
 L_BD5C:
-	ld a,(ix+003h)		;bd5c
-	add a,(ix+029h)		;bd5f
+	ld a,(ix+003h)		;bd5c   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
+	add a,(ix+029h)		;bd5f   ; ix+0x29: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	add a,018h		;bd62
 	cp 0c0h		;bd64
 	ret nc			;bd66
-	set 7,(ix+028h)		;bd67
-	set 7,(ix+038h)		;bd6b
-	ld (ix+001h),002h		;bd6f
-	set 0,(ix+05eh)		;bd73
+	set 7,(ix+028h)		;bd67   ; ix+0x28: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	set 7,(ix+038h)		;bd6b   ; ix+0x38: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+001h),002h		;bd6f   ; la ficha pasa al paso 2
+	set 0,(ix+05eh)		;bd73   ; ix+0x5E: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ret			;bd77
 L_BD78:
-	ld a,(ix+055h)		;bd78
+	ld a,(ix+055h)		;bd78   ; ix+0x55: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	and 004h		;bd7b
 	ret z			;bd7d
-	ld a,(0c800h)		;bd7e
+	ld a,(0c800h)		;bd7e   ; 0xC800: lo que hace Gao (p00:5C68)
 	cp 001h		;bd81
 	ret z			;bd83
 	cp 002h		;bd84
 	ret z			;bd86
-	ld a,(ix+003h)		;bd87
-	add a,(ix+029h)		;bd8a
+	ld a,(ix+003h)		;bd87   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
+	add a,(ix+029h)		;bd8a   ; ix+0x29: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ld c,a			;bd8d
 	sub 020h		;bd8e
 	cp 0a0h		;bd90
 	ret nc			;bd92
-	ld a,(ix+005h)		;bd93
-	add a,(ix+02ah)		;bd96
+	ld a,(ix+005h)		;bd93   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
+	add a,(ix+02ah)		;bd96   ; ix+0x2A: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	add a,008h		;bd99
-	ld (0c809h),a		;bd9b
+	ld (0c809h),a		;bd9b   ; 0xC809: la X de Gao (p01:70BD)
 	ld a,c			;bd9e
 	add a,008h		;bd9f
-	ld (0c80bh),a		;bda1
-	ld (ix+055h),000h		;bda4
+	ld (0c80bh),a		;bda1   ; 0xC80B: la Y de Gao (p01:70B3)
+	ld (ix+055h),000h		;bda4   ; ix+0x55: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ld a,002h		;bda8
-	ld (0c860h),a		;bdaa
-	ld a,027h		;bdad
+	ld (0c860h),a		;bdaa   ; 0xC860: el OBJETO 5 (byte 0 de 4; p06:BAC2)
+	ld a,027h		;bdad   ; el sonido 0x27 (p14:9C47 + 2*0x27)
 	call 041ach		;bdaf
 	jp 075ceh		;bdb2
 L_BDB5:
 	call 06136h		;bdb5
-	ld (ix+043h),001h		;bdb8
-	ld de,0be36h		;bdbc
+	ld (ix+043h),001h		;bdb8   ; ix+0x43: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld de,0be36h		;bdbc   ; p03:BE36 tabla_BE36: tabla que lee p03:BDBC, p03:BDC2, p03:BDC8, p03:BDCE, p03:BDE7 (13 bytes)
 	call 06162h		;bdbf
-	ld de,0be36h		;bdc2
+	ld de,0be36h		;bdc2   ; p03:BE36 tabla_BE36: tabla que lee p03:BDBC, p03:BDC2, p03:BDC8, p03:BDCE, p03:BDE7 (13 bytes)
 	call 061a5h		;bdc5
-	ld de,0be36h		;bdc8
+	ld de,0be36h		;bdc8   ; p03:BE36 tabla_BE36: tabla que lee p03:BDBC, p03:BDC2, p03:BDC8, p03:BDCE, p03:BDE7 (13 bytes)
 	call 061a5h		;bdcb
-	ld de,0be36h		;bdce
+	ld de,0be36h		;bdce   ; p03:BE36 tabla_BE36: tabla que lee p03:BDBC, p03:BDC2, p03:BDC8, p03:BDCE, p03:BDE7 (13 bytes)
 	call 061a5h		;bdd1
-	ld (ix+036h),060h		;bdd4
-	ld (ix+035h),090h		;bdd8
-	ld (ix+03eh),070h		;bddc
-	ld (ix+03dh),090h		;bde0
+	ld (ix+036h),060h		;bdd4   ; ix+0x36: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+035h),090h		;bdd8   ; ix+0x35: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+03eh),070h		;bddc   ; ix+0x3E: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+03dh),090h		;bde0   ; ix+0x3D: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	call 061cfh		;bde4
 	ld de,0be3dh		;bde7
 	call 06186h		;bdea
 	call 061cfh		;bded
-	ld a,(0cb06h)		;bdf0
+	ld a,(0cb06h)		;bdf0   ; 0xCB06: las cosas del camino que se van poniendo (p01:72ED)
 	ld c,a			;bdf3
 	and 0f8h		;bdf4
-	ld (ix+005h),a		;bdf6
+	ld (ix+005h),a		;bdf6   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	xor c			;bdf9
 	and 003h		;bdfa
 	xor 001h		;bdfc
@@ -4419,21 +4419,21 @@ L_BDB5:
 	neg		;be05
 	rr c		;be07
 	jr c,L_BE13		;be09
-	add a,(ix+029h)		;be0b
-	ld (ix+029h),a		;be0e
+	add a,(ix+029h)		;be0b   ; ix+0x29: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+029h),a		;be0e   ; ix+0x29: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	jr L_BE19		;be11
 L_BE13:
-	add a,(ix+02ah)		;be13
-	ld (ix+02ah),a		;be16
+	add a,(ix+02ah)		;be13   ; ix+0x2A: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+02ah),a		;be16   ; ix+0x2A: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 L_BE19:
-	ld a,(ix+02ah)		;be19
-	ld (ix+03ah),a		;be1c
-	ld a,(ix+029h)		;be1f
-	ld (ix+039h),a		;be22
-	ld (ix+036h),060h		;be25
-	ld (ix+035h),090h		;be29
-	ld (ix+03eh),070h		;be2d
-	ld (ix+03dh),090h		;be31
+	ld a,(ix+02ah)		;be19   ; ix+0x2A: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+03ah),a		;be1c   ; ix+0x3A: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld a,(ix+029h)		;be1f   ; ix+0x29: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+039h),a		;be22   ; ix+0x39: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+036h),060h		;be25   ; ix+0x36: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+035h),090h		;be29   ; ix+0x35: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+03eh),070h		;be2d   ; ix+0x3E: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld (ix+03dh),090h		;be31   ; ix+0x3D: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ret			;be35
 
 ; ----------------------------------------------------------------------

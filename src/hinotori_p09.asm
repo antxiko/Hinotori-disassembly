@@ -1693,29 +1693,29 @@ DATA_tabla_B658:
 
 
 L_B880:
-	call L_B8BD		;b880
-	ld (0f100h),a		;b883
+	call rutina		;b880
+	ld (0f100h),a		;b883   ; 0xF100: la ranura de Hinotori (p09:B883)
 	ld hl,04002h		;b886
-	call L_B8D6		;b889
-	ld (0f102h),de		;b88c
+	call mira_ranura_del_otro		;b889
+	ld (0f102h),de		;b88c   ; 0xF102: el INIT de King Kong 2, leido de su 0x4002 (p09:B88C)
 	ld hl,0f87fh		;b890
 	ld b,0a0h		;b893
-	call L_BC4E		;b895
-	call L_B8EA		;b898
-	call L_B919		;b89b
-	call L_B8A4		;b89e
-	jp 0f120h		;b8a1
-L_B8A4:
+	call bucle		;b895
+	call mira_init_de_king_kong		;b898
+	call mira_codigo_en_ram		;b89b
+	call pon_grabando		;b89e
+	jp 0f120h		;b8a1   ; 0xF120: el INIT de King Kong 2 y el gancho de Hinotori, copiados (p09:B8EA, p09:B919)
+pon_grabando:
 	ld a,0c9h		;b8a4
 	ld (0fd9fh),a		;b8a6
-	ld hl,0f220h		;b8a9
+	ld hl,0f220h		;b8a9   ; 0xF220: el INIT de King Kong 2 y el gancho de Hinotori, copiados (p09:B8EA, p09:B919)
 	ld (0fda0h),hl		;b8ac
 	ld hl,00000h		;b8af
-	ld (0f106h),hl		;b8b2
-	ld a,(0f101h)		;b8b5
+	ld (0f106h),hl		;b8b2   ; 0xF106: se esta grabando o cargando la partida de King Kong 2
+	ld a,(0f101h)		;b8b5   ; 0xF101: la ranura del otro cartucho (p00:5E36)
 	ld h,040h		;b8b8
 	jp 00024h		;b8ba   ; BIOS ENASLT - Switches to specified slot and page definitively
-L_B8BD:
+rutina:
 	call 00138h		;b8bd   ; BIOS RSLREG - Reads the primary slot register
 	rrca			;b8c0
 	rrca			;b8c1
@@ -1734,12 +1734,12 @@ L_B8BD:
 	and 00ch		;b8d2
 	or c			;b8d4
 	ret			;b8d5
-L_B8D6:
-	ld a,(0f101h)		;b8d6
+mira_ranura_del_otro:
+	ld a,(0f101h)		;b8d6   ; 0xF101: la ranura del otro cartucho (p00:5E36)
 	ld c,a			;b8d9
-	call L_B8DE		;b8da
+	call lee_de_otra_ranura		;b8da
 	ld e,d			;b8dd
-L_B8DE:
+lee_de_otra_ranura:
 	ld a,c			;b8de
 	push bc			;b8df
 	push de			;b8e0
@@ -1750,14 +1750,14 @@ L_B8DE:
 	or e			;b8e7
 	inc hl			;b8e8
 	ret			;b8e9
-L_B8EA:
-	ld hl,(0f102h)		;b8ea
-	ld de,0f120h		;b8ed
-	ld b,000h		;b8f0
+mira_init_de_king_kong:
+	ld hl,(0f102h)		;b8ea   ; 0xF102: el INIT de King Kong 2, leido de su 0x4002 (p09:B88C)
+	ld de,0f120h		;b8ed   ; 0xF120: el INIT de King Kong 2 y el gancho de Hinotori, copiados (p09:B8EA, p09:B919)
+	ld b,000h		;b8f0   ; 0 vueltas
 L_B8F2:
 	push bc			;b8f2
 	push de			;b8f3
-	ld a,(0f101h)		;b8f4
+	ld a,(0f101h)		;b8f4   ; 0xF101: la ranura del otro cartucho (p00:5E36)
 	call 0000ch		;b8f7   ; BIOS RDSLT - Reads the value of an address in another slot
 	pop de			;b8fa
 	pop bc			;b8fb
@@ -1766,7 +1766,7 @@ L_B8F2:
 	inc de			;b8fe
 	djnz L_B8F2		;b8ff
 	ld bc,00100h		;b901
-	ld hl,0f120h		;b904
+	ld hl,0f120h		;b904   ; 0xF120: el INIT de King Kong 2 y el gancho de Hinotori, copiados (p09:B8EA, p09:B919)
 L_B907:
 	ld a,0a0h		;b907
 	cpir		;b909
@@ -1775,14 +1775,14 @@ L_B907:
 	ld a,0fdh		;b90d
 	cp (hl)			;b90f
 	jr nz,L_B907		;b910
-	ld de,0f104h		;b912
+	ld de,0f104h		;b912   ; 0xF104: la interrupcion de King Kong 2 (p09:B917)
 	ld (hl),d			;b915
 	dec hl			;b916
 	ld (hl),e			;b917
 	ret			;b918
-L_B919:
-	ld hl,0b925h		;b919
-	ld de,0f220h		;b91c
+mira_codigo_en_ram:
+	ld hl,0b925h		;b919   ; p09:B925 codigo_para_f220: 0xAA bytes de CODIGO que p09:B919 copia a 0xF220 (ldir) y que corre alli: p09:B8A4 pone 0xF220 en el gancho H.
+	ld de,0f220h		;b91c   ; 0xF220: el INIT de King Kong 2 y el gancho de Hinotori, copiados (p09:B8EA, p09:B919)
 	ld bc,000aah		;b91f
 	ldir		;b922
 	ret			;b924
@@ -1813,8 +1813,8 @@ DATA_codigo_para_f220:
 
 
 L_B9CF:
-	ld a,(0f108h)		;b9cf
-	call 040aeh		;b9d2
+	ld a,(0f108h)		;b9cf   ; 0xF108: lo de arrancar King Kong 2 (p09:B880)
+	call 040aeh		;b9d2   ; p00:40AE despacha
 
 ; ----------------------------------------------------------------------
 ; DATOS sin_lector_B9D5: bytes sin lector conocido: ninguna instruccion
@@ -1829,17 +1829,17 @@ DATA_sin_lector_B9D5:
 
 
 L_B9DF:
-	call L_BBC5		;b9df
-	call L_BBB5		;b9e2
+	call con_hmmv		;b9df
+	call rutina_2		;b9e2
 	ld hl,0bc6eh		;b9e5
 	call 04f87h		;b9e8
-	call L_BC49		;b9eb
+	call mira_king_kong_4		;b9eb
 L_B9EE:
-	ld hl,0f108h		;b9ee
+	ld hl,0f108h		;b9ee   ; 0xF108: lo de arrancar King Kong 2 (p09:B880)
 	inc (hl)			;b9f1
 	ret			;b9f2
 L_B9F3:
-	call L_BBD9		;b9f3
+	call mira_king_kong_2		;b9f3
 	jp c,L_BB39		;b9f6
 	push af			;b9f9
 	ld hl,0bcb3h		;b9fa
@@ -1853,7 +1853,7 @@ L_B9F3:
 L_BA0C:
 	ld a,001h		;ba0c
 	call 000eah		;ba0e   ; BIOS TAPOON - Turns on the cassette motor and writes the header
-	ld b,00ah		;ba11
+	ld b,00ah		;ba11   ; 10 vueltas
 L_BA13:
 	push bc			;ba13
 	ld a,0eah		;ba14
@@ -1861,8 +1861,8 @@ L_BA13:
 	pop bc			;ba19
 	jp c,L_BA84		;ba1a
 	djnz L_BA13		;ba1d
-	ld b,006h		;ba1f
-	ld hl,0f10ah		;ba21
+	ld b,006h		;ba1f   ; 6 vueltas
+	ld hl,0f10ah		;ba21   ; 0xF10A: lo de arrancar King Kong 2 (p09:B880)
 L_BA24:
 	push hl			;ba24
 	push bc			;ba25
@@ -1924,7 +1924,7 @@ L_BA6A:
 	ret nz			;ba7d
 L_BA7E:
 	xor a			;ba7e
-	ld (0f108h),a		;ba7f
+	ld (0f108h),a		;ba7f   ; 0xF108: lo de arrancar King Kong 2 (p09:B880)
 	ret			;ba82
 L_BA83:
 	pop hl			;ba83
@@ -1934,13 +1934,13 @@ L_BA84:
 	call 04f8bh		;ba8a
 	ld hl,0bcb3h		;ba8d
 	call 04f87h		;ba90
-	call L_BC49		;ba93
+	call mira_king_kong_4		;ba93
 	ld a,001h		;ba96
-	ld (0f108h),a		;ba98
+	ld (0f108h),a		;ba98   ; 0xF108: lo de arrancar King Kong 2 (p09:B880)
 	ret			;ba9b
 L_BA9C:
-	ld a,(0f108h)		;ba9c
-	call 040aeh		;ba9f
+	ld a,(0f108h)		;ba9c   ; 0xF108: lo de arrancar King Kong 2 (p09:B880)
+	call 040aeh		;ba9f   ; p00:40AE despacha
 
 ; ----------------------------------------------------------------------
 ; DATOS sin_lector_BAA2: bytes sin lector conocido: ninguna instruccion
@@ -1955,14 +1955,14 @@ DATA_sin_lector_BAA2:
 
 
 L_BAA8:
-	call L_BBC5		;baa8
-	call L_BBB5		;baab
+	call con_hmmv		;baa8
+	call rutina_2		;baab
 	ld hl,0bc8ch		;baae
 	call 04f87h		;bab1
-	call L_BC49		;bab4
+	call mira_king_kong_4		;bab4
 	jp L_B9EE		;bab7
 L_BABA:
-	call L_BBD9		;baba
+	call mira_king_kong_2		;baba
 	jp c,L_BB39		;babd
 	push af			;bac0
 	ld hl,0bcebh		;bac1
@@ -1974,7 +1974,7 @@ L_BABA:
 L_BACE:
 	call 000e1h		;bace   ; BIOS TAPION - Reads the header block after turning the cassette motor on
 	jp c,L_BB91		;bad1
-	ld b,00ah		;bad4
+	ld b,00ah		;bad4   ; 10 vueltas
 L_BAD6:
 	push bc			;bad6
 	call 000e4h		;bad7   ; BIOS TAPIN - Reads data from the tape
@@ -1983,8 +1983,8 @@ L_BAD6:
 	cp 0eah		;bade
 	jr nz,L_BACE		;bae0
 	djnz L_BAD6		;bae2
-	ld b,006h		;bae4
-	ld hl,0f110h		;bae6
+	ld b,006h		;bae4   ; 6 vueltas
+	ld hl,0f110h		;bae6   ; 0xF110: lo de arrancar King Kong 2 (p09:B880)
 L_BAE9:
 	push bc			;bae9
 	push hl			;baea
@@ -1994,9 +1994,9 @@ L_BAE9:
 	ld (hl),a			;baf0
 	inc hl			;baf1
 	djnz L_BAE9		;baf2
-	ld hl,0f110h		;baf4
-	ld de,0f10ah		;baf7
-	ld b,006h		;bafa
+	ld hl,0f110h		;baf4   ; 0xF110: lo de arrancar King Kong 2 (p09:B880)
+	ld de,0f10ah		;baf7   ; 0xF10A: lo de arrancar King Kong 2 (p09:B880)
+	ld b,006h		;bafa   ; 6 vueltas
 L_BAFC:
 	ld a,(de)			;bafc
 	cp (hl)			;bafd
@@ -2006,7 +2006,7 @@ L_BAFC:
 	djnz L_BAFC		;bb03
 	ld hl,0bce3h		;bb05
 	call 04f87h		;bb08
-	call L_BBAC		;bb0b
+	call mira_king_kong		;bb0b
 	call 000e1h		;bb0e   ; BIOS TAPION - Reads the header block after turning the cassette motor on
 	jr c,L_BB91		;bb11
 	ld hl,0bcfbh		;bb13
@@ -2041,8 +2041,8 @@ L_BB23:
 L_BB36:
 	call 000e7h		;bb36   ; BIOS TAPIOF - Stops reading from the tape
 L_BB39:
-	call L_BBBD		;bb39
-	ld a,(0c125h)		;bb3c
+	call mira_pantalla		;bb39
+	ld a,(0c125h)		;bb3c   ; 0xC125: la fila 7 del teclado que se tiene pulsada
 	and a			;bb3f
 	jr nz,L_BB56		;bb40
 	ld hl,0c321h		;bb42
@@ -2058,27 +2058,27 @@ L_BB4C:
 	ld (hl),004h		;bb54
 L_BB56:
 	xor a			;bb56
-	ld (0f107h),a		;bb57
+	ld (0f107h),a		;bb57   ; 0xF107: 1 grabar (F4), 2 cargar (F5)
 	ld (0c325h),a		;bb5a
 	ld a,0ffh		;bb5d
-	ld (0c148h),a		;bb5f
-	ld (0c139h),a		;bb62
+	ld (0c148h),a		;bb5f   ; 0xC148: variables del juego
+	ld (0c139h),a		;bb62   ; 0xC139: semaforo de la interrupcion (p00:4051)
 	ld a,001h		;bb65
-	ld (0c201h),a		;bb67
+	ld (0c201h),a		;bb67   ; 0xC201: el logotipo y el titulo (p01:66D4)
 	ld (0c11ah),a		;bb6a
-	ld (0c13bh),a		;bb6d
-	call L_BB76		;bb70
-	jp 0f2bbh		;bb73
-L_BB76:
+	ld (0c13bh),a		;bb6d   ; 0xC13B: la demostracion se esta acabando (p01:63DB)
+	call pon_canales		;bb70
+	jp 0f2bbh		;bb73   ; 0xF2BB: el INIT de King Kong 2 y el gancho de Hinotori, copiados (p09:B8EA, p09:B919)
+pon_canales:
 	ld a,001h		;bb76
-	ld (0c023h),a		;bb78
-	ld (0c037h),a		;bb7b
-	ld (0c04bh),a		;bb7e
-	ld hl,0c098h		;bb81
+	ld (0c023h),a		;bb78   ; 0xC023: los canales del sonido (0x20 bytes cada uno, p14:94CA)
+	ld (0c037h),a		;bb7b   ; 0xC037: los canales del sonido (0x20 bytes cada uno, p14:94CA)
+	ld (0c04bh),a		;bb7e   ; 0xC04B: los canales del sonido (0x20 bytes cada uno, p14:94CA)
+	ld hl,0c098h		;bb81   ; 0xC098: los canales del sonido (0x20 bytes cada uno, p14:94CA)
 	ld (hl),0ffh		;bb84
-	ld (0c01ah),hl		;bb86
-	ld (0c02eh),hl		;bb89
-	ld (0c042h),hl		;bb8c
+	ld (0c01ah),hl		;bb86   ; 0xC01A: los canales del sonido (0x20 bytes cada uno, p14:94CA)
+	ld (0c02eh),hl		;bb89   ; 0xC02E: los canales del sonido (0x20 bytes cada uno, p14:94CA)
+	ld (0c042h),hl		;bb8c   ; 0xC042: los canales del sonido (0x20 bytes cada uno, p14:94CA)
 	ret			;bb8f
 L_BB90:
 	pop hl			;bb90
@@ -2086,45 +2086,45 @@ L_BB91:
 	call 000e7h		;bb91   ; BIOS TAPIOF - Stops reading from the tape
 	ld hl,0bcebh		;bb94
 	call 04f87h		;bb97
-	call L_BC49		;bb9a
+	call mira_king_kong_4		;bb9a
 	ld a,001h		;bb9d
-	ld (0f108h),a		;bb9f
+	ld (0f108h),a		;bb9f   ; 0xF108: lo de arrancar King Kong 2 (p09:B880)
 	ret			;bba2
 L_BBA3:
 	call 000e1h		;bba3   ; BIOS TAPION - Reads the header block after turning the cassette motor on
 	ld hl,0bcdch		;bba6
 	call 04f87h		;bba9
-L_BBAC:
+mira_king_kong:
 	ld de,05860h		;bbac
-	ld hl,0f110h		;bbaf
+	ld hl,0f110h		;bbaf   ; 0xF110: lo de arrancar King Kong 2 (p09:B880)
 	jp L_BC3A		;bbb2
-L_BBB5:
+rutina_2:
 	ld hl,0fbf0h		;bbb5
 	ld b,028h		;bbb8
-	jp L_BC4E		;bbba
-L_BBBD:
-	ld hl,0e058h		;bbbd
+	jp bucle		;bbba
+mira_pantalla:
+	ld hl,0e058h		;bbbd   ; 0xE058: la tabla de 32x32 dibujos de la pantalla
 	ld bc,01020h		;bbc0
-	jr L_BBD4		;bbc3
-L_BBC5:
+	jr con_hmmv_2		;bbc3
+con_hmmv:
 	ld hl,00808h		;bbc5
 	ld bc,0a0a0h		;bbc8
-	call L_BBD4		;bbcb
+	call con_hmmv_2		;bbcb
 	ld hl,008b0h		;bbce
 	ld bc,0a018h		;bbd1
-L_BBD4:
+con_hmmv_2:
 	xor a			;bbd4
 	ld d,a			;bbd5
-	jp 04e0bh		;bbd6
-L_BBD9:
+	jp 04e0bh		;bbd6   ; p00:4E0B hmmv
+mira_king_kong_2:
 	xor a			;bbd9
 	ld (0fcach),a		;bbda
 	call 0009fh		;bbdd   ; BIOS CHGET - One character input (waiting)
 	ld c,a			;bbe0
-	ld hl,0f109h		;bbe1
-	ld de,0f10ah		;bbe4
+	ld hl,0f109h		;bbe1   ; 0xF109: lo de arrancar King Kong 2 (p09:B880)
+	ld de,0f10ah		;bbe4   ; 0xF10A: lo de arrancar King Kong 2 (p09:B880)
 	ld a,(hl)			;bbe7
-	call 040a9h		;bbe8
+	call 040a9h		;bbe8   ; p00:40A9 de_mas_a
 	ld a,c			;bbeb
 	cp 01bh		;bbec
 	jr z,L_BC18		;bbee
@@ -2150,14 +2150,14 @@ L_BC0D:
 	ld a,(hl)			;bc0f
 	inc a			;bc10
 	cp 006h		;bc11
-	jr nc,L_BC34		;bc13
+	jr nc,mira_king_kong_3		;bc13
 	ld (hl),a			;bc15
-	jr L_BC34		;bc16
+	jr mira_king_kong_3		;bc16
 L_BC18:
 	scf			;bc18
 	ret			;bc19
 L_BC1A:
-	call L_BC34		;bc1a
+	call mira_king_kong_3		;bc1a
 	ld a,00dh		;bc1d
 	ret			;bc1f
 L_BC20:
@@ -2166,22 +2166,22 @@ L_BC20:
 	ld (hl),000h		;bc22
 	ld a,(de)			;bc24
 	dec a			;bc25
-	jp m,L_BC34		;bc26
+	jp m,mira_king_kong_3		;bc26
 	ld (de),a			;bc29
 	ld a,c			;bc2a
 	and a			;bc2b
 	jr nz,L_BC32		;bc2c
 	dec hl			;bc2e
 	ld (hl),a			;bc2f
-	jr L_BC34		;bc30
+	jr mira_king_kong_3		;bc30
 L_BC32:
 	ex de,hl			;bc32
 	inc (hl)			;bc33
-L_BC34:
+mira_king_kong_3:
 	ld de,03050h		;bc34
-	ld hl,0f10ah		;bc37
+	ld hl,0f10ah		;bc37   ; 0xF10A: lo de arrancar King Kong 2 (p09:B880)
 L_BC3A:
-	ld b,006h		;bc3a
+	ld b,006h		;bc3a   ; 6 vueltas
 L_BC3C:
 	ld a,(hl)			;bc3c
 	inc hl			;bc3d
@@ -2192,13 +2192,13 @@ L_BC3C:
 	djnz L_BC3C		;bc45
 	xor a			;bc47
 	ret			;bc48
-L_BC49:
-	ld hl,0f109h		;bc49
-	ld b,00eh		;bc4c
-L_BC4E:
+mira_king_kong_4:
+	ld hl,0f109h		;bc49   ; 0xF109: lo de arrancar King Kong 2 (p09:B880)
+	ld b,00eh		;bc4c   ; 14 vueltas
+bucle:
 	ld (hl),000h		;bc4e
 	inc hl			;bc50
-	djnz L_BC4E		;bc51
+	djnz bucle		;bc51
 	ret			;bc53
 L_BC54:
 	ld e,000h		;bc54
@@ -2236,7 +2236,7 @@ DATA_tabla_BC67:
 
 
 L_BD31:
-	ld a,(0c205h)		;bd31
+	ld a,(0c205h)		;bd31   ; 0xC205: el logotipo y el titulo (p01:66D4)
 	or a			;bd34
 	ld a,005h		;bd35
 	jp nz,0432eh		;bd37
@@ -2244,23 +2244,23 @@ L_BD31:
 	dec a			;bd3b
 	jp z,L_BE91		;bd3c
 	jp p,L_BF34		;bd3f
-	ld a,02fh		;bd42
+	ld a,02fh		;bd42   ; el sonido 0x2F (p14:9C47 + 2*0x2F)
 	call 041c1h		;bd44
-	call L_BDA3		;bd47
+	call mira_pantalla_2		;bd47
 	ld hl,01720h		;bd4a
 	ld a,0cch		;bd4d
-	ld bc,0d040h		;bd4f
+	ld bc,0d040h		;bd4f   ; 0xD040: la ficha del bicho 0, byte 0x40 (p01:74B7)
 	call 04941h		;bd52
-	call 04cedh		;bd55
+	call 04cedh		;bd55   ; p00:4CED apaga_los_sprites
 	ld a,0ffh		;bd58
 	ld hl,01923h		;bd5a
-	ld bc,0ca3ah		;bd5d
+	ld bc,0ca3ah		;bd5d   ; 0xCA3A: 6 fichas de 0x20 (p02:9368)
 	call 04961h		;bd60
-	ld hl,0bd96h		;bd63
+	ld hl,0bd96h		;bd63   ; p09:BD96 tabla_BD96: tabla que lee p09:BD63, p09:BD80, p09:BD8B, p09:BEF6, p09:BF01 (13 bytes)
 	call 04fbeh		;bd66
-	call L_BDF6		;bd69
-	call L_BDB1		;bd6c
-	ld hl,0d0c0h		;bd6f
+	call mira_nivel_c840		;bd69
+	call pon_buffer		;bd6c
+	ld hl,0d0c0h		;bd6f   ; 0xD0C0: la ficha del bicho 1, byte 0x40 (p01:74B7)
 	ld de,0a828h		;bd72
 	ld a,048h		;bd75
 	ld bc,01010h		;bd77
@@ -2287,55 +2287,55 @@ DATA_tabla_BD96:
 ; ======================================================================
 
 
-L_BDA3:
-	ld hl,0e000h		;bda3
+mira_pantalla_2:
+	ld hl,0e000h		;bda3   ; 0xE000: la tabla de 32x32 dibujos de la pantalla (p00:58A4)
 	ld bc,01414h		;bda6
 	ld d,001h		;bda9
 	ld a,077h		;bdab
 	call 0527eh		;bdad
 	ret			;bdb0
-L_BDB1:
+pon_buffer:
 	ld de,02cb8h		;bdb1
-	ld (0e800h),de		;bdb4
-	ld (0e802h),de		;bdb8
-	ld (0e804h),de		;bdbc
+	ld (0e800h),de		;bdb4   ; 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
+	ld (0e802h),de		;bdb8   ; 0xE802: buffer de trabajo
+	ld (0e804h),de		;bdbc   ; 0xE804: buffer de trabajo
 	ld a,0ffh		;bdc0
-	ld (0e806h),a		;bdc2
-	ld hl,0e800h		;bdc5
+	ld (0e806h),a		;bdc2   ; 0xE806: buffer de trabajo
+	ld hl,0e800h		;bdc5   ; 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
 	call 04fc2h		;bdc8
-	ld a,(0c845h)		;bdcb
+	ld a,(0c845h)		;bdcb   ; 0xC845: la VIDA de Gao, hasta 200 (p03:AD1C; METALSLAVE la llena)
 	ld l,a			;bdce
 	ld h,000h		;bdcf
 	ld de,0b82ch		;bdd1
 	push de			;bdd4
 	call 04893h		;bdd5
-	ld (0e802h),de		;bdd8
-	ld hl,0e803h		;bddc
+	ld (0e802h),de		;bdd8   ; 0xE802: buffer de trabajo
+	ld hl,0e803h		;bddc   ; 0xE803: buffer de trabajo
 	pop de			;bddf
 	ld b,002h		;bde0
 	jp 04853h		;bde2
 L_BDE5:
 	push de			;bde5
 	call 04893h		;bde6
-	ld (0e802h),de		;bde9
-	ld hl,0e802h		;bded
+	ld (0e802h),de		;bde9   ; 0xE802: buffer de trabajo
+	ld hl,0e802h		;bded   ; 0xE802: buffer de trabajo
 	pop de			;bdf0
 	ld b,001h		;bdf1
 	jp 04853h		;bdf3
-L_BDF6:
-	ld a,(0c840h)		;bdf6
+mira_nivel_c840:
+	ld a,(0c840h)		;bdf6   ; 0xC840: elige los 32 bytes de p07:70AE que van a los patrones de 0xF8A0 (p00:5671) y el sumando de la dificultad (p01:704D); 6 es especial (p02:8F4F)
 	or a			;bdf9
 	jr nz,L_BDFD		;bdfa
 	inc a			;bdfc
 L_BDFD:
-	ld (0c4d2h),a		;bdfd
+	ld (0c4d2h),a		;bdfd   ; 0xC4D2: variables de la partida
 	ld b,006h		;be00
-	call L_BE26		;be02
-	jp L_BE08		;be05
-L_BE08:
+	call multiplica		;be02
+	jp mira_pantalla_3		;be05
+mira_pantalla_3:
 	ld a,043h		;be08
 	ex af,af'			;be0a
-	ld a,(0c4d2h)		;be0b
+	ld a,(0c4d2h)		;be0b   ; 0xC4D2: variables de la partida
 	dec a			;be0e
 	add a,a			;be0f
 	ld b,a			;be10
@@ -2348,11 +2348,11 @@ L_BE08:
 	ld de,0253ch		;be17
 	add a,d			;be1a
 	ld d,a			;be1b
-	ld hl,0e000h		;be1c
+	ld hl,0e000h		;be1c   ; 0xE000: la tabla de 32x32 dibujos de la pantalla (p00:58A4)
 	ld bc,01414h		;be1f
 	ex af,af'			;be22
 	jp 051eah		;be23
-L_BE26:
+multiplica:
 	ld hl,00090h		;be26
 	ld de,0273eh		;be29
 	ld a,b			;be2c
@@ -2362,7 +2362,7 @@ L_BE2F:
 	push bc			;be2f
 	push hl			;be30
 	push de			;be31
-	call L_BE68		;be32
+	call con_hl_mas_a		;be32
 	pop de			;be35
 	pop hl			;be36
 	pop bc			;be37
@@ -2377,7 +2377,7 @@ L_BE2F:
 	ld a,d			;be43
 	add a,004h		;be44
 	ld d,a			;be46
-	ld hl,0be63h		;be47
+	ld hl,0be63h		;be47   ; p09:BE63 tabla_BE63: tabla que lee p09:BE47, p09:BE55 (5 bytes)
 	ld c,0ffh		;be4a
 	call 04fc8h		;be4c
 	pop de			;be4f
@@ -2403,7 +2403,7 @@ DATA_tabla_BE63:
 ; ======================================================================
 
 
-L_BE68:
+con_hl_mas_a:
 	push de			;be68
 	push bc			;be69
 	ld a,048h		;be6a
@@ -2412,8 +2412,8 @@ L_BE68:
 	pop bc			;be72
 	ld a,007h		;be73
 	sub b			;be75
-	ld hl,0be89h		;be76
-	call 040a4h		;be79
+	ld hl,0be89h		;be76   ; p09:BE89 tabla_BE89: tabla que lee p09:BE76, p09:BEBB (8 bytes)
+	call 040a4h		;be79   ; p00:40A4 hl_mas_a
 	ld l,(hl)			;be7c
 	ld h,000h		;be7d
 	pop de			;be7f
@@ -2437,8 +2437,8 @@ DATA_tabla_BE89:
 
 L_BE91:
 	ld a,001h		;be91
-	ld (0c104h),a		;be93
-	ld a,(0c106h)		;be96
+	ld (0c104h),a		;be93   ; 0xC104: cuenta atras del paso del estado (p00:4345)
+	ld a,(0c106h)		;be96   ; 0xC106: cursores, ESPACIO y los disparos pulsados en este cuadro (p00:533B)
 	ld c,a			;be99
 	and 008h		;be9a
 	jr nz,L_BF1D		;be9c
@@ -2448,41 +2448,41 @@ L_BE91:
 	ld a,c			;bea3
 	and 010h		;bea4
 	jr nz,L_BEB1		;bea6
-	ld a,(0c108h)		;bea8
+	ld a,(0c108h)		;bea8   ; 0xC108: F1, F2 y F3 pulsadas en este cuadro, bits 0-2 (p00:5318)
 	rra			;beab
 	rra			;beac
 	ret nc			;bead
 	jp 04348h		;beae
 L_BEB1:
-	ld a,(0c4d2h)		;beb1
-	ld hl,0c840h		;beb4
+	ld a,(0c4d2h)		;beb1   ; 0xC4D2: variables de la partida
+	ld hl,0c840h		;beb4   ; 0xC840: elige los 32 bytes de p07:70AE que van a los patrones de 0xF8A0 (p00:5671) y el sumando de la dificultad (p01:704D); 6 es especial (p02:8F4F)
 	cp (hl)			;beb7
 	jp z,04348h		;beb8
-	ld hl,0be89h		;bebb
-	call 040a4h		;bebe
-	ld a,(0c845h)		;bec1
+	ld hl,0be89h		;bebb   ; p09:BE89 tabla_BE89: tabla que lee p09:BE76, p09:BEBB (8 bytes)
+	call 040a4h		;bebe   ; p00:40A4 hl_mas_a
+	ld a,(0c845h)		;bec1   ; 0xC845: la VIDA de Gao, hasta 200 (p03:AD1C; METALSLAVE la llena)
 	sub (hl)			;bec4
 	jr c,L_BF0C		;bec5
-	ld (0c845h),a		;bec7
-	ld a,(0c4d2h)		;beca
+	ld (0c845h),a		;bec7   ; 0xC845: la VIDA de Gao, hasta 200 (p03:AD1C; METALSLAVE la llena)
+	ld a,(0c4d2h)		;beca   ; 0xC4D2: variables de la partida
 	cp 007h		;becd
 	jr nz,L_BEE3		;becf
-	ld a,(0c160h)		;bed1
+	ld a,(0c160h)		;bed1   ; 0xC160: las VIDAS, en BCD (p00:4417; GAOOOOOOOOOOH suma 10)
 	add a,001h		;bed4
 	daa			;bed6
 	jr z,L_BEEB		;bed7
-	ld (0c160h),a		;bed9
-	ld a,036h		;bedc
+	ld (0c160h),a		;bed9   ; 0xC160: las VIDAS, en BCD (p00:4417; GAOOOOOOOOOOH suma 10)
+	ld a,036h		;bedc   ; el sonido 0x36 (p14:9C47 + 2*0x36)
 	call 041c1h		;bede
 	jr L_BEEB		;bee1
 L_BEE3:
-	ld (0c840h),a		;bee3
-	ld a,033h		;bee6
+	ld (0c840h),a		;bee3   ; 0xC840: elige los 32 bytes de p07:70AE que van a los patrones de 0xF8A0 (p00:5671) y el sumando de la dificultad (p01:704D); 6 es especial (p02:8F4F)
+	ld a,033h		;bee6   ; el sonido 0x33 (p14:9C47 + 2*0x33)
 	call 041c1h		;bee8
 L_BEEB:
 	ld a,01eh		;beeb
-	ld (0c104h),a		;beed
-	call L_BDB1		;bef0
+	ld (0c104h),a		;beed   ; 0xC104: cuenta atras del paso del estado (p00:4345)
+	call pon_buffer		;bef0
 	ld de,0b82ch		;bef3
 	ld hl,0bda1h		;bef6
 	ld c,000h		;bef9
@@ -2493,39 +2493,39 @@ L_BEEB:
 	call 04fc8h		;bf06
 	jp 04348h		;bf09
 L_BF0C:
-	ld a,004h		;bf0c
+	ld a,004h		;bf0c   ; el sonido 0x04 (p14:9C47 + 2*0x04)
 	call 041c1h		;bf0e
 	jp 04348h		;bf11
 L_BF14:
-	ld a,(0c4d2h)		;bf14
+	ld a,(0c4d2h)		;bf14   ; 0xC4D2: variables de la partida
 	cp 002h		;bf17
 	ret c			;bf19
 	dec a			;bf1a
 	jr L_BF24		;bf1b
 L_BF1D:
-	ld a,(0c4d2h)		;bf1d
+	ld a,(0c4d2h)		;bf1d   ; 0xC4D2: variables de la partida
 	cp 007h		;bf20
 	ret nc			;bf22
 	inc a			;bf23
 L_BF24:
 	push af			;bf24
-	call L_BE08		;bf25
+	call mira_pantalla_3		;bf25
 	pop af			;bf28
-	ld (0c4d2h),a		;bf29
-	call L_BE08		;bf2c
+	ld (0c4d2h),a		;bf29   ; 0xC4D2: variables de la partida
+	call mira_pantalla_3		;bf2c
 	ld a,002h		;bf2f
 	jp nz,041c1h		;bf31
 L_BF34:
-	ld a,(0c103h)		;bf34
+	ld a,(0c103h)		;bf34   ; 0xC103: cuenta los cuadros (p00:4238)
 	and 001h		;bf37
-	call z,L_BE08		;bf39
-	ld hl,0c104h		;bf3c
+	call z,mira_pantalla_3		;bf39
+	ld hl,0c104h		;bf3c   ; 0xC104: cuenta atras del paso del estado (p00:4345)
 	dec (hl)			;bf3f
 	ret nz			;bf40
 	ld hl,01720h		;bf41
-	ld bc,0d040h		;bf44
+	ld bc,0d040h		;bf44   ; 0xD040: la ficha del bicho 0, byte 0x40 (p01:74B7)
 	call 0496dh		;bf47
-	call 04cf8h		;bf4a
+	call 04cf8h		;bf4a   ; p00:4CF8 enciende_los_sprites
 	call 0488dh		;bf4d
 	ld b,005h		;bf50
 	call 043edh		;bf52
