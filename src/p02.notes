@@ -52,20 +52,26 @@ F 0x9F52 11
 
 
 
+
+
+
+
+
+
 # --- RESTO (seccion que reescribe tools/resto.py; no editar a mano) ---
 D 0x8000 0x8004 sin_lector_8000  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (4 bytes)
 D 0x827E 0x82DB tabla_827E  tabla que lee p02:81B1, p02:81B7, p02:81C3, p02:81EB, p02:81F1, p02:81F7 (93 bytes)
 D 0x8312 0x831E tabla_8312  tabla que lee p02:82FE (12 bytes)
-D 0x83ED 0x83FF sin_llamar_83ED  codigo que no llama nadie (ninguna palabra del cartucho vale 0x83ED): ld hl,01010h / add hl,de / jp 083f4h / call 0819bh ... (18 bytes)
+D 0x83ED 0x83FF sin_lector_83ED  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (18 bytes)
 D 0x841E 0x8448 tabla_841E  tabla que lee p02:83A6, p02:83C3, p02:84D6 (42 bytes)
 D 0x869F 0x86A5 sin_lector_869F  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (6 bytes)
 D 0x883A 0x8845 sin_lector_883A  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (11 bytes)
 D 0x88AB 0x88AD sin_lector_88AB  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (2 bytes)
-D 0x8A09 0x8A10 sin_llamar_8A09  codigo que no llama nadie (ninguna palabra del cartucho vale 0x8A09): exx / ld h,a / rra / xor h ... (7 bytes)
-D 0x8A95 0x8A96 sin_llamar_8A95  codigo que no llama nadie (ninguna palabra del cartucho vale 0x8A95): ret (1 bytes)
-D 0x8AC9 0x8AD3 sin_llamar_8AC9  codigo que no llama nadie (ninguna palabra del cartucho vale 0x8AC9): ld a,(0c82bh) / or a / ret z / dec a ... (10 bytes)
+D 0x8A09 0x8A10 sin_lector_8A09  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (7 bytes)
+D 0x8A95 0x8A96 sin_lector_8A95  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (1 bytes)
+D 0x8AC9 0x8AD3 sin_lector_8AC9  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (10 bytes)
 D 0x8AEE 0x8AFE tabla_8AEE  tabla que lee p02:8AE2 (16 bytes)
-D 0x8B22 0x8B35 sin_llamar_8B22  codigo que no llama nadie (ninguna palabra del cartucho vale 0x8B22): ld de,00000h / ld (0c814h),de / ld de,00000h / ld (0c810h),de ... (19 bytes)
+D 0x8B22 0x8B35 sin_lector_8B22  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (19 bytes)
 D 0x8CC4 0x8E36 tabla_8CC4  tabla que lee p02:86B8, p02:86EF, p02:8723, p02:872F, p02:8749, p02:8778 (370 bytes)
 D 0x8EA2 0x8EB4 sin_lector_8EA2  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (18 bytes)
 D 0x8FD6 0x8FDD tabla_8FD6  tabla que lee p02:8F9F (7 bytes)
@@ -92,10 +98,12 @@ D 0x9FF1 0x9FF7 tabla_9FF1  tabla que lee p02:9FEB (6 bytes)
 # --- fin del resto ---
 
 # --- ANOTA (seccion que reescribe tools/anota.py; no editar a mano) ---
+L 0x8004 mira_invulnerable
 L 0x80D1 pon_musica_de_pausa
 L 0x811C rutina
 L 0x8126 ficha_x
 L 0x8146 mira_colores_de_sprites
+L 0x818F con_mira_scroll_10
 L 0x819B rutina_2
 L 0x81AA cosa_tipo_05
 L 0x81E8 cosa_tipo_04
@@ -107,20 +115,21 @@ L 0x831E mira_x_de_gao
 L 0x8373 mira_buffers
 L 0x837C mira_buffers_2
 L 0x83B4 mira_objeto_11
-L 0x83D1 rutina_3
-L 0x83E9 rutina_4
-L 0x83FF rutina_5
+L 0x83D1 con_pon_banco_a000_5
+L 0x83E9 rutina_3
+L 0x83FF rutina_4
 L 0x8410 mira_canales
-L 0x8448 rutina_6
-L 0x8449 rutina_7
+L 0x8448 con_pon_base_de_la_hoja
+L 0x8449 con_pon_base_de_la_hoja_2
 L 0x8451 mira_scroll_2
 L 0x8469 mira_scroll_3
 L 0x8481 mira_fase
 L 0x8490 mira_teclas_nuevas
-L 0x84C7 rutina_8
+L 0x84C7 rutina_5
 L 0x84D5 mira_canales_2
 L 0x84FA estado_14
 L 0x8555 estado_15
+L 0x8600 pon_invulnerable
 L 0x8672 pon_estado_de_gao
 L 0x87FA mira_gao
 L 0x87FF pon_estado_de_gao_2
@@ -147,8 +156,8 @@ L 0x8B35 pon_gao_5
 L 0x8B4B pon_gao_6
 L 0x8B75 pon_pose_de_gao
 L 0x8B97 mira_gao_3
-L 0x8BB0 rutina_9
-L 0x8BBD rutina_10
+L 0x8BB0 rutina_6
+L 0x8BBD rutina_7
 L 0x8BD6 pon_gao_7
 L 0x8BE0 mira_estado_de_gao_2
 L 0x8BEC mira_x_de_gao_3
@@ -158,8 +167,12 @@ L 0x8C50 mira_pose_de_gao
 L 0x8C84 mira_colores_de_sprites_2
 L 0x8C9E mira_colores_de_sprites_3
 L 0x8CAA mira_atributos_de_sprites
-L 0x8EBE pon_y_de_gao_5
-L 0x8F22 rutina_11
+L 0x8E36 pon_pose_de_gao_2
+L 0x8E67 pon_y_de_gao_5
+L 0x8EB4 mira_objeto_9
+L 0x8EBE pon_y_de_gao_6
+L 0x8F22 rutina_8
+L 0x8F46 rutina_9
 L 0x8F4F pon_arma
 L 0x8FC5 mira_gao_4
 L 0x8FDD mira_nivel_c840
@@ -167,24 +180,26 @@ L 0x8FE6 mira_fichas_especiales
 L 0x8FF5 bucle
 L 0x900D mira_nivel_c840_2
 L 0x9162 mira_fichas_especiales_2
-L 0x9180 rutina_12
+L 0x9180 rutina_10
 L 0x9196 ficha_paso
 L 0x91ED pon_buffer
-L 0x923C rutina_13
-L 0x9244 rutina_14
+L 0x923C rutina_11
+L 0x9244 rutina_12
 L 0x9295 ficha_y
 L 0x9322 mira_scroll_4
 L 0x932E ficha_tipo
+L 0x9368 mira_fichas_especiales_3
 L 0x9382 mira_cuadros_2
 L 0x93C3 pon_fichas_especiales
+L 0x93D6 pon_pose_de_gao_3
 L 0x95CA cosa_tipo_15
-L 0x9624 rutina_15
+L 0x9624 rutina_13
 L 0x967A ficha_paso_2
 L 0x971C mira_fase_2
-L 0x9725 rutina_16
+L 0x9725 rutina_14
 L 0x9731 cosa_tipo_12
-L 0x97C1 rutina_17
-L 0x97F2 rutina_18
+L 0x97C1 rutina_15
+L 0x97F2 rutina_16
 L 0x97FB mira_cuadros_2_2
 L 0x987F pon_partida
 L 0x9893 mira_x_de_gao_5
@@ -203,6 +218,7 @@ L 0x9B5F ficha_y_2
 L 0x9B69 ficha_x_4
 L 0x9B9C nace_tipo_02
 L 0x9BD2 tipo_02
+L 0x9C20 mira_x_de_gao_6
 L 0x9C33 nace_tipo_03
 L 0x9C55 tipo_03
 L 0x9CF2 ficha_x_5
@@ -210,6 +226,7 @@ L 0x9D0A nace_tipo_04
 L 0x9D25 tipo_04
 L 0x9D50 nace_tipo_05
 L 0x9D6E tipo_05
+L 0x9DEC ficha_campo_06
 L 0x9E07 nace_tipo_06
 L 0x9E3B tipo_06
 L 0x9EC2 ficha_x_6
@@ -217,14 +234,19 @@ L 0x9ED5 ficha_x_7
 L 0x9EED ficha_patron
 L 0x9EFB nace_tipo_08
 L 0x9F1F tipo_08
+L 0x9F9F rutina_17
 L 0x9FA7 ficha_tipo_2
 L 0x9FF7 nace_tipo_09
 C 0x8005 ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 C 0x800C ix+0x05: la X (p01:70BD la compara con la de Gao)
-C 0x8013 tramo: mira invulnerable
+C 0x8013 tramo: llama a mira_atributos_de_sprites, mira invulnerable
+C 0x8014 p01:6A85 mira_atributos_de_sprites
 C 0x8018 0xC834: cuadros de invulnerabilidad de Gao (p02:860C)
+C 0x801D p01:623E rutina_3
+C 0x8027 p01:623E rutina_3
 C 0x802B reparte por el PASO de la ficha (ix+1): la tabla va detras del call
 C 0x802E p00:40AE despacha
+C 0x8039 p01:623E rutina_3
 C 0x803D reparte por el PASO de la ficha (ix+1): la tabla va detras del call
 C 0x8040 p00:40AE despacha
 C 0x804B entrada 0 de la tabla de p02:80B0 (L_80A9)
@@ -241,14 +263,20 @@ C 0x8079 ix+0x2A: campo propio de este tipo de ficha (el codigo comun de p01 no 
 C 0x807C ix+0x2A: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x8083 ix+0x2C: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x8089 el sonido 0x23 (p14:9C47 + 2*0x23)
+C 0x808B p00:41AC mira_banderas_juego
 C 0x808E entrada 2 de la tabla de p02:80B0 (L_80A9)
+C 0x809D p01:631C con_mira_scroll_2
 C 0x80A0 la ficha pasa al paso siguiente
 C 0x80A4 entrada 3 de la tabla de p02:802E (L_8027)
+C 0x80A9 p01:623E rutina_3
 C 0x80AD reparte por el PASO de la ficha (ix+1): la tabla va detras del call
 C 0x80B0 p00:40AE despacha
 C 0x80BB entrada 3 de la tabla de p02:80B0 (L_80A9)
 C 0x80C1 0xC800: lo que hace Gao (p00:5C68)
 C 0x80C4 ¿estado_de_gao = 0x02?
+C 0x80C7 tramo: llama a ficha_x
+C 0x80CA p01:610E ficha_x
+C 0x80CE p01:6079 mira_cambio_de_area
 C 0x80D1 0xC880: el OBJETO 13 (byte 0 de 4; p06:BAC2)
 C 0x80D6 0xC858: el OBJETO 3 (byte 0 de 4; p06:BAC2)
 C 0x80D9 0xC860: el OBJETO 5 (byte 0 de 4; p06:BAC2)
@@ -258,11 +286,17 @@ C 0x80E6 0xC0F2: la musica de la pausa esta sonando (p14:9411)
 C 0x80E9 0xC092: los canales del sonido (0x20 bytes cada uno, p14:94CA)
 C 0x80EC 0xC0B2: los canales del sonido (0x20 bytes cada uno, p14:94CA)
 C 0x80EF 0xC0D2: los canales del sonido (0x20 bytes cada uno, p14:94CA)
+C 0x80F3 p01:623E rutina_3
 C 0x80F6 ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
+C 0x80FC tramo: llama a ficha_x
+C 0x80FF p01:610E ficha_x
 C 0x8103 la ficha pasa al paso siguiente
 C 0x8106 ix+0x06: cuenta atras (p01:6124)
+C 0x810A p00:4CA3 pon_avance_3
 C 0x8110 el sonido 0x55 (p14:9C47 + 2*0x55)
+C 0x8112 p00:41AC mira_banderas_juego
 C 0x8115 cuenta atras en ix+0x06: hasta que llegue a 0, nada mas
+C 0x8119 p01:6079 mira_cambio_de_area
 C 0x8126 ix+0x05: la X (p01:70BD la compara con la de Gao)
 C 0x8129 ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 C 0x812D tramo: pone partida, mira atributos_de_sprites
@@ -272,8 +306,14 @@ C 0x8165 tramo: mira colores_de_sprites
 C 0x816D la siguiente, 0xE40F bytes mas alla
 C 0x817A tramo: mira colores_de_sprites
 C 0x8182 la siguiente, 0xE400 bytes mas alla
-C 0x81AA tramo: mira cosas
+C 0x818F tramo: sigue en mira_scroll_10
+C 0x8198 p00:51EA mira_scroll_10
+C 0x81AA p01:6136 mira_cosas
 C 0x81AD ix+0x46: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+C 0x81B4 p01:6162 copia_bytes
+C 0x81BA p01:61A5 copia_bytes_3
+C 0x81BD p01:61A5 copia_bytes_3
+C 0x81C0 p01:61CF rutina_2
 C 0x81C3 p02:827E tabla_827E: tabla que lee p02:81B1, p02:81B7, p02:81C3, p02:81EB, p02:81F1, p02:81F7 (93 bytes)
 C 0x81C9 0xCB06: las cosas del camino que se van poniendo (p01:72ED)
 C 0x81CC ix+0x14: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
@@ -283,7 +323,11 @@ C 0x81D7 ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 C 0x81DC ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 C 0x81DF ix+0x16: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x81E3 ix+0x15: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
-C 0x81E8 tramo: mira cosas
+C 0x81E8 p01:6136 mira_cosas
+C 0x81EE p01:6162 copia_bytes
+C 0x81F4 p01:61A5 copia_bytes_3
+C 0x81FA p01:61A5 copia_bytes_3
+C 0x81FD p01:61CF rutina_2
 C 0x8200 ix+0x22: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x8205 ix+0x22: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x8208 p02:827E tabla_827E: tabla que lee p02:81B1, p02:81B7, p02:81C3, p02:81EB, p02:81F1, p02:81F7 (93 bytes)
@@ -296,43 +340,74 @@ C 0x8222 0xCB06: las cosas del camino que se van poniendo (p01:72ED)
 C 0x8225 ix+0x14: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x8228 ix+0x16: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x822C ix+0x15: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+C 0x8231 p01:6136 mira_cosas
 C 0x8234 ix+0x46: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+C 0x823B p01:6162 copia_bytes
+C 0x823E p01:61CF rutina_2
 C 0x8241 p02:827E tabla_827E: tabla que lee p02:81B1, p02:81B7, p02:81C3, p02:81EB, p02:81F1, p02:81F7 (93 bytes)
+C 0x8247 p01:6136 mira_cosas
 C 0x824A ix+0x46: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+C 0x8251 p01:6162 copia_bytes
+C 0x8257 p01:61A5 copia_bytes_3
+C 0x825A p01:61CF rutina_2
 C 0x825D p02:827E tabla_827E: tabla que lee p02:81B1, p02:81B7, p02:81C3, p02:81EB, p02:81F1, p02:81F7 (93 bytes)
 C 0x8262 0xCB06: las cosas del camino que se van poniendo (p01:72ED)
 C 0x826D ix+0x05: la X (p01:70BD la compara con la de Gao)
 C 0x8273 ix+0x26: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x8276 ix+0x25: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x8279 ix+0x2E: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
-C 0x82DB tramo: mira scroll, mira fase
+C 0x82DB tramo: llama a pon_base_de_la_hoja, mira scroll, llama a con_hmmv, llama a pon_banco_a000_5 ...
+C 0x82E0 p00:5469 pon_base_de_la_hoja
 C 0x82E9 0xC385: el SCROLL vertical: R#23 del VDP (p00:4C65)
+C 0x82F2 p00:527E con_hmmv
 C 0x82F5 el banco 9 en 0xA000
+C 0x82F7 p00:5434 pon_banco_a000_5
 C 0x82FA 0xC481: la FASE, 1-6 (p01:65B4)
 C 0x82FE p02:8312 tabla_8312: tabla que lee p02:82FE (12 bytes)
+C 0x8301 p00:4878 con_hl_mas_a
+C 0x830A p00:58E5 bucle_5
 C 0x830D el banco 3 en 0xA000
+C 0x830F p00:5434 pon_banco_a000_5
 C 0x831E 0xC809: la X de Gao (p01:70BD)
 C 0x832A 0xC483: la COLUMNA: 0-2 el camino, 3 la sala (p01:6543)
 C 0x8337 0xC302: la FILA de 8 puntos del mapa que se esta pintando; sube al avanzar (p00:57B8)
 C 0x8341 0xC80B: la Y de Gao (p01:70B3)
 C 0x835A 0xC385: el SCROLL vertical: R#23 del VDP (p00:4C65)
 C 0x8360 0xC103: cuenta los cuadros (p00:4238)
-C 0x837C tramo: mira buffers, mira objeto_14
+C 0x836B tramo: sigue en con_hmmv
+C 0x8370 p00:527E con_hmmv
+C 0x8373 p00:491B rutina_14
+C 0x837C tramo: llama a con_pon_paleta, mira buffers, llama a copia_bytes_2, mira objeto_14
+C 0x8382 p00:55C6 con_pon_paleta
 C 0x8385 0xEA00: buffers de pantallas y dibujos
+C 0x838B p00:5DE9 copia_bytes_2
 C 0x838E 0xC884: el OBJETO 14 (byte 0 de 4; p06:BAC2)
 C 0x8396 0xC878: el OBJETO 11 (byte 0 de 4; p06:BAC2)
+C 0x83A4 tramo: llama a con_hl_mas_a
 C 0x83A6 p02:841E tabla_841E: tabla que lee p02:83A6, p02:83C3, p02:84D6 (42 bytes)
+C 0x83A9 p00:4878 con_hl_mas_a
 C 0x83B4 0xC878: el OBJETO 11 (byte 0 de 4; p06:BAC2)
 C 0x83B9 0xC884: el OBJETO 14 (byte 0 de 4; p06:BAC2)
+C 0x83C2 tramo: llama a con_hl_mas_a
 C 0x83C3 p02:841E tabla_841E: tabla que lee p02:83A6, p02:83C3, p02:84D6 (42 bytes)
+C 0x83C6 p00:4878 con_hl_mas_a
+C 0x83D1 tramo: llama a pon_banco_a000_5, llama a mira_buffers_2, sigue en pon_banco_a000_5
 C 0x83DB el banco 9 en 0xA000
+C 0x83DD p00:5434 pon_banco_a000_5
+C 0x83E1 p00:51C8 mira_buffers_2
 C 0x83E4 el banco 3 en 0xA000
+C 0x83E6 p00:5434 pon_banco_a000_5
 C 0x8410 0xC0B0: los canales del sonido (0x20 bytes cada uno, p14:94CA)
+C 0x841A p00:527E con_hmmv
+C 0x8449 tramo: sigue en pon_base_de_la_hoja
+C 0x844E p00:5469 pon_base_de_la_hoja
 C 0x8451 0xC385: el SCROLL vertical: R#23 del VDP (p00:4C65)
+C 0x845B p00:5252 con_hmmm_2
 C 0x845E 0xC204: el logotipo y el titulo (p01:66D4)
 C 0x8463 0xC204: el logotipo y el titulo (p01:66D4)
 C 0x8466 p00:4D4D espera_al_vdp
 C 0x8469 0xC385: el SCROLL vertical: R#23 del VDP (p00:4C65)
+C 0x8473 p00:5226 con_hmmm
 C 0x8476 0xC581: variables del avance del mapa
 C 0x847B 0xC581: variables del avance del mapa
 C 0x847E p00:4D4D espera_al_vdp
@@ -346,44 +421,74 @@ C 0x84AC 0xC887: el OBJETO 14 (byte 3 de 4; p06:BAC2)
 C 0x84B4 0xC887: el OBJETO 14 (byte 3 de 4; p06:BAC2)
 C 0x84BF 0xC887: el OBJETO 14 (byte 3 de 4; p06:BAC2)
 C 0x84C2 el sonido 0x02 (p14:9C47 + 2*0x02)
-C 0x84D5 tramo: mira canales, mira objeto_14
+C 0x84C4 p00:41C1 pon_banco_8000_guardado
+C 0x84D5 tramo: llama a con_hl_mas_a, mira canales, mira objeto_14
 C 0x84D6 p02:841E tabla_841E: tabla que lee p02:83A6, p02:83C3, p02:84D6 (42 bytes)
+C 0x84D9 p00:4878 con_hl_mas_a
 C 0x84E4 0xC0B0: los canales del sonido (0x20 bytes cada uno, p14:94CA)
 C 0x84EA 0xC887: el OBJETO 14 (byte 3 de 4; p06:BAC2)
+C 0x84F5 tramo: sigue en mira_scroll_10
+C 0x84F7 p00:51EA mira_scroll_10
 C 0x84FC p00:4CED apaga_los_sprites
+C 0x8505 p00:4348 mira_paso
 C 0x850A tramo: mira teclas_nuevas
 C 0x850D 0xC106: cursores, ESPACIO y los disparos pulsados en este cuadro (p00:533B)
 C 0x8510 ¿es 0 teclas_nuevas?
-C 0x8517 tramo: llama a enciende_los_sprites
+C 0x8512 p00:4348 mira_paso
+C 0x8517 tramo: llama a enciende_los_sprites, llama a rutina_5
 C 0x8520 p00:4CF8 enciende_los_sprites
+C 0x8523 p00:4881 rutina_5
+C 0x8526 tramo: sigue en pon_estado
+C 0x8528 p00:432E pon_estado
 C 0x852B 0xC483: la COLUMNA: 0-2 el camino, 3 la sala (p01:6543)
 C 0x852E ¿columna = 0x03?
 C 0x8532 0xC874: el OBJETO 10 (byte 0 de 4; p06:BAC2)
-C 0x8539 tramo: mira banderas_juego
+C 0x8539 tramo: mira banderas_juego, llama a pon_f1_f3_nuevas
 C 0x853B 0xC102: bit 0: es la demostracion; bit 6: hay partida (p00:46A5)
+C 0x8540 p01:63DB pon_f1_f3_nuevas
+C 0x8543 tramo: llama a pon_banco_8000_guardado, sigue en mira_paso
 C 0x854D el sonido 0x2F (p14:9C47 + 2*0x2F)
-C 0x8557 tramo: mira banderas_juego
+C 0x854F p00:41C1 pon_banco_8000_guardado
+C 0x8552 p00:4348 mira_paso
+C 0x8557 tramo: mira banderas_juego, llama a pon_f1_f3_nuevas
 C 0x8558 0xC102: bit 0: es la demostracion; bit 6: hay partida (p00:46A5)
-C 0x8560 tramo: llama a apaga_los_sprites, mira objeto_14
+C 0x855D p01:63DB pon_f1_f3_nuevas
+C 0x8560 tramo: llama a apaga_los_sprites, llama a mira_buffers_3, mira objeto_14
 C 0x8564 p00:4CED apaga_los_sprites
+C 0x8567 p00:58DC mira_buffers_3
 C 0x8570 0xC884: el OBJETO 14 (byte 0 de 4; p06:BAC2)
+C 0x8577 p00:4348 mira_paso
 C 0x857C 0xC884: el OBJETO 14 (byte 0 de 4; p06:BAC2)
 C 0x8583 0xC106: cursores, ESPACIO y los disparos pulsados en este cuadro (p00:533B)
 C 0x8589 0xC884: el OBJETO 14 (byte 0 de 4; p06:BAC2)
+C 0x858D p00:4348 mira_paso
 C 0x8590 0xC887: el OBJETO 14 (byte 3 de 4; p06:BAC2)
 C 0x8593 0xC481: la FASE, 1-6 (p01:65B4)
+C 0x8597 p00:4348 mira_paso
 C 0x859A el sonido 0x58 (p14:9C47 + 2*0x58)
+C 0x859C p00:41C1 pon_banco_8000_guardado
 C 0x859F 0xC884: el OBJETO 14 (byte 0 de 4; p06:BAC2)
 C 0x85A5 0xC104: cuenta atras del paso del estado (p00:4345)
 C 0x85AA 0xC101: el paso dentro del estado (p00:4348)
-C 0x85B3 tramo: llama a enciende_los_sprites
+C 0x85AD p00:4CA3 pon_avance_3
+C 0x85B3 tramo: llama a mira_juego_de_dibujos, llama a enciende_los_sprites, llama a rutina_5
+C 0x85BC p00:55A2 mira_juego_de_dibujos
 C 0x85BF p00:4CF8 enciende_los_sprites
+C 0x85C2 p00:4881 rutina_5
+C 0x85C5 tramo: sigue en pon_estado
+C 0x85C7 p00:432E pon_estado
 C 0x85CC 0xC104: cuenta atras del paso del estado (p00:4345)
-C 0x85D1 tramo: pone musica_de_pausa, mira objeto_14
+C 0x85D1 tramo: pone musica_de_pausa, mira objeto_14, llama a pon_fase, llama a pon_area ...
 C 0x85D5 0xC0F2: la musica de la pausa esta sonando (p14:9411)
 C 0x85D8 0xC887: el OBJETO 14 (byte 3 de 4; p06:BAC2)
+C 0x85DB p01:65CF pon_fase
+C 0x85DE p01:64CD pon_area
+C 0x85E3 p00:432E pon_estado
 C 0x85E6 0xC878: el OBJETO 11 (byte 0 de 4; p06:BAC2)
+C 0x85EC tramo: llama a pon_banco_8000_guardado, sigue en mira_paso
 C 0x85F8 el sonido 0x2F (p14:9C47 + 2*0x2F)
+C 0x85FA p00:41C1 pon_banco_8000_guardado
+C 0x85FD p00:4348 mira_paso
 C 0x8600 0xC4E2: ILOVEHINOTORI: invencible (p02:8600)
 C 0x8604 0xC4D1: lo pone la contrasena 'aaaaa', que no se puede teclear (p06:B9AC)
 C 0x860A tramo: pone invulnerable
@@ -396,6 +501,7 @@ C 0x8626 0xC389: 1: el mapa avanza (p01:6CA2); p00:57CE lo pone a 0 con la orden
 C 0x8629 ¿es 0 avanza?
 C 0x862B 0xC809: la X de Gao (p01:70BD)
 C 0x862F 0xC80B: la Y de Gao (p01:70B3)
+C 0x8633 p00:4913 rutina_13
 C 0x8644 0xC809: la X de Gao (p01:70BD)
 C 0x864C 0xC385: el SCROLL vertical: R#23 del VDP (p00:4C65)
 C 0x8652 0xC809: la X de Gao (p01:70BD)
@@ -409,6 +515,7 @@ C 0x866B 0xC480: el AREA (0-23): 3*(fase-1) + columna, o 18 + fase - 1 (p01:64D5
 C 0x866E 0xC4A4: variables de la partida
 C 0x8672 0xC809: la X de Gao (p01:70BD)
 C 0x8676 0xC80B: la Y de Gao (p01:70B3)
+C 0x867A p00:4913 rutina_13
 C 0x867D 0xC82E: la ficha de Gao
 C 0x8680 0xC800: lo que hace Gao (p00:5C68)
 C 0x8683 ¿estado_de_gao = 0x01?
@@ -420,6 +527,7 @@ C 0x86A5 entrada 0 de la tabla de p02:868B (L_8672)
 C 0x86B5 tramo: mira objeto_5
 C 0x86BB 0xC860: el OBJETO 5 (byte 0 de 4; p06:BAC2)
 C 0x86C3 0xC850: el OBJETO 1 (byte 0 de 4; p06:BAC2)
+C 0x86C6 p00:4878 con_hl_mas_a
 C 0x86D8 0xC204: el logotipo y el titulo (p01:66D4)
 C 0x86DE 0xC804: la ficha de Gao
 C 0x86E4 tramo: pone pose_de_gao, pone gao
@@ -434,12 +542,14 @@ C 0x8726 0xC82E: la ficha de Gao
 C 0x872F tramo: mira objeto_5
 C 0x8732 0xC860: el OBJETO 5 (byte 0 de 4; p06:BAC2)
 C 0x873A 0xC850: el OBJETO 1 (byte 0 de 4; p06:BAC2)
+C 0x873D p00:4878 con_hl_mas_a
 C 0x8740 tramo: mira gao
 C 0x8751 0xC82E: la ficha de Gao
 C 0x875F entrada 1 de la tabla de p02:868B (L_8672)
 C 0x8762 p00:40AE despacha
 C 0x876D entrada 0 de la tabla de p02:8762 (L_875F)
 C 0x8770 el sonido 0x0B (p14:9C47 + 2*0x0B)
+C 0x8772 p00:41C1 pon_banco_8000_guardado
 C 0x8780 0xC81C: la pose de Gao: sus dos sprites de p06:A0BB (p02:93D6)
 C 0x8784 0xC81A: la ficha de Gao
 C 0x8788 0xC818: la ficha de Gao
@@ -453,11 +563,13 @@ C 0x87C4 0xC81A: la ficha de Gao
 C 0x87CD 0xC84B: la ficha de Gao
 C 0x87D3 0xC82E: la ficha de Gao
 C 0x87DE el sonido 0x0D (p14:9C47 + 2*0x0D)
+C 0x87E0 p00:41C1 pon_banco_8000_guardado
 C 0x87E9 el sonido 0x0C (p14:9C47 + 2*0x0C)
+C 0x87EB p00:41C1 pon_banco_8000_guardado
 C 0x87FA 0xC801: la ficha de Gao
 C 0x87FF 0xC800: lo que hace Gao (p00:5C68)
 C 0x8803 entrada 2 de la tabla de p02:868B (L_8672)
-C 0x880A tramo: pone gao, pone sonido_0f1, pone musica_de_pausa
+C 0x880A tramo: pone gao, pone sonido_0f1, pone musica_de_pausa, sigue en mira_banderas_juego
 C 0x880B 0xC84B: la ficha de Gao
 C 0x8812 0xC0F1: lo pone p00:4588 al volver de la pausa: 1 si no sonaba la musica de pausa
 C 0x8815 0xC0F2: la musica de la pausa esta sonando (p14:9411)
@@ -465,6 +577,7 @@ C 0x8818 0xC81A: la ficha de Gao
 C 0x881C 0xC818: la ficha de Gao
 C 0x8821 0xC836: la ficha de Gao
 C 0x8827 el sonido 0x6A (p14:9C47 + 2*0x6A)
+C 0x8829 p00:41AC mira_banderas_juego
 C 0x882C 0xC483: la COLUMNA: 0-2 el camino, 3 la sala (p01:6543)
 C 0x882F ¿columna = 0x03?
 C 0x8833 0xC481: la FASE, 1-6 (p01:65B4)
@@ -492,12 +605,15 @@ C 0x88B8 0xC810: la ficha de Gao
 C 0x88BE 0xC81A: la ficha de Gao
 C 0x88C2 0xC818: la ficha de Gao
 C 0x88C9 entrada 3 de la tabla de p02:868B (L_8672)
-C 0x88D2 tramo: mira gao
+C 0x88D2 tramo: mira gao, llama a rutina_15
 C 0x88D5 0xC814: la ficha de Gao
+C 0x88DB p00:4921 rutina_15
 C 0x88E1 0xC814: la ficha de Gao
 C 0x88EA 0xC820: la ficha de Gao
 C 0x88EE 0xC821: la ficha de Gao
 C 0x88F1 0xC822: la ficha de Gao
+C 0x88F9 tramo: llama a rutina_11
+C 0x88FC p00:48FB rutina_11
 C 0x8906 tramo: mira gao
 C 0x890C 0xC822: la ficha de Gao
 C 0x8910 0xC821: la ficha de Gao
@@ -510,7 +626,8 @@ C 0x893D 0xC821: la ficha de Gao
 C 0x8940 0xC81C: la pose de Gao: sus dos sprites de p06:A0BB (p02:93D6)
 C 0x8947 tramo: pone pose_de_gao
 C 0x8948 0xC81C: la pose de Gao: sus dos sprites de p06:A0BB (p02:93D6)
-C 0x8950 tramo: mira fase
+C 0x8950 tramo: llama a mira_cambio_de_area_2, mira fase
+C 0x8955 p01:607C mira_cambio_de_area_2
 C 0x8958 0xC481: la FASE, 1-6 (p01:65B4)
 C 0x895B ¿fase = 0x08?
 C 0x8967 0xD402: lo que controla la salida de bichos
@@ -524,13 +641,16 @@ C 0x898B 0xC4B0: cuenta los cuadros; el bit 0 alterna los colores de los sprites
 C 0x8990 0xC82C: la ficha de Gao
 C 0x8993 0xC4B0: cuenta los cuadros; el bit 0 alterna los colores de los sprites (p02:93AA)
 C 0x899F el sonido 0x15 (p14:9C47 + 2*0x15)
+C 0x89A1 p00:41AC mira_banderas_juego
 C 0x89A4 0xC4B0: cuenta los cuadros; el bit 0 alterna los colores de los sprites (p02:93AA)
 C 0x89A9 0xC849: la ficha de Gao
 C 0x89AC 0xC4B0: cuenta los cuadros; el bit 0 alterna los colores de los sprites (p02:93AA)
 C 0x89B2 tramo: pone invulnerable
 C 0x89B4 0xC834: cuadros de invulnerabilidad de Gao (p02:860C)
 C 0x89BC el sonido 0x14 (p14:9C47 + 2*0x14)
+C 0x89BE p00:41AC mira_banderas_juego
 C 0x89C3 el sonido 0x25 (p14:9C47 + 2*0x25)
+C 0x89C5 p00:41AC mira_banderas_juego
 C 0x89C8 0xC302: la FILA de 8 puntos del mapa que se esta pintando; sube al avanzar (p00:57B8)
 C 0x89CE 0xC480: el AREA (0-23): 3*(fase-1) + columna, o 18 + fase - 1 (p01:64D5)
 C 0x89D4 0xC809: la X de Gao (p01:70BD)
@@ -552,6 +672,7 @@ C 0x8A26 0xC826: la ficha de Gao
 C 0x8A2A 0xC837: la ficha de Gao
 C 0x8A31 0xC809: la X de Gao (p01:70BD)
 C 0x8A35 0xC80B: la Y de Gao (p01:70B3)
+C 0x8A39 p00:4913 rutina_13
 C 0x8A3C 0xC82E: la ficha de Gao
 C 0x8A41 tramo: pone gao
 C 0x8A42 0xC837: la ficha de Gao
@@ -559,12 +680,16 @@ C 0x8A46 0xC80B: la Y de Gao (p01:70B3)
 C 0x8A49 ¿y_de_gao = 0xD0?
 C 0x8A53 0xC809: la X de Gao (p01:70BD)
 C 0x8A57 0xC80B: la Y de Gao (p01:70B3)
+C 0x8A5B p00:48FB rutina_11
 C 0x8A5F 0xC809: la X de Gao (p01:70BD)
 C 0x8A63 0xC827: la ficha de Gao
+C 0x8A67 p00:48FB rutina_11
 C 0x8A6C 0xC829: la ficha de Gao
 C 0x8A70 0xC80B: la Y de Gao (p01:70B3)
+C 0x8A74 p00:48FB rutina_11
 C 0x8A79 0xC829: la ficha de Gao
 C 0x8A7D 0xC827: la ficha de Gao
+C 0x8A84 p00:48FB rutina_11
 C 0x8A88 0xC800: lo que hace Gao (p00:5C68)
 C 0x8A8B ¿estado_de_gao = 0x01?
 C 0x8A96 tramo: pone gao, mira avance
@@ -643,6 +768,7 @@ C 0x8C3F tramo: mira estado_de_gao
 C 0x8C45 0xC800: lo que hace Gao (p00:5C68)
 C 0x8C48 ¿estado_de_gao = 0x01?
 C 0x8C50 0xC81C: la pose de Gao: sus dos sprites de p06:A0BB (p02:93D6)
+C 0x8C57 p00:4878 con_hl_mas_a
 C 0x8C5E 0xE618: y, x, patron y color de los 32 sprites (p00:4B7A)
 C 0x8C65 0xC824: la ficha de Gao
 C 0x8C6A 0xE67D: y, x, patron y color de los 32 sprites (p00:4B7A)
@@ -662,10 +788,11 @@ C 0x8CAA 0xE618: y, x, patron y color de los 32 sprites (p00:4B7A)
 C 0x8CAD 0xC821: la ficha de Gao
 C 0x8CB1 0xC820: la ficha de Gao
 C 0x8CB5 4 vueltas
-C 0x8E36 tramo: pone gao, mira y_de_gao, mira x_de_gao
+C 0x8E36 tramo: pone gao, mira y_de_gao, mira x_de_gao, llama a rutina_13
 C 0x8E3A 0xC80C: la ficha de Gao
 C 0x8E43 0xC80B: la Y de Gao (p01:70B3)
 C 0x8E47 0xC809: la X de Gao (p01:70BD)
+C 0x8E4B p00:4913 rutina_13
 C 0x8E4E 0xC82E: la ficha de Gao
 C 0x8E5F 0xC81C: la pose de Gao: sus dos sprites de p06:A0BB (p02:93D6)
 C 0x8E63 0xC800: lo que hace Gao (p00:5C68)
@@ -682,18 +809,23 @@ C 0x8E8C 0xC81A: la ficha de Gao
 C 0x8E8F 0xC841: la ficha de Gao
 C 0x8E94 0xCAD0: 6 fichas de 0x20 (p02:9368)
 C 0x8E97 0xCA00: 6 fichas de 0x20 (p02:9368)
+C 0x8E9F p01:6152 bucle
 C 0x8EB4 0xC870: el OBJETO 9 (byte 0 de 4; p06:BAC2)
-C 0x8EBE tramo: pone gao, mira x_de_gao, mira y_de_gao
+C 0x8EBE tramo: pone gao, mira x_de_gao, mira y_de_gao, llama a rutina_13
 C 0x8EBF 0xC837: la ficha de Gao
 C 0x8EC2 0xC809: la X de Gao (p01:70BD)
 C 0x8EC6 0xC80B: la Y de Gao (p01:70B3)
+C 0x8ECA p00:4913 rutina_13
 C 0x8ED1 0xC809: la X de Gao (p01:70BD)
 C 0x8ED5 0xC80B: la Y de Gao (p01:70B3)
+C 0x8EDB p00:48FB rutina_11
 C 0x8EE3 0xC809: la X de Gao (p01:70BD)
 C 0x8EE7 0xC80B: la Y de Gao (p01:70B3)
+C 0x8EED p00:48FB rutina_11
 C 0x8EF5 0xC80B: la Y de Gao (p01:70B3)
 C 0x8EFA 0xC80B: la Y de Gao (p01:70B3)
 C 0x8EFE 0xC809: la X de Gao (p01:70BD)
+C 0x8F02 p00:4913 rutina_13
 C 0x8F05 0xC82E: la ficha de Gao
 C 0x8F0A tramo: pone gao
 C 0x8F0C 0xC837: la ficha de Gao
@@ -708,12 +840,14 @@ C 0x8F32 0xC845: la VIDA de Gao, hasta 200 (p03:AD1C; METALSLAVE la llena)
 C 0x8F35 0xC842: lo que sale de p01:7FBD para el arma (p01:7FB9)
 C 0x8F39 0xC84A: lo que sale de p01:7FBD para el arma (p01:7FB5)
 C 0x8F3C 0xC850: el OBJETO 1 (byte 0 de 4; p06:BAC2)
+C 0x8F42 p00:5DE9 copia_bytes_2
 C 0x8F4F 0xC840: elige los 32 bytes de p07:70AE que van a los patrones de 0xF8A0 (p00:5671) y el sumando de la dificultad (p01:704D); 6 es especial (p02:8F4F)
 C 0x8F52 ¿nivel_c840 = 0x06?
 C 0x8F56 0xC4E1: AUTOSHOT: el arma 4 en cada cuadro (p02:8F56)
 C 0x8F59 ¿es 0 truco_disparo?
-C 0x8F5C tramo: pone arma, mira cuadros_2
+C 0x8F5C tramo: pone arma, llama a pon_arma_dato_2, mira cuadros_2
 C 0x8F5E 0xC85C: el ARMA de Gao: su cuenta es la del objeto 4 (p01:7FAB)
+C 0x8F61 p01:7FAB pon_arma_dato_2
 C 0x8F64 0xC4B0: cuenta los cuadros; el bit 0 alterna los colores de los sprites (p02:93AA)
 C 0x8F6B 0xC107: cursores, ESPACIO y los disparos que se tienen pulsados (p00:5345)
 C 0x8F73 0xC106: cursores, ESPACIO y los disparos pulsados en este cuadro (p00:533B)
@@ -726,6 +860,7 @@ C 0x8F91 0xCAD0: 6 fichas de 0x20 (p02:9368)
 C 0x8F96 0xCAD0: 6 fichas de 0x20 (p02:9368)
 C 0x8F9C 0xC840: elige los 32 bytes de p07:70AE que van a los patrones de 0xF8A0 (p00:5671) y el sumando de la dificultad (p01:704D); 6 es especial (p02:8F4F)
 C 0x8F9F p02:8FD6 tabla_8FD6: tabla que lee p02:8F9F (7 bytes)
+C 0x8FA7 p00:41AC mira_banderas_juego
 C 0x8FAC 0xC107: cursores, ESPACIO y los disparos que se tienen pulsados (p00:5345)
 C 0x8FB2 0xC106: cursores, ESPACIO y los disparos pulsados en este cuadro (p00:533B)
 C 0x8FBA 0xC844: la ficha de Gao
@@ -737,8 +872,11 @@ C 0x8FCD 0xC844: la ficha de Gao
 C 0x8FD0 0xC848: la ficha de Gao
 C 0x8FDD 0xC840: elige los 32 bytes de p07:70AE que van a los patrones de 0xF8A0 (p00:5671) y el sumando de la dificultad (p01:704D); 6 es especial (p02:8F4F)
 C 0x8FE0 p02:906B tabla_906B: tabla que lee p02:8FE0, p02:8FFA (247 bytes)
+C 0x8FE3 p00:486F rutina_4
 C 0x8FE6 0xCA00: 6 fichas de 0x20 (p02:9368)
 C 0x8FEC 6 vueltas
+C 0x8FF6 tramo: llama a rutina_4
+C 0x8FFD p00:486F rutina_4
 C 0x900D tramo: mira gao
 C 0x9011 0xC80D: la ficha de Gao
 C 0x901E tramo: mira gao, mira nivel_c840, mira arma_velocidad
@@ -757,6 +895,7 @@ C 0x91A0 tramo: llama a despacha
 C 0x91A1 p00:40AE despacha
 C 0x91C2 entrada 14 de la tabla de p02:91A1 (L_9196)
 C 0x91C8 0xC848: la ficha de Gao
+C 0x91D1 p00:486F rutina_4
 C 0x91D4 ix+0x06: cuenta atras (p01:6124)
 C 0x91D7 ix+0x07: el paso de la animacion (p01:6124)
 C 0x91E4 la ficha pasa al paso siguiente
@@ -766,31 +905,40 @@ C 0x91FD 0xE804: buffer de trabajo
 C 0x9200 0xE806: buffer de trabajo
 C 0x9213 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
 C 0x9217 0xE802: buffer de trabajo
-C 0x921E tramo: mira buffer
+C 0x921E tramo: mira buffer, llama a rutina_12
 C 0x9225 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
 C 0x9229 0xE802: buffer de trabajo
+C 0x9230 p00:4906 rutina_12
 C 0x9234 0xE804: buffer de trabajo
 C 0x923C entrada 0 de la tabla de p02:91A1 (L_9196)
 C 0x9258 entrada 4 de la tabla de p02:91A1 (L_9196)
-C 0x9261 tramo: mira gao
+C 0x9261 tramo: llama a rutina_4, mira gao
 C 0x9264 p02:9338 tabla_9338: tabla que lee p02:91CE, p02:9264 (48 bytes)
+C 0x9267 p00:486F rutina_4
 C 0x926D 0xC821: la ficha de Gao
 C 0x9277 0xC820: la ficha de Gao
 C 0x927E ix+0x00: el TIPO de la ficha (0 = libre; p01:6D12)
 C 0x9283 ix+0x05: la X (p01:70BD la compara con la de Gao)
 C 0x9286 ix+0x03: la Y (p01:70B3 la compara con la de Gao)
+C 0x9289 p00:4906 rutina_12
 C 0x928D ix+0x00: el TIPO de la ficha (0 = libre; p01:6D12)
 C 0x9292 entrada 1 de la tabla de p02:91A1 (L_9196)
 C 0x9295 ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 C 0x9299 ix+0x05: la X (p01:70BD la compara con la de Gao)
 C 0x929D 0xE830: buffer de trabajo
+C 0x92A1 p00:48BF mira_scroll
 C 0x92A9 0xE812: buffer de trabajo
 C 0x92B8 0xE814: buffer de trabajo
 C 0x92C1 0xE830: buffer de trabajo
+C 0x92CD p01:630D con_mira_scroll
+C 0x92DB tramo: llama a con_hmmm
+C 0x92E3 p00:5226 con_hmmm
 C 0x92E6 0xE813: buffer de trabajo
-C 0x92F1 tramo: mira buffer
+C 0x92F1 tramo: mira buffer, llama a con_mira_scroll, llama a con_hmmm
 C 0x92FA 0xE830: buffer de trabajo
+C 0x92FE p01:630D con_mira_scroll
 C 0x9301 0xE830: buffer de trabajo
+C 0x9310 p00:5226 con_hmmm
 C 0x9314 ix+0x00: el TIPO de la ficha (0 = libre; p01:6D12)
 C 0x9319 0xE813: buffer de trabajo
 C 0x9322 0xC385: el SCROLL vertical: R#23 del VDP (p00:4C65)
@@ -811,6 +959,7 @@ C 0x93DE 0xC81C: la pose de Gao: sus dos sprites de p06:A0BB (p02:93D6)
 C 0x93E4 p06:A0BB poses_de_gao: 20 poses de Gao: dos punteros cada una, a 0xF800 y a 0xF840 (p02:93D6)
 C 0x93F8 p00:49F3 copia_a_la_vram
 C 0x9406 p00:49F3 copia_a_la_vram
+C 0x9577 p01:623E rutina_3
 C 0x957B reparte por el PASO de la ficha (ix+1): la tabla va detras del call
 C 0x957E p00:40AE despacha
 C 0x9587 entrada 0 de la tabla de p02:957E (L_9577)
@@ -821,17 +970,25 @@ C 0x9596 ix+0x41: campo propio de este tipo de ficha (el codigo comun de p01 no 
 C 0x959A 0xC481: la FASE, 1-6 (p01:65B4)
 C 0x95A2 0xCD00: la escena del final y las pantallas de p06
 C 0x95A6 p00:40A4 hl_mas_a
-C 0x95AF tramo: pone partida, mira objeto_5
+C 0x95AC p01:75CE bucle_3
+C 0x95AF tramo: pone partida, llama a rutina, mira objeto_5
 C 0x95B1 0xC4BD: variables de la partida
+C 0x95B6 p00:43ED rutina
 C 0x95B9 0xC860: el OBJETO 5 (byte 0 de 4; p06:BAC2)
 C 0x95C4 entrada 2 de la tabla de p02:957E (L_9577)
-C 0x95CA tramo: mira cosas
+C 0x95C7 p06:AF5C rutina
+C 0x95CA p01:6136 mira_cosas
 C 0x95CD 0xCB06: las cosas del camino que se van poniendo (p01:72ED)
 C 0x95D3 ix+0x05: la X (p01:70BD la compara con la de Gao)
 C 0x95D7 ix+0x41: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x95DA ix+0x46: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x95DE p02:95F0 tabla_95F0: tabla que lee p02:95DE, p02:95E7 (13 bytes)
+C 0x95E1 p01:6162 copia_bytes
+C 0x95E4 p01:61CF rutina_2
+C 0x95EA p01:6186 copia_bytes_2
+C 0x95ED p01:61CF rutina_2
 C 0x95FD 0xC4D0: variables de la partida
+C 0x9604 p01:623E rutina_3
 C 0x9608 reparte por el PASO de la ficha (ix+1): la tabla va detras del call
 C 0x960B p00:40AE despacha
 C 0x9616 entrada 0 de la tabla de p02:960B (L_95FD)
@@ -842,8 +999,12 @@ C 0x964E cuenta atras en ix+0x06: hasta que llegue a 0, nada mas
 C 0x9652 ix+0x06: cuenta atras (p01:6124)
 C 0x9659 ix+0x46: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x965E cuenta atras en ix+0x06: hasta que llegue a 0, nada mas
+C 0x9662 tramo: sigue en pon_buffer_3
 C 0x9666 ix+0x46: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+C 0x9677 p01:6D64 pon_buffer_3
+C 0x967A tramo: llama a mira_invulnerable
 C 0x9680 ix+0x55: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+C 0x9683 p01:62D6 mira_invulnerable
 C 0x9688 ix+0x43: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x968B ix+0x43: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x968F la ficha pasa al paso siguiente
@@ -852,30 +1013,51 @@ C 0x9697 entrada 2 de la tabla de p02:960B (L_95FD)
 C 0x969C ix+0x20: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x96A0 la ficha pasa al paso siguiente
 C 0x96A4 entrada 3 de la tabla de p02:960B (L_95FD)
+C 0x96B1 p01:6D64 pon_buffer_3
 C 0x96BC tramo: mira control_de_bichos
 C 0x96C0 0xD411: lo que controla la salida de bichos
 C 0x96C5 ix+0x41: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x96CC ix+0x05: la X (p01:70BD la compara con la de Gao)
 C 0x96D2 ix+0x03: la Y (p01:70B3 la compara con la de Gao)
+C 0x96DD tramo: llama a mira_objeto_1
+C 0x96E2 p01:7F64 mira_objeto_1
+C 0x96EC tramo: llama a rutina_13
+C 0x96EE p01:73E3 rutina_13
 C 0x96F3 el sonido 0x17 (p14:9C47 + 2*0x17)
+C 0x96F5 p00:41AC mira_banderas_juego
+C 0x96F8 p01:75CE bucle_3
+C 0x96FE p00:4818 pon_vidas
+C 0x9701 p01:73F6 rutina_14
 C 0x9706 el sonido 0x12 (p14:9C47 + 2*0x12)
+C 0x9708 p00:41AC mira_banderas_juego
+C 0x970B p01:75CE bucle_3
 C 0x970E 0xC879: el OBJETO 11 (byte 1 de 4; p06:BAC2)
 C 0x971C 0xC481: la FASE, 1-6 (p01:65B4)
-C 0x9731 tramo: mira cosas
+C 0x972E p01:75CE bucle_3
+C 0x9731 p01:6136 mira_cosas
 C 0x9734 0xCB06: las cosas del camino que se van poniendo (p01:72ED)
 C 0x973A ix+0x05: la X (p01:70BD la compara con la de Gao)
 C 0x973E ix+0x41: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x9741 ix+0x43: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x9749 ix+0x46: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x974D p02:9788 tabla_9788: tabla que lee p02:974D, p02:9753, p02:9759, p02:975F, p02:9768 (34 bytes)
+C 0x9750 p01:6162 copia_bytes
+C 0x9756 p01:61A5 copia_bytes_3
+C 0x975C p01:61A5 copia_bytes_3
+C 0x9762 p01:61A5 copia_bytes_3
+C 0x9765 p01:61CF rutina_2
+C 0x976B p01:6186 copia_bytes_2
+C 0x976E p01:61CF rutina_2
 C 0x9771 ix+0x00: el TIPO de la ficha (0 = libre; p01:6D12)
 C 0x9777 ix+0x2E: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x977C ix+0x2E: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x977F ix+0x36: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x9784 ix+0x36: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x97AA 0xC4D0: variables de la partida
+C 0x97B1 p01:623E rutina_3
 C 0x97B5 reparte por el PASO de la ficha (ix+1): la tabla va detras del call
 C 0x97B8 p00:40AE despacha
+C 0x97CA p01:75CE bucle_3
 C 0x97CD entrada 0 de la tabla de p02:97B8 (L_97AA)
 C 0x97DA ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x97EE ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
@@ -891,6 +1073,8 @@ C 0x9845 ix+0x06: cuenta atras (p01:6124)
 C 0x984C cuenta atras en ix+0x06: hasta que llegue a 0, nada mas
 C 0x9850 ix+0x06: cuenta atras (p01:6124)
 C 0x9858 ix+0x06: cuenta atras (p01:6124)
+C 0x985F tramo: llama a pon_buffer_3
+C 0x986E p01:6D64 pon_buffer_3
 C 0x9873 cuenta atras en ix+0x06: hasta que llegue a 0, nada mas
 C 0x987A ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x987F 0xC4C0: variables de la partida
@@ -900,56 +1084,76 @@ C 0x988F 0xC4BF: variables de la partida
 C 0x9893 0xC809: la X de Gao (p01:70BD)
 C 0x989B tramo: mira y_de_gao
 C 0x989C 0xC80B: la Y de Gao (p01:70B3)
+C 0x98A9 tramo: llama a mira_invulnerable
 C 0x98AF ix+0x55: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+C 0x98B2 p01:62D6 mira_invulnerable
 C 0x98B7 ix+0x43: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x98BA ix+0x43: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x98BE la ficha pasa al paso siguiente
 C 0x98C2 entrada 1 de la tabla de p02:97B8 (L_97AA)
 C 0x98C6 la ficha pasa al paso siguiente
 C 0x98C9 el sonido 0x1A (p14:9C47 + 2*0x1A)
-C 0x98D4 tramo: mira cosas
+C 0x98CB p00:41AC mira_banderas_juego
+C 0x98D1 p00:4818 pon_vidas
+C 0x98D4 p01:6136 mira_cosas
 C 0x98D7 0xCB06: las cosas del camino que se van poniendo (p01:72ED)
 C 0x98DD ix+0x05: la X (p01:70BD la compara con la de Gao)
 C 0x98E1 ix+0x41: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x98E4 ix+0x43: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x98E8 ix+0x46: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x98EC p02:990A tabla_990A: tabla que lee p02:98EC, p02:98F2, p02:98F8, p02:9901 (27 bytes)
+C 0x98EF p01:6162 copia_bytes
+C 0x98F5 p01:61A5 copia_bytes_3
+C 0x98FB p01:61A5 copia_bytes_3
+C 0x98FE p01:61CF rutina_2
+C 0x9904 p01:6186 copia_bytes_2
+C 0x9907 p01:61CF rutina_2
 C 0x9925 ix+0x41: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x9929 0xC850: el OBJETO 1 (byte 0 de 4; p06:BAC2)
 C 0x992E p00:40A4 hl_mas_a
+C 0x9934 p01:623E rutina_3
 C 0x9938 ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 C 0x993E la ficha pasa al paso siguiente
 C 0x9942 ix+0x05: la X (p01:70BD la compara con la de Gao)
 C 0x9948 ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 C 0x994E ix+0x41: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+C 0x9951 p01:73E3 rutina_13
+C 0x9954 p01:75CE bucle_3
 C 0x995A ix+0x41: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x995F ix+0x41: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x9962 ix+0x20: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x996A ix+0x41: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x996F ix+0x41: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x9972 ix+0x20: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
-C 0x9977 tramo: mira cosas
+C 0x9977 p01:6136 mira_cosas
 C 0x997A 0xCB06: las cosas del camino que se van poniendo (p01:72ED)
 C 0x9980 ix+0x05: la X (p01:70BD la compara con la de Gao)
 C 0x9984 ix+0x41: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x9987 ix+0x46: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x998B p02:9994 tabla_9994: tabla que lee p02:998B (7 bytes)
+C 0x998E p01:6162 copia_bytes
+C 0x9991 p01:61CF rutina_2
 C 0x999B p02:99EE ficha_99EE: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
+C 0x999E p01:7084 copia_bytes_7
 C 0x99A1 0xC4AA: la dificultad: 0xC172 + lo de la tabla p01:7062 segun 0xC840, hasta 15 (p01:7049)
 C 0x99A4 p02:99CD tabla_99CD: tabla que lee p02:99A4, p02:99AB (22 bytes)
 C 0x99B2 p02:99E3 ficha_99E3: 11 bytes de la ficha del bicho desde ix+7 (p01:7073)
+C 0x99B5 p01:7073 copia_bytes_5
 C 0x99B8 ix+0x05: la X (p01:70BD la compara con la de Gao)
 C 0x99C1 ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x99C4 ix+0x60: cuenta de cuadros (p01:70F1)
-C 0x99F2 tramo: mira dificultad
+C 0x99CA p01:713F mira_dificultad_2
+C 0x99F2 tramo: mira dificultad, llama a mira_dificultad
 C 0x99F5 0xC4AA: la dificultad: 0xC172 + lo de la tabla p01:7062 segun 0xC840, hasta 15 (p01:7049)
 C 0x99F8 ¿dificultad = 0x05?
+C 0x99FC p01:7130 mira_dificultad
 C 0x99FF reparte por el PASO de la ficha (ix+1): la tabla va detras del call
 C 0x9A02 p00:40AE despacha
 C 0x9A1F entrada 0 de la tabla de p02:9A02 (L_99F2)
 C 0x9A23 la ficha pasa al paso siguiente
 C 0x9A2A ix+0x11: cuenta atras de lo que hace
 C 0x9A2E ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+C 0x9A33 p01:70A1 con_hl_mas_a_5
 C 0x9A36 entrada 1 de la tabla de p02:9A02 (L_99F2)
 C 0x9A3A la ficha pasa al paso siguiente
 C 0x9A41 0xC4AA: la dificultad: 0xC172 + lo de la tabla p01:7062 segun 0xC840, hasta 15 (p01:7049)
@@ -957,6 +1161,8 @@ C 0x9A52 ix+0x11: cuenta atras de lo que hace
 C 0x9A56 entrada 2 de la tabla de p02:9A02 (L_99F2)
 C 0x9A5A la ficha pasa al paso siguiente
 C 0x9A61 ix+0x11: cuenta atras de lo que hace
+C 0x9A65 p01:709D con_hl_mas_a_4
+C 0x9A68 p01:70A1 con_hl_mas_a_5
 C 0x9A6B entrada 3 de la tabla de p02:9A02 (L_99F2)
 C 0x9A6F la ficha pasa al paso siguiente
 C 0x9A76 0xC4AA: la dificultad: 0xC172 + lo de la tabla p01:7062 segun 0xC840, hasta 15 (p01:7049)
@@ -964,6 +1170,7 @@ C 0x9A87 ix+0x11: cuenta atras de lo que hace
 C 0x9A8B entrada 6 de la tabla de p02:9A02 (L_99F2)
 C 0x9A8F la ficha pasa al paso siguiente
 C 0x9A96 ix+0x11: cuenta atras de lo que hace
+C 0x9A9A p01:70A1 con_hl_mas_a_5
 C 0x9A9D entrada 12 de la tabla de p02:9A02 (L_99F2)
 C 0x9A9E p02:9AB3 tabla_9AB3: tabla que lee p02:9A9E (4 bytes)
 C 0x9AA1 ix+0x60: cuenta de cuadros (p01:70F1)
@@ -971,17 +1178,24 @@ C 0x9AA4 ix+0x60: cuenta de cuadros (p01:70F1)
 C 0x9AAB p00:40A4 hl_mas_a
 C 0x9AAF ix+0x10: el PATRON del sprite (p01:70FB)
 C 0x9AB7 8 vueltas
+C 0x9AB9 tramo: llama a mira_bichos_del_mapa
+C 0x9ABD p01:6D12 mira_bichos_del_mapa
 C 0x9AC2 la ficha es la de HL
-C 0x9AC8 tramo: llama a hl_mas_a
+C 0x9AC8 tramo: llama a copia_bytes_4, llama a hl_mas_a
 C 0x9AC9 p02:9AE8 ficha_9AE8: los 6 primeros bytes de la ficha del bicho (ix+0..5) (p01:706A)
+C 0x9ACC p01:706A copia_bytes_4
 C 0x9AD2 p00:40A4 hl_mas_a
 C 0x9AD9 ix+0x05: la X (p01:70BD la compara con la de Gao)
+C 0x9AF6 tramo: llama a rutina_10, llama a copia_bytes_7
+C 0x9AF9 p01:7123 rutina_10
 C 0x9AFC p02:9B13 ficha_9B13: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
+C 0x9AFF p01:7084 copia_bytes_7
 C 0x9B02 ix+0x06: cuenta atras (p01:6124)
 C 0x9B06 ix+0x10: el PATRON del sprite (p01:70FB)
 C 0x9B0A ix+0x11: cuenta atras de lo que hace
 C 0x9B0E ix+0x74: el tipo de choque (p01:7093)
 C 0x9B17 ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
+C 0x9B20 p01:7155 mira_cuadros_2
 C 0x9B24 la ficha pasa al paso siguiente
 C 0x9B27 ix+0x06: cuenta atras (p01:6124)
 C 0x9B2B 0xC80B: la Y de Gao (p01:70B3)
@@ -990,16 +1204,20 @@ C 0x9B31 0xC809: la X de Gao (p01:70BD)
 C 0x9B34 ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x9B37 ix+0x74: el tipo de choque (p01:7093)
 C 0x9B3B 0xC4AA: la dificultad: 0xC172 + lo de la tabla p01:7062 segun 0xC840, hasta 15 (p01:7049)
+C 0x9B41 p01:7189 rutina_11
 C 0x9B50 la ficha pasa al paso siguiente
 C 0x9B53 ix+0x11: cuenta atras de lo que hace
 C 0x9B58 cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
+C 0x9B5C p01:6A85 mira_atributos_de_sprites
 C 0x9B5F ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x9B62 ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 C 0x9B69 ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x9B6C ix+0x05: la X (p01:70BD la compara con la de Gao)
 C 0x9B73 p02:9B79 tabla_9B79: tabla que lee p02:9B73 (35 bytes)
-C 0x9B9C tramo: mira control_de_bichos
+C 0x9B9C tramo: llama a rutina_10, llama a copia_bytes_7, mira control_de_bichos
+C 0x9B9F p01:7123 rutina_10
 C 0x9BA2 p02:9BCE ficha_9BCE: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
+C 0x9BA5 p01:7084 copia_bytes_7
 C 0x9BA9 ix+0x06: cuenta atras (p01:6124)
 C 0x9BAC ix+0x14: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x9BAF ix+0x10: el PATRON del sprite (p01:70FB)
@@ -1009,15 +1227,18 @@ C 0x9BC0 0xD41B: lo que controla la salida de bichos
 C 0x9BC5 tramo: pone control_de_bichos
 C 0x9BC6 0xD41B: lo que controla la salida de bichos
 C 0x9BC9 ix+0x11: cuenta atras de lo que hace
+C 0x9BD2 p01:710F mira_avance_del_cuadro
 C 0x9BD5 ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 C 0x9BDE cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 C 0x9BE2 ix+0x11: cuenta atras de lo que hace
 C 0x9BE6 la ficha pasa al paso siguiente
+C 0x9BEA p01:7155 mira_cuadros_2
 C 0x9BEE la ficha pasa al paso siguiente
 C 0x9BF1 ix+0x74: el tipo de choque (p01:7093)
 C 0x9BF5 ix+0x11: cuenta atras de lo que hace
 C 0x9BFA ix+0x11: cuenta atras de lo que hace
 C 0x9C01 ix+0x10: el PATRON del sprite (p01:70FB)
+C 0x9C05 p01:7809 pon_buffer_8
 C 0x9C08 cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 C 0x9C0D ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 C 0x9C10 ix+0x10: el PATRON del sprite (p01:70FB)
@@ -1025,21 +1246,34 @@ C 0x9C14 ix+0x11: cuenta atras de lo que hace
 C 0x9C18 ix+0x14: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x9C1B ix+0x74: el tipo de choque (p01:7093)
 C 0x9C20 p02:9C2D ficha_9C2D: los 6 primeros bytes de la ficha del bicho (ix+0..5) (p01:706A)
+C 0x9C23 p01:706A copia_bytes_4
 C 0x9C26 0xC809: la X de Gao (p01:70BD)
 C 0x9C29 ix+0x05: la X (p01:70BD la compara con la de Gao)
+C 0x9C33 p01:7119 mira_partida_2
 C 0x9C36 p02:9C51 ficha_9C51: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
+C 0x9C39 p01:7084 copia_bytes_7
 C 0x9C3C ix+0x15: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x9C40 p02:9C46 tabla_9C46: tabla que lee p02:9C40 (11 bytes)
+C 0x9C43 p01:7073 copia_bytes_5
+C 0x9C55 p01:71A4 rutina_12
 C 0x9C58 ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
+C 0x9C61 tramo: llama a ficha_cuenta
+C 0x9C64 p01:70F1 ficha_cuenta
 C 0x9C67 cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 C 0x9C6B la ficha pasa al paso siguiente
 C 0x9C6E ix+0x11: cuenta atras de lo que hace
 C 0x9C72 ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x9C79 ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
-C 0x9C88 tramo: mira fichas
+C 0x9C7C p01:792C ficha_campo_07_3
+C 0x9C82 p01:7933 rutina_20
+C 0x9C88 tramo: llama a ficha_cuenta, mira fichas, llama a ficha_x_3, llama a rutina_11
+C 0x9C8B p01:70F1 ficha_cuenta
 C 0x9C91 0xD828: fichas de lo que se mueve
+C 0x9C97 p01:7193 ficha_x_3
 C 0x9C9A ix+0x05: la X (p01:70BD la compara con la de Gao)
 C 0x9C9F ix+0x03: la Y (p01:70B3 la compara con la de Gao)
+C 0x9CA3 p00:48FB rutina_11
+C 0x9CA8 p01:710F mira_avance_del_cuadro
 C 0x9CAB ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x9CAF ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x9CB5 0xC4B0: cuenta los cuadros; el bit 0 alterna los colores de los sprites (p02:93AA)
@@ -1048,20 +1282,39 @@ C 0x9CC0 cuenta atras en ix+0x17: hasta que llegue a 0, nada mas
 C 0x9CC4 ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x9CCA ix+0x05: la X (p01:70BD la compara con la de Gao)
 C 0x9CCD ix+0x03: la Y (p01:70B3 la compara con la de Gao)
+C 0x9CD0 p01:6D64 pon_buffer_3
 C 0x9CD3 ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+C 0x9CD7 p01:70BD mira_x_de_gao
 C 0x9CDD la ficha pasa al paso siguiente
+C 0x9CE3 p01:792C ficha_campo_07_3
+C 0x9CE9 p01:7933 rutina_20
+C 0x9CEC tramo: sigue en ficha_cuenta
+C 0x9CEF p01:70F1 ficha_cuenta
 C 0x9CFC ix+0x05: la X (p01:70BD la compara con la de Gao)
 C 0x9D00 ix+0x03: la Y (p01:70B3 la compara con la de Gao)
+C 0x9D03 p00:48FB rutina_11
+C 0x9D07 p01:7099 con_hl_mas_a_3
 C 0x9D0A p02:9D21 ficha_9D21: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
+C 0x9D0D p01:7084 copia_bytes_7
 C 0x9D10 p02:9D16 tabla_9D16: tabla que lee p02:9D10 (11 bytes)
+C 0x9D13 p01:7073 copia_bytes_5
+C 0x9D25 p01:71A4 rutina_12
 C 0x9D2A p02:9D42 tabla_9D42: tabla que lee p02:9D2A (2 bytes)
+C 0x9D2D p01:70FF ficha_cuenta_2
 C 0x9D30 ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
+C 0x9D34 p01:710F mira_avance_del_cuadro
 C 0x9D37 cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 C 0x9D3B la ficha pasa al paso siguiente
 C 0x9D3E ix+0x06: cuenta atras (p01:6124)
 C 0x9D44 p02:9D4A tabla_9D4A: tabla que lee p02:9D44 (6 bytes)
+C 0x9D47 p01:706A copia_bytes_4
+C 0x9D50 tramo: llama a copia_bytes_7, sigue en copia_bytes_5
 C 0x9D53 p02:9D6A ficha_9D6A: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
+C 0x9D56 p01:7084 copia_bytes_7
 C 0x9D59 p02:9D5F tabla_9D5F: tabla que lee p02:9D59 (11 bytes)
+C 0x9D5C p01:7073 copia_bytes_5
+C 0x9D6E tramo: llama a ficha_cuenta
+C 0x9D71 p01:70F1 ficha_cuenta
 C 0x9D74 ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 C 0x9D7A cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 C 0x9D7E la ficha pasa al paso siguiente
@@ -1074,19 +1327,33 @@ C 0x9DA3 ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no 
 C 0x9DAA p00:40A4 hl_mas_a
 C 0x9DB8 ix+0x05: la X (p01:70BD la compara con la de Gao)
 C 0x9DBB ix+0x03: la Y (p01:70B3 la compara con la de Gao)
+C 0x9DBE p01:7819 pon_buffer_9
 C 0x9DC1 ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 C 0x9DC4 ix+0x11: cuenta atras de lo que hace
 C 0x9DE9 p02:9E01 ficha_9E01: los 6 primeros bytes de la ficha del bicho (ix+0..5) (p01:706A)
+C 0x9DEC p01:706A copia_bytes_4
 C 0x9DEF ix+0x06: cuenta atras (p01:6124)
 C 0x9DF7 ix+0x05: la X (p01:70BD la compara con la de Gao)
 C 0x9DFD ix+0x06: cuenta atras (p01:6124)
+C 0x9E07 p01:7119 mira_partida_2
 C 0x9E0A p02:9E37 ficha_9E37: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
+C 0x9E0D p01:7084 copia_bytes_7
 C 0x9E10 ix+0x15: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x9E13 ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x9E16 ix+0x15: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x9E1D ix+0x12: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+C 0x9E21 tramo: llama a mira_dificultad_2, sigue en copia_bytes_5
+C 0x9E23 p01:713F mira_dificultad_2
 C 0x9E26 p02:9E2C tabla_9E2C: tabla que lee p02:9E26 (11 bytes)
+C 0x9E29 p01:7073 copia_bytes_5
 C 0x9E3B ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
+C 0x9E44 tramo: llama a ficha_cuenta, llama a mira_y_de_gao_2, llama a mira_dificultad
+C 0x9E47 p01:70F1 ficha_cuenta
+C 0x9E4A p01:70CF mira_y_de_gao_2
+C 0x9E4F p01:7130 mira_dificultad
+C 0x9E52 p01:70BD mira_x_de_gao
+C 0x9E63 p01:70D6 mira_x_de_gao_2
+C 0x9E6E p01:7933 rutina_20
 C 0x9E74 cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 C 0x9E78 la ficha pasa al paso siguiente
 C 0x9E7B ix+0x06: cuenta atras (p01:6124)
@@ -1097,25 +1364,40 @@ C 0x9E8D la ficha pasa al paso siguiente
 C 0x9E90 ix+0x11: cuenta atras de lo que hace
 C 0x9E94 ix+0x25: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x9E98 ix+0x2A: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+C 0x9E9D p01:710F mira_avance_del_cuadro
 C 0x9EA0 cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 C 0x9EA4 ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
+C 0x9EA8 p06:B625 pon_buffers_2
 C 0x9EAB ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 C 0x9EAE ix+0x06: cuenta atras (p01:6124)
 C 0x9EB7 ix+0x05: la X (p01:70BD la compara con la de Gao)
 C 0x9EBE ix+0x11: cuenta atras de lo que hace
+C 0x9EC2 p01:70D6 mira_x_de_gao_2
 C 0x9ECB ix+0x05: la X (p01:70BD la compara con la de Gao)
 C 0x9ECF ix+0x03: la Y (p01:70B3 la compara con la de Gao)
+C 0x9ED2 p00:48FB rutina_11
 C 0x9ED5 ix+0x05: la X (p01:70BD la compara con la de Gao)
 C 0x9ED8 ix+0x03: la Y (p01:70B3 la compara con la de Gao)
+C 0x9EDB p00:48FB rutina_11
+C 0x9EE6 p01:792C ficha_campo_07_3
+C 0x9EEA p01:710F mira_avance_del_cuadro
 C 0x9EED ix+0x10: el PATRON del sprite (p01:70FB)
 C 0x9EF7 ix+0x60: cuenta de cuadros (p01:70F1)
+C 0x9EFB tramo: llama a copia_bytes_7, llama a copia_bytes_5, sigue en mira_dificultad_2
 C 0x9EFE p02:9F1B ficha_9F1B: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
+C 0x9F01 p01:7084 copia_bytes_7
 C 0x9F04 p02:9F0F ficha_9F0F: 11 bytes de la ficha del bicho desde ix+7 (p01:7073)
+C 0x9F07 p01:7073 copia_bytes_5
+C 0x9F0C p01:713F mira_dificultad_2
+C 0x9F1F p01:710F mira_avance_del_cuadro
+C 0x9F24 p01:7130 mira_dificultad
 C 0x9F27 ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 C 0x9F34 cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 C 0x9F38 la ficha pasa al paso siguiente
 C 0x9F3B ix+0x06: cuenta atras (p01:6124)
 C 0x9F3F p02:9F52 ficha_9F52: 11 bytes de la ficha del bicho desde ix+7 (p01:7073)
+C 0x9F42 p01:7073 copia_bytes_5
+C 0x9F45 p01:70D6 mira_x_de_gao_2
 C 0x9F5D cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 C 0x9F61 la ficha pasa al paso siguiente
 C 0x9F64 ix+0x06: cuenta atras (p01:6124)
@@ -1125,19 +1407,25 @@ C 0x9F70 cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 C 0x9F74 la ficha pasa al paso siguiente
 C 0x9F77 ix+0x06: cuenta atras (p01:6124)
 C 0x9F7A p02:9F52 ficha_9F52: 11 bytes de la ficha del bicho desde ix+7 (p01:7073)
+C 0x9F7D p01:7073 copia_bytes_5
+C 0x9F80 p01:7099 con_hl_mas_a_3
+C 0x9F83 p01:70D6 mira_x_de_gao_2
 C 0x9F8B cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 C 0x9F8F la ficha pasa al paso 0
 C 0x9F93 ix+0x06: cuenta atras (p01:6124)
 C 0x9F96 ix+0x10: el PATRON del sprite (p01:70FB)
 C 0x9F9A ix+0x11: cuenta atras de lo que hace
+C 0x9FA7 tramo: sigue en ficha_tipo_5
 C 0x9FAB ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x9FAE ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x9FB1 la ficha es la de HL
 C 0x9FB4 ix+0x13: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x9FB8 ix+0x00: el TIPO de la ficha (0 = libre; p01:6D12)
+C 0x9FBD p01:6947 ficha_tipo_5
 C 0x9FC0 ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x9FC3 ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x9FC6 0xD418: lo que controla la salida de bichos
+C 0x9FC9 p01:6947 ficha_tipo_5
 C 0x9FD1 p00:40A4 hl_mas_a
 C 0x9FD4 4 vueltas
 C 0x9FDF tramo: mira control_de_bichos
@@ -1145,4 +1433,6 @@ C 0x9FE1 0xD418: lo que controla la salida de bichos
 C 0x9FE4 iy+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x9FE7 iy+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0x9FEB p02:9FF1 tabla_9FF1: tabla que lee p02:9FEB (6 bytes)
+C 0x9FF7 p01:7119 mira_partida_2
+C 0x9FFD p01:7084 copia_bytes_7
 # --- fin de anota ---

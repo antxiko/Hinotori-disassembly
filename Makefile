@@ -197,3 +197,14 @@ clean:
 
 .PHONY: all comprueba reconoce paginas semillas trace listado verify \
         sanity densidad test web clean imagenes coteja
+
+# Rehace todas las secciones automaticas de las notas, en orden: los bloques
+# de datos por formato, lo que queda con su prueba, las notas a mano por
+# tandas (work/notas_pNN.txt, si estan) y los comentarios de las tablas.
+notas: $(ROM)
+	$(MAKE) semillas listado
+	python3 tools/bloques.py --escribe
+	python3 tools/resto.py --escribe
+	-for f in work/notas_p*.txt; do python3 tools/mete_notas.py `echo $$f | sed 's/.*_p\([0-9]*\).txt/\1/'`; done
+	python3 tools/anota.py --escribe
+	$(MAKE) listado

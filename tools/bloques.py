@@ -473,9 +473,9 @@ def ocupado(p):
     dentro = False
     if os.path.exists(notas):
         for ln in open(notas, encoding="utf-8"):
-            if ln.startswith(INI):
+            if ln.startswith(INI) or ln.startswith("# --- RESTO"):
                 dentro = True
-            elif ln.startswith(FIN):
+            elif ln.startswith(FIN) or ln.startswith("# --- fin del resto"):
                 dentro = False
             elif not dentro and ln.startswith("D "):
                 q = ln.split(None, 3)

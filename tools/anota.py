@@ -348,7 +348,26 @@ def main(argv):
     roles = papeles(t)
     todos = nombres_de_todo()
     total_c = total_l = 0
-    for p in range(N_PAGINAS):
+    # los destinos de call y jp que vienen de OTRO banco (en el listado salen
+    # como numero): tambien son rutinas y llevan nombre en su banco
+    de_fuera = defaultdict(set)
+    for q in range(N_PAGINAS):
+        if not any(b == q for b, _ in t.arranques):
+            continue
+        iq, _ = lee_listado(q)
+        for a, tx, _ in iq:
+            m = re.match(r"(?:call|jp)\s+(?:[a-z]+,)?0([0-9a-f]{4})h$", tx)
+            if not m:
+                continue
+            d = int(m.group(1), 16)
+            if not 0x4000 <= d < 0xC000:
+                continue
+            for s_ in t.config_de.get((q, a), ()):
+                b = 0 if d < 0x6000 else s_[(d - 0x6000) >> 13]
+                if b != q:
+                    de_fuera[b].add(d)
+                break
+    for pasada, p in [(0, q) for q in range(N_PAGINAS)] + [(1, q) for q in range(N_PAGINAS)]:
         if not any(b == p for b, _ in t.arranques):
             continue
         ins, labs = lee_listado(p)
@@ -364,6 +383,7 @@ def main(argv):
         for (b, a) in roles:
             if b == p:
                 llamados.add(a)
+        llamados |= de_fuera[p]
         # --- nombres
         orden = [a for a, _, _ in ins]
         idx = {a: i for i, a in enumerate(orden)}
@@ -381,6 +401,10 @@ def main(argv):
             usados.add(nom)
             nuevos[a] = nom
             lineas.append("L 0x%04X %s" % (a, nom))
+        for a_, n_ in nuevos.items():
+            todos[(p, a_)] = n_
+        if pasada == 0:
+            continue
         total_l += len(nuevos)
         # --- comentarios
         dbloques = bloques_d()

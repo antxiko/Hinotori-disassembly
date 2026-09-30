@@ -27,7 +27,7 @@ DATA_sin_lector_8000:
 ; ======================================================================
 
 
-L_8004:
+mira_invulnerable:
 	exx			;8004
 	ld a,(ix+003h)		;8005   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 	sub e			;8008
@@ -37,19 +37,19 @@ L_8004:
 	sub d			;800f
 	cp 00ch		;8010
 	ret nc			;8012
-	push de			;8013   ; tramo: mira invulnerable
-	call 06a85h		;8014
+	push de			;8013   ; tramo: llama a mira_atributos_de_sprites, mira invulnerable
+	call 06a85h		;8014   ; p01:6A85 mira_atributos_de_sprites
 	pop de			;8017
 	ld hl,0c834h		;8018   ; 0xC834: cuadros de invulnerabilidad de Gao (p02:860C)
 	dec (hl)			;801b
 	ret			;801c
 L_801D:
-	call 0623eh		;801d
+	call 0623eh		;801d   ; p01:623E rutina_3
 	ret c			;8020
 	ld bc,04038h		;8021
 	jp rutina		;8024
 L_8027:
-	call 0623eh		;8027
+	call 0623eh		;8027   ; p01:623E rutina_3
 	ret c			;802a
 	ld a,(ix+001h)		;802b   ; reparte por el PASO de la ficha (ix+1): la tabla va detras del call
 	call 040aeh		;802e   ; p00:40AE despacha
@@ -70,7 +70,7 @@ DATA_tabla_8031:
 
 
 L_8039:
-	call 0623eh		;8039
+	call 0623eh		;8039   ; p01:623E rutina_3
 	ret c			;803c
 	ld a,(ix+001h)		;803d   ; reparte por el PASO de la ficha (ix+1): la tabla va detras del call
 	call 040aeh		;8040   ; p00:40AE despacha
@@ -124,7 +124,7 @@ L_8066:
 	cp 003h		;8086
 	ret nz			;8088
 	ld a,023h		;8089   ; el sonido 0x23 (p14:9C47 + 2*0x23)
-	jp 041ach		;808b
+	jp 041ach		;808b   ; p00:41AC mira_banderas_juego
 L_808E:
 	ld bc,00205h		;808e   ; entrada 2 de la tabla de p02:80B0 (L_80A9)
 	call ficha_x		;8091
@@ -135,7 +135,7 @@ L_808E:
 	add a,0e0h		;8099
 	ld e,a			;809b
 	xor a			;809c
-	call 0631ch		;809d
+	call 0631ch		;809d   ; p01:631C con_mira_scroll_2
 L_80A0:
 	inc (ix+001h)		;80a0   ; la ficha pasa al paso siguiente
 	ret			;80a3
@@ -143,7 +143,7 @@ L_80A4:
 	ld bc,02020h		;80a4   ; entrada 3 de la tabla de p02:802E (L_8027)
 	jr $+117		;80a7
 L_80A9:
-	call 0623eh		;80a9
+	call 0623eh		;80a9   ; p01:623E rutina_3
 	ret c			;80ac
 	ld a,(ix+001h)		;80ad   ; reparte por el PASO de la ficha (ix+1): la tabla va detras del call
 	call 040aeh		;80b0   ; p00:40AE despacha
@@ -169,10 +169,10 @@ L_80BB:
 	ld a,(0c800h)		;80c1   ; 0xC800: lo que hace Gao (p00:5C68)
 	cp 002h		;80c4   ; ¿estado_de_gao = 0x02?
 	ret z			;80c6
-	ld de,0ffe0h		;80c7
-	call 0610eh		;80ca
+	ld de,0ffe0h		;80c7   ; tramo: llama a ficha_x
+	call 0610eh		;80ca   ; p01:610E ficha_x
 	ret nc			;80cd
-	call 06079h		;80ce
+	call 06079h		;80ce   ; p01:6079 mira_cambio_de_area
 pon_musica_de_pausa:
 	ld a,(0c880h)		;80d1   ; 0xC880: el OBJETO 13 (byte 0 de 4; p06:BAC2)
 	ld b,a			;80d4
@@ -190,23 +190,23 @@ pon_musica_de_pausa:
 	ld (0c0d2h),a		;80ef   ; 0xC0D2: los canales del sonido (0x20 bytes cada uno, p14:94CA)
 	ret			;80f2
 L_80F3:
-	call 0623eh		;80f3
+	call 0623eh		;80f3   ; p01:623E rutina_3
 	ld a,(ix+001h)		;80f6   ; ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 	or a			;80f9
 	jr nz,L_8115		;80fa
-	ld de,0ffd8h		;80fc
-	call 0610eh		;80ff
+	ld de,0ffd8h		;80fc   ; tramo: llama a ficha_x
+	call 0610eh		;80ff   ; p01:610E ficha_x
 	ret nc			;8102
 	inc (ix+001h)		;8103   ; la ficha pasa al paso siguiente
 	ld (ix+006h),03ch		;8106   ; ix+0x06: cuenta atras (p01:6124)
-	call 04ca3h		;810a
+	call 04ca3h		;810a   ; p00:4CA3 pon_avance_3
 	call pon_musica_de_pausa		;810d
 	ld a,055h		;8110   ; el sonido 0x55 (p14:9C47 + 2*0x55)
-	jp 041ach		;8112
+	jp 041ach		;8112   ; p00:41AC mira_banderas_juego
 L_8115:
 	dec (ix+006h)		;8115   ; cuenta atras en ix+0x06: hasta que llegue a 0, nada mas
 	ret nz			;8118
-	jp 06079h		;8119
+	jp 06079h		;8119   ; p01:6079 mira_cambio_de_area
 rutina:
 	call ficha_x		;811c
 	ld a,e			;811f
@@ -295,12 +295,12 @@ L_8186:
 	pop de			;818c
 	pop hl			;818d
 	ret			;818e
-L_818F:
-	call rutina_2		;818f
+con_mira_scroll_10:
+	call rutina_2		;818f   ; tramo: sigue en mira_scroll_10
 	ex de,hl			;8192
 	ld bc,01010h		;8193
 	ld a,048h		;8196
-	jp 051eah		;8198
+	jp 051eah		;8198   ; p00:51EA mira_scroll_10
 rutina_2:
 	ld c,a			;819b
 	and 00fh		;819c
@@ -315,14 +315,14 @@ rutina_2:
 	ld e,a			;81a8
 	ret			;81a9
 cosa_tipo_05:
-	call 06136h		;81aa   ; tramo: mira cosas
+	call 06136h		;81aa   ; p01:6136 mira_cosas
 	ld (ix+046h),080h		;81ad   ; ix+0x46: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ld de,082beh		;81b1
-	call 06162h		;81b4
+	call 06162h		;81b4   ; p01:6162 copia_bytes
 	ld de,082d3h		;81b7
-	call 061a5h		;81ba
-	call 061a5h		;81bd
-	call 061cfh		;81c0
+	call 061a5h		;81ba   ; p01:61A5 copia_bytes_3
+	call 061a5h		;81bd   ; p01:61A5 copia_bytes_3
+	call 061cfh		;81c0   ; p01:61CF rutina_2
 	ld hl,0827eh		;81c3   ; p02:827E tabla_827E: tabla que lee p02:81B1, p02:81B7, p02:81C3, p02:81EB, p02:81F1, p02:81F7 (93 bytes)
 	call ficha_x_2		;81c6
 	ld a,(0cb06h)		;81c9   ; 0xCB06: las cosas del camino que se van poniendo (p01:72ED)
@@ -337,14 +337,14 @@ cosa_tipo_05:
 	ld (ix+015h),010h		;81e3   ; ix+0x15: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ret			;81e7
 cosa_tipo_04:
-	call 06136h		;81e8   ; tramo: mira cosas
+	call 06136h		;81e8   ; p01:6136 mira_cosas
 	ld de,082cch		;81eb
-	call 06162h		;81ee
+	call 06162h		;81ee   ; p01:6162 copia_bytes
 	ld de,082d3h		;81f1
-	call 061a5h		;81f4
+	call 061a5h		;81f4   ; p01:61A5 copia_bytes_3
 	ld de,082cch		;81f7
-	call 061a5h		;81fa
-	call 061cfh		;81fd
+	call 061a5h		;81fa   ; p01:61A5 copia_bytes_3
+	call 061cfh		;81fd   ; p01:61CF rutina_2
 	ld a,(ix+022h)		;8200   ; ix+0x22: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	sub 007h		;8203
 	ld (ix+022h),a		;8205   ; ix+0x22: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
@@ -362,21 +362,21 @@ cosa_tipo_04:
 	ld (ix+015h),020h		;822c   ; ix+0x15: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ret			;8230
 cosa_tipo_01:
-	call 06136h		;8231
+	call 06136h		;8231   ; p01:6136 mira_cosas
 	ld (ix+046h),080h		;8234   ; ix+0x46: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ld de,082c5h		;8238
-	call 06162h		;823b
-	call 061cfh		;823e
+	call 06162h		;823b   ; p01:6162 copia_bytes
+	call 061cfh		;823e   ; p01:61CF rutina_2
 	ld hl,0827eh		;8241   ; p02:827E tabla_827E: tabla que lee p02:81B1, p02:81B7, p02:81C3, p02:81EB, p02:81F1, p02:81F7 (93 bytes)
 	jp ficha_x_2		;8244
 cosa_tipo_02:
-	call 06136h		;8247
+	call 06136h		;8247   ; p01:6136 mira_cosas
 	ld (ix+046h),080h		;824a   ; ix+0x46: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ld de,082cch		;824e
-	call 06162h		;8251
+	call 06162h		;8251   ; p01:6162 copia_bytes
 	ld de,082d3h		;8254
-	call 061a5h		;8257
-	call 061cfh		;825a
+	call 061a5h		;8257   ; p01:61A5 copia_bytes_3
+	call 061cfh		;825a   ; p01:61CF rutina_2
 	ld hl,0827eh		;825d   ; p02:827E tabla_827E: tabla que lee p02:81B1, p02:81B7, p02:81C3, p02:81EB, p02:81F1, p02:81F7 (93 bytes)
 	jr ficha_x_2		;8260
 ficha_x_2:
@@ -413,9 +413,9 @@ DATA_tabla_827E:
 
 
 mira_scroll:
-	ld hl,062d2h		;82db   ; tramo: mira scroll, mira fase
+	ld hl,062d2h		;82db   ; tramo: llama a pon_base_de_la_hoja, mira scroll, llama a con_hmmv, llama a pon_banco_a000_5 ...
 	ld a,004h		;82de
-	call 05469h		;82e0
+	call 05469h		;82e0   ; p00:5469 pon_base_de_la_hoja
 	ld hl,03816h		;82e3
 	ld bc,03264h		;82e6
 	ld a,(0c385h)		;82e9   ; 0xC385: el SCROLL vertical: R#23 del VDP (p00:4C65)
@@ -423,18 +423,18 @@ mira_scroll:
 	ld l,a			;82ed
 	ld a,0ffh		;82ee
 	ld d,000h		;82f0
-	call 0527eh		;82f2
+	call 0527eh		;82f2   ; p00:527E con_hmmv
 	ld a,009h		;82f5   ; el banco 9 en 0xA000
-	call 05434h		;82f7
+	call 05434h		;82f7   ; p00:5434 pon_banco_a000_5
 	ld a,(0c481h)		;82fa   ; 0xC481: la FASE, 1-6 (p01:65B4)
 	dec a			;82fd
 	ld hl,08312h		;82fe   ; p02:8312 tabla_8312: tabla que lee p02:82FE (12 bytes)
-	call 04878h		;8301
+	call 04878h		;8301   ; p00:4878 con_hl_mas_a
 	ld de,03818h		;8304
 	ld bc,0070ch		;8307
-	call 058e5h		;830a
+	call 058e5h		;830a   ; p00:58E5 bucle_5
 	ld a,003h		;830d   ; el banco 3 en 0xA000
-	jp 05434h		;830f
+	jp 05434h		;830f   ; p00:5434 pon_banco_a000_5
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_8312: tabla que lee p02:82FE (12 bytes)
@@ -495,22 +495,22 @@ mira_x_de_gao:
 	jr z,L_836B		;8367
 	ld a,0cch		;8369
 L_836B:
-	ld bc,00202h		;836b
+	ld bc,00202h		;836b   ; tramo: sigue en con_hmmv
 	ld d,000h		;836e
-	jp 0527eh		;8370
+	jp 0527eh		;8370   ; p00:527E con_hmmv
 mira_buffers:
-	call 0491bh		;8373
+	call 0491bh		;8373   ; p00:491B rutina_14
 	ret c			;8376
 	or a			;8377
 	sbc hl,bc		;8378
 	jr mira_buffers		;837a
 mira_buffers_2:
-	call mira_canales		;837c   ; tramo: mira buffers, mira objeto_14
+	call mira_canales		;837c   ; tramo: llama a con_pon_paleta, mira buffers, llama a copia_bytes_2, mira objeto_14
 	ld hl,09e22h		;837f
-	call 055c6h		;8382
+	call 055c6h		;8382   ; p00:55C6 con_pon_paleta
 	ld hl,0ea00h		;8385   ; 0xEA00: buffers de pantallas y dibujos
 	ld bc,003ffh		;8388
-	call 05de9h		;838b
+	call 05de9h		;838b   ; p00:5DE9 copia_bytes_2
 	ld a,(0c884h)		;838e   ; 0xC884: el OBJETO 14 (byte 0 de 4; p06:BAC2)
 	or a			;8391
 	ld a,006h		;8392
@@ -526,12 +526,12 @@ L_83A1:
 	ld b,a			;83a1
 	ld c,000h		;83a2
 L_83A4:
-	ld a,c			;83a4
+	ld a,c			;83a4   ; tramo: llama a con_hl_mas_a
 	inc c			;83a5
 	ld hl,0841eh		;83a6   ; p02:841E tabla_841E: tabla que lee p02:83A6, p02:83C3, p02:84D6 (42 bytes)
-	call 04878h		;83a9
+	call 04878h		;83a9   ; p00:4878 con_hl_mas_a
 	push bc			;83ac
-	call rutina_3		;83ad
+	call con_pon_banco_a000_5		;83ad
 	pop bc			;83b0
 	djnz L_83A4		;83b1
 	ret			;83b3
@@ -546,37 +546,36 @@ mira_objeto_11:
 L_83C1:
 	ld b,a			;83c1
 L_83C2:
-	ld a,b			;83c2
+	ld a,b			;83c2   ; tramo: llama a con_hl_mas_a
 	ld hl,0841eh		;83c3   ; p02:841E tabla_841E: tabla que lee p02:83A6, p02:83C3, p02:84D6 (42 bytes)
-	call 04878h		;83c6
+	call 04878h		;83c6   ; p00:4878 con_hl_mas_a
 	push bc			;83c9
-	call rutina_4		;83ca
+	call rutina_3		;83ca
 	pop bc			;83cd
 	djnz L_83C2		;83ce
 	ret			;83d0
-rutina_3:
-	call rutina_5		;83d1
+con_pon_banco_a000_5:
+	call rutina_4		;83d1   ; tramo: llama a pon_banco_a000_5, llama a mira_buffers_2, sigue en pon_banco_a000_5
 	ld h,b			;83d4
 	ld l,c			;83d5
 	ld bc,00606h		;83d6
 	ex de,hl			;83d9
 	push hl			;83da
 	ld a,009h		;83db   ; el banco 9 en 0xA000
-	call 05434h		;83dd
+	call 05434h		;83dd   ; p00:5434 pon_banco_a000_5
 	pop hl			;83e0
-	call 051c8h		;83e1
+	call 051c8h		;83e1   ; p00:51C8 mira_buffers_2
 	ld a,003h		;83e4   ; el banco 3 en 0xA000
-	jp 05434h		;83e6
-rutina_4:
-	call rutina_5		;83e9
+	jp 05434h		;83e6   ; p00:5434 pon_banco_a000_5
+rutina_3:
+	call rutina_4		;83e9
 	ret			;83ec
 
 ; ----------------------------------------------------------------------
-; DATOS sin_llamar_83ED: codigo que no llama nadie (ninguna palabra del
-;   cartucho vale 0x83ED): ld hl,01010h / add hl,de / jp 083f4h / call 0819bh
-;   ... (18 bytes)
+; DATOS sin_lector_83ED: bytes sin lector conocido: ninguna instruccion
+;   trazada los apunta y la sonda de openMSX no los lee (18 bytes)
 ;   0x83ed..0x83ff  (18 bytes)
-DATA_sin_llamar_83ED:
+DATA_sin_lector_83ED:
 	defb 021h,010h,010h,019h,0c3h,0f4h,083h,0cdh,09bh,081h,001h,010h,010h,03eh,048h,0c3h	; 83ed  !............>H.
 	defb 0eah,051h	; 83fd
 
@@ -585,7 +584,7 @@ DATA_sin_llamar_83ED:
 ; ======================================================================
 
 
-rutina_5:
+rutina_4:
 	ld de,04020h		;83ff
 	ld a,(hl)			;8402
 	inc hl			;8403
@@ -606,7 +605,7 @@ mira_canales:
 	ld bc,01010h		;8413
 	ld d,001h		;8416
 	ld a,077h		;8418
-	call 0527eh		;841a
+	call 0527eh		;841a   ; p00:527E con_hmmv
 	ret			;841d
 
 ; ----------------------------------------------------------------------
@@ -622,19 +621,19 @@ DATA_tabla_841E:
 ; ======================================================================
 
 
-rutina_6:
+con_pon_base_de_la_hoja:
 	ret			;8448
-rutina_7:
-	ld hl,062a5h		;8449
+con_pon_base_de_la_hoja_2:
+	ld hl,062a5h		;8449   ; tramo: sigue en pon_base_de_la_hoja
 	ld a,004h		;844c
-	jp 05469h		;844e
+	jp 05469h		;844e   ; p00:5469 pon_base_de_la_hoja
 mira_scroll_2:
 	ld a,(0c385h)		;8451   ; 0xC385: el SCROLL vertical: R#23 del VDP (p00:4C65)
 	add a,l			;8454
 	ld l,a			;8455
 	ld de,00030h		;8456
 	ld a,004h		;8459
-	call 05252h		;845b
+	call 05252h		;845b   ; p00:5252 con_hmmm_2
 	ld a,(0c204h)		;845e   ; 0xC204: el logotipo y el titulo (p01:66D4)
 	set 1,a		;8461
 	ld (0c204h),a		;8463   ; 0xC204: el logotipo y el titulo (p01:66D4)
@@ -645,7 +644,7 @@ mira_scroll_3:
 	ld e,a			;846d
 	ld hl,00030h		;846e
 	ld a,001h		;8471
-	call 05226h		;8473
+	call 05226h		;8473   ; p00:5226 con_hmmm
 	ld a,(0c581h)		;8476   ; 0xC581: variables del avance del mapa
 	res 1,a		;8479
 	ld (0c581h),a		;847b   ; 0xC581: variables del avance del mapa
@@ -660,7 +659,7 @@ mira_fase:
 	ret			;848f
 mira_teclas_nuevas:
 	ld a,(0c887h)		;8490   ; 0xC887: el OBJETO 14 (byte 3 de 4; p06:BAC2)
-	call rutina_8		;8493
+	call rutina_5		;8493
 	ld a,(0c106h)		;8496   ; 0xC106: cursores, ESPACIO y los disparos pulsados en este cuadro (p00:533B)
 	and 00fh		;8499
 	ret z			;849b
@@ -679,7 +678,7 @@ L_84A6:
 	ld a,(0c887h)		;84ac   ; 0xC887: el OBJETO 14 (byte 3 de 4; p06:BAC2)
 	push af			;84af
 	ld a,c			;84b0
-	call rutina_8		;84b1
+	call rutina_5		;84b1
 	ld (0c887h),a		;84b4   ; 0xC887: el OBJETO 14 (byte 3 de 4; p06:BAC2)
 	push af			;84b7
 	call mira_canales_2		;84b8
@@ -689,8 +688,8 @@ L_84A6:
 	ret z			;84be
 	ld a,(0c887h)		;84bf   ; 0xC887: el OBJETO 14 (byte 3 de 4; p06:BAC2)
 	ld a,002h		;84c2   ; el sonido 0x02 (p14:9C47 + 2*0x02)
-	call 041c1h		;84c4
-rutina_8:
+	call 041c1h		;84c4   ; p00:41C1 pon_banco_8000_guardado
+rutina_5:
 	or a			;84c7
 	jr nz,L_84CC		;84c8
 	ld a,006h		;84ca
@@ -703,10 +702,10 @@ L_84D2:
 	ld c,a			;84d3
 	ret			;84d4
 mira_canales_2:
-	dec a			;84d5   ; tramo: mira canales, mira objeto_14
+	dec a			;84d5   ; tramo: llama a con_hl_mas_a, mira canales, mira objeto_14
 	ld hl,0841eh		;84d6   ; p02:841E tabla_841E: tabla que lee p02:83A6, p02:83C3, p02:84D6 (42 bytes)
-	call 04878h		;84d9
-	call rutina_5		;84dc
+	call 04878h		;84d9   ; p00:4878 con_hl_mas_a
+	call rutina_4		;84dc
 	ld hl,01008h		;84df
 	add hl,bc			;84e2
 	ex de,hl			;84e3
@@ -719,31 +718,31 @@ mira_canales_2:
 	add a,010h		;84f2
 	ld e,a			;84f4
 L_84F5:
-	ld a,043h		;84f5
-	jp 051eah		;84f7
+	ld a,043h		;84f5   ; tramo: sigue en mira_scroll_10
+	jp 051eah		;84f7   ; p00:51EA mira_scroll_10
 estado_14:
 	djnz L_8508		;84fa
 	call 04cedh		;84fc   ; p00:4CED apaga_los_sprites
 	call mira_scroll		;84ff
 	call mira_x_de_gao		;8502
-	jp 04348h		;8505
+	jp 04348h		;8505   ; p00:4348 mira_paso
 L_8508:
 	djnz L_8515		;8508
 	call mira_x_de_gao		;850a   ; tramo: mira teclas_nuevas
 	ld a,(0c106h)		;850d   ; 0xC106: cursores, ESPACIO y los disparos pulsados en este cuadro (p00:533B)
 	or a			;8510   ; ¿es 0 teclas_nuevas?
 	ret z			;8511
-	jp 04348h		;8512
+	jp 04348h		;8512   ; p00:4348 mira_paso
 L_8515:
 	djnz L_852B		;8515
-	ld de,03814h		;8517   ; tramo: llama a enciende_los_sprites
+	ld de,03814h		;8517   ; tramo: llama a enciende_los_sprites, llama a rutina_5
 	ld bc,04c7ch		;851a
 	call mira_scroll_3		;851d
 	call 04cf8h		;8520   ; p00:4CF8 enciende_los_sprites
-	call 04881h		;8523
+	call 04881h		;8523   ; p00:4881 rutina_5
 L_8526:
-	ld a,005h		;8526
-	jp 0432eh		;8528
+	ld a,005h		;8526   ; tramo: sigue en pon_estado
+	jp 0432eh		;8528   ; p00:432E pon_estado
 L_852B:
 	ld a,(0c483h)		;852b   ; 0xC483: la COLUMNA: 0-2 el camino, 3 la sala (p01:6543)
 	cp 003h		;852e   ; ¿columna = 0x03?
@@ -752,34 +751,34 @@ L_852B:
 	ld a,(hl)			;8535
 	or a			;8536
 	jr z,L_8526		;8537
-	dec (hl)			;8539   ; tramo: mira banderas_juego
+	dec (hl)			;8539   ; tramo: mira banderas_juego, llama a pon_f1_f3_nuevas
 	push bc			;853a
 	ld a,(0c102h)		;853b   ; 0xC102: bit 0: es la demostracion; bit 6: hay partida (p00:46A5)
 	and 001h		;853e
-	call nz,063dbh		;8540
-	pop bc			;8543
+	call nz,063dbh		;8540   ; p01:63DB pon_f1_f3_nuevas
+	pop bc			;8543   ; tramo: llama a pon_banco_8000_guardado, sigue en mira_paso
 	ld hl,03814h		;8544
 	ld bc,04c7ch		;8547
 	call mira_scroll_2		;854a
 	ld a,02fh		;854d   ; el sonido 0x2F (p14:9C47 + 2*0x2F)
-	call 041c1h		;854f
-	jp 04348h		;8552
+	call 041c1h		;854f   ; p00:41C1 pon_banco_8000_guardado
+	jp 04348h		;8552   ; p00:4348 mira_paso
 estado_15:
 	djnz L_857A		;8555
-	push bc			;8557   ; tramo: mira banderas_juego
+	push bc			;8557   ; tramo: mira banderas_juego, llama a pon_f1_f3_nuevas
 	ld a,(0c102h)		;8558   ; 0xC102: bit 0: es la demostracion; bit 6: hay partida (p00:46A5)
 	and 001h		;855b
-	call nz,063dbh		;855d
-	pop bc			;8560   ; tramo: llama a apaga_los_sprites, mira objeto_14
+	call nz,063dbh		;855d   ; p01:63DB pon_f1_f3_nuevas
+	pop bc			;8560   ; tramo: llama a apaga_los_sprites, llama a mira_buffers_3, mira objeto_14
 	call mira_buffers_2		;8561
 	call 04cedh		;8564   ; p00:4CED apaga_los_sprites
-	call 058dch		;8567
+	call 058dch		;8567   ; p00:58DC mira_buffers_3
 	call mira_objeto_11		;856a
-	call rutina_6		;856d
+	call con_pon_base_de_la_hoja		;856d
 	ld a,(0c884h)		;8570   ; 0xC884: el OBJETO 14 (byte 0 de 4; p06:BAC2)
 	or a			;8573
 	call nz,mira_fase		;8574
-	jp 04348h		;8577
+	jp 04348h		;8577   ; p00:4348 mira_paso
 L_857A:
 	djnz L_85B1		;857a
 	ld a,(0c884h)		;857c   ; 0xC884: el OBJETO 14 (byte 0 de 4; p06:BAC2)
@@ -790,57 +789,57 @@ L_857A:
 	ret z			;8588
 	ld a,(0c884h)		;8589   ; 0xC884: el OBJETO 14 (byte 0 de 4; p06:BAC2)
 	or a			;858c
-	jp z,04348h		;858d
+	jp z,04348h		;858d   ; p00:4348 mira_paso
 	ld a,(0c887h)		;8590   ; 0xC887: el OBJETO 14 (byte 3 de 4; p06:BAC2)
 	ld hl,0c481h		;8593   ; 0xC481: la FASE, 1-6 (p01:65B4)
 	cp (hl)			;8596
-	jp z,04348h		;8597
+	jp z,04348h		;8597   ; p00:4348 mira_paso
 	ld a,058h		;859a   ; el sonido 0x58 (p14:9C47 + 2*0x58)
-	call 041c1h		;859c
+	call 041c1h		;859c   ; p00:41C1 pon_banco_8000_guardado
 	ld hl,0c884h		;859f   ; 0xC884: el OBJETO 14 (byte 0 de 4; p06:BAC2)
 	dec (hl)			;85a2
 	ld a,03ch		;85a3
 	ld (0c104h),a		;85a5   ; 0xC104: cuenta atras del paso del estado (p00:4345)
 	ld a,004h		;85a8
 	ld (0c101h),a		;85aa   ; 0xC101: el paso dentro del estado (p00:4348)
-	call 04ca3h		;85ad
+	call 04ca3h		;85ad   ; p00:4CA3 pon_avance_3
 	ret			;85b0
 L_85B1:
 	djnz L_85CA		;85b1
-	ld de,04020h		;85b3   ; tramo: llama a enciende_los_sprites
+	ld de,04020h		;85b3   ; tramo: llama a mira_juego_de_dibujos, llama a enciende_los_sprites, llama a rutina_5
 	ld bc,0f860h		;85b6
 	call mira_scroll_3		;85b9
-	call 055a2h		;85bc
+	call 055a2h		;85bc   ; p00:55A2 mira_juego_de_dibujos
 	call 04cf8h		;85bf   ; p00:4CF8 enciende_los_sprites
-	call 04881h		;85c2
+	call 04881h		;85c2   ; p00:4881 rutina_5
 L_85C5:
-	ld a,005h		;85c5
-	jp 0432eh		;85c7
+	ld a,005h		;85c5   ; tramo: sigue en pon_estado
+	jp 0432eh		;85c7   ; p00:432E pon_estado
 L_85CA:
 	djnz L_85E6		;85ca
 	ld hl,0c104h		;85cc   ; 0xC104: cuenta atras del paso del estado (p00:4345)
 	dec (hl)			;85cf
 	ret nz			;85d0
-	call pon_musica_de_pausa		;85d1   ; tramo: pone musica_de_pausa, mira objeto_14
+	call pon_musica_de_pausa		;85d1   ; tramo: pone musica_de_pausa, mira objeto_14, llama a pon_fase, llama a pon_area ...
 	xor a			;85d4
 	ld (0c0f2h),a		;85d5   ; 0xC0F2: la musica de la pausa esta sonando (p14:9411)
 	ld a,(0c887h)		;85d8   ; 0xC887: el OBJETO 14 (byte 3 de 4; p06:BAC2)
-	call 065cfh		;85db
-	call 064cdh		;85de
+	call 065cfh		;85db   ; p01:65CF pon_fase
+	call 064cdh		;85de   ; p01:64CD pon_area
 	ld a,005h		;85e1
-	jp 0432eh		;85e3
+	jp 0432eh		;85e3   ; p00:432E pon_estado
 L_85E6:
 	ld a,(0c878h)		;85e6   ; 0xC878: el OBJETO 11 (byte 0 de 4; p06:BAC2)
 	or a			;85e9
 	jr z,L_85C5		;85ea
-	call rutina_7		;85ec
+	call con_pon_base_de_la_hoja_2		;85ec   ; tramo: llama a pon_banco_8000_guardado, sigue en mira_paso
 	ld hl,04020h		;85ef
 	ld bc,0f860h		;85f2
 	call mira_scroll_2		;85f5
 	ld a,02fh		;85f8   ; el sonido 0x2F (p14:9C47 + 2*0x2F)
-	call 041c1h		;85fa
-	jp 04348h		;85fd
-L_8600:
+	call 041c1h		;85fa   ; p00:41C1 pon_banco_8000_guardado
+	jp 04348h		;85fd   ; p00:4348 mira_paso
+pon_invulnerable:
 	ld a,(0c4e2h)		;8600   ; 0xC4E2: ILOVEHINOTORI: invencible (p02:8600)
 	ld c,a			;8603
 	ld a,(0c4d1h)		;8604   ; 0xC4D1: lo pone la contrasena 'aaaaa', que no se puede teclear (p06:B9AC)
@@ -864,7 +863,7 @@ L_860F:
 	ld d,a			;862e
 	ld a,(0c80bh)		;862f   ; 0xC80B: la Y de Gao (p01:70B3)
 	ld e,a			;8632
-	call 04913h		;8633
+	call 04913h		;8633   ; p00:4913 rutina_13
 	dec e			;8636
 	inc e			;8637
 	ret z			;8638
@@ -899,7 +898,7 @@ pon_estado_de_gao:
 	ld d,a			;8675
 	ld a,(0c80bh)		;8676   ; 0xC80B: la Y de Gao (p01:70B3)
 	ld e,a			;8679
-	call 04913h		;867a
+	call 04913h		;867a   ; p00:4913 rutina_13
 	ld (0c82eh),a		;867d   ; 0xC82E: la ficha de Gao
 	ld a,(0c800h)		;8680   ; 0xC800: lo que hace Gao (p00:5C68)
 	cp 001h		;8683   ; ¿estado_de_gao = 0x01?
@@ -958,7 +957,7 @@ L_86B5:
 	jr nz,L_86C6		;86c1
 	ld a,(0c850h)		;86c3   ; 0xC850: el OBJETO 1 (byte 0 de 4; p06:BAC2)
 L_86C6:
-	call 04878h		;86c6
+	call 04878h		;86c6   ; p00:4878 con_hl_mas_a
 	call pon_gao_3		;86c9
 	call pon_gao_6		;86cc
 	call mira_x_de_gao_2		;86cf
@@ -1012,7 +1011,7 @@ L_8720:
 	jr nz,L_873D		;8738
 	ld a,(0c850h)		;873a   ; 0xC850: el OBJETO 1 (byte 0 de 4; p06:BAC2)
 L_873D:
-	call 04878h		;873d
+	call 04878h		;873d   ; p00:4878 con_hl_mas_a
 L_8740:
 	call pon_gao_3		;8740   ; tramo: mira gao
 	call pon_gao_6		;8743
@@ -1048,7 +1047,7 @@ DATA_tabla_8765:
 L_876D:
 	call mira_gao_2		;876d   ; entrada 0 de la tabla de p02:8762 (L_875F)
 	ld a,00bh		;8770   ; el sonido 0x0B (p14:9C47 + 2*0x0B)
-	call 041c1h		;8772
+	call 041c1h		;8772   ; p00:41C1 pon_banco_8000_guardado
 	call mira_teclas		;8775
 	ld hl,08e10h		;8778
 	call pon_gao_4		;877b
@@ -1061,7 +1060,7 @@ L_876D:
 	call mira_gao		;878b
 L_878E:
 	call pon_y_de_gao		;878e   ; entrada 1 de la tabla de p02:8762 (L_875F)
-	call rutina_10		;8791
+	call rutina_7		;8791
 	call pon_gao_5		;8794
 	call mira_x_de_gao_2		;8797
 	ld a,(0c80dh)		;879a   ; 0xC80D: la ficha de Gao
@@ -1095,12 +1094,12 @@ L_87BA:
 	cp 020h		;87da
 	jr z,L_87E9		;87dc
 	ld a,00dh		;87de   ; el sonido 0x0D (p14:9C47 + 2*0x0D)
-	call 041c1h		;87e0
+	call 041c1h		;87e0   ; p00:41C1 pon_banco_8000_guardado
 	ld hl,00000h		;87e3
 	jp pon_estado_de_gao_2		;87e6
 L_87E9:
 	ld a,00ch		;87e9   ; el sonido 0x0C (p14:9C47 + 2*0x0C)
-	call 041c1h		;87eb
+	call 041c1h		;87eb   ; p00:41C1 pon_banco_8000_guardado
 	ld hl,00004h		;87ee
 	jp pon_estado_de_gao_2		;87f1
 L_87F4:
@@ -1117,7 +1116,7 @@ L_8803:
 	ld a,(0c801h)		;8803   ; entrada 2 de la tabla de p02:868B (L_8672)
 	dec a			;8806
 	jp z,L_889E		;8807
-	xor a			;880a   ; tramo: pone gao, pone sonido_0f1, pone musica_de_pausa
+	xor a			;880a   ; tramo: pone gao, pone sonido_0f1, pone musica_de_pausa, sigue en mira_banderas_juego
 	ld (0c84bh),a		;880b   ; 0xC84B: la ficha de Gao
 	call pon_x_de_entrada		;880e
 	xor a			;8811
@@ -1130,7 +1129,7 @@ L_8803:
 	ld (0c836h),a		;8821   ; 0xC836: la ficha de Gao
 	call mira_gao		;8824
 	ld a,06ah		;8827   ; el sonido 0x6A (p14:9C47 + 2*0x6A)
-	jp 041ach		;8829
+	jp 041ach		;8829   ; p00:41AC mira_banderas_juego
 pon_x_de_entrada:
 	ld a,(0c483h)		;882c   ; 0xC483: la COLUMNA: 0-2 el camino, 3 la sala (p01:6543)
 	cp 003h		;882f   ; ¿columna = 0x03?
@@ -1242,10 +1241,10 @@ L_88C9:
 	dec a			;88cc
 	jr z,L_8906		;88cd
 	jp p,L_894C		;88cf
-	call rutina_9		;88d2   ; tramo: mira gao
+	call rutina_6		;88d2   ; tramo: mira gao, llama a rutina_15
 	ld hl,(0c814h)		;88d5   ; 0xC814: la ficha de Gao
 	ld de,0fac0h		;88d8
-	call 04921h		;88db
+	call 04921h		;88db   ; p00:4921 rutina_15
 	jr nc,L_88E1		;88de
 	ex de,hl			;88e0
 L_88E1:
@@ -1258,9 +1257,9 @@ L_88E1:
 	ld (0c822h),a		;88f1   ; 0xC822: la ficha de Gao
 	cp 0f1h		;88f4
 	jp nc,mira_gao		;88f6
-	add a,008h		;88f9
+	add a,008h		;88f9   ; tramo: llama a rutina_11
 	ld e,a			;88fb
-	call 048fbh		;88fc
+	call 048fbh		;88fc   ; p00:48FB rutina_11
 	ld a,d			;88ff
 	cp 040h		;8900
 	ret z			;8902
@@ -1307,9 +1306,9 @@ L_893C:
 L_894C:
 	call pon_gao_2		;894c
 	ret nz			;894f
-	call mira_fila		;8950   ; tramo: mira fase
+	call mira_fila		;8950   ; tramo: llama a mira_cambio_de_area_2, mira fase
 	ld a,000h		;8953
-	call 0607ch		;8955
+	call 0607ch		;8955   ; p01:607C mira_cambio_de_area_2
 	ld a,(0c481h)		;8958   ; 0xC481: la FASE, 1-6 (p01:65B4)
 	cp 008h		;895b   ; ¿fase = 0x08?
 	ld hl,00000h		;895d
@@ -1350,7 +1349,7 @@ L_898B:
 	cp 005h		;899b
 	jr c,L_89C1		;899d
 	ld a,015h		;899f   ; el sonido 0x15 (p14:9C47 + 2*0x15)
-	jp 041ach		;89a1
+	jp 041ach		;89a1   ; p00:41AC mira_banderas_juego
 L_89A4:
 	ld a,(0c4b0h)		;89a4   ; 0xC4B0: cuenta los cuadros; el bit 0 alterna los colores de los sprites (p02:93AA)
 	and 002h		;89a7
@@ -1365,12 +1364,12 @@ L_89A4:
 	cp 005h		;89b8
 	jr c,L_89C1		;89ba
 	ld a,014h		;89bc   ; el sonido 0x14 (p14:9C47 + 2*0x14)
-	jp 041ach		;89be
+	jp 041ach		;89be   ; p00:41AC mira_banderas_juego
 L_89C1:
 	or a			;89c1
 	ret z			;89c2
 	ld a,025h		;89c3   ; el sonido 0x25 (p14:9C47 + 2*0x25)
-	jp 041ach		;89c5
+	jp 041ach		;89c5   ; p00:41AC mira_banderas_juego
 mira_fila:
 	ld hl,(0c302h)		;89c8   ; 0xC302: la FILA de 8 puntos del mapa que se esta pintando; sube al avanzar (p00:57B8)
 	ld (0c49ah),hl		;89cb
@@ -1405,10 +1404,10 @@ mira_gao_2:
 	jp pon_estado_de_gao_2		;8a06
 
 ; ----------------------------------------------------------------------
-; DATOS sin_llamar_8A09: codigo que no llama nadie (ninguna palabra del
-;   cartucho vale 0x8A09): exx / ld h,a / rra / xor h ... (7 bytes)
+; DATOS sin_lector_8A09: bytes sin lector conocido: ninguna instruccion
+;   trazada los apunta y la sonda de openMSX no los lee (7 bytes)
 ;   0x8a09..0x8a10  (7 bytes)
-DATA_sin_llamar_8A09:
+DATA_sin_lector_8A09:
 	defb 0d9h,067h,01fh,0ach,017h,0d9h,0c9h	; 8a09
 
 ; ======================================================================
@@ -1438,7 +1437,7 @@ mira_x_de_gao_2:
 	ld d,a			;8a34
 	ld a,(0c80bh)		;8a35   ; 0xC80B: la Y de Gao (p01:70B3)
 	ld e,a			;8a38
-	call 04913h		;8a39
+	call 04913h		;8a39   ; p00:4913 rutina_13
 	ld (0c82eh),a		;8a3c   ; 0xC82E: la ficha de Gao
 	rrca			;8a3f
 	ret c			;8a40
@@ -1455,26 +1454,26 @@ mira_y_de_gao:
 	ld d,a			;8a56
 	ld a,(0c80bh)		;8a57   ; 0xC80B: la Y de Gao (p01:70B3)
 	ld e,a			;8a5a
-	call 048fbh		;8a5b
+	call 048fbh		;8a5b   ; p00:48FB rutina_11
 	ret nc			;8a5e
 	ld a,(0c809h)		;8a5f   ; 0xC809: la X de Gao (p01:70BD)
 	ld d,a			;8a62
 	ld a,(0c827h)		;8a63   ; 0xC827: la ficha de Gao
 	ld e,a			;8a66
-	call 048fbh		;8a67
+	call 048fbh		;8a67   ; p00:48FB rutina_11
 	jr nc,$+81		;8a6a
 	ld a,(0c829h)		;8a6c   ; 0xC829: la ficha de Gao
 	ld d,a			;8a6f
 	ld a,(0c80bh)		;8a70   ; 0xC80B: la Y de Gao (p01:70B3)
 	ld e,a			;8a73
-	call 048fbh		;8a74
+	call 048fbh		;8a74   ; p00:48FB rutina_11
 	jr nc,$+75		;8a77
 	ld a,(0c829h)		;8a79   ; 0xC829: la ficha de Gao
 	ld d,a			;8a7c
 	ld a,(0c827h)		;8a7d   ; 0xC827: la ficha de Gao
 	ld e,a			;8a80
 	call pon_y_de_gao_4		;8a81
-	call 048fbh		;8a84
+	call 048fbh		;8a84   ; p00:48FB rutina_11
 	ret nc			;8a87
 	ld a,(0c800h)		;8a88   ; 0xC800: lo que hace Gao (p00:5C68)
 	cp 001h		;8a8b   ; ¿estado_de_gao = 0x01?
@@ -1483,10 +1482,10 @@ mira_y_de_gao:
 	jp pon_estado_de_gao_2		;8a92
 
 ; ----------------------------------------------------------------------
-; DATOS sin_llamar_8A95: codigo que no llama nadie (ninguna palabra del
-;   cartucho vale 0x8A95): ret (1 bytes)
+; DATOS sin_lector_8A95: bytes sin lector conocido: ninguna instruccion
+;   trazada los apunta y la sonda de openMSX no los lee (1 bytes)
 ;   0x8a95..0x8a96  (1 bytes)
-DATA_sin_llamar_8A95:
+DATA_sin_lector_8A95:
 	defb 0c9h	; 8a95
 
 ; ======================================================================
@@ -1525,10 +1524,10 @@ pon_x_de_gao:
 	ret			;8ac8
 
 ; ----------------------------------------------------------------------
-; DATOS sin_llamar_8AC9: codigo que no llama nadie (ninguna palabra del
-;   cartucho vale 0x8AC9): ld a,(0c82bh) / or a / ret z / dec a ... (10 bytes)
+; DATOS sin_lector_8AC9: bytes sin lector conocido: ninguna instruccion
+;   trazada los apunta y la sonda de openMSX no los lee (10 bytes)
 ;   0x8ac9..0x8ad3  (10 bytes)
-DATA_sin_llamar_8AC9:
+DATA_sin_lector_8AC9:
 	defb 03ah,02bh,0c8h,0b7h,0c8h,03dh,032h,02bh,0c8h,0c9h	; 8ac9  :+...=2+..
 
 ; ======================================================================
@@ -1591,11 +1590,10 @@ pon_gao_4:
 	jp pon_gao_3		;8b1f
 
 ; ----------------------------------------------------------------------
-; DATOS sin_llamar_8B22: codigo que no llama nadie (ninguna palabra del
-;   cartucho vale 0x8B22): ld de,00000h / ld (0c814h),de / ld de,00000h / ld
-;   (0c810h),de ... (19 bytes)
+; DATOS sin_lector_8B22: bytes sin lector conocido: ninguna instruccion
+;   trazada los apunta y la sonda de openMSX no los lee (19 bytes)
 ;   0x8b22..0x8b35  (19 bytes)
-DATA_sin_llamar_8B22:
+DATA_sin_lector_8B22:
 	defb 011h,000h,000h,0edh,053h,014h,0c8h,011h,000h,000h,0edh,053h,010h,0c8h,0edh,053h	; 8b22  ....S......S...S
 	defb 012h,0c8h,0c9h	; 8b32
 
@@ -1663,13 +1661,13 @@ L_8BA6:
 	ret nz			;8ba9
 	ld hl,08d4dh		;8baa
 	jp L_8BCA		;8bad
-rutina_9:
+rutina_6:
 	ld hl,08d6bh		;8bb0
 	call pon_pose_de_gao		;8bb3
 	ret nz			;8bb6
 	ld hl,08d6fh		;8bb7
 	jp L_8BCA		;8bba
-rutina_10:
+rutina_7:
 	ld hl,08d46h		;8bbd
 	call pon_pose_de_gao		;8bc0
 	ret nz			;8bc3
@@ -1755,7 +1753,7 @@ mira_pose_de_gao:
 	rrca			;8c53
 	rrca			;8c54
 	and 03fh		;8c55
-	call 04878h		;8c57
+	call 04878h		;8c57   ; p00:4878 con_hl_mas_a
 	push hl			;8c5a
 	ld bc,00010h		;8c5b
 	ld de,0e618h		;8c5e   ; 0xE618: y, x, patron y color de los 32 sprites (p00:4B7A)
@@ -1863,17 +1861,17 @@ DATA_tabla_8CC4:
 ; ======================================================================
 
 
-L_8E36:
-	xor a			;8e36   ; tramo: pone gao, mira y_de_gao, mira x_de_gao
+pon_pose_de_gao_2:
+	xor a			;8e36   ; tramo: pone gao, mira y_de_gao, mira x_de_gao, llama a rutina_13
 	ld (0c48bh),a		;8e37
 	ld (0c80ch),a		;8e3a   ; 0xC80C: la ficha de Gao
-	call pon_y_de_gao_5		;8e3d
+	call pon_y_de_gao_6		;8e3d
 	call pon_gao		;8e40
 	ld a,(0c80bh)		;8e43   ; 0xC80B: la Y de Gao (p01:70B3)
 	ld e,a			;8e46
 	ld a,(0c809h)		;8e47   ; 0xC809: la X de Gao (p01:70BD)
 	ld d,a			;8e4a
-	call 04913h		;8e4b
+	call 04913h		;8e4b   ; p00:4913 rutina_13
 	ld (0c82eh),a		;8e4e   ; 0xC82E: la ficha de Gao
 	and 0f0h		;8e51
 	cp 020h		;8e53
@@ -1887,7 +1885,7 @@ L_8E5F:
 	ld a,c			;8e62
 	ld (0c800h),a		;8e63   ; 0xC800: lo que hace Gao (p00:5C68)
 	ret			;8e66
-L_8E67:
+pon_y_de_gao_5:
 	ld a,001h		;8e67   ; tramo: pone gao, mira y_de_entrada, pone y_de_gao, mira x_de_entrada ...
 	ld (0c818h),a		;8e69   ; 0xC818: la ficha de Gao
 	ld a,(0c489h)		;8e6c   ; 0xC489: la y de Gao al entrar (p01:6571)
@@ -1896,7 +1894,7 @@ L_8E67:
 	ld a,(0c48ah)		;8e73   ; 0xC48A: la x de Gao al entrar (p01:6553)
 	ld (0c809h),a		;8e76   ; 0xC809: la X de Gao (p01:70BD)
 	ld l,a			;8e79
-	call pon_y_de_gao_5		;8e7a
+	call pon_y_de_gao_6		;8e7a
 	call pon_gao		;8e7d
 	ld a,000h		;8e80
 	ld (0c834h),a		;8e82   ; 0xC834: cuadros de invulnerabilidad de Gao (p02:860C)
@@ -1910,7 +1908,7 @@ L_8E67:
 	ld hl,0ca00h		;8e97   ; 0xCA00: 6 fichas de 0x20 (p02:9368)
 	ld de,00020h		;8e9a
 	ld b,006h		;8e9d
-	jp 06152h		;8e9f
+	jp 06152h		;8e9f   ; p01:6152 bucle
 
 ; ----------------------------------------------------------------------
 ; DATOS sin_lector_8EA2: bytes sin lector conocido: ninguna instruccion
@@ -1925,38 +1923,38 @@ DATA_sin_lector_8EA2:
 ; ======================================================================
 
 
-L_8EB4:
+mira_objeto_9:
 	ld hl,0c870h		;8eb4   ; 0xC870: el OBJETO 9 (byte 0 de 4; p06:BAC2)
 	ld a,(hl)			;8eb7
 	or a			;8eb8
 	jp z,L_8F2B		;8eb9
 	dec (hl)			;8ebc
 	ret			;8ebd
-pon_y_de_gao_5:
-	xor a			;8ebe   ; tramo: pone gao, mira x_de_gao, mira y_de_gao
+pon_y_de_gao_6:
+	xor a			;8ebe   ; tramo: pone gao, mira x_de_gao, mira y_de_gao, llama a rutina_13
 	ld (0c837h),a		;8ebf   ; 0xC837: la ficha de Gao
 	ld a,(0c809h)		;8ec2   ; 0xC809: la X de Gao (p01:70BD)
 	ld d,a			;8ec5
 	ld a,(0c80bh)		;8ec6   ; 0xC80B: la Y de Gao (p01:70B3)
 	ld e,a			;8ec9
-	call 04913h		;8eca
-	call rutina_11		;8ecd
+	call 04913h		;8eca   ; p00:4913 rutina_13
+	call rutina_8		;8ecd
 	ret z			;8ed0
 	ld a,(0c809h)		;8ed1   ; 0xC809: la X de Gao (p01:70BD)
 	ld d,a			;8ed4
 	ld a,(0c80bh)		;8ed5   ; 0xC80B: la Y de Gao (p01:70B3)
 	add a,008h		;8ed8
 	ld e,a			;8eda
-	call 048fbh		;8edb
-	call rutina_11		;8ede
+	call 048fbh		;8edb   ; p00:48FB rutina_11
+	call rutina_8		;8ede
 	jr z,L_8F19		;8ee1
 	ld a,(0c809h)		;8ee3   ; 0xC809: la X de Gao (p01:70BD)
 	ld d,a			;8ee6
 	ld a,(0c80bh)		;8ee7   ; 0xC80B: la Y de Gao (p01:70B3)
 	add a,010h		;8eea
 	ld e,a			;8eec
-	call 048fbh		;8eed
-	call rutina_11		;8ef0
+	call 048fbh		;8eed   ; p00:48FB rutina_11
+	call rutina_8		;8ef0
 	jr z,L_8F10		;8ef3
 	ld a,(0c80bh)		;8ef5   ; 0xC80B: la Y de Gao (p01:70B3)
 	sub 008h		;8ef8
@@ -1964,7 +1962,7 @@ pon_y_de_gao_5:
 	ld e,a			;8efd
 	ld a,(0c809h)		;8efe   ; 0xC809: la X de Gao (p01:70BD)
 	ld d,a			;8f01
-	call 04913h		;8f02
+	call 04913h		;8f02   ; p00:4913 rutina_13
 	ld (0c82eh),a		;8f05   ; 0xC82E: la ficha de Gao
 	rra			;8f08
 	ret nc			;8f09
@@ -1981,7 +1979,7 @@ L_8F19:
 	add a,008h		;8f1c
 	ld (0c80bh),a		;8f1e   ; 0xC80B: la Y de Gao (p01:70B3)
 	ret			;8f21
-rutina_11:
+rutina_8:
 	cp 028h		;8f22
 	ret z			;8f24
 	cp 020h		;8f25
@@ -1998,12 +1996,12 @@ L_8F2B:
 	ld (0c84ah),a		;8f39   ; 0xC84A: lo que sale de p01:7FBD para el arma (p01:7FB5)
 	ld hl,0c850h		;8f3c   ; 0xC850: el OBJETO 1 (byte 0 de 4; p06:BAC2)
 	ld bc,00037h		;8f3f
-	call 05de9h		;8f42
+	call 05de9h		;8f42   ; p00:5DE9 copia_bytes_2
 	ret			;8f45
-L_8F46:
+rutina_9:
 	call pon_arma		;8f46
 	call mira_fichas_especiales_2		;8f49
-	jp L_9368		;8f4c
+	jp mira_fichas_especiales_3		;8f4c
 pon_arma:
 	ld a,(0c840h)		;8f4f   ; 0xC840: elige los 32 bytes de p07:70AE que van a los patrones de 0xF8A0 (p00:5671) y el sumando de la dificultad (p01:704D); 6 es especial (p02:8F4F)
 	cp 006h		;8f52   ; ¿nivel_c840 = 0x06?
@@ -2011,9 +2009,9 @@ pon_arma:
 	ld a,(0c4e1h)		;8f56   ; 0xC4E1: AUTOSHOT: el arma 4 en cada cuadro (p02:8F56)
 	or a			;8f59   ; ¿es 0 truco_disparo?
 	jr z,L_8F73		;8f5a
-	ld a,004h		;8f5c   ; tramo: pone arma, mira cuadros_2
+	ld a,004h		;8f5c   ; tramo: pone arma, llama a pon_arma_dato_2, mira cuadros_2
 	ld (0c85ch),a		;8f5e   ; 0xC85C: el ARMA de Gao: su cuenta es la del objeto 4 (p01:7FAB)
-	call 07fabh		;8f61
+	call 07fabh		;8f61   ; p01:7FAB pon_arma_dato_2
 	ld a,(0c4b0h)		;8f64   ; 0xC4B0: cuenta los cuadros; el bit 0 alterna los colores de los sprites (p02:93AA)
 	and 007h		;8f67
 	jr nz,L_8F73		;8f69
@@ -2050,7 +2048,7 @@ L_8F8D:
 	ld d,000h		;8fa3
 	add hl,de			;8fa5
 	ld a,(hl)			;8fa6
-	call 041ach		;8fa7
+	call 041ach		;8fa7   ; p00:41AC mira_banderas_juego
 	xor a			;8faa
 	ret			;8fab
 L_8FAC:
@@ -2091,7 +2089,7 @@ DATA_tabla_8FD6:
 mira_nivel_c840:
 	ld a,(0c840h)		;8fdd   ; 0xC840: elige los 32 bytes de p07:70AE que van a los patrones de 0xF8A0 (p00:5671) y el sumando de la dificultad (p01:704D); 6 es especial (p02:8F4F)
 	ld de,0906bh		;8fe0   ; p02:906B tabla_906B: tabla que lee p02:8FE0, p02:8FFA (247 bytes)
-	jp 0486fh		;8fe3
+	jp 0486fh		;8fe3   ; p00:486F rutina_4
 mira_fichas_especiales:
 	ld hl,0ca00h		;8fe6   ; 0xCA00: 6 fichas de 0x20 (p02:9368)
 	ld de,00020h		;8fe9
@@ -2106,12 +2104,12 @@ L_8FEF:
 bucle:
 	ld b,(hl)			;8ff5
 L_8FF6:
-	inc hl			;8ff6
+	inc hl			;8ff6   ; tramo: llama a rutina_4
 	ld a,(hl)			;8ff7
 	dec a			;8ff8
 	exx			;8ff9
 	ld de,09090h		;8ffa
-	call 0486fh		;8ffd
+	call 0486fh		;8ffd   ; p00:486F rutina_4
 	push de			;9000
 	call mira_fichas_especiales		;9001
 	ex de,hl			;9004
@@ -2229,13 +2227,13 @@ L_9167:
 	call ficha_paso		;9171
 	pop bc			;9174
 	pop hl			;9175
-	call rutina_12		;9176
+	call rutina_10		;9176
 L_9179:
 	ld de,00020h		;9179   ; la siguiente, 0x20 bytes mas alla
 	add hl,de			;917c
 	djnz L_9167		;917d
 	ret			;917f
-rutina_12:
+rutina_10:
 	ld d,h			;9180
 	ld e,l			;9181
 	inc e			;9182
@@ -2298,7 +2296,7 @@ L_91C2:
 	and 007h		;91cb
 	add a,a			;91cd
 	ld de,09348h		;91ce
-	call 0486fh		;91d1
+	call 0486fh		;91d1   ; p00:486F rutina_4
 	ld (ix+006h),e		;91d4   ; ix+0x06: cuenta atras (p01:6124)
 	ld (ix+007h),d		;91d7   ; ix+0x07: el paso de la animacion (p01:6124)
 	inc hl			;91da
@@ -2346,9 +2344,9 @@ pon_buffer:
 	dec l			;9212
 	ld (0e800h),de		;9213   ; 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
 	ld (0e802h),bc		;9217   ; 0xE802: buffer de trabajo
-	jp rutina_14		;921b
+	jp rutina_12		;921b
 L_921E:
-	ld h,b			;921e   ; tramo: mira buffer
+	ld h,b			;921e   ; tramo: mira buffer, llama a rutina_12
 	ld l,c			;921f
 	add hl,hl			;9220
 	add hl,de			;9221
@@ -2360,7 +2358,7 @@ L_921E:
 	add hl,de			;922d
 	ld d,h			;922e
 	ld e,a			;922f
-	call 04906h		;9230
+	call 04906h		;9230   ; p00:4906 rutina_12
 	ret nc			;9233
 	ld hl,(0e804h)		;9234   ; 0xE804: buffer de trabajo
 	xor a			;9237
@@ -2368,13 +2366,13 @@ L_921E:
 	inc l			;9239
 	ld (hl),a			;923a
 	ret			;923b
-rutina_13:
+rutina_11:
 	exx			;923c   ; entrada 0 de la tabla de p02:91A1 (L_9196)
 	inc l			;923d
 	inc l			;923e
-	call rutina_14		;923f
+	call rutina_12		;923f
 	jr L_927E		;9242
-rutina_14:
+rutina_12:
 	ld e,(hl)			;9244
 	inc l			;9245
 	ld d,(hl)			;9246
@@ -2402,10 +2400,10 @@ L_9258:
 	ld a,(hl)			;925b
 	cp 080h		;925c
 	jp z,L_928D		;925e
-	and 007h		;9261   ; tramo: mira gao
+	and 007h		;9261   ; tramo: llama a rutina_4, mira gao
 	push hl			;9263
 	ld de,09338h		;9264   ; p02:9338 tabla_9338: tabla que lee p02:91CE, p02:9264 (48 bytes)
-	call 0486fh		;9267
+	call 0486fh		;9267   ; p00:486F rutina_4
 	pop hl			;926a
 	inc l			;926b
 	inc l			;926c
@@ -2426,20 +2424,20 @@ L_927E:
 	ret nz			;9282
 	ld d,(ix+005h)		;9283   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	ld e,(ix+003h)		;9286   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
-	call 04906h		;9289
+	call 04906h		;9289   ; p00:4906 rutina_12
 	ret nc			;928c
 L_928D:
 	ld (ix+000h),0ffh		;928d   ; ix+0x00: el TIPO de la ficha (0 = libre; p01:6D12)
 	ret			;9291
 L_9292:
-	call rutina_13		;9292   ; entrada 1 de la tabla de p02:91A1 (L_9196)
+	call rutina_11		;9292   ; entrada 1 de la tabla de p02:91A1 (L_9196)
 ficha_y:
 	ld a,(ix+003h)		;9295   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 	ld e,a			;9298
 	ld a,(ix+005h)		;9299   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	ld d,a			;929c
 	ld (0e830h),de		;929d   ; 0xE830: buffer de trabajo
-	call 048bfh		;92a1
+	call 048bfh		;92a1   ; p00:48BF mira_scroll
 	ld e,(hl)			;92a4
 	ld d,0c9h		;92a5
 	ld a,(de)			;92a7
@@ -2462,7 +2460,7 @@ ficha_y:
 	ld e,a			;92c8
 	push de			;92c9
 	ld a,(0c442h)		;92ca
-	call 0630dh		;92cd
+	call 0630dh		;92cd   ; p01:630D con_mira_scroll
 	pop de			;92d0
 	ld hl,000b8h		;92d1
 	ld a,r		;92d4
@@ -2470,10 +2468,10 @@ ficha_y:
 	jr c,L_92DB		;92d7
 	set 3,h		;92d9
 L_92DB:
-	call mira_scroll_4		;92db
+	call mira_scroll_4		;92db   ; tramo: llama a con_hmmm
 	ld a,001h		;92de
 	ld bc,00808h		;92e0
-	call 05226h		;92e3
+	call 05226h		;92e3   ; p00:5226 con_hmmm
 L_92E6:
 	ld a,(0e813h)		;92e6   ; 0xE813: buffer de trabajo
 	cp 061h		;92e9
@@ -2481,17 +2479,17 @@ L_92E6:
 	cp 051h		;92ed
 	jr nz,L_9314		;92ef
 L_92F1:
-	dec (ix+00ah)		;92f1   ; tramo: mira buffer
+	dec (ix+00ah)		;92f1   ; tramo: mira buffer, llama a con_mira_scroll, llama a con_hmmm
 	call ficha_tipo		;92f4
 	ld a,(0c440h)		;92f7
 	ld de,(0e830h)		;92fa   ; 0xE830: buffer de trabajo
-	call 0630dh		;92fe
+	call 0630dh		;92fe   ; p01:630D con_mira_scroll
 	ld de,(0e830h)		;9301   ; 0xE830: buffer de trabajo
 	ld hl,018b8h		;9305
 	call mira_scroll_4		;9308
 	ld a,001h		;930b
 	ld bc,00808h		;930d
-	call 05226h		;9310
+	call 05226h		;9310   ; p00:5226 con_hmmm
 	ret			;9313
 L_9314:
 	bit 6,(ix+000h)		;9314   ; ix+0x00: el TIPO de la ficha (0 = libre; p01:6D12)
@@ -2532,7 +2530,7 @@ DATA_tabla_9338:
 ; ======================================================================
 
 
-L_9368:
+mira_fichas_especiales_3:
 	ld hl,0ca00h		;9368   ; 0xCA00: 6 fichas de 0x20 (p02:9368)
 	ld de,00020h		;936b
 	ld b,006h		;936e   ; 6 vueltas
@@ -2618,7 +2616,7 @@ pon_fichas_especiales:
 	dec l			;93d3
 	dec l			;93d4
 	ret			;93d5
-L_93D6:
+pon_pose_de_gao_3:
 	ld a,(0c81ch)		;93d6   ; 0xC81C: la pose de Gao: sus dos sprites de p06:A0BB (p02:93D6)
 	bit 0,a		;93d9
 	ret nz			;93db
@@ -2685,7 +2683,7 @@ DATA_leido_9409:
 
 
 L_9577:
-	call 0623eh		;9577
+	call 0623eh		;9577   ; p01:623E rutina_3
 	ret c			;957a
 	ld a,(ix+001h)		;957b   ; reparte por el PASO de la ficha (ix+1): la tabla va detras del call
 	call 040aeh		;957e   ; p00:40AE despacha
@@ -2727,11 +2725,11 @@ L_9590:
 	call 040a4h		;95a6   ; p00:40A4 hl_mas_a
 	pop af			;95a9
 	bit 0,(hl)		;95aa
-	jp nz,075ceh		;95ac
-	ld (hl),001h		;95af   ; tramo: pone partida, mira objeto_5
+	jp nz,075ceh		;95ac   ; p01:75CE bucle_3
+	ld (hl),001h		;95af   ; tramo: pone partida, llama a rutina, mira objeto_5
 	ld (0c4bdh),a		;95b1   ; 0xC4BD: variables de la partida
 	ld b,012h		;95b4
-	call 043edh		;95b6
+	call 043edh		;95b6   ; p00:43ED rutina
 	ld hl,0c860h		;95b9   ; 0xC860: el OBJETO 5 (byte 0 de 4; p06:BAC2)
 	ld a,(hl)			;95bc
 	or a			;95bd
@@ -2741,9 +2739,9 @@ L_95C2:
 	jr L_958C		;95c2
 L_95C4:
 	call 075ceh		;95c4   ; entrada 2 de la tabla de p02:957E (L_9577)
-	jp 0af5ch		;95c7
+	jp 0af5ch		;95c7   ; p06:AF5C rutina
 cosa_tipo_15:
-	call 06136h		;95ca   ; tramo: mira cosas
+	call 06136h		;95ca   ; p01:6136 mira_cosas
 	ld a,(0cb06h)		;95cd   ; 0xCB06: las cosas del camino que se van poniendo (p01:72ED)
 	ld c,a			;95d0
 	and 0f8h		;95d1
@@ -2752,11 +2750,11 @@ cosa_tipo_15:
 	ld (ix+041h),a		;95d7   ; ix+0x41: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ld (ix+046h),080h		;95da   ; ix+0x46: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ld de,095f0h		;95de   ; p02:95F0 tabla_95F0: tabla que lee p02:95DE, p02:95E7 (13 bytes)
-	call 06162h		;95e1
-	call 061cfh		;95e4
+	call 06162h		;95e1   ; p01:6162 copia_bytes
+	call 061cfh		;95e4   ; p01:61CF rutina_2
 	ld de,095f7h		;95e7
-	call 06186h		;95ea
-	jp 061cfh		;95ed
+	call 06186h		;95ea   ; p01:6186 copia_bytes_2
+	jp 061cfh		;95ed   ; p01:61CF rutina_2
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_95F0: tabla que lee p02:95DE, p02:95E7 (13 bytes)
@@ -2772,8 +2770,8 @@ DATA_tabla_95F0:
 L_95FD:
 	ld a,(0c4d0h)		;95fd   ; 0xC4D0: variables de la partida
 	or a			;9600
-	call nz,rutina_16		;9601
-	call 0623eh		;9604
+	call nz,rutina_14		;9601
+	call 0623eh		;9604   ; p01:623E rutina_3
 	ret c			;9607
 	ld a,(ix+001h)		;9608   ; reparte por el PASO de la ficha (ix+1): la tabla va detras del call
 	call 040aeh		;960b   ; p00:40AE despacha
@@ -2800,7 +2798,7 @@ L_9616:
 	ret nc			;961d
 	set 7,(ix+038h)		;961e   ; ix+0x38: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	jr L_96A0		;9622
-rutina_15:
+rutina_13:
 	call ficha_x		;9624
 	call mira_x_de_gao_5		;9627
 	cp 080h		;962a
@@ -2811,7 +2809,7 @@ L_962D:
 	dec a			;9633
 	jr z,L_964E		;9634
 	jp p,L_965E		;9636
-	call rutina_15		;9639
+	call rutina_13		;9639
 	ret nc			;963c
 	call pon_partida		;963d
 	rrca			;9640
@@ -2832,7 +2830,7 @@ L_964E:
 L_965E:
 	dec (ix+006h)		;965e   ; cuenta atras en ix+0x06: hasta que llegue a 0, nada mas
 	ret nz			;9661
-	ld (ix+009h),000h		;9662
+	ld (ix+009h),000h		;9662   ; tramo: sigue en pon_buffer_3
 	set 6,(ix+046h)		;9666   ; ix+0x46: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ld c,02bh		;966a
 	call ficha_x		;966c
@@ -2842,12 +2840,12 @@ L_965E:
 	ld a,e			;9673
 	sub 008h		;9674
 	ld e,a			;9676
-	jp 06d64h		;9677
+	jp 06d64h		;9677   ; p01:6D64 pon_buffer_3
 ficha_paso_2:
-	ld de,00101h		;967a
+	ld de,00101h		;967a   ; tramo: llama a mira_invulnerable
 	ld hl,00001h		;967d
 	ld a,(ix+055h)		;9680   ; ix+0x55: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
-	call 062d6h		;9683
+	call 062d6h		;9683   ; p01:62D6 mira_invulnerable
 	neg		;9686
 	add a,(ix+043h)		;9688   ; ix+0x43: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ld (ix+043h),a		;968b   ; ix+0x43: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
@@ -2871,7 +2869,7 @@ L_96A4:
 	add a,008h		;96ac
 	ld d,a			;96ae
 	push ix		;96af
-	call 06d64h		;96b1
+	call 06d64h		;96b1   ; p01:6D64 pon_buffer_3
 	pop ix		;96b4
 	ld a,(ix+00bh)		;96b6
 	or a			;96b9
@@ -2895,33 +2893,33 @@ L_96C5:
 	ex af,af'			;96d8
 	cp 00bh		;96d9
 	jr z,L_970E		;96db
-	ld c,a			;96dd
+	ld c,a			;96dd   ; tramo: llama a mira_objeto_1
 	push de			;96de
 	push bc			;96df
 	push ix		;96e0
-	call 07f64h		;96e2
+	call 07f64h		;96e2   ; p01:7F64 mira_objeto_1
 	pop ix		;96e5
 	pop bc			;96e7
 	pop de			;96e8
 	ld a,c			;96e9
 	jr nc,L_9701		;96ea
 L_96EC:
-	push ix		;96ec
-	call 073e3h		;96ee
+	push ix		;96ec   ; tramo: llama a rutina_13
+	call 073e3h		;96ee   ; p01:73E3 rutina_13
 	pop ix		;96f1
 L_96F3:
 	ld a,017h		;96f3   ; el sonido 0x17 (p14:9C47 + 2*0x17)
-	call 041ach		;96f5
-	call 075ceh		;96f8
+	call 041ach		;96f5   ; p00:41AC mira_banderas_juego
+	call 075ceh		;96f8   ; p01:75CE bucle_3
 	ld hl,00002h		;96fb
-	jp 04818h		;96fe
+	jp 04818h		;96fe   ; p00:4818 pon_vidas
 L_9701:
-	call 073f6h		;9701
+	call 073f6h		;9701   ; p01:73F6 rutina_14
 	jr L_96F3		;9704
 L_9706:
 	ld a,012h		;9706   ; el sonido 0x12 (p14:9C47 + 2*0x12)
-	call 041ach		;9708
-	jp 075ceh		;970b
+	call 041ach		;9708   ; p00:41AC mira_banderas_juego
+	jp 075ceh		;970b   ; p01:75CE bucle_3
 L_970E:
 	ld hl,0c879h		;970e   ; 0xC879: el OBJETO 11 (byte 1 de 4; p06:BAC2)
 	call mira_fase_2		;9711
@@ -2937,14 +2935,14 @@ L_9721:
 	rrca			;9721
 	djnz L_9721		;9722
 	ret			;9724
-rutina_16:
+rutina_14:
 	call ficha_x		;9725
 	call mira_x_de_gao_5		;9728
 	cp 030h		;972b
 	ret nc			;972d
-	jp 075ceh		;972e
+	jp 075ceh		;972e   ; p01:75CE bucle_3
 cosa_tipo_12:
-	call 06136h		;9731   ; tramo: mira cosas
+	call 06136h		;9731   ; p01:6136 mira_cosas
 	ld a,(0cb06h)		;9734   ; 0xCB06: las cosas del camino que se van poniendo (p01:72ED)
 	ld c,a			;9737
 	and 0f0h		;9738
@@ -2955,17 +2953,17 @@ cosa_tipo_12:
 	ld (ix+00bh),004h		;9745
 	ld (ix+046h),0c0h		;9749   ; ix+0x46: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ld de,09788h		;974d   ; p02:9788 tabla_9788: tabla que lee p02:974D, p02:9753, p02:9759, p02:975F, p02:9768 (34 bytes)
-	call 06162h		;9750
+	call 06162h		;9750   ; p01:6162 copia_bytes
 	ld de,0978fh		;9753
-	call 061a5h		;9756
+	call 061a5h		;9756   ; p01:61A5 copia_bytes_3
 	ld de,09796h		;9759
-	call 061a5h		;975c
+	call 061a5h		;975c   ; p01:61A5 copia_bytes_3
 	ld de,0979dh		;975f
-	call 061a5h		;9762
-	call 061cfh		;9765
+	call 061a5h		;9762   ; p01:61A5 copia_bytes_3
+	call 061cfh		;9765   ; p01:61CF rutina_2
 	ld de,097a4h		;9768
-	call 06186h		;976b
-	call 061cfh		;976e
+	call 06186h		;976b   ; p01:6186 copia_bytes_2
+	call 061cfh		;976e   ; p01:61CF rutina_2
 	ld a,(ix+000h)		;9771   ; ix+0x00: el TIPO de la ficha (0 = libre; p01:6D12)
 	cp 00ch		;9774
 	ret z			;9776
@@ -2994,8 +2992,8 @@ DATA_tabla_9788:
 L_97AA:
 	ld a,(0c4d0h)		;97aa   ; 0xC4D0: variables de la partida
 	or a			;97ad
-	call nz,rutina_17		;97ae
-	call 0623eh		;97b1
+	call nz,rutina_15		;97ae
+	call 0623eh		;97b1   ; p01:623E rutina_3
 	ret c			;97b4
 	ld a,(ix+001h)		;97b5   ; reparte por el PASO de la ficha (ix+1): la tabla va detras del call
 	call 040aeh		;97b8   ; p00:40AE despacha
@@ -3014,16 +3012,16 @@ DATA_tabla_97BB:
 ; ======================================================================
 
 
-rutina_17:
+rutina_15:
 	call ficha_x		;97c1
 	call mira_x_de_gao_5		;97c4
 	cp 040h		;97c7
 	ret nc			;97c9
-	jp 075ceh		;97ca
+	jp 075ceh		;97ca   ; p01:75CE bucle_3
 L_97CD:
 	call ficha_paso_3		;97cd   ; entrada 0 de la tabla de p02:97B8 (L_97AA)
 	call mira_cuadros_2_2		;97d0
-	call rutina_18		;97d3
+	call rutina_16		;97d3
 	jr nc,L_97DA		;97d6
 	jr L_9836		;97d8
 L_97DA:
@@ -3039,7 +3037,7 @@ L_97DA:
 L_97EE:
 	ld (ix+017h),b		;97ee   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ret			;97f1
-rutina_18:
+rutina_16:
 	call ficha_x		;97f2
 	call mira_x_de_gao_5		;97f5
 	cp 060h		;97f8
@@ -3097,7 +3095,7 @@ L_9858:
 	ld a,(ix+006h)		;9858   ; ix+0x06: cuenta atras (p01:6124)
 	and 007h		;985b
 	jr nz,L_9873		;985d
-	ld c,02ah		;985f
+	ld c,02ah		;985f   ; tramo: llama a pon_buffer_3
 	call ficha_x		;9861
 	ld a,e			;9864
 	sub 028h		;9865
@@ -3106,7 +3104,7 @@ L_9858:
 	add a,010h		;9869
 	ld d,a			;986b
 	push ix		;986c
-	call 06d64h		;986e
+	call 06d64h		;986e   ; p01:6D64 pon_buffer_3
 	pop ix		;9871
 L_9873:
 	dec (ix+006h)		;9873   ; cuenta atras en ix+0x06: hasta que llegue a 0, nada mas
@@ -3143,10 +3141,10 @@ L_98A4:
 	sbc a,a			;98a7
 	ret			;98a8
 ficha_paso_3:
-	ld de,00101h		;98a9
+	ld de,00101h		;98a9   ; tramo: llama a mira_invulnerable
 	ld hl,00001h		;98ac
 	ld a,(ix+055h)		;98af   ; ix+0x55: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
-	call 062d6h		;98b2
+	call 062d6h		;98b2   ; p01:62D6 mira_invulnerable
 	neg		;98b5
 	add a,(ix+043h)		;98b7   ; ix+0x43: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ld (ix+043h),a		;98ba   ; ix+0x43: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
@@ -3157,11 +3155,11 @@ L_98C2:
 	set 7,(ix+030h)		;98c2   ; entrada 1 de la tabla de p02:97B8 (L_97AA)
 	inc (ix+001h)		;98c6   ; la ficha pasa al paso siguiente
 	ld a,01ah		;98c9   ; el sonido 0x1A (p14:9C47 + 2*0x1A)
-	call 041ach		;98cb
+	call 041ach		;98cb   ; p00:41AC mira_banderas_juego
 	ld hl,00014h		;98ce
-	jp 04818h		;98d1
+	jp 04818h		;98d1   ; p00:4818 pon_vidas
 cosa_tipo_08:
-	call 06136h		;98d4   ; tramo: mira cosas
+	call 06136h		;98d4   ; p01:6136 mira_cosas
 	ld a,(0cb06h)		;98d7   ; 0xCB06: las cosas del camino que se van poniendo (p01:72ED)
 	ld c,a			;98da
 	and 0f0h		;98db
@@ -3171,15 +3169,15 @@ cosa_tipo_08:
 	ld (ix+043h),008h		;98e4   ; ix+0x43: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ld (ix+046h),080h		;98e8   ; ix+0x46: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ld de,0990ah		;98ec   ; p02:990A tabla_990A: tabla que lee p02:98EC, p02:98F2, p02:98F8, p02:9901 (27 bytes)
-	call 06162h		;98ef
+	call 06162h		;98ef   ; p01:6162 copia_bytes
 	ld de,09911h		;98f2
-	call 061a5h		;98f5
+	call 061a5h		;98f5   ; p01:61A5 copia_bytes_3
 	ld de,09918h		;98f8
-	call 061a5h		;98fb
-	call 061cfh		;98fe
+	call 061a5h		;98fb   ; p01:61A5 copia_bytes_3
+	call 061cfh		;98fe   ; p01:61CF rutina_2
 	ld de,0991fh		;9901
-	call 06186h		;9904
-	jp 061cfh		;9907
+	call 06186h		;9904   ; p01:6186 copia_bytes_2
+	jp 061cfh		;9907   ; p01:61CF rutina_2
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_990A: tabla que lee p02:98EC, p02:98F2, p02:98F8, p02:9901 (27
@@ -3205,7 +3203,7 @@ L_9925:
 	or a			;9932
 	ret nz			;9933
 L_9934:
-	call 0623eh		;9934
+	call 0623eh		;9934   ; p01:623E rutina_3
 	ret c			;9937
 	ld a,(ix+001h)		;9938   ; ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 	dec a			;993b
@@ -3220,8 +3218,8 @@ L_9942:
 	add a,0e0h		;994b
 	ld e,a			;994d
 	ld a,(ix+041h)		;994e   ; ix+0x41: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
-	call 073e3h		;9951
-	jp 075ceh		;9954
+	call 073e3h		;9951   ; p01:73E3 rutina_13
+	jp 075ceh		;9954   ; p01:75CE bucle_3
 cosa_tipo_16:
 	call cosa_tipo_11		;9957
 	ld a,(ix+041h)		;995a   ; ix+0x41: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
@@ -3237,7 +3235,7 @@ cosa_tipo_10:
 	ld (ix+020h),004h		;9972   ; ix+0x20: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ret			;9976
 cosa_tipo_11:
-	call 06136h		;9977   ; tramo: mira cosas
+	call 06136h		;9977   ; p01:6136 mira_cosas
 	ld a,(0cb06h)		;997a   ; 0xCB06: las cosas del camino que se van poniendo (p01:72ED)
 	ld c,a			;997d
 	and 0f0h		;997e
@@ -3246,8 +3244,8 @@ cosa_tipo_11:
 	ld (ix+041h),a		;9984   ; ix+0x41: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ld (ix+046h),080h		;9987   ; ix+0x46: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ld de,09994h		;998b   ; p02:9994 tabla_9994: tabla que lee p02:998B (7 bytes)
-	call 06162h		;998e
-	jp 061cfh		;9991
+	call 06162h		;998e   ; p01:6162 copia_bytes
+	jp 061cfh		;9991   ; p01:61CF rutina_2
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_9994: tabla que lee p02:998B (7 bytes)
@@ -3262,7 +3260,7 @@ DATA_tabla_9994:
 
 nace_tipo_00:
 	ld hl,099eeh		;999b   ; p02:99EE ficha_99EE: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
-	call 07084h		;999e
+	call 07084h		;999e   ; p01:7084 copia_bytes_7
 	ld a,(0c4aah)		;99a1   ; 0xC4AA: la dificultad: 0xC172 + lo de la tabla p01:7062 segun 0xC840, hasta 15 (p01:7049)
 	ld hl,099cdh		;99a4   ; p02:99CD tabla_99CD: tabla que lee p02:99A4, p02:99AB (22 bytes)
 	cp 005h		;99a7
@@ -3272,7 +3270,7 @@ nace_tipo_00:
 	jr c,L_99B5		;99b0
 	ld hl,099e3h		;99b2   ; p02:99E3 ficha_99E3: 11 bytes de la ficha del bicho desde ix+7 (p01:7073)
 L_99B5:
-	call 07073h		;99b5
+	call 07073h		;99b5   ; p01:7073 copia_bytes_5
 	bit 7,(ix+005h)		;99b8   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	ld a,000h		;99bc
 	jr z,L_99C1		;99be
@@ -3281,7 +3279,7 @@ L_99C1:
 	ld (ix+018h),a		;99c1   ; ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ld (ix+060h),000h		;99c4   ; ix+0x60: cuenta de cuadros (p01:70F1)
 	ld b,030h		;99c8
-	jp 0713fh		;99ca
+	jp 0713fh		;99ca   ; p01:713F mira_dificultad_2
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_99CD: tabla que lee p02:99A4, p02:99AB (22 bytes)
@@ -3310,11 +3308,11 @@ DATA_ficha_99EE:
 
 
 tipo_00:
-	call ficha_cuenta		;99f2   ; tramo: mira dificultad
+	call ficha_cuenta		;99f2   ; tramo: mira dificultad, llama a mira_dificultad
 	ld a,(0c4aah)		;99f5   ; 0xC4AA: la dificultad: 0xC172 + lo de la tabla p01:7062 segun 0xC840, hasta 15 (p01:7049)
 	cp 005h		;99f8   ; ¿dificultad = 0x05?
 	ld b,030h		;99fa
-	call nc,07130h		;99fc
+	call nc,07130h		;99fc   ; p01:7130 mira_dificultad
 	ld a,(ix+001h)		;99ff   ; reparte por el PASO de la ficha (ix+1): la tabla va detras del call
 	call 040aeh		;9a02   ; p00:40AE despacha
 
@@ -3351,7 +3349,7 @@ L_9A1F:
 	ld (ix+011h),00ah		;9a2a   ; ix+0x11: cuenta atras de lo que hace
 	bit 0,(ix+018h)		;9a2e   ; ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ret z			;9a32
-	jp 070a1h		;9a33
+	jp 070a1h		;9a33   ; p01:70A1 con_hl_mas_a_5
 L_9A36:
 	dec (ix+011h)		;9a36   ; entrada 1 de la tabla de p02:9A02 (L_99F2)
 	ret nz			;9a39
@@ -3374,8 +3372,8 @@ L_9A56:
 	inc (ix+001h)		;9a5a   ; la ficha pasa al paso siguiente
 	ld (ix+00bh),001h		;9a5d
 	ld (ix+011h),00ah		;9a61   ; ix+0x11: cuenta atras de lo que hace
-	call 0709dh		;9a65
-	jp 070a1h		;9a68
+	call 0709dh		;9a65   ; p01:709D con_hl_mas_a_4
+	jp 070a1h		;9a68   ; p01:70A1 con_hl_mas_a_5
 L_9A6B:
 	dec (ix+011h)		;9a6b   ; entrada 3 de la tabla de p02:9A02 (L_99F2)
 	ret nz			;9a6e
@@ -3398,7 +3396,7 @@ L_9A8B:
 	inc (ix+001h)		;9a8f   ; la ficha pasa al paso siguiente
 	ld (ix+00bh),001h		;9a92
 	ld (ix+011h),00ah		;9a96   ; ix+0x11: cuenta atras de lo que hace
-	jp 070a1h		;9a9a
+	jp 070a1h		;9a9a   ; p01:70A1 con_hl_mas_a_5
 L_9A9D:
 	ret			;9a9d   ; entrada 12 de la tabla de p02:9A02 (L_99F2)
 ficha_cuenta:
@@ -3427,9 +3425,9 @@ DATA_tabla_9AB3:
 L_9AB7:
 	ld b,008h		;9ab7   ; 8 vueltas
 L_9AB9:
-	push bc			;9ab9
+	push bc			;9ab9   ; tramo: llama a mira_bichos_del_mapa
 	call ficha_x_3		;9aba
-	call 06d12h		;9abd
+	call 06d12h		;9abd   ; p01:6D12 mira_bichos_del_mapa
 	pop bc			;9ac0
 	ret nz			;9ac1
 	push hl			;9ac2   ; la ficha es la de HL
@@ -3437,9 +3435,9 @@ L_9AB9:
 	djnz L_9AB9		;9ac5
 	ret			;9ac7
 ficha_x_3:
-	ld a,b			;9ac8   ; tramo: llama a hl_mas_a
+	ld a,b			;9ac8   ; tramo: llama a copia_bytes_4, llama a hl_mas_a
 	ld hl,09ae8h		;9ac9   ; p02:9AE8 ficha_9AE8: los 6 primeros bytes de la ficha del bicho (ix+0..5) (p01:706A)
-	call 0706ah		;9acc
+	call 0706ah		;9acc   ; p01:706A copia_bytes_4
 	ld hl,09aedh		;9acf
 	call 040a4h		;9ad2   ; p00:40A4 hl_mas_a
 	ld a,(hl)			;9ad5
@@ -3473,10 +3471,10 @@ DATA_sin_lector_9AEE:
 
 
 nace_tipo_01:
-	ld bc,02020h		;9af6
-	call 07123h		;9af9
+	ld bc,02020h		;9af6   ; tramo: llama a rutina_10, llama a copia_bytes_7
+	call 07123h		;9af9   ; p01:7123 rutina_10
 	ld hl,09b13h		;9afc   ; p02:9B13 ficha_9B13: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
-	call 07084h		;9aff
+	call 07084h		;9aff   ; p01:7084 copia_bytes_7
 	ld (ix+006h),000h		;9b02   ; ix+0x06: cuenta atras (p01:6124)
 	ld (ix+010h),005h		;9b06   ; ix+0x10: el PATRON del sprite (p01:70FB)
 	ld (ix+011h),03ch		;9b0a   ; ix+0x11: cuenta atras de lo que hace
@@ -3500,7 +3498,7 @@ tipo_01:
 	dec a			;9b1a
 	jr z,L_9B44		;9b1b
 	jp p,L_9B58		;9b1d
-	call 07155h		;9b20
+	call 07155h		;9b20   ; p01:7155 mira_cuadros_2
 	ret nz			;9b23
 	inc (ix+001h)		;9b24   ; la ficha pasa al paso siguiente
 	ld (ix+006h),001h		;9b27   ; ix+0x06: cuenta atras (p01:6124)
@@ -3512,7 +3510,7 @@ tipo_01:
 	ld a,(0c4aah)		;9b3b   ; 0xC4AA: la dificultad: 0xC172 + lo de la tabla p01:7062 segun 0xC840, hasta 15 (p01:7049)
 	add a,a			;9b3e
 	add a,080h		;9b3f
-	jp 07189h		;9b41
+	jp 07189h		;9b41   ; p01:7189 rutina_11
 L_9B44:
 	call ficha_y_2		;9b44
 	cp 020h		;9b47
@@ -3526,7 +3524,7 @@ L_9B44:
 L_9B58:
 	dec (ix+011h)		;9b58   ; cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 	ret nz			;9b5b
-	jp 06a85h		;9b5c
+	jp 06a85h		;9b5c   ; p01:6A85 mira_atributos_de_sprites
 ficha_y_2:
 	ld a,(ix+017h)		;9b5f   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	sub (ix+003h)		;9b62   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
@@ -3541,7 +3539,7 @@ ficha_x_4:
 	ret			;9b72
 L_9B73:
 	ld hl,09b79h		;9b73   ; p02:9B79 tabla_9B79: tabla que lee p02:9B73 (35 bytes)
-	jp L_9DEC		;9b76
+	jp ficha_campo_06		;9b76
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_9B79: tabla que lee p02:9B73 (35 bytes)
@@ -3557,10 +3555,10 @@ DATA_tabla_9B79:
 
 
 nace_tipo_02:
-	ld bc,02020h		;9b9c   ; tramo: mira control_de_bichos
-	call 07123h		;9b9f
+	ld bc,02020h		;9b9c   ; tramo: llama a rutina_10, llama a copia_bytes_7, mira control_de_bichos
+	call 07123h		;9b9f   ; p01:7123 rutina_10
 	ld hl,09bceh		;9ba2   ; p02:9BCE ficha_9BCE: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
-	call 07084h		;9ba5
+	call 07084h		;9ba5   ; p01:7084 copia_bytes_7
 	xor a			;9ba8
 	ld (ix+006h),a		;9ba9   ; ix+0x06: cuenta atras (p01:6124)
 	ld (ix+014h),a		;9bac   ; ix+0x14: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
@@ -3591,7 +3589,7 @@ DATA_ficha_9BCE:
 
 
 tipo_02:
-	call 0710fh		;9bd2
+	call 0710fh		;9bd2   ; p01:710F mira_avance_del_cuadro
 	ld a,(ix+001h)		;9bd5   ; ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 	dec a			;9bd8
 	jr z,L_9BEA		;9bd9
@@ -3603,7 +3601,7 @@ tipo_02:
 	inc (ix+001h)		;9be6   ; la ficha pasa al paso siguiente
 	ret			;9be9
 L_9BEA:
-	call 07155h		;9bea
+	call 07155h		;9bea   ; p01:7155 mira_cuadros_2
 	ret nz			;9bed
 	inc (ix+001h)		;9bee   ; la ficha pasa al paso siguiente
 	ld (ix+074h),000h		;9bf1   ; ix+0x74: el tipo de choque (p01:7093)
@@ -3614,7 +3612,7 @@ L_9BFA:
 	and 007h		;9bfd
 	jr nz,L_9C08		;9bff
 	ld (ix+010h),007h		;9c01   ; ix+0x10: el PATRON del sprite (p01:70FB)
-	call 07809h		;9c05
+	call 07809h		;9c05   ; p01:7809 pon_buffer_8
 L_9C08:
 	dec (ix+011h)		;9c08   ; cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 	ret nz			;9c0b
@@ -3625,9 +3623,9 @@ L_9C08:
 	ld (ix+014h),a		;9c18   ; ix+0x14: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ld (ix+074h),003h		;9c1b   ; ix+0x74: el tipo de choque (p01:7093)
 	ret			;9c1f
-L_9C20:
+mira_x_de_gao_6:
 	ld hl,09c2dh		;9c20   ; p02:9C2D ficha_9C2D: los 6 primeros bytes de la ficha del bicho (ix+0..5) (p01:706A)
-	call 0706ah		;9c23
+	call 0706ah		;9c23   ; p01:706A copia_bytes_4
 	ld a,(0c809h)		;9c26   ; 0xC809: la X de Gao (p01:70BD)
 	ld (ix+005h),a		;9c29   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	ret			;9c2c
@@ -3645,12 +3643,12 @@ DATA_ficha_9C2D:
 
 
 nace_tipo_03:
-	call 07119h		;9c33
+	call 07119h		;9c33   ; p01:7119 mira_partida_2
 	ld hl,09c51h		;9c36   ; p02:9C51 ficha_9C51: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
-	call 07084h		;9c39
+	call 07084h		;9c39   ; p01:7084 copia_bytes_7
 	ld (ix+015h),009h		;9c3c   ; ix+0x15: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ld hl,09c46h		;9c40   ; p02:9C46 tabla_9C46: tabla que lee p02:9C40 (11 bytes)
-	jp 07073h		;9c43
+	jp 07073h		;9c43   ; p01:7073 copia_bytes_5
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_9C46: tabla que lee p02:9C40 (11 bytes)
@@ -3671,13 +3669,13 @@ DATA_ficha_9C51:
 
 
 tipo_03:
-	call 071a4h		;9c55
+	call 071a4h		;9c55   ; p01:71A4 rutina_12
 	ld a,(ix+001h)		;9c58   ; ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 	dec a			;9c5b
 	jr z,L_9C88		;9c5c
 	jp p,L_9CEC		;9c5e
-	ld bc,00808h		;9c61
-	call 070f1h		;9c64
+	ld bc,00808h		;9c61   ; tramo: llama a ficha_cuenta
+	call 070f1h		;9c64   ; p01:70F1 ficha_cuenta
 	dec (ix+011h)		;9c67   ; cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 	ret nz			;9c6a
 	inc (ix+001h)		;9c6b   ; la ficha pasa al paso siguiente
@@ -3685,24 +3683,24 @@ tipo_03:
 	ld (ix+017h),00ch		;9c72   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ld de,00000h		;9c76
 	ld (ix+018h),d		;9c79   ; ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
-	call 0792ch		;9c7c
+	call 0792ch		;9c7c   ; p01:792C ficha_campo_07_3
 	ld de,00200h		;9c7f
-	call 07933h		;9c82
+	call 07933h		;9c82   ; p01:7933 rutina_20
 	jp ficha_x_5		;9c85
 L_9C88:
-	ld bc,00808h		;9c88   ; tramo: mira fichas
-	call 070f1h		;9c8b
+	ld bc,00808h		;9c88   ; tramo: llama a ficha_cuenta, mira fichas, llama a ficha_x_3, llama a rutina_11
+	call 070f1h		;9c8b   ; p01:70F1 ficha_cuenta
 	call ficha_x_5		;9c8e
 	ld bc,0d828h		;9c91   ; 0xD828: fichas de lo que se mueve
 	ld de,00200h		;9c94
-	call 07193h		;9c97
+	call 07193h		;9c97   ; p01:7193 ficha_x_3
 	ld d,(ix+005h)		;9c9a   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	ld a,0f0h		;9c9d
 	add a,(ix+003h)		;9c9f   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 	ld e,a			;9ca2
-	call 048fbh		;9ca3
+	call 048fbh		;9ca3   ; p00:48FB rutina_11
 	jr nc,L_9CAF		;9ca6
-	call 0710fh		;9ca8
+	call 0710fh		;9ca8   ; p01:710F mira_avance_del_cuadro
 	ld (ix+018h),001h		;9cab   ; ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 L_9CAF:
 	ld a,(ix+018h)		;9caf   ; ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
@@ -3719,22 +3717,22 @@ L_9CAF:
 	ld c,005h		;9cc8
 	ld d,(ix+005h)		;9cca   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	ld e,(ix+003h)		;9ccd   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
-	jp 06d64h		;9cd0
+	jp 06d64h		;9cd0   ; p01:6D64 pon_buffer_3
 L_9CD3:
 	inc (ix+018h)		;9cd3   ; ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ret			;9cd6
 L_9CD7:
-	call 070bdh		;9cd7
+	call 070bdh		;9cd7   ; p01:70BD mira_x_de_gao
 	cp 002h		;9cda
 	ret nc			;9cdc
 	inc (ix+001h)		;9cdd   ; la ficha pasa al paso siguiente
 	ld de,00500h		;9ce0
-	call 0792ch		;9ce3
+	call 0792ch		;9ce3   ; p01:792C ficha_campo_07_3
 	ld de,00000h		;9ce6
-	jp 07933h		;9ce9
+	jp 07933h		;9ce9   ; p01:7933 rutina_20
 L_9CEC:
-	ld bc,00804h		;9cec
-	jp 070f1h		;9cef
+	ld bc,00804h		;9cec   ; tramo: sigue en ficha_cuenta
+	jp 070f1h		;9cef   ; p01:70F1 ficha_cuenta
 ficha_x_5:
 	ld a,008h		;9cf2
 	bit 7,(ix+00ah)		;9cf4
@@ -3744,14 +3742,14 @@ L_9CFC:
 	add a,(ix+005h)		;9cfc   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	ld d,a			;9cff
 	ld e,(ix+003h)		;9d00   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
-	call 048fbh		;9d03
+	call 048fbh		;9d03   ; p00:48FB rutina_11
 	ret nc			;9d06
-	jp 07099h		;9d07
+	jp 07099h		;9d07   ; p01:7099 con_hl_mas_a_3
 nace_tipo_04:
 	ld hl,09d21h		;9d0a   ; p02:9D21 ficha_9D21: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
-	call 07084h		;9d0d
+	call 07084h		;9d0d   ; p01:7084 copia_bytes_7
 	ld hl,09d16h		;9d10   ; p02:9D16 tabla_9D16: tabla que lee p02:9D10 (11 bytes)
-	jp 07073h		;9d13
+	jp 07073h		;9d13   ; p01:7073 copia_bytes_5
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_9D16: tabla que lee p02:9D10 (11 bytes)
@@ -3772,13 +3770,13 @@ DATA_ficha_9D21:
 
 
 tipo_04:
-	call 071a4h		;9d25
+	call 071a4h		;9d25   ; p01:71A4 rutina_12
 	ld b,008h		;9d28
 	ld de,09d42h		;9d2a   ; p02:9D42 tabla_9D42: tabla que lee p02:9D2A (2 bytes)
-	call 070ffh		;9d2d
+	call 070ffh		;9d2d   ; p01:70FF ficha_cuenta_2
 	ld a,(ix+001h)		;9d30   ; ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 	dec a			;9d33
-	jp z,0710fh		;9d34
+	jp z,0710fh		;9d34   ; p01:710F mira_avance_del_cuadro
 	dec (ix+011h)		;9d37   ; cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 	ret nz			;9d3a
 	inc (ix+001h)		;9d3b   ; la ficha pasa al paso siguiente
@@ -3798,7 +3796,7 @@ DATA_tabla_9D42:
 
 L_9D44:
 	ld hl,09d4ah		;9d44   ; p02:9D4A tabla_9D4A: tabla que lee p02:9D44 (6 bytes)
-	jp 0706ah		;9d47
+	jp 0706ah		;9d47   ; p01:706A copia_bytes_4
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_9D4A: tabla que lee p02:9D44 (6 bytes)
@@ -3812,11 +3810,11 @@ DATA_tabla_9D4A:
 
 
 nace_tipo_05:
-	call 0a8b4h		;9d50
+	call 0a8b4h		;9d50   ; tramo: llama a copia_bytes_7, sigue en copia_bytes_5
 	ld hl,09d6ah		;9d53   ; p02:9D6A ficha_9D6A: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
-	call 07084h		;9d56
+	call 07084h		;9d56   ; p01:7084 copia_bytes_7
 	ld hl,09d5fh		;9d59   ; p02:9D5F tabla_9D5F: tabla que lee p02:9D59 (11 bytes)
-	jp 07073h		;9d5c
+	jp 07073h		;9d5c   ; p01:7073 copia_bytes_5
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_9D5F: tabla que lee p02:9D59 (11 bytes)
@@ -3837,8 +3835,8 @@ DATA_ficha_9D6A:
 
 
 tipo_05:
-	ld bc,00c04h		;9d6e
-	call 070f1h		;9d71
+	ld bc,00c04h		;9d6e   ; tramo: llama a ficha_cuenta
+	call 070f1h		;9d71   ; p01:70F1 ficha_cuenta
 	ld a,(ix+001h)		;9d74   ; ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 	dec a			;9d77
 	jr z,L_9D86		;9d78
@@ -3878,7 +3876,7 @@ L_9DA0:
 	ld a,001h		;9db6
 	ld b,(ix+005h)		;9db8   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	ld c,(ix+003h)		;9dbb   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
-	jp 07819h		;9dbe
+	jp 07819h		;9dbe   ; p01:7819 pon_buffer_9
 L_9DC1:
 	dec (ix+001h)		;9dc1   ; ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 	ld (ix+011h),00eh		;9dc4   ; ix+0x11: cuenta atras de lo que hace
@@ -3898,8 +3896,8 @@ DATA_tabla_9DC9:
 
 L_9DE9:
 	ld hl,09e01h		;9de9   ; p02:9E01 ficha_9E01: los 6 primeros bytes de la ficha del bicho (ix+0..5) (p01:706A)
-L_9DEC:
-	call 0706ah		;9dec
+ficha_campo_06:
+	call 0706ah		;9dec   ; p01:706A copia_bytes_4
 	ld a,(ix+006h)		;9def   ; ix+0x06: cuenta atras (p01:6124)
 	ld b,a			;9df2
 	and 0f0h		;9df3
@@ -3923,9 +3921,9 @@ DATA_ficha_9E01:
 
 
 nace_tipo_06:
-	call 07119h		;9e07
+	call 07119h		;9e07   ; p01:7119 mira_partida_2
 	ld hl,09e37h		;9e0a   ; p02:9E37 ficha_9E37: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
-	call 07084h		;9e0d
+	call 07084h		;9e0d   ; p01:7084 copia_bytes_7
 	ld a,(ix+015h)		;9e10   ; ix+0x15: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ld (ix+017h),a		;9e13   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ld (ix+015h),000h		;9e16   ; ix+0x15: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
@@ -3933,10 +3931,10 @@ nace_tipo_06:
 	jr z,L_9E21		;9e1b
 	ld (ix+012h),005h		;9e1d   ; ix+0x12: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 L_9E21:
-	ld b,040h		;9e21
-	call 0713fh		;9e23
+	ld b,040h		;9e21   ; tramo: llama a mira_dificultad_2, sigue en copia_bytes_5
+	call 0713fh		;9e23   ; p01:713F mira_dificultad_2
 	ld hl,09e2ch		;9e26   ; p02:9E2C tabla_9E2C: tabla que lee p02:9E26 (11 bytes)
-	jp 07073h		;9e29
+	jp 07073h		;9e29   ; p01:7073 copia_bytes_5
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_9E2C: tabla que lee p02:9E26 (11 bytes)
@@ -3961,24 +3959,24 @@ tipo_06:
 	dec a			;9e3e
 	jr z,L_9E9D		;9e3f
 	jp p,L_9E9D		;9e41
-	ld bc,00e10h		;9e44
-	call 070f1h		;9e47
-	call 070cfh		;9e4a
+	ld bc,00e10h		;9e44   ; tramo: llama a ficha_cuenta, llama a mira_y_de_gao_2, llama a mira_dificultad
+	call 070f1h		;9e47   ; p01:70F1 ficha_cuenta
+	call 070cfh		;9e4a   ; p01:70CF mira_y_de_gao_2
 	ld b,040h		;9e4d
-	call nc,07130h		;9e4f
-	call 070bdh		;9e52
+	call nc,07130h		;9e4f   ; p01:7130 mira_dificultad
+	call 070bdh		;9e52   ; p01:70BD mira_x_de_gao
 	and a			;9e55
 	ld de,00000h		;9e56
 	jr z,L_9E6E		;9e59
 	call ficha_x_6		;9e5b
 	ld de,00000h		;9e5e
 	jr c,L_9E6E		;9e61
-	call 070d6h		;9e63
+	call 070d6h		;9e63   ; p01:70D6 mira_x_de_gao_2
 	ld de,00050h		;9e66
 	jr nc,$+4		;9e69
 	ld de,0ffb0h		;9e6b
 L_9E6E:
-	call 07933h		;9e6e
+	call 07933h		;9e6e   ; p01:7933 rutina_20
 	call ficha_x_7		;9e71
 	dec (ix+011h)		;9e74   ; cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 	ret nz			;9e77
@@ -3996,11 +3994,11 @@ L_9E6E:
 	ld (ix+02ah),04dh		;9e98   ; ix+0x2A: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ret			;9e9c
 L_9E9D:
-	call 0710fh		;9e9d
+	call 0710fh		;9e9d   ; p01:710F mira_avance_del_cuadro
 	dec (ix+011h)		;9ea0   ; cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 	ret nz			;9ea3
 	bit 1,(ix+001h)		;9ea4   ; ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
-	call nz,0b625h		;9ea8
+	call nz,0b625h		;9ea8   ; p06:B625 pon_buffers_2
 	dec (ix+001h)		;9eab   ; ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 	inc (ix+006h)		;9eae   ; ix+0x06: cuenta atras (p01:6124)
 	call ficha_patron		;9eb1
@@ -4011,7 +4009,7 @@ L_9E9D:
 	ld (ix+011h),a		;9ebe   ; ix+0x11: cuenta atras de lo que hace
 	ret			;9ec1
 ficha_x_6:
-	call 070d6h		;9ec2
+	call 070d6h		;9ec2   ; p01:70D6 mira_x_de_gao_2
 	ld a,008h		;9ec5
 	jr nc,L_9ECB		;9ec7
 	neg		;9ec9
@@ -4019,18 +4017,18 @@ L_9ECB:
 	add a,(ix+005h)		;9ecb   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	ld d,a			;9ece
 	ld e,(ix+003h)		;9ecf   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
-	jp 048fbh		;9ed2
+	jp 048fbh		;9ed2   ; p00:48FB rutina_11
 ficha_x_7:
 	ld d,(ix+005h)		;9ed5   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	ld e,(ix+003h)		;9ed8   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
-	call 048fbh		;9edb
+	call 048fbh		;9edb   ; p00:48FB rutina_11
 	ld de,00180h		;9ede
 	jr nc,L_9EE6		;9ee1
 	ld de,00000h		;9ee3
 L_9EE6:
-	call 0792ch		;9ee6
+	call 0792ch		;9ee6   ; p01:792C ficha_campo_07_3
 	ret nc			;9ee9
-	jp 0710fh		;9eea
+	jp 0710fh		;9eea   ; p01:710F mira_avance_del_cuadro
 ficha_patron:
 	ld a,(ix+010h)		;9eed   ; ix+0x10: el PATRON del sprite (p01:70FB)
 	cp 00eh		;9ef0
@@ -4041,13 +4039,13 @@ L_9EF7:
 	ld (ix+060h),a		;9ef7   ; ix+0x60: cuenta de cuadros (p01:70F1)
 	ret			;9efa
 nace_tipo_08:
-	call 0a8b4h		;9efb
+	call 0a8b4h		;9efb   ; tramo: llama a copia_bytes_7, llama a copia_bytes_5, sigue en mira_dificultad_2
 	ld hl,09f1bh		;9efe   ; p02:9F1B ficha_9F1B: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
-	call 07084h		;9f01
+	call 07084h		;9f01   ; p01:7084 copia_bytes_7
 	ld hl,09f0fh		;9f04   ; p02:9F0F ficha_9F0F: 11 bytes de la ficha del bicho desde ix+7 (p01:7073)
-	call 07073h		;9f07
+	call 07073h		;9f07   ; p01:7073 copia_bytes_5
 	ld b,030h		;9f0a
-	jp 0713fh		;9f0c
+	jp 0713fh		;9f0c   ; p01:713F mira_dificultad_2
 
 ; ----------------------------------------------------------------------
 ; DATOS ficha_9F0F: 11 bytes de la ficha del bicho desde ix+7 (p01:7073); lo
@@ -4075,9 +4073,9 @@ DATA_ficha_9F1B:
 
 
 tipo_08:
-	call 0710fh		;9f1f
+	call 0710fh		;9f1f   ; p01:710F mira_avance_del_cuadro
 	ld b,030h		;9f22
-	call 07130h		;9f24
+	call 07130h		;9f24   ; p01:7130 mira_dificultad
 	ld a,(ix+001h)		;9f27   ; ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 	dec a			;9f2a
 	jr z,$+50		;9f2b
@@ -4089,8 +4087,8 @@ tipo_08:
 	inc (ix+001h)		;9f38   ; la ficha pasa al paso siguiente
 	ld (ix+006h),001h		;9f3b   ; ix+0x06: cuenta atras (p01:6124)
 	ld hl,09f52h		;9f3f   ; p02:9F52 ficha_9F52: 11 bytes de la ficha del bicho desde ix+7 (p01:7073)
-	call 07073h		;9f42
-	call 070d6h		;9f45
+	call 07073h		;9f42   ; p01:7073 copia_bytes_5
+	call 070d6h		;9f45   ; p01:70D6 mira_x_de_gao_2
 	ret c			;9f48
 	ld a,002h		;9f49
 L_9F4B:
@@ -4124,9 +4122,9 @@ L_9F70:
 	inc (ix+001h)		;9f74   ; la ficha pasa al paso siguiente
 	inc (ix+006h)		;9f77   ; ix+0x06: cuenta atras (p01:6124)
 	ld hl,09f52h		;9f7a   ; p02:9F52 ficha_9F52: 11 bytes de la ficha del bicho desde ix+7 (p01:7073)
-	call 07073h		;9f7d
-	call 07099h		;9f80
-	call 070d6h		;9f83
+	call 07073h		;9f7d   ; p01:7073 copia_bytes_5
+	call 07099h		;9f80   ; p01:7099 con_hl_mas_a_3
+	call 070d6h		;9f83   ; p01:70D6 mira_x_de_gao_2
 	ret nc			;9f86
 	ld a,0feh		;9f87
 	jr $-62		;9f89
@@ -4138,13 +4136,13 @@ L_9F8B:
 	ld (ix+010h),012h		;9f96   ; ix+0x10: el PATRON del sprite (p01:70FB)
 	ld (ix+011h),005h		;9f9a   ; ix+0x11: cuenta atras de lo que hace
 	ret			;9f9e
-L_9F9F:
+rutina_17:
 	push ix		;9f9f
 	call ficha_tipo_2		;9fa1
 	pop ix		;9fa4
 	ret			;9fa6
 ficha_tipo_2:
-	push ix		;9fa7
+	push ix		;9fa7   ; tramo: sigue en ficha_tipo_5
 	pop iy		;9fa9
 	ld l,(ix+017h)		;9fab   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ld h,(ix+018h)		;9fae   ; ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
@@ -4153,11 +4151,11 @@ ficha_tipo_2:
 	ld (ix+013h),001h		;9fb4   ; ix+0x13: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ld a,(ix+000h)		;9fb8   ; ix+0x00: el TIPO de la ficha (0 = libre; p01:6D12)
 	cp 00ah		;9fbb
-	jp z,06947h		;9fbd
+	jp z,06947h		;9fbd   ; p01:6947 ficha_tipo_5
 	ld l,(ix+017h)		;9fc0   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ld h,(ix+018h)		;9fc3   ; ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ld (0d418h),hl		;9fc6   ; 0xD418: lo que controla la salida de bichos
-	call 06947h		;9fc9
+	call 06947h		;9fc9   ; p01:6947 ficha_tipo_5
 	push iy		;9fcc
 	pop hl			;9fce
 	ld a,056h		;9fcf
@@ -4179,7 +4177,7 @@ L_9FDF:
 	ret			;9fea
 L_9FEB:
 	ld hl,09ff1h		;9feb   ; p02:9FF1 tabla_9FF1: tabla que lee p02:9FEB (6 bytes)
-	jp L_9DEC		;9fee
+	jp ficha_campo_06		;9fee
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_9FF1: tabla que lee p02:9FEB (6 bytes)
@@ -4193,6 +4191,6 @@ DATA_tabla_9FF1:
 
 
 nace_tipo_09:
-	call 07119h		;9ff7
+	call 07119h		;9ff7   ; p01:7119 mira_partida_2
 	ld hl,0a05ah		;9ffa
-	call 07084h		;9ffd
+	call 07084h		;9ffd   ; p01:7084 copia_bytes_7
