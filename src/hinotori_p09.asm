@@ -1807,82 +1807,428 @@ DATA_codigo_para_f220:
 	defb 006h,0f1h,0cdh,09ch,0bah,0f3h,0afh,032h,006h,0f1h,0c9h,03ah,001h,0f1h,026h,040h	; b9b5  .......2...:..&@
 	defb 0f5h,0cdh,024h,000h,0f1h,026h,080h,0c3h,024h,000h	; b9c5  ..$..&..$.
 
+; ======================================================================
+; CODIGO 0xb9cf..0xb9d5  (6 bytes)
+; ======================================================================
+
+
+L_B9CF:
+	ld a,(0f108h)		;b9cf
+	call 040aeh		;b9d2
+
 ; ----------------------------------------------------------------------
-; DATOS sin_lector_B9CF: bytes sin lector conocido: ninguna instruccion
-;   trazada los apunta y la sonda de openMSX no los lee (639 bytes)
-;   0xb9cf..0xbc4e  (639 bytes)
-DATA_sin_lector_B9CF:
-	defb 03ah,008h,0f1h,0cdh,0aeh,040h,0dfh,0b9h,0f3h,0b9h,00ch,0bah,034h,0bah,06ah,0bah	; b9cf  :....@......4.j.
-	defb 0cdh,0c5h,0bbh,0cdh,0b5h,0bbh,021h,06eh,0bch,0cdh,087h,04fh,0cdh,049h,0bch,021h	; b9df  ......!n...O.I.!
-	defb 008h,0f1h,034h,0c9h,0cdh,0d9h,0bbh,0dah,039h,0bbh,0f5h,021h,0b3h,0bch,0cdh,08bh	; b9ef  ..4.....9..!....
-	defb 04fh,0f1h,0feh,00dh,0c0h,021h,0aah,0bch,0cdh,087h,04fh,018h,0e2h,03eh,001h,0cdh	; b9ff  O....!....O..>..
-	defb 0eah,000h,006h,00ah,0c5h,03eh,0eah,0cdh,0edh,000h,0c1h,0dah,084h,0bah,010h,0f4h	; ba0f  .....>..........
-	defb 006h,006h,021h,00ah,0f1h,0e5h,0c5h,07eh,0cdh,0edh,000h,0dah,084h,0bah,0c1h,0e1h	; ba1f  ..!....~........
-	defb 023h,010h,0f2h,018h,0bah,0afh,0cdh,0eah,000h,0dah,084h,0bah,021h,0fbh,0bch,05eh	; ba2f  #...........!..^
-	defb 023h,056h,07bh,0b2h,028h,019h,023h,04eh,023h,046h,023h,0e5h,0d5h,0c5h,01ah,0cdh	; ba3f  #V{.(.#N#F#.....
-	defb 0edh,000h,0c1h,0d1h,038h,02eh,013h,00bh,078h,0b1h,020h,0f0h,0e1h,018h,0e0h,0cdh	; ba4f  ....8...x. .....
-	defb 0f0h,000h,021h,0c0h,0bch,0cdh,087h,04fh,0c3h,0eeh,0b9h,0cdh,09fh,000h,0feh,059h	; ba5f  ..!....O.......Y
-	defb 0cah,039h,0bbh,0feh,079h,0cah,039h,0bbh,0feh,04eh,028h,003h,0feh,06eh,0c0h,0afh	; ba6f  .9..y.9..N(..n..
-	defb 032h,008h,0f1h,0c9h,0e1h,0cdh,0f0h,000h,021h,0aah,0bch,0cdh,08bh,04fh,021h,0b3h	; ba7f  2.......!....O!.
-	defb 0bch,0cdh,087h,04fh,0cdh,049h,0bch,03eh,001h,032h,008h,0f1h,0c9h,03ah,008h,0f1h	; ba8f  ...O.I.>.2...:..
-	defb 0cdh,0aeh,040h,0a8h,0bah,0bah,0bah,0ceh,0bah,0cdh,0c5h,0bbh,0cdh,0b5h,0bbh,021h	; ba9f  ..@............!
-	defb 08ch,0bch,0cdh,087h,04fh,0cdh,049h,0bch,0c3h,0eeh,0b9h,0cdh,0d9h,0bbh,0dah,039h	; baaf  ....O.I........9
-	defb 0bbh,0f5h,021h,0ebh,0bch,0cdh,08bh,04fh,0f1h,0feh,00dh,0c0h,0c3h,0eeh,0b9h,0cdh	; babf  ..!....O........
-	defb 0e1h,000h,0dah,091h,0bbh,006h,00ah,0c5h,0cdh,0e4h,000h,0c1h,0dah,091h,0bbh,0feh	; bacf  ................
-	defb 0eah,020h,0ech,010h,0f2h,006h,006h,021h,010h,0f1h,0c5h,0e5h,0cdh,0e4h,000h,0e1h	; badf  . .....!........
-	defb 0c1h,077h,023h,010h,0f5h,021h,010h,0f1h,011h,00ah,0f1h,006h,006h,01ah,0beh,0c2h	; baef  .w#..!..........
-	defb 0a3h,0bbh,023h,013h,010h,0f7h,021h,0e3h,0bch,0cdh,087h,04fh,0cdh,0ach,0bbh,0cdh	; baff  ..#...!....O....
-	defb 0e1h,000h,038h,07eh,021h,0fbh,0bch,05eh,023h,056h,07bh,0b2h,028h,019h,023h,04eh	; bb0f  ..8~!..^#V{.(.#N
-	defb 023h,046h,023h,0e5h,0d5h,0c5h,0cdh,0e4h,000h,0c1h,0d1h,038h,064h,012h,013h,00bh	; bb1f  #F#........8d...
-	defb 078h,0b1h,020h,0f0h,0e1h,018h,0e0h,0cdh,0e7h,000h,0cdh,0bdh,0bbh,03ah,025h,0c1h	; bb2f  x. ..........:%.
-	defb 0a7h,020h,014h,021h,021h,0c3h,07eh,0feh,080h,038h,002h,036h,080h,021h,007h,0c3h	; bb3f  . .!!.~..8.6.!..
-	defb 07eh,0feh,004h,030h,002h,036h,004h,0afh,032h,007h,0f1h,032h,025h,0c3h,03eh,0ffh	; bb4f  ~..0.6..2..2%.>.
-	defb 032h,048h,0c1h,032h,039h,0c1h,03eh,001h,032h,001h,0c2h,032h,01ah,0c1h,032h,03bh	; bb5f  2H.29.>.2..2..2;
-	defb 0c1h,0cdh,076h,0bbh,0c3h,0bbh,0f2h,03eh,001h,032h,023h,0c0h,032h,037h,0c0h,032h	; bb6f  ..v....>.2#.27.2
-	defb 04bh,0c0h,021h,098h,0c0h,036h,0ffh,022h,01ah,0c0h,022h,02eh,0c0h,022h,042h,0c0h	; bb7f  K.!..6."..".."B.
-	defb 0c9h,0e1h,0cdh,0e7h,000h,021h,0ebh,0bch,0cdh,087h,04fh,0cdh,049h,0bch,03eh,001h	; bb8f  .....!....O.I.>.
-	defb 032h,008h,0f1h,0c9h,0cdh,0e1h,000h,021h,0dch,0bch,0cdh,087h,04fh,011h,060h,058h	; bb9f  2......!....O.`X
-	defb 021h,010h,0f1h,0c3h,03ah,0bch,021h,0f0h,0fbh,006h,028h,0c3h,04eh,0bch,021h,058h	; bbaf  !...:.!...(.N.!X
-	defb 0e0h,001h,020h,010h,018h,00fh,021h,008h,008h,001h,0a0h,0a0h,0cdh,0d4h,0bbh,021h	; bbbf  .. ...!........!
-	defb 0b0h,008h,001h,018h,0a0h,0afh,057h,0c3h,00bh,04eh,0afh,032h,0ach,0fch,0cdh,09fh	; bbcf  ......W..N.2....
-	defb 000h,04fh,021h,009h,0f1h,011h,00ah,0f1h,07eh,0cdh,0a9h,040h,079h,0feh,01bh,028h	; bbdf  .O!.....~..@y..(
-	defb 028h,0feh,00dh,028h,026h,0feh,008h,028h,028h,0d6h,030h,0feh,00ah,038h,00fh,0d6h	; bbef  (..(&..((.0..8..
-	defb 011h,0feh,01ah,038h,009h,0d6h,020h,0feh,01ah,0d0h,079h,0d6h,020h,04fh,079h,012h	; bbff  ...8.. ...y. Oy.
-	defb 07eh,03ch,0feh,006h,030h,01fh,077h,018h,01ch,037h,0c9h,0cdh,034h,0bch,03eh,00dh	; bc0f  ~<..0.w..7..4.>.
-	defb 0c9h,0ebh,04eh,036h,000h,01ah,03dh,0fah,034h,0bch,012h,079h,0a7h,020h,004h,02bh	; bc1f  ..N6..=.4..y. .+
-	defb 077h,018h,002h,0ebh,034h,011h,050h,030h,021h,00ah,0f1h,006h,006h,07eh,023h,0cdh	; bc2f  w...4.P0!....~#.
-	defb 0a3h,04fh,07ah,0c6h,008h,057h,010h,0f5h,0afh,0c9h,021h,009h,0f1h,006h,00eh	; bc3f  .Oz..W....!....
+; DATOS sin_lector_B9D5: bytes sin lector conocido: ninguna instruccion
+;   trazada los apunta y la sonda de openMSX no los lee (10 bytes)
+;   0xb9d5..0xb9df  (10 bytes)
+DATA_sin_lector_B9D5:
+	defb 0dfh,0b9h,0f3h,0b9h,00ch,0bah,034h,0bah,06ah,0bah	; b9d5  ......4.j.
 
 ; ======================================================================
-; CODIGO 0xbc4e..0xbc54  (6 bytes)
+; CODIGO 0xb9df..0xbaa2  (195 bytes)
 ; ======================================================================
 
 
+L_B9DF:
+	call L_BBC5		;b9df
+	call L_BBB5		;b9e2
+	ld hl,0bc6eh		;b9e5
+	call 04f87h		;b9e8
+	call L_BC49		;b9eb
+L_B9EE:
+	ld hl,0f108h		;b9ee
+	inc (hl)			;b9f1
+	ret			;b9f2
+L_B9F3:
+	call L_BBD9		;b9f3
+	jp c,L_BB39		;b9f6
+	push af			;b9f9
+	ld hl,0bcb3h		;b9fa
+	call 04f8bh		;b9fd
+	pop af			;ba00
+	cp 00dh		;ba01
+	ret nz			;ba03
+	ld hl,0bcaah		;ba04
+	call 04f87h		;ba07
+	jr L_B9EE		;ba0a
+L_BA0C:
+	ld a,001h		;ba0c
+	call 000eah		;ba0e   ; BIOS TAPOON - Turns on the cassette motor and writes the header
+	ld b,00ah		;ba11
+L_BA13:
+	push bc			;ba13
+	ld a,0eah		;ba14
+	call 000edh		;ba16   ; BIOS TAPOUT - Writes data on the tape
+	pop bc			;ba19
+	jp c,L_BA84		;ba1a
+	djnz L_BA13		;ba1d
+	ld b,006h		;ba1f
+	ld hl,0f10ah		;ba21
+L_BA24:
+	push hl			;ba24
+	push bc			;ba25
+	ld a,(hl)			;ba26
+	call 000edh		;ba27   ; BIOS TAPOUT - Writes data on the tape
+	jp c,L_BA84		;ba2a
+	pop bc			;ba2d
+	pop hl			;ba2e
+	inc hl			;ba2f
+	djnz L_BA24		;ba30
+	jr L_B9EE		;ba32
+L_BA34:
+	xor a			;ba34
+	call 000eah		;ba35   ; BIOS TAPOON - Turns on the cassette motor and writes the header
+	jp c,L_BA84		;ba38
+	ld hl,0bcfbh		;ba3b
+L_BA3E:
+	ld e,(hl)			;ba3e
+	inc hl			;ba3f
+	ld d,(hl)			;ba40
+	ld a,e			;ba41
+	or d			;ba42
+	jr z,L_BA5E		;ba43
+	inc hl			;ba45
+	ld c,(hl)			;ba46
+	inc hl			;ba47
+	ld b,(hl)			;ba48
+	inc hl			;ba49
+	push hl			;ba4a
+L_BA4B:
+	push de			;ba4b
+	push bc			;ba4c
+	ld a,(de)			;ba4d
+	call 000edh		;ba4e   ; BIOS TAPOUT - Writes data on the tape
+	pop bc			;ba51
+	pop de			;ba52
+	jr c,L_BA83		;ba53
+	inc de			;ba55
+	dec bc			;ba56
+	ld a,b			;ba57
+	or c			;ba58
+	jr nz,L_BA4B		;ba59
+	pop hl			;ba5b
+	jr L_BA3E		;ba5c
+L_BA5E:
+	call 000f0h		;ba5e   ; BIOS TAPOOF - Stops writing on the tape
+	ld hl,0bcc0h		;ba61
+	call 04f87h		;ba64
+	jp L_B9EE		;ba67
+L_BA6A:
+	call 0009fh		;ba6a   ; BIOS CHGET - One character input (waiting)
+	cp 059h		;ba6d
+	jp z,L_BB39		;ba6f
+	cp 079h		;ba72
+	jp z,L_BB39		;ba74
+	cp 04eh		;ba77
+	jr z,L_BA7E		;ba79
+	cp 06eh		;ba7b
+	ret nz			;ba7d
+L_BA7E:
+	xor a			;ba7e
+	ld (0f108h),a		;ba7f
+	ret			;ba82
+L_BA83:
+	pop hl			;ba83
+L_BA84:
+	call 000f0h		;ba84   ; BIOS TAPOOF - Stops writing on the tape
+	ld hl,0bcaah		;ba87
+	call 04f8bh		;ba8a
+	ld hl,0bcb3h		;ba8d
+	call 04f87h		;ba90
+	call L_BC49		;ba93
+	ld a,001h		;ba96
+	ld (0f108h),a		;ba98
+	ret			;ba9b
+L_BA9C:
+	ld a,(0f108h)		;ba9c
+	call 040aeh		;ba9f
+
+; ----------------------------------------------------------------------
+; DATOS sin_lector_BAA2: bytes sin lector conocido: ninguna instruccion
+;   trazada los apunta y la sonda de openMSX no los lee (6 bytes)
+;   0xbaa2..0xbaa8  (6 bytes)
+DATA_sin_lector_BAA2:
+	defb 0a8h,0bah,0bah,0bah,0ceh,0bah	; baa2
+
+; ======================================================================
+; CODIGO 0xbaa8..0xbc67  (447 bytes)
+; ======================================================================
+
+
+L_BAA8:
+	call L_BBC5		;baa8
+	call L_BBB5		;baab
+	ld hl,0bc8ch		;baae
+	call 04f87h		;bab1
+	call L_BC49		;bab4
+	jp L_B9EE		;bab7
+L_BABA:
+	call L_BBD9		;baba
+	jp c,L_BB39		;babd
+	push af			;bac0
+	ld hl,0bcebh		;bac1
+	call 04f8bh		;bac4
+	pop af			;bac7
+	cp 00dh		;bac8
+	ret nz			;baca
+	jp L_B9EE		;bacb
+L_BACE:
+	call 000e1h		;bace   ; BIOS TAPION - Reads the header block after turning the cassette motor on
+	jp c,L_BB91		;bad1
+	ld b,00ah		;bad4
+L_BAD6:
+	push bc			;bad6
+	call 000e4h		;bad7   ; BIOS TAPIN - Reads data from the tape
+	pop bc			;bada
+	jp c,L_BB91		;badb
+	cp 0eah		;bade
+	jr nz,L_BACE		;bae0
+	djnz L_BAD6		;bae2
+	ld b,006h		;bae4
+	ld hl,0f110h		;bae6
+L_BAE9:
+	push bc			;bae9
+	push hl			;baea
+	call 000e4h		;baeb   ; BIOS TAPIN - Reads data from the tape
+	pop hl			;baee
+	pop bc			;baef
+	ld (hl),a			;baf0
+	inc hl			;baf1
+	djnz L_BAE9		;baf2
+	ld hl,0f110h		;baf4
+	ld de,0f10ah		;baf7
+	ld b,006h		;bafa
+L_BAFC:
+	ld a,(de)			;bafc
+	cp (hl)			;bafd
+	jp nz,L_BBA3		;bafe
+	inc hl			;bb01
+	inc de			;bb02
+	djnz L_BAFC		;bb03
+	ld hl,0bce3h		;bb05
+	call 04f87h		;bb08
+	call L_BBAC		;bb0b
+	call 000e1h		;bb0e   ; BIOS TAPION - Reads the header block after turning the cassette motor on
+	jr c,L_BB91		;bb11
+	ld hl,0bcfbh		;bb13
+L_BB16:
+	ld e,(hl)			;bb16
+	inc hl			;bb17
+	ld d,(hl)			;bb18
+	ld a,e			;bb19
+	or d			;bb1a
+	jr z,L_BB36		;bb1b
+	inc hl			;bb1d
+	ld c,(hl)			;bb1e
+	inc hl			;bb1f
+	ld b,(hl)			;bb20
+	inc hl			;bb21
+	push hl			;bb22
+L_BB23:
+	push de			;bb23
+	push bc			;bb24
+	call 000e4h		;bb25   ; BIOS TAPIN - Reads data from the tape
+	pop bc			;bb28
+	pop de			;bb29
+	jr c,L_BB90		;bb2a
+	ld (de),a			;bb2c
+	inc de			;bb2d
+	dec bc			;bb2e
+	ld a,b			;bb2f
+	or c			;bb30
+	jr nz,L_BB23		;bb31
+	pop hl			;bb33
+	jr L_BB16		;bb34
+L_BB36:
+	call 000e7h		;bb36   ; BIOS TAPIOF - Stops reading from the tape
+L_BB39:
+	call L_BBBD		;bb39
+	ld a,(0c125h)		;bb3c
+	and a			;bb3f
+	jr nz,L_BB56		;bb40
+	ld hl,0c321h		;bb42
+	ld a,(hl)			;bb45
+	cp 080h		;bb46
+	jr c,L_BB4C		;bb48
+	ld (hl),080h		;bb4a
+L_BB4C:
+	ld hl,0c307h		;bb4c
+	ld a,(hl)			;bb4f
+	cp 004h		;bb50
+	jr nc,L_BB56		;bb52
+	ld (hl),004h		;bb54
+L_BB56:
+	xor a			;bb56
+	ld (0f107h),a		;bb57
+	ld (0c325h),a		;bb5a
+	ld a,0ffh		;bb5d
+	ld (0c148h),a		;bb5f
+	ld (0c139h),a		;bb62
+	ld a,001h		;bb65
+	ld (0c201h),a		;bb67
+	ld (0c11ah),a		;bb6a
+	ld (0c13bh),a		;bb6d
+	call L_BB76		;bb70
+	jp 0f2bbh		;bb73
+L_BB76:
+	ld a,001h		;bb76
+	ld (0c023h),a		;bb78
+	ld (0c037h),a		;bb7b
+	ld (0c04bh),a		;bb7e
+	ld hl,0c098h		;bb81
+	ld (hl),0ffh		;bb84
+	ld (0c01ah),hl		;bb86
+	ld (0c02eh),hl		;bb89
+	ld (0c042h),hl		;bb8c
+	ret			;bb8f
+L_BB90:
+	pop hl			;bb90
+L_BB91:
+	call 000e7h		;bb91   ; BIOS TAPIOF - Stops reading from the tape
+	ld hl,0bcebh		;bb94
+	call 04f87h		;bb97
+	call L_BC49		;bb9a
+	ld a,001h		;bb9d
+	ld (0f108h),a		;bb9f
+	ret			;bba2
+L_BBA3:
+	call 000e1h		;bba3   ; BIOS TAPION - Reads the header block after turning the cassette motor on
+	ld hl,0bcdch		;bba6
+	call 04f87h		;bba9
+L_BBAC:
+	ld de,05860h		;bbac
+	ld hl,0f110h		;bbaf
+	jp L_BC3A		;bbb2
+L_BBB5:
+	ld hl,0fbf0h		;bbb5
+	ld b,028h		;bbb8
+	jp L_BC4E		;bbba
+L_BBBD:
+	ld hl,0e058h		;bbbd
+	ld bc,01020h		;bbc0
+	jr L_BBD4		;bbc3
+L_BBC5:
+	ld hl,00808h		;bbc5
+	ld bc,0a0a0h		;bbc8
+	call L_BBD4		;bbcb
+	ld hl,008b0h		;bbce
+	ld bc,0a018h		;bbd1
+L_BBD4:
+	xor a			;bbd4
+	ld d,a			;bbd5
+	jp 04e0bh		;bbd6
+L_BBD9:
+	xor a			;bbd9
+	ld (0fcach),a		;bbda
+	call 0009fh		;bbdd   ; BIOS CHGET - One character input (waiting)
+	ld c,a			;bbe0
+	ld hl,0f109h		;bbe1
+	ld de,0f10ah		;bbe4
+	ld a,(hl)			;bbe7
+	call 040a9h		;bbe8
+	ld a,c			;bbeb
+	cp 01bh		;bbec
+	jr z,L_BC18		;bbee
+	cp 00dh		;bbf0
+	jr z,L_BC1A		;bbf2
+	cp 008h		;bbf4
+	jr z,L_BC20		;bbf6
+	sub 030h		;bbf8
+	cp 00ah		;bbfa
+	jr c,L_BC0D		;bbfc
+	sub 011h		;bbfe
+	cp 01ah		;bc00
+	jr c,L_BC0D		;bc02
+	sub 020h		;bc04
+	cp 01ah		;bc06
+	ret nc			;bc08
+	ld a,c			;bc09
+	sub 020h		;bc0a
+	ld c,a			;bc0c
+L_BC0D:
+	ld a,c			;bc0d
+	ld (de),a			;bc0e
+	ld a,(hl)			;bc0f
+	inc a			;bc10
+	cp 006h		;bc11
+	jr nc,L_BC34		;bc13
+	ld (hl),a			;bc15
+	jr L_BC34		;bc16
+L_BC18:
+	scf			;bc18
+	ret			;bc19
+L_BC1A:
+	call L_BC34		;bc1a
+	ld a,00dh		;bc1d
+	ret			;bc1f
+L_BC20:
+	ex de,hl			;bc20
+	ld c,(hl)			;bc21
+	ld (hl),000h		;bc22
+	ld a,(de)			;bc24
+	dec a			;bc25
+	jp m,L_BC34		;bc26
+	ld (de),a			;bc29
+	ld a,c			;bc2a
+	and a			;bc2b
+	jr nz,L_BC32		;bc2c
+	dec hl			;bc2e
+	ld (hl),a			;bc2f
+	jr L_BC34		;bc30
+L_BC32:
+	ex de,hl			;bc32
+	inc (hl)			;bc33
+L_BC34:
+	ld de,03050h		;bc34
+	ld hl,0f10ah		;bc37
+L_BC3A:
+	ld b,006h		;bc3a
+L_BC3C:
+	ld a,(hl)			;bc3c
+	inc hl			;bc3d
+	call 04fa3h		;bc3e
+	ld a,d			;bc41
+	add a,008h		;bc42
+	ld d,a			;bc44
+	djnz L_BC3C		;bc45
+	xor a			;bc47
+	ret			;bc48
+L_BC49:
+	ld hl,0f109h		;bc49
+	ld b,00eh		;bc4c
 L_BC4E:
 	ld (hl),000h		;bc4e
 	inc hl			;bc50
 	djnz L_BC4E		;bc51
 	ret			;bc53
+L_BC54:
+	ld e,000h		;bc54
+	ld a,008h		;bc56
+	call 00093h		;bc58   ; BIOS WRTPSG - Writes data to PSG-register
+	ld e,000h		;bc5b
+	inc a			;bc5d
+	call 00093h		;bc5e   ; BIOS WRTPSG - Writes data to PSG-register
+	ld e,000h		;bc61
+	inc a			;bc63
+	jp 00093h		;bc64   ; BIOS WRTPSG - Writes data to PSG-register
 
 ; ----------------------------------------------------------------------
-; DATOS sin_lector_BC54: bytes sin lector conocido: ninguna instruccion
-;   trazada los apunta y la sonda de openMSX no los lee (221 bytes)
-;   0xbc54..0xbd31  (221 bytes)
-DATA_sin_lector_BC54:
-	defb 01eh,000h,03eh,008h,0cdh,093h,000h,01eh,000h,03ch,0cdh,093h,000h,01eh,000h,03ch	; bc54  ..>......<.....<
-	defb 0c3h,093h,000h,01eh,0bfh,03eh,007h,0c3h,093h,000h,010h,030h,053h,041h,056h,045h	; bc64  .....>.....0SAVE
-	defb 000h,04dh,04fh,044h,045h,0feh,018h,040h,049h,04eh,050h,055h,054h,000h,046h,049h	; bc74  .MODE..@INPUT.FI
-	defb 04ch,045h,000h,04eh,041h,04dh,045h,0ffh,010h,030h,04ch,04fh,041h,044h,000h,04dh	; bc84  LE.NAME..0LOAD.M
-	defb 04fh,044h,045h,0feh,018h,040h,049h,04eh,050h,055h,054h,000h,046h,049h,04ch,045h	; bc94  ODE..@INPUT.FILE
-	defb 000h,04eh,041h,04dh,045h,0ffh,028h,060h,053h,041h,056h,049h,04eh,047h,0ffh,028h	; bca4  .NAME.(`SAVING.(
-	defb 060h,053h,041h,056h,045h,000h,045h,052h,052h,04fh,052h,0ffh,018h,070h,04fh,04bh	; bcb4  `SAVE.ERROR..pOK
-	defb 03bh,0feh,020h,080h,059h,045h,053h,000h,000h,000h,000h,059h,0feh,020h,088h,04eh	; bcc4  ;. .YES....Y. .N
-	defb 04fh,000h,000h,000h,000h,000h,04eh,0ffh,028h,060h,053h,04bh,049h,050h,0ffh,028h	; bcd4  O.....N.(`SKIP.(
-	defb 060h,046h,04fh,055h,04eh,044h,0ffh,028h,060h,04ch,04fh,041h,044h,000h,045h,052h	; bce4  `FOUND.(`LOAD.ER
-	defb 052h,04fh,052h,000h,000h,000h,0ffh,020h,0c1h,060h,000h,0a0h,0c2h,060h,000h,021h	; bcf4  ROR.... .`...`.!
-	defb 0c3h,00ah,000h,040h,0c3h,080h,000h,080h,0c5h,030h,000h,080h,0c6h,001h,000h,000h	; bd04  ...@.....0......
-	defb 0deh,020h,000h,000h,0dfh,090h,000h,0c0h,0dfh,020h,000h,010h,0c8h,008h,000h,007h	; bd14  . ....... ......
-	defb 0c3h,001h,000h,000h,0c6h,010h,000h,000h,0c8h,010h,000h,000h,000h	; bd24  .............
+; DATOS tabla_BC67: tabla que lee p09:B9E5, p09:B9FA, p09:BA04, p09:BA3B,
+;   p09:BA61, p09:BA87 (202 bytes)
+;   0xbc67..0xbd31  (202 bytes)
+DATA_tabla_BC67:
+	defb 01eh,0bfh,03eh,007h,0c3h,093h,000h,010h,030h,053h,041h,056h,045h,000h,04dh,04fh	; bc67  ..>.....0SAVE.MO
+	defb 044h,045h,0feh,018h,040h,049h,04eh,050h,055h,054h,000h,046h,049h,04ch,045h,000h	; bc77  DE..@INPUT.FILE.
+	defb 04eh,041h,04dh,045h,0ffh,010h,030h,04ch,04fh,041h,044h,000h,04dh,04fh,044h,045h	; bc87  NAME..0LOAD.MODE
+	defb 0feh,018h,040h,049h,04eh,050h,055h,054h,000h,046h,049h,04ch,045h,000h,04eh,041h	; bc97  ..@INPUT.FILE.NA
+	defb 04dh,045h,0ffh,028h,060h,053h,041h,056h,049h,04eh,047h,0ffh,028h,060h,053h,041h	; bca7  ME.(`SAVING.(`SA
+	defb 056h,045h,000h,045h,052h,052h,04fh,052h,0ffh,018h,070h,04fh,04bh,03bh,0feh,020h	; bcb7  VE.ERROR..pOK;.
+	defb 080h,059h,045h,053h,000h,000h,000h,000h,059h,0feh,020h,088h,04eh,04fh,000h,000h	; bcc7  .YES....Y. .NO..
+	defb 000h,000h,000h,04eh,0ffh,028h,060h,053h,04bh,049h,050h,0ffh,028h,060h,046h,04fh	; bcd7  ...N.(`SKIP.(`FO
+	defb 055h,04eh,044h,0ffh,028h,060h,04ch,04fh,041h,044h,000h,045h,052h,052h,04fh,052h	; bce7  UND.(`LOAD.ERROR
+	defb 000h,000h,000h,0ffh,020h,0c1h,060h,000h,0a0h,0c2h,060h,000h,021h,0c3h,00ah,000h	; bcf7  .... .`...`.!...
+	defb 040h,0c3h,080h,000h,080h,0c5h,030h,000h,080h,0c6h,001h,000h,000h,0deh,020h,000h	; bd07  @.....0....... .
+	defb 000h,0dfh,090h,000h,0c0h,0dfh,020h,000h,010h,0c8h,008h,000h,007h,0c3h,001h,000h	; bd17  ...... .........
+	defb 000h,0c6h,010h,000h,000h,0c8h,010h,000h,000h,000h	; bd27  ..........
 
 ; ======================================================================
 ; CODIGO 0xbd31..0xbd96  (101 bytes)

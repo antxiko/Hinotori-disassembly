@@ -162,7 +162,41 @@ def titulo():
     return v
 
 
+def menu():
+    """El MENU que sale al pulsar ESPACIO en el titulo si p00:5DFF encontro
+    el Game Master o Q*bert (0xC110 = 1; p00:46AD): p00:5E97 borra
+    (0x20, 0x98) 0xC0x0x38, p00:4DDD le pone un marco de color 12 y p00:4F87
+    escribe las tres lineas de p00:5EB0."""
+    v = titulo()
+    hmmv(v.m, 0x20, 0x98, 0xC0, 0x38, 0, 0)
+    marco(v.m, 0x20, 0x98, 0xC0, 0x38, 0x0C)
+    texto(v, 0x5EB0)
+    return v
+
+
+def marco(m, x, y, ancho, alto, color):
+    """p00:4DDD: cuatro rayas de un punto (LINE), E de alto por D de ancho."""
+    def punto(px, py):
+        a = (py & 0xFF) * 128 + (px & 0xFF) // 2
+        m[a] = (m[a] & 0x0F) | (color << 4) if px % 2 == 0 else (m[a] & 0xF0) | color
+    for i in range(alto):
+        punto(x, y + i)
+        punto(x + ancho - 1, y + i)
+    for i in range(ancho):
+        punto(x + i, y)
+        punto(x + i, y + alto - 1)
+
+
 def main(argv):
+    if argv[1] == "menu":
+        v = menu()
+        H.png(argv[2], 256, 212, H.pinta_pagina(v.m, paleta_titulo(), 0, 212))
+        if len(argv) > 3:
+            d = open(argv[3], "rb").read()
+            dif = [i for i in range(0, 212 * 128) if d[i] != v.m[i]]
+            print("menu: %d bytes distintos en la pagina 0; lineas %s" % (
+                len(dif), sorted({i // 128 for i in dif})[:20]))
+            return 1 if dif else 0
     if argv[1] == "titulo":
         v = titulo()
         H.png(argv[2], 256, 212, H.pinta_pagina(v.m, paleta_titulo(), 0, 212))

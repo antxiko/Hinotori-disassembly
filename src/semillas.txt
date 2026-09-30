@@ -17,3 +17,6 @@ p06 0xBA1C 1 2 6  # contrasena 14 "DOKODEMOMAP" (p06:B876): tras el 0 de la cade
 p06 0xBA2E 1 2 6  # contrasena 15 "HAYAME" (p06:B876): tras el 0 de la cadena, p06:B89A salta aqui con jp (hl)
 p06 0xB8CC 1 2 6  # contrasena 16 "SUPERBALL" (p06:B876): tras el 0 de la cadena, p06:B89A salta aqui con jp (hl)
 p00 0x4680 1 2 3  # vuelta empujada: p00:4250 hace ld hl,0x4680 / push hl y el estado de la partida vuelve aqui con ret
+p09 0xBC54 1 2 9  # con King Kong 2 al lado: el gancho copiado a 0xF220 (p09:B925+0x6B) llama aqui tras ENASLT: la ventana SAVE MODE / LOAD MODE (comprobado en openMSX)
+p09 0xB9CF 1 2 9  # con King Kong 2 al lado: el gancho de 0xF220 llama aqui con F4 (grabar la partida de King Kong 2)
+p09 0xBA9C 1 2 9  # con King Kong 2 al lado: el gancho de 0xF220 llama aqui con F5 (cargarla)

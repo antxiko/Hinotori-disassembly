@@ -12,4 +12,15 @@
 #
 # Este fichero lo regenera `make semillas` (tools/bancos.py escribe).
 0xB880   # p00:4121 jp
+0xB9CF   # con King Kong 2 al lado: el gancho de 0xF220 llama aqui con F4 (grabar la partida de King Kong 2)
+0xB9DF   # p09:B9D2 entrada 0 de la tabla de 0xB9D5 (call 0x40AE en 0xB9D2)
+0xB9F3   # p09:B9D2 entrada 1 de la tabla de 0xB9D5 (call 0x40AE en 0xB9D2)
+0xBA0C   # p09:B9D2 entrada 2 de la tabla de 0xB9D5 (call 0x40AE en 0xB9D2)
+0xBA34   # p09:B9D2 entrada 3 de la tabla de 0xB9D5 (call 0x40AE en 0xB9D2)
+0xBA6A   # p09:B9D2 entrada 4 de la tabla de 0xB9D5 (call 0x40AE en 0xB9D2)
+0xBA9C   # con King Kong 2 al lado: el gancho de 0xF220 llama aqui con F5 (cargarla)
+0xBAA8   # p09:BA9F entrada 0 de la tabla de 0xBAA2 (call 0x40AE en 0xBA9F)
+0xBABA   # p09:BA9F entrada 1 de la tabla de 0xBAA2 (call 0x40AE en 0xBA9F)
+0xBACE   # p09:BA9F entrada 2 de la tabla de 0xBAA2 (call 0x40AE en 0xBA9F)
+0xBC54   # con King Kong 2 al lado: el gancho copiado a 0xF220 (p09:B925+0x6B) llama aqui tras ENASLT: la ventana SAVE MODE / LOAD MODE (comprobado en openMSX)
 0xBD31   # p00:464F call

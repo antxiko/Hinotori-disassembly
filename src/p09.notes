@@ -157,8 +157,9 @@ D 0xB925 0xB9CF codigo_para_f220  0xAA bytes de CODIGO que p09:B919 copia a 0xF2
 # --- RESTO (seccion que reescribe tools/resto.py; no editar a mano) ---
 D 0xB018 0xB0F0 sin_lector_B018  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (216 bytes)
 D 0xB658 0xB880 tabla_B658  tabla que lee p09:BD7D, p09:BD88, p09:BDD1, p09:BEF3, p09:BEFE (552 bytes)
-D 0xB9CF 0xBC4E sin_lector_B9CF  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (639 bytes)
-D 0xBC54 0xBD31 sin_lector_BC54  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (221 bytes)
+D 0xB9D5 0xB9DF sin_lector_B9D5  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (10 bytes)
+D 0xBAA2 0xBAA8 sin_lector_BAA2  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (6 bytes)
+D 0xBC67 0xBD31 tabla_BC67  tabla que lee p09:B9E5, p09:B9FA, p09:BA04, p09:BA3B, p09:BA61, p09:BA87 (202 bytes)
 D 0xBD96 0xBDA3 tabla_BD96  tabla que lee p09:BD63, p09:BD80, p09:BD8B, p09:BEF6, p09:BF01 (13 bytes)
 D 0xBE63 0xBE68 tabla_BE63  tabla que lee p09:BE47, p09:BE55 (5 bytes)
 D 0xBE89 0xBE91 tabla_BE89  tabla que lee p09:BE76, p09:BEBB (8 bytes)
