@@ -137,6 +137,20 @@ def coteja(ram, vram):
     print("area %d (fase %d, juego %d, columna %d), fila 0x%04X: %d filas "
           "del mapa estan en la pantalla, %d no" % (area, fase, juego, col,
                                                     fila0, bien, mal))
+    # y los puntos: cada casilla de 8x8 de la pagina 0 contra el dibujo que
+    # dice el buffer, sacado de NUESTRA hoja
+    v = H.hoja_de_la_fase(juego, col)
+    d = open(vram, "rb").read()
+    igual = 0
+    for f in range(32):
+        for c in range(32):
+            t = buf[32 * f + c]
+            sx, sy = (t & 31) * 8, (t >> 5) * 8
+            if all(d[(8 * f + j) * 128 + 4 * c:(8 * f + j) * 128 + 4 * c + 4] ==
+                   v.m[0x8000 + (sy + j) * 128 + sx // 2:0x8000 + (sy + j) * 128 + sx // 2 + 4]
+                   for j in range(8)):
+                igual += 1
+    print("  casillas de la pagina 0 identicas al dibujo de la hoja: %d de 1024" % igual)
     return mal
 
 
