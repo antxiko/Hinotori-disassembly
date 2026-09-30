@@ -70,6 +70,8 @@ D 0xBF8A 0xC000 relleno_p06  0xFF hasta el final del banco: nadie lo lee; lo lee
 F 0xBF8A 16
 # --- fin de los bloques de bloques.py ---
 
+
+
 # --- RESTO (seccion que reescribe tools/resto.py; no editar a mano) ---
 D 0xA7CB 0xAD00 tabla_A7CB  tabla que lee p06:AD4A, p06:ADCB, p06:AE10, p06:AE4C, p06:AEE8, p06:AF12 (1333 bytes)
 D 0xAFF5 0xAFF6 sin_lector_AFF5  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (1 bytes)
@@ -162,17 +164,23 @@ L 0xBCEF mira_partida_2
 C 0xAD00 0xC4B0: cuenta los cuadros; el bit 0 alterna los colores de los sprites (p02:93AA)
 C 0xAD04 0xCD00: la escena del final y las pantallas de p06
 C 0xAD07 p00:40AE despacha
+C 0xAD2E entrada 0 de la tabla de p06:AD07 (L_AD00)
 C 0xAD31 0xCD81: la escena del final y las pantallas de p06
 C 0xAD47 0xC138: las paginas de origen y destino de las copias de dibujos (p00:502D)
 C 0xAD4A p06:A7CB tabla_A7CB: tabla que lee p06:AD4A, p06:ADCB, p06:AE10, p06:AE4C, p06:AEE8, p06:AF12 (1333 bytes)
-C 0xAD63 0xC10E: cuadros que quedan de la tecla de la demostracion (p01:63FF)
+C 0xAD63 entrada 1 de la tabla de p06:AD07 (L_AD00)
+C 0xAD76 entrada 2 de la tabla de p06:AD07 (L_AD00)
 C 0xAD79 p06:B0A0 tabla_B0A0: tabla que lee p06:AD79, p06:ADC0, p06:AE7F, p06:B20D (88 bytes)
 C 0xAD7F 0xCD81: la escena del final y las pantallas de p06
+C 0xAD86 entrada 3 de la tabla de p06:AD07 (L_AD00)
+C 0xAD8C entrada 4 de la tabla de p06:AD07 (L_AD00)
 C 0xAD92 0xCD81: la escena del final y las pantallas de p06
 C 0xADAE 0xC10E: cuadros que quedan de la tecla de la demostracion (p01:63FF)
-C 0xADB1 0xCD00: la escena del final y las pantallas de p06
-C 0xADB6 0xC10E: cuadros que quedan de la tecla de la demostracion (p01:63FF)
+C 0xADB1 entrada 5 de la tabla de p06:AFDC (L_AFDC)
+C 0xADB6 entrada 5 de la tabla de p06:AD07 (L_AD00)
+C 0xADBD entrada 6 de la tabla de p06:AD07 (L_AD00)
 C 0xADC6 0xCD81: la escena del final y las pantallas de p06
+C 0xADD4 entrada 7 de la tabla de p06:AD07 (L_AD00)
 C 0xADD7 0xCD01: la escena del final y las pantallas de p06
 C 0xADE0 0xCD85: la escena del final y las pantallas de p06
 C 0xADE7 0xC10E: cuadros que quedan de la tecla de la demostracion (p01:63FF)
@@ -181,31 +189,37 @@ C 0xADF6 0xCD89: la escena del final y las pantallas de p06
 C 0xAE0B 0xCD85: la escena del final y las pantallas de p06
 C 0xAE20 0xC10E: cuadros que quedan de la tecla de la demostracion (p01:63FF)
 C 0xAE23 0xCD01: la escena del final y las pantallas de p06
+C 0xAE27 entrada 8 de la tabla de p06:AD07 (L_AD00)
 C 0xAE2A 0xCD86: la escena del final y las pantallas de p06
 C 0xAE47 el sonido 0x34 (p14:9C47 + 2*0x34)
 C 0xAE53 0xC10E: cuadros que quedan de la tecla de la demostracion (p01:63FF)
 C 0xAE57 0xCD86: la escena del final y las pantallas de p06
+C 0xAE5B entrada 9 de la tabla de p06:AD07 (L_AD00)
 C 0xAE5E 0xCD81: la escena del final y las pantallas de p06
+C 0xAE7F entrada 11 de la tabla de p06:AD07 (L_AD00)
 C 0xAE85 0xCD81: la escena del final y las pantallas de p06
-C 0xAE91 0xC10E: cuadros que quedan de la tecla de la demostracion (p01:63FF)
+C 0xAE91 entrada 12 de la tabla de p06:AD07 (L_AD00)
 C 0xAE9D 0xC0F4: el sonido que se pide para el cuadro siguiente (p14:94C1)
 C 0xAEA2 0xCD01: la escena del final y las pantallas de p06
-C 0xAEAA 0xC384: lo que ha avanzado el mapa, 8.8 (p00:56D8)
+C 0xAEAA entrada 13 de la tabla de p06:AD07 (L_AD00)
 C 0xAEB1 0xC384: lo que ha avanzado el mapa, 8.8 (p00:56D8)
 C 0xAEBD 0xC4B0: cuenta los cuadros; el bit 0 alterna los colores de los sprites (p02:93AA)
 C 0xAECE 0xCD01: la escena del final y las pantallas de p06
 C 0xAED1 p00:40AE despacha
-C 0xAEDE 0xC10E: cuadros que quedan de la tecla de la demostracion (p01:63FF)
+C 0xAEDE entrada 0 de la tabla de p06:AED1 (L_AEAA)
 C 0xAEE3 0xCD01: la escena del final y las pantallas de p06
+C 0xAEE8 entrada 1 de la tabla de p06:AED1 (L_AEAA)
 C 0xAEEB 0xCD80: la escena del final y las pantallas de p06
 C 0xAEEF 0xCD80: la escena del final y las pantallas de p06
 C 0xAEF9 0xC10E: cuadros que quedan de la tecla de la demostracion (p01:63FF)
-C 0xAF07 0xC10E: cuadros que quedan de la tecla de la demostracion (p01:63FF)
+C 0xAF07 entrada 2 de la tabla de p06:AED1 (L_AEAA)
 C 0xAF0D 0xCD80: la escena del final y las pantallas de p06
+C 0xAF12 entrada 3 de la tabla de p06:AED1 (L_AEAA)
 C 0xAF1A 0xC10E: cuadros que quedan de la tecla de la demostracion (p01:63FF)
-C 0xAF1E 0xC10E: cuadros que quedan de la tecla de la demostracion (p01:63FF)
+C 0xAF1E entrada 4 de la tabla de p06:AED1 (L_AEAA)
+C 0xAF28 entrada 15 de la tabla de p06:AD07 (L_AD00)
 C 0xAF2A 0xC0F4: el sonido que se pide para el cuadro siguiente (p14:94C1)
-C 0xAF32 0xC10E: cuadros que quedan de la tecla de la demostracion (p01:63FF)
+C 0xAF32 entrada 14 de la tabla de p06:AD07 (L_AD00)
 C 0xAF3E 0xCD83: la escena del final y las pantallas de p06
 C 0xAF41 0xCD82: la escena del final y las pantallas de p06
 C 0xAF4C 0xCD83: la escena del final y las pantallas de p06
@@ -221,7 +235,8 @@ C 0xAF9E 3 vueltas
 C 0xAFA6 0xE000: la tabla de 32x32 dibujos de la pantalla (p00:58A4)
 C 0xAFC0 p00:4010 cabecera_de_konami: 'C', 0, 'D', 0, 3, 0, 0x15, 0... y las direcciones de la RAM del juego (0xC161 la fase, 0xC160 las vidas, 0xC1
 C 0xAFDC p00:40AE despacha
-C 0xAFF0 0xD001: la ficha del bicho 0, byte 0x01 (p01:74B7)
+C 0xAFEB entrada 2 de la tabla de p06:AFDC (L_AFDC)
+C 0xAFF0 entrada 3 de la tabla de p06:AFDC (L_AFDC)
 C 0xAFF9 0xE090: la tabla de 32x32 dibujos de la pantalla
 C 0xB001 p00:4E47 hmmm
 C 0xB004 0xCD84: la escena del final y las pantallas de p06
@@ -256,8 +271,8 @@ C 0xB23E ix+0x19: campo propio de este tipo de ficha (el codigo comun de p01 no 
 C 0xB241 ix+0x19: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0xB244 ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0xB247 ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
-C 0xB256 0xCE00: la escena del final y las pantallas de p06
-C 0xB25C 0xCE80: la escena del final y las pantallas de p06
+C 0xB256 entrada 0 de la tabla de p06:AFDC (L_AFDC)
+C 0xB25C entrada 1 de la tabla de p06:AFDC (L_AFDC)
 C 0xB260 HL = la ficha
 C 0xB365 p06:B376 tabla_B376: tabla que lee p06:B365 (50 bytes)
 C 0xB3A8 0xC137: la ventana de la pausa: contrasena, teclear, comprobar... (p06:B3A8)

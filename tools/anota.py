@@ -40,7 +40,7 @@ FIN = "# --- fin de anota ---"
 PAPELES = {
     (1, 0x6E80): "nace_tipo_%02d",
     (1, 0x6875): "tipo_%02d",
-    (1, 0x737D): "cosa_%02d",
+    (1, 0x737D): "cosa_tipo_%02d",
     (0, 0x4254): "estado_%02d",
 }
 
@@ -95,6 +95,23 @@ def nombres_de_todo():
             q = ln.split()
             if len(q) >= 3 and q[0] == "L":
                 fuera[(p, int(q[1], 0))] = q[2]
+    return fuera
+
+
+def descripciones():
+    """{(banco, addr): el primer comentario C escrito a mano en esa direccion}."""
+    fuera = {}
+    for p in range(N_PAGINAS):
+        dentro = False
+        for ln in open(os.path.join(SRC, nombre(p) + ".notes"), encoding="utf-8"):
+            if ln.startswith(INI):
+                dentro = True
+            elif ln.startswith(FIN):
+                dentro = False
+            elif not dentro and ln.startswith("C "):
+                q = ln.rstrip().split(None, 2)
+                if len(q) == 3:
+                    fuera.setdefault((p, int(q[1], 0)), q[2][:100])
     return fuera
 
 
@@ -251,7 +268,7 @@ def papeles(t):
             bb = 0 if w < 0x6000 else s[(w - 0x6000) >> 13]
             if (b, pc) in ((1, 0x6E80), (1, 0x6875)) and w >= 0xA000:
                 bb = 3
-            fuera.setdefault((bb, w), PAPELES[(b, pc)] % i)
+            fuera.setdefault((bb, w), PAPELES[(b, pc)] % (i + 1 if pc == 0x737D else i))
     return fuera
 
 
@@ -312,8 +329,28 @@ def main(argv):
                         if ee == m.group(2):
                             j_sig[a] = aa
                             break
+        # los pasos de las tablas del despachador de este banco
+        pasos = {}
+        for (b, pc), (tab, n, dest, s_) in t.tablas.items():
+            if b != p:
+                continue
+            rut = None
+            for aa in sorted(labs):
+                if aa <= pc:
+                    rut = labs[aa]
+            papel = PAPELES.get((b, pc))
+            for k, w in enumerate(dest):
+                if papel:
+                    pasos.setdefault(w, (papel % (k + 1 if pc == 0x737D else k)).replace("_", " "))
+                else:
+                    pasos.setdefault(w, "entrada %d de la tabla de %s:%04X (%s)" % (k, nombre(b), pc, rut))
+        descr = descripciones()
         for a, tx, com in ins:
             if a in c_mano or com:
+                continue
+            if a in pasos:
+                lineas.append("C 0x%04X %s" % (a, pasos[a]))
+                total_c += 1
                 continue
             c = idioma(tx, ins, idx.get(a))
             if not c:
@@ -339,6 +376,13 @@ def main(argv):
                         c = "el banco %d en 0xA000" % v
                     elif d == 0x543D:
                         c = "el banco %d en 0x8000" % v
+            if not c:
+                m = re.match(r"(?:call|jp)\s+(?:[a-z]+,)?([A-Za-z_][A-Za-z_0-9]*)$", tx)
+                if m:
+                    for aa, ee in labs.items():
+                        if ee == m.group(1) and (p, aa) in descr:
+                            c = "%s: %s" % (ee, descr[(p, aa)])
+                            break
             if not c and tx.startswith("out (c)"):
                 c = "al VDP"
             if not c:

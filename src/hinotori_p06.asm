@@ -476,7 +476,7 @@ DATA_tabla_AD0A:
 
 
 L_AD2E:
-	call pon_escena_2		;ad2e
+	call pon_escena_2		;ad2e   ; entrada 0 de la tabla de p06:AD07 (L_AD00)
 	ld a,(0cd81h)		;ad31   ; 0xCD81: la escena del final y las pantallas de p06
 	or a			;ad34
 	ret z			;ad35
@@ -497,7 +497,7 @@ L_AD2E:
 	ld a,01eh		;ad5f
 	jr L_ADAE		;ad61
 L_AD63:
-	ld hl,0c10eh		;ad63   ; 0xC10E: cuadros que quedan de la tecla de la demostracion (p01:63FF)
+	ld hl,0c10eh		;ad63   ; entrada 1 de la tabla de p06:AD07 (L_AD00)
 	dec (hl)			;ad66
 	ret nz			;ad67
 	ld hl,0604ch		;ad68
@@ -506,7 +506,7 @@ L_AD63:
 	call pon_escena_3		;ad71
 	jr L_ADB1		;ad74
 L_AD76:
-	call rutina		;ad76
+	call rutina		;ad76   ; entrada 2 de la tabla de p06:AD07 (L_AD00)
 	ld hl,0b0a0h		;ad79   ; p06:B0A0 tabla_B0A0: tabla que lee p06:AD79, p06:ADC0, p06:AE7F, p06:B20D (88 bytes)
 	call pon_escena		;ad7c
 	ld a,(0cd81h)		;ad7f   ; 0xCD81: la escena del final y las pantallas de p06
@@ -514,10 +514,10 @@ L_AD76:
 	ret z			;ad83
 	jr L_ADB1		;ad84
 L_AD86:
-	call pon_escena_4		;ad86
+	call pon_escena_4		;ad86   ; entrada 3 de la tabla de p06:AD07 (L_AD00)
 	jp rutina		;ad89
 L_AD8C:
-	call rutina		;ad8c
+	call rutina		;ad8c   ; entrada 4 de la tabla de p06:AD07 (L_AD00)
 	call pon_escena_2		;ad8f
 	ld a,(0cd81h)		;ad92   ; 0xCD81: la escena del final y las pantallas de p06
 	or a			;ad95
@@ -533,16 +533,16 @@ L_AD8C:
 L_ADAE:
 	ld (0c10eh),a		;adae   ; 0xC10E: cuadros que quedan de la tecla de la demostracion (p01:63FF)
 L_ADB1:
-	ld hl,0cd00h		;adb1   ; 0xCD00: la escena del final y las pantallas de p06
+	ld hl,0cd00h		;adb1   ; entrada 5 de la tabla de p06:AFDC (L_AFDC)
 	inc (hl)			;adb4
 	ret			;adb5
 L_ADB6:
-	ld hl,0c10eh		;adb6   ; 0xC10E: cuadros que quedan de la tecla de la demostracion (p01:63FF)
+	ld hl,0c10eh		;adb6   ; entrada 5 de la tabla de p06:AD07 (L_AD00)
 	dec (hl)			;adb9
 	ret nz			;adba
 	jr L_ADB1		;adbb
 L_ADBD:
-	call rutina		;adbd
+	call rutina		;adbd   ; entrada 6 de la tabla de p06:AD07 (L_AD00)
 	ld hl,0b0c0h		;adc0
 	call pon_escena		;adc3
 	ld a,(0cd81h)		;adc6   ; 0xCD81: la escena del final y las pantallas de p06
@@ -553,7 +553,7 @@ L_ADBD:
 	xor a			;add1
 	jr L_ADAE		;add2
 L_ADD4:
-	call rutina		;add4
+	call rutina		;add4   ; entrada 7 de la tabla de p06:AD07 (L_AD00)
 	ld a,(0cd01h)		;add7   ; 0xCD01: la escena del final y las pantallas de p06
 	dec a			;adda
 	jr z,L_ADFC		;addb
@@ -594,7 +594,7 @@ L_AE1B:
 	ld (0cd01h),a		;ae23   ; 0xCD01: la escena del final y las pantallas de p06
 	ret			;ae26
 L_AE27:
-	call rutina		;ae27
+	call rutina		;ae27   ; entrada 8 de la tabla de p06:AD07 (L_AD00)
 	ld a,(0cd86h)		;ae2a   ; 0xCD86: la escena del final y las pantallas de p06
 	and a			;ae2d
 	call z,pon_demo_cuenta		;ae2e
@@ -618,7 +618,7 @@ pon_demo_cuenta:
 	ld (0cd86h),a		;ae57   ; 0xCD86: la escena del final y las pantallas de p06
 	ret			;ae5a
 L_AE5B:
-	call pon_escena_2		;ae5b
+	call pon_escena_2		;ae5b   ; entrada 9 de la tabla de p06:AD07 (L_AD00)
 	ld a,(0cd81h)		;ae5e   ; 0xCD81: la escena del final y las pantallas de p06
 	or a			;ae61
 	ret z			;ae62
@@ -633,7 +633,7 @@ L_AE5B:
 	ld a,01eh		;ae7a
 	jp L_ADAE		;ae7c
 L_AE7F:
-	ld hl,0b0c0h		;ae7f
+	ld hl,0b0c0h		;ae7f   ; entrada 11 de la tabla de p06:AD07 (L_AD00)
 	call pon_escena		;ae82
 	ld a,(0cd81h)		;ae85   ; 0xCD81: la escena del final y las pantallas de p06
 	or a			;ae88
@@ -642,7 +642,7 @@ L_AE7F:
 	xor a			;ae8d
 	jp L_ADAE		;ae8e
 L_AE91:
-	ld hl,0c10eh		;ae91   ; 0xC10E: cuadros que quedan de la tecla de la demostracion (p01:63FF)
+	ld hl,0c10eh		;ae91   ; entrada 12 de la tabla de p06:AD07 (L_AD00)
 	dec (hl)			;ae94
 	jr z,L_AEA1		;ae95
 	ld a,(hl)			;ae97
@@ -657,7 +657,7 @@ L_AEA1:
 	ld a,008h		;aea5
 	jp L_ADAE		;aea7
 L_AEAA:
-	ld hl,(0c384h)		;aeaa   ; 0xC384: lo que ha avanzado el mapa, 8.8 (p00:56D8)
+	ld hl,(0c384h)		;aeaa   ; entrada 13 de la tabla de p06:AD07 (L_AD00)
 	ld de,00080h		;aead
 	add hl,de			;aeb0
 	ld (0c384h),hl		;aeb1   ; 0xC384: lo que ha avanzado el mapa, 8.8 (p00:56D8)
@@ -691,7 +691,7 @@ DATA_tabla_AED4:
 
 
 L_AEDE:
-	ld hl,0c10eh		;aede   ; 0xC10E: cuadros que quedan de la tecla de la demostracion (p01:63FF)
+	ld hl,0c10eh		;aede   ; entrada 0 de la tabla de p06:AED1 (L_AEAA)
 	dec (hl)			;aee1
 	ret nz			;aee2
 L_AEE3:
@@ -699,7 +699,7 @@ L_AEE3:
 	inc (hl)			;aee6
 	ret			;aee7
 L_AEE8:
-	ld hl,0aaefh		;aee8
+	ld hl,0aaefh		;aee8   ; entrada 1 de la tabla de p06:AED1 (L_AEAA)
 pon_demo_cuenta_2:
 	ld a,(0cd80h)		;aeeb   ; 0xCD80: la escena del final y las pantallas de p06
 	inc a			;aeee
@@ -716,31 +716,31 @@ pon_demo_cuenta_2:
 	ld c,0ffh		;af02
 	jp 04fc8h		;af04
 L_AF07:
-	ld hl,0c10eh		;af07   ; 0xC10E: cuadros que quedan de la tecla de la demostracion (p01:63FF)
+	ld hl,0c10eh		;af07   ; entrada 2 de la tabla de p06:AED1 (L_AEAA)
 	dec (hl)			;af0a
 	ret nz			;af0b
 	xor a			;af0c
 	ld (0cd80h),a		;af0d   ; 0xCD80: la escena del final y las pantallas de p06
 	jr L_AEE3		;af10
 L_AF12:
-	ld hl,0ab23h		;af12
+	ld hl,0ab23h		;af12   ; entrada 3 de la tabla de p06:AED1 (L_AEAA)
 	call pon_demo_cuenta_2		;af15
 	ld a,005h		;af18
 	ld (0c10eh),a		;af1a   ; 0xC10E: cuadros que quedan de la tecla de la demostracion (p01:63FF)
 	ret			;af1d
 L_AF1E:
-	ld hl,0c10eh		;af1e   ; 0xC10E: cuadros que quedan de la tecla de la demostracion (p01:63FF)
+	ld hl,0c10eh		;af1e   ; entrada 4 de la tabla de p06:AED1 (L_AEAA)
 	dec (hl)			;af21
 	ret nz			;af22
 	ld a,078h		;af23
 	jp L_ADAE		;af25
 L_AF28:
-	ld a,074h		;af28
+	ld a,074h		;af28   ; entrada 15 de la tabla de p06:AD07 (L_AD00)
 	ld (0c0f4h),a		;af2a   ; 0xC0F4: el sonido que se pide para el cuadro siguiente (p14:94C1)
 	ld a,05ah		;af2d
 	jp L_ADAE		;af2f
 L_AF32:
-	ld hl,0c10eh		;af32   ; 0xC10E: cuadros que quedan de la tecla de la demostracion (p01:63FF)
+	ld hl,0c10eh		;af32   ; entrada 14 de la tabla de p06:AD07 (L_AD00)
 	dec (hl)			;af35
 	ret nz			;af36
 	ld a,00ah		;af37
@@ -863,10 +863,10 @@ DATA_tabla_AFDF:
 
 
 L_AFEB:
-	ld b,009h		;afeb
+	ld b,009h		;afeb   ; entrada 2 de la tabla de p06:AFDC (L_AFDC)
 	jp 0734bh		;afed
 L_AFF0:
-	ld hl,0d001h		;aff0   ; 0xD001: la ficha del bicho 0, byte 0x01 (p01:74B7)
+	ld hl,0d001h		;aff0   ; entrada 3 de la tabla de p06:AFDC (L_AFDC)
 	inc (hl)			;aff3
 	ret			;aff4
 
@@ -1117,10 +1117,10 @@ ficha_campo_07_2:
 	ld (ix+00bh),000h		;b251
 	ret			;b255
 L_B256:
-	ld ix,0ce00h		;b256   ; 0xCE00: la escena del final y las pantallas de p06
+	ld ix,0ce00h		;b256   ; entrada 0 de la tabla de p06:AFDC (L_AFDC)
 	jr L_B260		;b25a
 L_B25C:
-	ld ix,0ce80h		;b25c   ; 0xCE80: la escena del final y las pantallas de p06
+	ld ix,0ce80h		;b25c   ; entrada 1 de la tabla de p06:AFDC (L_AFDC)
 L_B260:
 	push ix		;b260   ; HL = la ficha
 	pop hl			;b262

@@ -355,10 +355,10 @@ DATA_tabla_4257:
 
 
 estado_16:
-	ret			;427d
+	ret			;427d   ; estado 16
 estado_00:
-	djnz L_4290		;427e
-	call apaga_los_sprites		;4280
+	djnz L_4290		;427e   ; estado 00
+	call apaga_los_sprites		;4280   ; apaga_los_sprites: la copia de R#8 (0xFFE7)...
 	call 066f0h		;4283
 	ld a,(0c202h)		;4286   ; 0xC202: el logotipo y el titulo (p01:66D4)
 	or a			;4289
@@ -390,7 +390,7 @@ L_42B7:
 	call 0668eh		;42bd
 	jp mira_paso		;42c0
 estado_01:
-	djnz L_42D5		;42c3
+	djnz L_42D5		;42c3   ; estado 01
 	ld a,(0c103h)		;42c5   ; 0xC103: cuenta los cuadros (p00:4238)
 	and 007h		;42c8
 	ret nz			;42ca
@@ -412,7 +412,7 @@ L_42DE:
 	ld a,01ch		;42e7
 	jr L_4345		;42e9
 estado_02:
-	djnz L_4339		;42eb
+	djnz L_4339		;42eb   ; estado 02
 	call 063cdh		;42ed
 	ld a,(0c163h)		;42f0   ; 0xC163: hay una partida en marcha (p00:4388)
 	or a			;42f3
@@ -463,7 +463,7 @@ mira_paso:
 	inc (hl)			;434b
 	ret			;434c
 estado_03:
-	djnz L_4360		;434d
+	djnz L_4360		;434d   ; estado 03
 	ld hl,0c104h		;434f   ; 0xC104: cuenta atras del paso del estado (p00:4345)
 	dec (hl)			;4352
 	jr z,mira_paso		;4353
@@ -474,24 +474,24 @@ estado_03:
 L_4360:
 	djnz L_4371		;4360
 	call escribe_vdp_2		;4362
-	call espera_al_vdp		;4365
+	call espera_al_vdp		;4365   ; espera_al_vdp: espera a que el V9938 acabe la orden (bit 0 de S#2)
 	call pon_musica_de_pausa		;4368
 	call mira_menu_hecho		;436b
 	jp L_4390		;436e
 L_4371:
 	ld a,074h		;4371   ; el sonido 0x74 (p14:9C47 + 2*0x74)
 	call mira_banderas_juego		;4373
-	call espera_al_vdp		;4376
+	call espera_al_vdp		;4376   ; espera_al_vdp: espera a que el V9938 acabe la orden (bit 0 de S#2)
 	ld a,064h		;4379   ; el sonido 0x64 (p14:9C47 + 2*0x64)
 	call pon_banco_8000_guardado		;437b
 	ld a,014h		;437e
 	jp L_4345		;4380
 estado_04:
-	djnz L_439E		;4383
+	djnz L_439E		;4383   ; estado 04
 	call pon_partida		;4385
 	ld hl,0c163h		;4388   ; 0xC163: hay una partida en marcha (p00:4388)
 	ld (hl),001h		;438b
-	call enciende_los_sprites		;438d
+	call enciende_los_sprites		;438d   ; enciende_los_sprites: la copia de R#8 sin el bit 1: se ven los sprites
 L_4390:
 	ld a,020h		;4390
 	ld (0c104h),a		;4392   ; 0xC104: cuenta atras del paso del estado (p00:4345)
@@ -512,10 +512,10 @@ L_439E:
 	ld (hl),a			;43ab
 L_43AC:
 	call pon_avance_3		;43ac
-	call apaga_los_sprites		;43af
+	call apaga_los_sprites		;43af   ; apaga_los_sprites: la copia de R#8 (0xFFE7)...
 	jp mira_paso		;43b2
 estado_05:
-	ld hl,0c485h		;43b5   ; 0xC485: bit 7: hay que cambiar de area (p01:64CD)
+	ld hl,0c485h		;43b5   ; estado 05
 	bit 7,(hl)		;43b8
 	call nz,064cdh		;43ba
 	call mira_cuadros_2		;43bd
@@ -560,7 +560,7 @@ DATA_tabla_43F1:
 
 
 estado_06:
-	ld hl,00000h		;4411
+	ld hl,00000h		;4411   ; estado 06
 	ld (0c170h),hl		;4414   ; 0xC170: variables del juego
 	ld hl,0c160h		;4417   ; 0xC160: las VIDAS, en BCD (p00:4417; GAOOOOOOOOOOH suma 10)
 	ld a,(0c4e0h)		;441a   ; 0xC4E0: NANDANANDANANDA: al perder una vida se devuelve (p00:441A)
@@ -583,7 +583,7 @@ L_4431:
 	call mira_banderas_juego		;4433
 	jp L_4390		;4436
 estado_07:
-	djnz L_4480		;4439
+	djnz L_4480		;4439   ; estado 07
 	ld a,(0c124h)		;443b   ; 0xC124: F4 y F5 pulsadas en este cuadro (p00:5330)
 	and 002h		;443e
 	jr nz,L_4451		;4440
@@ -609,7 +609,7 @@ L_4451:
 	ld bc,0a080h		;4465
 	ld d,000h		;4468
 	ld a,0ffh		;446a
-	call hmmv		;446c
+	call hmmv		;446c   ; hmmv: el color, a un lado
 	ld hl,0c0a0h		;446f   ; 0xC0A0: los canales del sonido (0x20 bytes cada uno, p14:94CA)
 	ld de,07060h		;4472
 	ld a,048h		;4475
@@ -632,7 +632,7 @@ L_448C:
 	ld a,078h		;449b
 	jp L_4345		;449d
 estado_08:
-	ld hl,0c160h		;44a0   ; 0xC160: las VIDAS, en BCD (p00:4417; GAOOOOOOOOOOH suma 10)
+	ld hl,0c160h		;44a0   ; estado 08
 	ld a,(hl)			;44a3
 	add a,001h		;44a4
 	daa			;44a6
@@ -640,7 +640,7 @@ estado_08:
 	ld a,004h		;44a8
 	jp L_432E		;44aa
 estado_10:
-	ld a,(0c205h)		;44ad   ; 0xC205: el logotipo y el titulo (p01:66D4)
+	ld a,(0c205h)		;44ad   ; estado 10
 	or a			;44b0
 	ld a,005h		;44b1
 	jp nz,L_432E		;44b3
@@ -650,7 +650,7 @@ estado_10:
 	dec a			;44bb
 	jp z,L_4579		;44bc
 	jp p,L_459F		;44bf
-	call apaga_los_sprites		;44c2
+	call apaga_los_sprites		;44c2   ; apaga_los_sprites: la copia de R#8 (0xFFE7)...
 	ld hl,03820h		;44c5
 	ld a,0cch		;44c8
 	ld bc,09040h		;44ca
@@ -737,7 +737,7 @@ L_4588:
 	ld hl,03820h		;458b
 	ld bc,09040h		;458e
 	call rutina_6		;4591
-	call enciende_los_sprites		;4594
+	call enciende_los_sprites		;4594   ; enciende_los_sprites: la copia de R#8 sin el bit 1: se ven los sprites
 	call rutina_3		;4597
 	ld b,005h		;459a
 	jp L_43ED		;459c
@@ -769,7 +769,7 @@ L_45D3:
 	xor a			;45d3
 L_45D4:
 	ld (0c0f1h),a		;45d4   ; 0xC0F1: lo pone p00:4588 al volver de la pausa: 1 si no sonaba la musica de pausa
-	call enciende_los_sprites		;45d7
+	call enciende_los_sprites		;45d7   ; enciende_los_sprites: la copia de R#8 sin el bit 1: se ven los sprites
 	ld a,(0c4dah)		;45da   ; 0xC4DA: el final: lo pone ENDDEMOGAMITAINA (p06:B98A)
 	or a			;45dd
 	ld b,005h		;45de
@@ -789,13 +789,13 @@ mira_musica_de_pausa:
 	ld b,000h		;45f9   ; 0 vueltas
 	ret			;45fb
 estado_11:
-	ld hl,(0c202h)		;45fc   ; 0xC202: el logotipo y el titulo (p01:66D4)
+	ld hl,(0c202h)		;45fc   ; estado 11
 	ld a,h			;45ff
 	or a			;4600
 	ret z			;4601
 	jp (hl)			;4602
 estado_12:
-	djnz L_4621		;4603
+	djnz L_4621		;4603   ; estado 12
 	ld hl,0c130h		;4605   ; 0xC130: la interrupcion avisa de un cuadro (p00:408D)
 	ld a,(hl)			;4608
 	cp 001h		;4609
@@ -824,7 +824,7 @@ L_4621:
 	call mira_banderas_juego		;4641
 	jp mira_paso		;4644
 estado_13:
-	ld a,009h		;4647
+	ld a,009h		;4647   ; estado 13
 	ld (0c10ch),a		;4649   ; 0xC10C: el banco que p00:53E9 pone en 0xA000 con el 1 y el 2
 	call mira_banco_6000		;464c
 	call 0bd31h		;464f
@@ -832,7 +832,7 @@ estado_13:
 	ld (0c10ch),a		;4654   ; 0xC10C: el banco que p00:53E9 pone en 0xA000 con el 1 y el 2
 	jp mira_banco_6000		;4657
 estado_17:
-	ld a,006h		;465a
+	ld a,006h		;465a   ; estado 17
 	ld (0c10ch),a		;465c   ; 0xC10C: el banco que p00:53E9 pone en 0xA000 con el 1 y el 2
 	call mira_banco_6000		;465f
 	call 0ba4bh		;4662
@@ -840,7 +840,7 @@ estado_17:
 	ld (0c10ch),a		;4667   ; 0xC10C: el banco que p00:53E9 pone en 0xA000 con el 1 y el 2
 	jp mira_banco_6000		;466a
 estado_18:
-	ld a,006h		;466d
+	ld a,006h		;466d   ; estado 18
 	ld (0c10ch),a		;466f   ; 0xC10C: el banco que p00:53E9 pone en 0xA000 con el 1 y el 2
 	call mira_banco_6000		;4672
 	call 0bb69h		;4675
@@ -942,7 +942,7 @@ DATA_tabla_4721:
 
 
 estado_09:
-	djnz L_476D		;4735
+	djnz L_476D		;4735   ; estado 09
 	ld a,(0c106h)		;4737   ; 0xC106: cursores, ESPACIO y los disparos pulsados en este cuadro (p00:533B)
 	and 033h		;473a
 	ret z			;473c
@@ -1271,7 +1271,7 @@ mira_scroll_2:
 	add a,e			;493b
 	ld e,a			;493c
 	ex af,af'			;493d
-	jp pon_dibujo_transparente		;493e
+	jp pon_dibujo_transparente		;493e   ; pon_dibujo_transparente: lo mismo con LMMM + TIMP: el color 0 no pinta
 mira_scroll_3:
 	ld de,01000h		;4941
 L_4944:
@@ -1525,7 +1525,7 @@ con_rle_a_la_vram_2:
 	push hl			;4ad2
 	ld l,a			;4ad3
 	ld h,b			;4ad4
-	call rle_a_la_vram		;4ad5
+	call rle_a_la_vram		;4ad5   ; rle_a_la_vram: el RLE de DE a la VRAM de HL (n con el bit 7: n bytes tal cual; sin el, repetir; 0 acaba)
 	pop hl			;4ad8
 	ret			;4ad9
 mira_buffer:
@@ -1549,7 +1549,7 @@ mira_buffer:
 	push bc			;4aec
 	push af			;4aed
 	ld de,0e800h		;4aee   ; 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
-	call lee_de_la_vram		;4af1
+	call lee_de_la_vram		;4af1   ; lee_de_la_vram: LEE BC bytes de la VRAM de HL a DE
 	pop af			;4af4
 	call mira_buffer_2		;4af5
 	pop bc			;4af8
@@ -1560,7 +1560,7 @@ mira_buffer:
 	inc hl			;4afd
 	push hl			;4afe
 	ld hl,0ec00h		;4aff   ; 0xEC00: buffers de pantallas y dibujos
-	call copia_a_la_vram		;4b02
+	call copia_a_la_vram		;4b02   ; copia_a_la_vram: BC bytes de HL a la VRAM de DE
 	pop hl			;4b05
 	ret			;4b06
 con_copia_a_la_vram:
@@ -1578,7 +1578,7 @@ con_copia_a_la_vram:
 	ld h,(hl)			;4b12
 	ld l,a			;4b13
 	ex de,hl			;4b14
-	call copia_a_la_vram		;4b15
+	call copia_a_la_vram		;4b15   ; copia_a_la_vram: BC bytes de HL a la VRAM de DE
 	pop hl			;4b18
 	inc hl			;4b19
 	ret			;4b1a
@@ -1646,7 +1646,7 @@ mira_atributos_vram:
 	ld c,a			;4b86
 	call mira_colores_vram		;4b87
 	ld hl,(0c132h)		;4b8a   ; 0xC132: donde van los atributos de los sprites este cuadro (p00:4B4D)
-	call vram_para_escribir		;4b8d
+	call vram_para_escribir		;4b8d   ; vram_para_escribir: prepara el V9938 para escribir en la direccion de VRAM HL (R#14 y el puerto 1)
 	ld a,(0c10fh)		;4b90
 	ld d,010h		;4b93
 	ld h,0e6h		;4b95
@@ -1684,7 +1684,7 @@ L_4BB3:
 	ret			;4bc4
 mira_colores_vram:
 	ld hl,(0c134h)		;4bc5   ; 0xC134: donde van los colores de los sprites este cuadro
-	call vram_para_escribir		;4bc8
+	call vram_para_escribir		;4bc8   ; vram_para_escribir: prepara el V9938 para escribir en la direccion de VRAM HL (R#14 y el puerto 1)
 	ld a,(0c10fh)		;4bcb
 	ld d,010h		;4bce
 	add a,a			;4bd0
@@ -1720,7 +1720,7 @@ con_vram_para_escribir:
 L_4BF3:
 	push bc			;4bf3
 	ex de,hl			;4bf4
-	call vram_para_escribir		;4bf5
+	call vram_para_escribir		;4bf5   ; vram_para_escribir: prepara el V9938 para escribir en la direccion de VRAM HL (R#14 y el puerto 1)
 	ex de,hl			;4bf8
 	ld b,004h		;4bf9   ; 4 vueltas
 L_4BFB:
@@ -1826,7 +1826,7 @@ L_4CB7:
 	ld hl,00000h		;4cb7
 	ld bc,00000h		;4cba
 	ld (0c384h),hl		;4cbd   ; 0xC384: lo que ha avanzado el mapa, 8.8 (p00:56D8)
-	call hmmv		;4cc0
+	call hmmv		;4cc0   ; hmmv: el color, a un lado
 	ld b,000h		;4cc3
 	ld c,017h		;4cc5
 	jp 00047h		;4cc7   ; BIOS WRTVDP - Writes data in the VDP-register
@@ -1834,7 +1834,7 @@ mira_atributos_de_sprites:
 	ld hl,0f600h		;4cca
 	ld a,0e0h		;4ccd
 	ld bc,00080h		;4ccf
-	call rellena_la_vram		;4cd2
+	call rellena_la_vram		;4cd2   ; rellena_la_vram: BC bytes con A desde la VRAM de HL
 	ld hl,0e600h		;4cd5   ; 0xE600: y, x, patron y color de los 32 sprites (p00:4B7A)
 	ld b,020h		;4cd8   ; 32 vueltas
 L_4CDA:
@@ -1847,7 +1847,7 @@ L_4CDA:
 	ld hl,0f200h		;4ce2   ; 0xF200: el INIT de King Kong 2 y el gancho de Hinotori, copiados (p09:B8EA, p09:B919)
 	ld a,0e0h		;4ce5
 	ld bc,00080h		;4ce7
-	jp rellena_la_vram		;4cea
+	jp rellena_la_vram		;4cea   ; rellena_la_vram: BC bytes con A desde la VRAM de HL
 apaga_los_sprites:
 	ld a,(0ffe7h)		;4ced   ; la copia de R#8 (0xFFE7)...
 	or 002h		;4cf0
@@ -2336,7 +2336,7 @@ L_4FB1:
 	ld l,a			;4fb1
 	ld bc,00808h		;4fb2
 	ld a,001h		;4fb5
-	call hmmm		;4fb7
+	call hmmm		;4fb7   ; hmmm: orden HMMM del V9938: copia BxC puntos de (H, L) a (D, E); A lleva las paginas
 	pop de			;4fba
 	pop hl			;4fbb
 	pop bc			;4fbc
@@ -2476,7 +2476,7 @@ copia_8x8_en_la_hoja:
 	ld h,a			;506e
 	ld bc,02008h		;506f
 	ld a,001h		;5072
-	call hmmm		;5074
+	call hmmm		;5074   ; hmmm: orden HMMM del V9938: copia BxC puntos de (H, L) a (D, E); A lleva las paginas
 	pop de			;5077
 	pop hl			;5078
 	pop bc			;5079
@@ -2526,7 +2526,7 @@ L_50A6:
 	pop de			;50ad
 	pop bc			;50ae
 	ld hl,0e800h		;50af   ; 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
-	jp sube_dibujos		;50b2
+	jp sube_dibujos		;50b2   ; sube_dibujos: B dibujos de 8x8 a 4 bits de HL a la VRAM de DE
 L_50B5:
 	push bc			;50b5
 	push de			;50b6
@@ -2595,7 +2595,7 @@ L_50FF:
 	pop de			;5106
 	pop bc			;5107
 	ld hl,0e800h		;5108   ; 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
-	jp sube_dibujos		;510b
+	jp sube_dibujos		;510b   ; sube_dibujos: B dibujos de 8x8 a 4 bits de HL a la VRAM de DE
 L_510E:
 	push bc			;510e
 	push de			;510f
@@ -2670,7 +2670,7 @@ L_5160:
 	pop de			;5167
 	pop bc			;5168
 	ld hl,0e800h		;5169   ; 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
-	jp sube_dibujos		;516c
+	jp sube_dibujos		;516c   ; sube_dibujos: B dibujos de 8x8 a 4 bits de HL a la VRAM de DE
 L_516F:
 	push bc			;516f
 	push de			;5170
@@ -2785,7 +2785,7 @@ L_51F4:
 	jr c,L_51FD		;51f7
 L_51F9:
 	ex af,af'			;51f9
-	jp lmmm		;51fa
+	jp lmmm		;51fa   ; lmmm: orden LMMM del V9938: lo mismo con operacion logica (A: paginas y operacion; 8 = TIMP)
 L_51FD:
 	ex af,af'			;51fd
 	push af			;51fe
@@ -2797,7 +2797,7 @@ L_51FD:
 	neg		;5204
 	ld c,a			;5206
 	ex af,af'			;5207
-	call lmmm		;5208
+	call lmmm		;5208   ; lmmm: orden LMMM del V9938: lo mismo con operacion logica (A: paginas y operacion; 8 = TIMP)
 	pop hl			;520b
 	pop de			;520c
 	pop bc			;520d
@@ -2812,7 +2812,7 @@ L_51FD:
 	ld c,a			;5217
 	ld e,000h		;5218
 	ex af,af'			;521a
-	jp lmmm		;521b
+	jp lmmm		;521b   ; lmmm: orden LMMM del V9938: lo mismo con operacion logica (A: paginas y operacion; 8 = TIMP)
 
 ; ----------------------------------------------------------------------
 ; DATOS sin_lector_521E: bytes sin lector conocido: ninguna instruccion
@@ -2834,7 +2834,7 @@ con_hmmm_3:
 	jr c,L_5231		;522b
 L_522D:
 	ex af,af'			;522d
-	jp hmmm		;522e
+	jp hmmm		;522e   ; hmmm: orden HMMM del V9938: copia BxC puntos de (H, L) a (D, E); A lleva las paginas
 L_5231:
 	ex af,af'			;5231
 	push af			;5232
@@ -2846,7 +2846,7 @@ L_5231:
 	neg		;5238
 	ld c,a			;523a
 	ex af,af'			;523b
-	call hmmm		;523c
+	call hmmm		;523c   ; hmmm: orden HMMM del V9938: copia BxC puntos de (H, L) a (D, E); A lleva las paginas
 	pop hl			;523f
 	pop de			;5240
 	pop bc			;5241
@@ -2861,7 +2861,7 @@ L_5231:
 	ld c,a			;524b
 	ld e,000h		;524c
 	ex af,af'			;524e
-	jp hmmm		;524f
+	jp hmmm		;524f   ; hmmm: orden HMMM del V9938: copia BxC puntos de (H, L) a (D, E); A lleva las paginas
 con_hmmm_4:
 	ex af,af'			;5252
 	ld a,l			;5253
@@ -2870,7 +2870,7 @@ con_hmmm_4:
 	jr c,L_525D		;5257
 L_5259:
 	ex af,af'			;5259
-	jp hmmm		;525a
+	jp hmmm		;525a   ; hmmm: orden HMMM del V9938: copia BxC puntos de (H, L) a (D, E); A lleva las paginas
 L_525D:
 	ex af,af'			;525d
 	push af			;525e
@@ -2882,7 +2882,7 @@ L_525D:
 	neg		;5264
 	ld c,a			;5266
 	ex af,af'			;5267
-	call hmmm		;5268
+	call hmmm		;5268   ; hmmm: orden HMMM del V9938: copia BxC puntos de (H, L) a (D, E); A lleva las paginas
 	pop hl			;526b
 	pop de			;526c
 	pop bc			;526d
@@ -2897,7 +2897,7 @@ L_525D:
 	ld c,a			;5277
 	ld l,000h		;5278
 	ex af,af'			;527a
-	jp hmmm		;527b
+	jp hmmm		;527b   ; hmmm: orden HMMM del V9938: copia BxC puntos de (H, L) a (D, E); A lleva las paginas
 con_hmmv:
 	ex af,af'			;527e
 	ld a,l			;527f
@@ -2906,7 +2906,7 @@ con_hmmv:
 	jr c,L_5289		;5283
 L_5285:
 	ex af,af'			;5285
-	jp hmmv		;5286
+	jp hmmv		;5286   ; hmmv: el color, a un lado
 L_5289:
 	ex af,af'			;5289
 	push af			;528a
@@ -2918,7 +2918,7 @@ L_5289:
 	neg		;5290
 	ld c,a			;5292
 	ex af,af'			;5293
-	call hmmv		;5294
+	call hmmv		;5294   ; hmmv: el color, a un lado
 	pop hl			;5297
 	pop de			;5298
 	pop bc			;5299
@@ -2931,7 +2931,7 @@ L_5289:
 	ld c,a			;52a1
 	ld l,000h		;52a2
 	ex af,af'			;52a4
-	jp hmmv		;52a5
+	jp hmmv		;52a5   ; hmmv: el color, a un lado
 pon_atributos_vram_2:
 	call pon_sonido_callado		;52a8
 	ld hl,0f600h		;52ab
@@ -2949,7 +2949,7 @@ pon_sonido_callado:
 	ld e,a			;52c6
 	ld a,007h		;52c7
 	call 00093h		;52c9   ; BIOS WRTPSG - Writes data to PSG-register
-	call apaga_los_sprites		;52cc
+	call apaga_los_sprites		;52cc   ; apaga_los_sprites: la copia de R#8 (0xFFE7)...
 	ld a,00fh		;52cf
 	ld (0f3ebh),a		;52d1
 	ld a,005h		;52d4
@@ -2961,15 +2961,15 @@ pon_sonido_callado:
 	ld b,a			;52e0
 	ld c,028h		;52e1
 	ld d,a			;52e3
-	call hmmv		;52e4
+	call hmmv		;52e4   ; hmmv: el color, a un lado
 	xor a			;52e7
 	ld h,a			;52e8
 	ld l,a			;52e9
 	ld b,a			;52ea
 	ld c,a			;52eb
 	ld d,001h		;52ec
-	call hmmv		;52ee
-	call espera_al_vdp		;52f1
+	call hmmv		;52ee   ; hmmv: el color, a un lado
+	call espera_al_vdp		;52f1   ; espera_al_vdp: espera a que el V9938 acabe la orden (bit 0 de S#2)
 	ld b,004h		;52f4   ; 4 vueltas
 	ld hl,0530ch		;52f6   ; p00:530C tabla_530C: tabla que lee p00:52F6 (8 bytes)
 L_52F9:
@@ -3200,7 +3200,7 @@ pon_base_de_la_hoja_3:
 	ld d,001h		;547b
 	ld a,000h		;547d
 	ld bc,02020h		;547f
-	call nz,hmmv		;5482
+	call nz,hmmv		;5482   ; hmmv: el color, a un lado
 	ld hl,063f9h		;5485
 	ld a,036h		;5488
 	call pon_base_de_la_hoja_2		;548a
@@ -3320,33 +3320,33 @@ DATA_tabla_5526:
 
 
 L_5536:
-	exx			;5536
-	jp sube_dibujos		;5537
+	exx			;5536   ; entrada 0 de la tabla de p00:5523 (L_550D)
+	jp sube_dibujos		;5537   ; sube_dibujos: B dibujos de 8x8 a 4 bits de HL a la VRAM de DE
 L_553A:
-	exx			;553a
+	exx			;553a   ; entrada 1 de la tabla de p00:5523 (L_550D)
 	jp L_4C12		;553b
 L_553E:
-	exx			;553e
+	exx			;553e   ; entrada 2 de la tabla de p00:5523 (L_550D)
 	call rutina_12		;553f
 	jp L_509F		;5542
 L_5545:
-	exx			;5545
+	exx			;5545   ; entrada 3 de la tabla de p00:5523 (L_550D)
 	call rutina_12		;5546
 	jp L_50B5		;5549
 L_554C:
-	exx			;554c
+	exx			;554c   ; entrada 4 de la tabla de p00:5523 (L_550D)
 	call rutina_12		;554d
 	jp L_50F8		;5550
 L_5553:
-	exx			;5553
+	exx			;5553   ; entrada 5 de la tabla de p00:5523 (L_550D)
 	call rutina_12		;5554
 	jp L_510E		;5557
 L_555A:
-	exx			;555a
+	exx			;555a   ; entrada 6 de la tabla de p00:5523 (L_550D)
 	call rutina_12		;555b
 	jp L_5159		;555e
 L_5561:
-	exx			;5561
+	exx			;5561   ; entrada 7 de la tabla de p00:5523 (L_550D)
 	call rutina_12		;5562
 	jp L_516F		;5565
 
@@ -3390,27 +3390,27 @@ L_559A:
 mira_juego_de_dibujos:
 	call mira_banco_6000_2		;55a2
 	ld hl,09d58h		;55a5   ; p05:9D58 paleta_comun: la paleta comun a todas las fases: [color][RB][G] ... 0xFF (p00:4D3F)
-	call pon_paleta		;55a8
+	call pon_paleta		;55a8   ; pon_paleta: lista [color][RB][G] ... 0xFF
 	ld a,(0c482h)		;55ab   ; 0xC482: el juego de dibujos, 0-7 (p01:65BB)
 	ld hl,09d77h		;55ae   ; p05:9D77 paletas_de_cada_juego: la paleta de cada juego de dibujos (0xC482), una palabra
 	call con_hl_mas_a		;55b1
-	call pon_paleta		;55b4
+	call pon_paleta		;55b4   ; pon_paleta: lista [color][RB][G] ... 0xFF
 	ld a,(0c480h)		;55b7   ; 0xC480: el AREA (0-23): 3*(fase-1) + columna, o 18 + fase - 1 (p01:64D5)
 	ld hl,09e2ch		;55ba   ; p05:9E2C paletas_de_cada_area: la paleta de cada area (0xC480), una palabra
 	call con_hl_mas_a		;55bd
-	call pon_paleta		;55c0
+	call pon_paleta		;55c0   ; pon_paleta: lista [color][RB][G] ... 0xFF
 	jp mira_banco_6000		;55c3
 L_55C6:
 	push hl			;55c6
 	call mira_banco_6000_2		;55c7
 	pop hl			;55ca
-	call pon_paleta		;55cb
+	call pon_paleta		;55cb   ; pon_paleta: lista [color][RB][G] ... 0xFF
 	jp mira_banco_6000		;55ce
 L_55D1:
 	ld hl,00000h		;55d1
 	ld d,001h		;55d4
 	ld bc,00808h		;55d6
-	call hmmv		;55d9
+	call hmmv		;55d9   ; hmmv: el color, a un lado
 con_sube_una_letra:
 	call pon_banco_a000_4		;55dc
 	ld de,00000h		;55df
@@ -3420,7 +3420,7 @@ con_sube_una_letra:
 	ld de,00070h		;55ea
 	ld hl,06000h		;55ed   ; p13:6000 letras_6000: 43 letras de 8x8 a 1 bit (8 bytes cada una) que p00:55F3 sube a la hoja (p00:4ED7)
 	ld bc,02b0ch		;55f0
-	call sube_letras		;55f3
+	call sube_letras		;55f3   ; sube_letras: B letras de 1 bit de HL, en color C, a la hoja de la pagina 1 desde (D, E)
 	jp mira_banco_6000		;55f6
 con_copia_a_la_vram_2:
 	call pon_banco_a000_4		;55f9
@@ -3433,14 +3433,14 @@ L_5604:
 	ld hl,06000h		;5606   ; p13:6000 letras_6000: 43 letras de 8x8 a 1 bit (8 bytes cada una) que p00:55F3 sube a la hoja (p00:4ED7)
 	ld bc,00050h		;5609
 	push de			;560c
-	call copia_a_la_vram		;560d
+	call copia_a_la_vram		;560d   ; copia_a_la_vram: BC bytes de HL a la VRAM de DE
 	pop hl			;5610
 	ld bc,00050h		;5611
 	add hl,bc			;5614
 	ex de,hl			;5615
 	ld hl,06088h		;5616
 	ld bc,00030h		;5619
-	call copia_a_la_vram		;561c
+	call copia_a_la_vram		;561c   ; copia_a_la_vram: BC bytes de HL a la VRAM de DE
 	pop hl			;561f
 	ld bc,00080h		;5620
 	add hl,bc			;5623
@@ -3453,7 +3453,7 @@ con_sube_letras:
 	ld de,08078h		;562e
 	ld hl,061b8h		;5631   ; p13:61B8 letras_61B8: 54 letras de 8x8 a 1 bit (8 bytes cada una) que p00:5637 sube a la hoja (p00:4ED7)
 	ld bc,0360ch		;5634
-	call sube_letras		;5637
+	call sube_letras		;5637   ; sube_letras: B letras de 1 bit de HL, en color C, a la hoja de la pagina 1 desde (D, E)
 	jp mira_banco_6000		;563a
 rutina_14:
 	ret			;563d
@@ -3482,7 +3482,7 @@ mira_nivel_c840:
 	call con_hl_mas_a		;5677
 	ld de,0f8a0h		;567a
 	ld bc,00020h		;567d
-	call copia_a_la_vram		;5680
+	call copia_a_la_vram		;5680   ; copia_a_la_vram: BC bytes de HL a la VRAM de DE
 	jp mira_banco_6000		;5683
 rutina_15:
 	ld a,(hl)			;5686
@@ -3537,7 +3537,7 @@ L_56C1:
 	ld d,(hl)			;56c3
 	push ix		;56c4   ; HL = la ficha
 	pop hl			;56c6
-	jp rle_a_la_vram		;56c7
+	jp rle_a_la_vram		;56c7   ; rle_a_la_vram: el RLE de DE a la VRAM de HL (n con el bit 7: n bytes tal cual; sin el, repetir; 0 acaba)
 L_56CA:
 	ld e,(hl)			;56ca
 	inc hl			;56cb
@@ -3549,7 +3549,7 @@ L_56CA:
 	ex de,hl			;56d1
 	push ix		;56d2
 	pop de			;56d4
-	jp copia_a_la_vram		;56d5
+	jp copia_a_la_vram		;56d5   ; copia_a_la_vram: BC bytes de HL a la VRAM de DE
 
 ; ----------------------------------------------------------------------
 ; DATOS sin_lector_56D8: bytes sin lector conocido: ninguna instruccion
@@ -3635,7 +3635,7 @@ DATA_tabla_5740:
 
 
 L_5752:
-	call pon_fila_de_bloque		;5752
+	call pon_fila_de_bloque		;5752   ; entrada 0 de la tabla de p00:573D (L_573A)
 	ld hl,(0c30ch)		;5755   ; 0xC30C: la fila de 0xE000 donde va la siguiente (p00:59C7)
 	ld de,0ffe0h		;5758
 	add hl,de			;575b
@@ -3649,38 +3649,38 @@ L_5752:
 	ld (0c389h),a		;576a   ; 0xC389: 1: el mapa avanza (p01:6CA2); p00:57CE lo pone a 0 con la orden 0xFC
 	jr L_57AE		;576d
 L_576F:
-	ld de,00000h		;576f
+	ld de,00000h		;576f   ; entrada 1 de la tabla de p00:573D (L_573A)
 	call mira_fila_del_buffer		;5772
 	xor a			;5775
 	ld (0c389h),a		;5776   ; 0xC389: 1: el mapa avanza (p01:6CA2); p00:57CE lo pone a 0 con la orden 0xFC
 	jr L_57AE		;5779
 L_577B:
-	ld de,02805h		;577b
+	ld de,02805h		;577b   ; entrada 2 de la tabla de p00:573D (L_573A)
 	call mira_fila_del_buffer		;577e
 	jr L_57AE		;5781
 L_5783:
-	ld de,0500ah		;5783
+	ld de,0500ah		;5783   ; entrada 3 de la tabla de p00:573D (L_573A)
 	call mira_fila_del_buffer		;5786
 	jr L_57AE		;5789
 L_578B:
-	ld de,0780fh		;578b
+	ld de,0780fh		;578b   ; entrada 4 de la tabla de p00:573D (L_573A)
 	call mira_fila_del_buffer		;578e
 	jr L_57AE		;5791
 L_5793:
-	ld de,0a014h		;5793
+	ld de,0a014h		;5793   ; entrada 5 de la tabla de p00:573D (L_573A)
 	call mira_fila_del_buffer		;5796
 	jr L_57AE		;5799
 L_579B:
-	ld de,0c819h		;579b   ; 0xC819: la ficha de Gao
+	ld de,0c819h		;579b   ; entrada 6 de la tabla de p00:573D (L_573A)
 	call mira_fila_del_buffer		;579e
 	jr L_57AE		;57a1
 L_57A3:
-	ld de,0f01eh		;57a3
+	ld de,0f01eh		;57a3   ; entrada 7 de la tabla de p00:573D (L_573A)
 	ld b,002h		;57a6
 	call mira_fila_del_buffer_2		;57a8
 	jr L_57AE		;57ab
 L_57AD:
-	ret			;57ad
+	ret			;57ad   ; entrada 8 de la tabla de p00:573D (L_573A)
 L_57AE:
 	ld hl,0c380h		;57ae   ; 0xC380: el paso del avance del mapa (p00:573A)
 	inc (hl)			;57b1
@@ -4091,7 +4091,7 @@ L_5A3B:
 	call pon_avance_3		;5a3b
 	call pon_scroll		;5a3e
 	call rutina_19		;5a41
-	call espera_al_vdp		;5a44
+	call espera_al_vdp		;5a44   ; espera_al_vdp: espera a que el V9938 acabe la orden (bit 0 de S#2)
 	call con_pon_un_color		;5a47
 	jp pon_avance_2		;5a4a
 con_pon_un_color:
@@ -4105,13 +4105,13 @@ L_5A54:
 	inc hl			;5a57
 	ld a,c			;5a58
 	inc c			;5a59
-	call pon_un_color		;5a5a
+	call pon_un_color		;5a5a   ; pon_un_color: color A de la paleta = D (RB) y E (G)
 	djnz L_5A54		;5a5d
 	ret			;5a5f
 pon_scroll:
 	xor a			;5a60
 	ld (0c385h),a		;5a61   ; 0xC385: el SCROLL vertical: R#23 del VDP (p00:4C65)
-	call apaga_los_sprites		;5a64
+	call apaga_los_sprites		;5a64   ; apaga_los_sprites: la copia de R#8 (0xFFE7)...
 	call mira_atributos_de_sprites		;5a67
 	call pon_avance_4		;5a6a
 	call con_sube_una_letra		;5a6d
@@ -4122,7 +4122,7 @@ pon_scroll:
 L_5A75:
 	inc a			;5a75
 	push af			;5a76
-	call pon_un_color		;5a77
+	call pon_un_color		;5a77   ; pon_un_color: color A de la paleta = D (RB) y E (G)
 	pop af			;5a7a
 	djnz L_5A75		;5a7b
 	ld b,000h		;5a7d
@@ -4217,7 +4217,7 @@ con_lee_de_la_vram:
 	ld hl,0f680h		;5b5e
 	ld de,0c510h		;5b61
 	ld bc,00020h		;5b64
-	call lee_de_la_vram		;5b67
+	call lee_de_la_vram		;5b67   ; lee_de_la_vram: LEE BC bytes de la VRAM de HL a DE
 	ld a,080h		;5b6a
 	ld (0c550h),a		;5b6c
 	ret			;5b6f
@@ -4260,7 +4260,7 @@ L_5BA0:
 	inc hl			;5ba1
 	ld e,a			;5ba2
 	ld a,c			;5ba3
-	call pon_un_color		;5ba4
+	call pon_un_color		;5ba4   ; pon_un_color: color A de la paleta = D (RB) y E (G)
 	ld a,(0c550h)		;5ba7
 	and a			;5baa
 	ret			;5bab
@@ -4513,7 +4513,7 @@ L_5DB6:
 	call 00047h		;5db9   ; BIOS WRTVDP - Writes data in the VDP-register
 	ld c,00fh		;5dbc
 	ld de,00000h		;5dbe
-	jp pon_un_color		;5dc1
+	jp pon_un_color		;5dc1   ; pon_un_color: color A de la paleta = D (RB) y E (G)
 pon_logotipo:
 	call pon_avance_3		;5dc4
 	call mira_atributos_de_sprites		;5dc7
@@ -4526,7 +4526,7 @@ con_rellena_la_vram:
 	ld hl,0f300h		;5dd7
 	ld bc,00080h		;5dda
 	ld a,0e0h		;5ddd
-	jp rellena_la_vram		;5ddf
+	jp rellena_la_vram		;5ddf   ; rellena_la_vram: BC bytes con A desde la VRAM de HL
 pon_velocidad:
 	ld hl,0ff00h		;5de2
 	ld (0c382h),hl		;5de5   ; 0xC382: lo que se suma a 0xC384 cada cuadro (p00:56D8)
@@ -4643,7 +4643,7 @@ DATA_tabla_5E78:
 con_marco:
 	call mira_canales		;5e89
 	ld c,00ch		;5e8c
-	call marco		;5e8e
+	call marco		;5e8e   ; marco: cuatro rayas: un marco de E por D en HL
 	ld hl,05eb0h		;5e91
 	jp con_hmmm		;5e94
 mira_canales:
@@ -4654,7 +4654,7 @@ L_5E9D:
 	ld d,000h		;5e9e
 	push bc			;5ea0
 	push hl			;5ea1
-	call hmmv		;5ea2
+	call hmmv		;5ea2   ; hmmv: el color, a un lado
 	pop hl			;5ea5
 	pop de			;5ea6
 	ret			;5ea7
@@ -4743,7 +4743,7 @@ L_5F69:
 	ld bc,01008h		;5f6d
 	xor a			;5f70
 	ld d,a			;5f71
-	call hmmv		;5f72
+	call hmmv		;5f72   ; hmmv: el color, a un lado
 	pop de			;5f75
 	ld hl,0c125h		;5f76   ; 0xC125: la fila 7 del teclado que se tiene pulsada
 	ld (hl),0ffh		;5f79

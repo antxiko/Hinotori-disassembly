@@ -78,9 +78,10 @@ DATA_dibujos_9DB0_cola:
 	defb 017h,0ffh,0ffh	; a1d0
 
 ; ----------------------------------------------------------------------
-; DATOS cosas_A1D3: cosas puestas en el camino: [fila de 8 puntos (9 bits) y
-;   tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328
-;   (56 bytes)
+; DATOS cosas_A1D3: cosas puestas en el camino: [fila lo][fila hi +
+;   4*tipo][dato] de 3 bytes, 0xFFFF acaba (p01:7323); el tipo 4 es el torii
+;   que lleva a la sala y el 5 la salida de la sala, con el numero de puerta
+;   en el dato; lo leen p01:7328 (56 bytes)
 ;   0xa1d3..0xa20b  (56 bytes)
 DATA_cosas_A1D3:
 	defb 014h,004h,00eh	; a1d3
@@ -104,9 +105,10 @@ DATA_cosas_A1D3:
 	defb 0ffh,0ffh	; a209
 
 ; ----------------------------------------------------------------------
-; DATOS cosas_A20B: cosas puestas en el camino: [fila de 8 puntos (9 bits) y
-;   tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328
-;   (56 bytes)
+; DATOS cosas_A20B: cosas puestas en el camino: [fila lo][fila hi +
+;   4*tipo][dato] de 3 bytes, 0xFFFF acaba (p01:7323); el tipo 4 es el torii
+;   que lleva a la sala y el 5 la salida de la sala, con el numero de puerta
+;   en el dato; lo leen p01:7328 (56 bytes)
 ;   0xa20b..0xa243  (56 bytes)
 DATA_cosas_A20B:
 	defb 002h,030h,058h	; a20b
@@ -130,27 +132,30 @@ DATA_cosas_A20B:
 	defb 0ffh,0ffh	; a241
 
 ; ----------------------------------------------------------------------
-; DATOS cosas_A243: cosas puestas en el camino: [fila de 8 puntos (9 bits) y
-;   tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328
-;   (5 bytes)
+; DATOS cosas_A243: cosas puestas en el camino: [fila lo][fila hi +
+;   4*tipo][dato] de 3 bytes, 0xFFFF acaba (p01:7323); el tipo 4 es el torii
+;   que lleva a la sala y el 5 la salida de la sala, con el numero de puerta
+;   en el dato; lo leen p01:7328 (5 bytes)
 ;   0xa243..0xa248  (5 bytes)
 DATA_cosas_A243:
 	defb 026h,014h,006h	; a243
 	defb 0ffh,0ffh	; a246
 
 ; ----------------------------------------------------------------------
-; DATOS cosas_A248: cosas puestas en el camino: [fila de 8 puntos (9 bits) y
-;   tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328
-;   (5 bytes)
+; DATOS cosas_A248: cosas puestas en el camino: [fila lo][fila hi +
+;   4*tipo][dato] de 3 bytes, 0xFFFF acaba (p01:7323); el tipo 4 es el torii
+;   que lleva a la sala y el 5 la salida de la sala, con el numero de puerta
+;   en el dato; lo leen p01:7328 (5 bytes)
 ;   0xa248..0xa24d  (5 bytes)
 DATA_cosas_A248:
 	defb 026h,014h,007h	; a248
 	defb 0ffh,0ffh	; a24b
 
 ; ----------------------------------------------------------------------
-; DATOS cosas_A24D: cosas puestas en el camino: [fila de 8 puntos (9 bits) y
-;   tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328
-;   (8 bytes)
+; DATOS cosas_A24D: cosas puestas en el camino: [fila lo][fila hi +
+;   4*tipo][dato] de 3 bytes, 0xFFFF acaba (p01:7323); el tipo 4 es el torii
+;   que lleva a la sala y el 5 la salida de la sala, con el numero de puerta
+;   en el dato; lo leen p01:7328 (8 bytes)
 ;   0xa24d..0xa255  (8 bytes)
 DATA_cosas_A24D:
 	defb 026h,014h,008h	; a24d
@@ -158,18 +163,20 @@ DATA_cosas_A24D:
 	defb 0ffh,0ffh	; a253
 
 ; ----------------------------------------------------------------------
-; DATOS cosas_A255: cosas puestas en el camino: [fila de 8 puntos (9 bits) y
-;   tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328
-;   (5 bytes)
+; DATOS cosas_A255: cosas puestas en el camino: [fila lo][fila hi +
+;   4*tipo][dato] de 3 bytes, 0xFFFF acaba (p01:7323); el tipo 4 es el torii
+;   que lleva a la sala y el 5 la salida de la sala, con el numero de puerta
+;   en el dato; lo leen p01:7328 (5 bytes)
 ;   0xa255..0xa25a  (5 bytes)
 DATA_cosas_A255:
 	defb 026h,014h,009h	; a255
 	defb 0ffh,0ffh	; a258
 
 ; ----------------------------------------------------------------------
-; DATOS cosas_A25A: cosas puestas en el camino: [fila de 8 puntos (9 bits) y
-;   tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328
-;   (8 bytes)
+; DATOS cosas_A25A: cosas puestas en el camino: [fila lo][fila hi +
+;   4*tipo][dato] de 3 bytes, 0xFFFF acaba (p01:7323); el tipo 4 es el torii
+;   que lleva a la sala y el 5 la salida de la sala, con el numero de puerta
+;   en el dato; lo leen p01:7328 (8 bytes)
 ;   0xa25a..0xa262  (8 bytes)
 DATA_cosas_A25A:
 	defb 026h,014h,00ah	; a25a
@@ -177,62 +184,55 @@ DATA_cosas_A25A:
 	defb 0ffh,0ffh	; a260
 
 ; ----------------------------------------------------------------------
-; DATOS cosas_A262: cosas puestas en el camino: [fila de 8 puntos (9 bits) y
-;   tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328
-;   (5 bytes)
+; DATOS cosas_A262: cosas puestas en el camino: [fila lo][fila hi +
+;   4*tipo][dato] de 3 bytes, 0xFFFF acaba (p01:7323); el tipo 4 es el torii
+;   que lleva a la sala y el 5 la salida de la sala, con el numero de puerta
+;   en el dato; lo leen p01:7328 (5 bytes)
 ;   0xa262..0xa267  (5 bytes)
 DATA_cosas_A262:
 	defb 026h,014h,00dh	; a262
 	defb 0ffh,0ffh	; a265
 
 ; ----------------------------------------------------------------------
-; DATOS cosas_A267: cosas puestas en el camino: [fila de 8 puntos (9 bits) y
-;   tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328
-;   (110 bytes)
-;   0xa267..0xa2d5  (110 bytes)
+; DATOS cosas_A267: cosas puestas en el camino: [fila lo][fila hi +
+;   4*tipo][dato] de 3 bytes, 0xFFFF acaba (p01:7323); el tipo 4 es el torii
+;   que lleva a la sala y el 5 la salida de la sala, con el numero de puerta
+;   en el dato; lo leen p01:7328 (2 bytes)
+;   0xa267..0xa269  (2 bytes)
 DATA_cosas_A267:
-	defb 0ffh,0ffh,014h	; a267
-	defb 01fh,000h,090h	; a26a
-	defb 080h,000h,013h	; a26d
-	defb 01fh,000h,090h	; a270
-	defb 080h,000h,017h	; a273
-	defb 01fh,000h,090h	; a276
-	defb 080h,000h,012h	; a279
-	defb 01fh,000h,090h	; a27c
-	defb 080h,000h,015h	; a27f
-	defb 01fh,000h,090h	; a282
-	defb 080h,000h,016h	; a285
-	defb 01fh,000h,090h	; a288
-	defb 080h,000h,004h	; a28b
-	defb 01fh,000h,090h	; a28e
-	defb 080h,000h,007h	; a291
-	defb 01fh,000h,090h	; a294
-	defb 080h,000h,00ah	; a297
-	defb 01fh,000h,090h	; a29a
-	defb 080h,000h,00dh	; a29d
-	defb 01fh,000h,090h	; a2a0
-	defb 080h,000h,010h	; a2a3
-	defb 01fh,000h,090h	; a2a6
-	defb 080h,000h,001h	; a2a9
-	defb 01fh,000h,090h	; a2ac
-	defb 080h,000h,004h	; a2af
-	defb 01fh,000h,090h	; a2b2
-	defb 080h,000h,00ah	; a2b5
-	defb 01fh,000h,090h	; a2b8
-	defb 080h,000h,018h	; a2bb
-	defb 01fh,000h,090h	; a2be
-	defb 080h,000h,018h	; a2c1
-	defb 01fh,000h,090h	; a2c4
-	defb 080h,000h,018h	; a2c7
-	defb 01fh,000h,090h	; a2ca
-	defb 080h,000h,018h	; a2cd
-	defb 01fh,000h,090h	; a2d0
-	defb 080h,000h	; a2d3
+	defb 0ffh,0ffh	; a267
 
 ; ----------------------------------------------------------------------
-; DATOS cosas_A2D5: cosas puestas en el camino: [fila de 8 puntos (9 bits) y
-;   tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328
-;   (53 bytes)
+; DATOS puertas: las 18 PUERTAS: [area][fila lo][fila hi][y][x][?] a donde
+;   lleva cada una (p01:607C: 0xC486-0xC48B y a cambiar de area); las 0-5 van
+;   a las salas, las 6-13 de las salas a las fases, las 14-17 al area 0x18,
+;   que no existe; lo leen p01:6083 (108 bytes)
+;   0xa269..0xa2d5  (108 bytes)
+DATA_puertas:
+	defb 014h,01fh,000h,090h,080h,000h	; a269
+	defb 013h,01fh,000h,090h,080h,000h	; a26f
+	defb 017h,01fh,000h,090h,080h,000h	; a275
+	defb 012h,01fh,000h,090h,080h,000h	; a27b
+	defb 015h,01fh,000h,090h,080h,000h	; a281
+	defb 016h,01fh,000h,090h,080h,000h	; a287
+	defb 004h,01fh,000h,090h,080h,000h	; a28d
+	defb 007h,01fh,000h,090h,080h,000h	; a293
+	defb 00ah,01fh,000h,090h,080h,000h	; a299
+	defb 00dh,01fh,000h,090h,080h,000h	; a29f
+	defb 010h,01fh,000h,090h,080h,000h	; a2a5
+	defb 001h,01fh,000h,090h,080h,000h	; a2ab
+	defb 004h,01fh,000h,090h,080h,000h	; a2b1
+	defb 00ah,01fh,000h,090h,080h,000h	; a2b7
+	defb 018h,01fh,000h,090h,080h,000h	; a2bd
+	defb 018h,01fh,000h,090h,080h,000h	; a2c3
+	defb 018h,01fh,000h,090h,080h,000h	; a2c9
+	defb 018h,01fh,000h,090h,080h,000h	; a2cf
+
+; ----------------------------------------------------------------------
+; DATOS cosas_A2D5: cosas puestas en el camino: [fila lo][fila hi +
+;   4*tipo][dato] de 3 bytes, 0xFFFF acaba (p01:7323); el tipo 4 es el torii
+;   que lleva a la sala y el 5 la salida de la sala, con el numero de puerta
+;   en el dato; lo leen p01:7328 (53 bytes)
 ;   0xa2d5..0xa30a  (53 bytes)
 DATA_cosas_A2D5:
 	defb 00ah,030h,0b8h	; a2d5
@@ -255,9 +255,10 @@ DATA_cosas_A2D5:
 	defb 0ffh,0ffh	; a308
 
 ; ----------------------------------------------------------------------
-; DATOS cosas_A30A: cosas puestas en el camino: [fila de 8 puntos (9 bits) y
-;   tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328
-;   (50 bytes)
+; DATOS cosas_A30A: cosas puestas en el camino: [fila lo][fila hi +
+;   4*tipo][dato] de 3 bytes, 0xFFFF acaba (p01:7323); el tipo 4 es el torii
+;   que lleva a la sala y el 5 la salida de la sala, con el numero de puerta
+;   en el dato; lo leen p01:7328 (50 bytes)
 ;   0xa30a..0xa33c  (50 bytes)
 DATA_cosas_A30A:
 	defb 014h,004h,00fh	; a30a
@@ -279,9 +280,10 @@ DATA_cosas_A30A:
 	defb 0ffh,0ffh	; a33a
 
 ; ----------------------------------------------------------------------
-; DATOS cosas_A33C: cosas puestas en el camino: [fila de 8 puntos (9 bits) y
-;   tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328
-;   (38 bytes)
+; DATOS cosas_A33C: cosas puestas en el camino: [fila lo][fila hi +
+;   4*tipo][dato] de 3 bytes, 0xFFFF acaba (p01:7323); el tipo 4 es el torii
+;   que lleva a la sala y el 5 la salida de la sala, con el numero de puerta
+;   en el dato; lo leen p01:7328 (38 bytes)
 ;   0xa33c..0xa362  (38 bytes)
 DATA_cosas_A33C:
 	defb 02ah,028h,081h	; a33c
@@ -299,9 +301,10 @@ DATA_cosas_A33C:
 	defb 0ffh,0ffh	; a360
 
 ; ----------------------------------------------------------------------
-; DATOS cosas_A362: cosas puestas en el camino: [fila de 8 puntos (9 bits) y
-;   tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328
-;   (68 bytes)
+; DATOS cosas_A362: cosas puestas en el camino: [fila lo][fila hi +
+;   4*tipo][dato] de 3 bytes, 0xFFFF acaba (p01:7323); el tipo 4 es el torii
+;   que lleva a la sala y el 5 la salida de la sala, con el numero de puerta
+;   en el dato; lo leen p01:7328 (68 bytes)
 ;   0xa362..0xa3a6  (68 bytes)
 DATA_cosas_A362:
 	defb 022h,034h,066h	; a362
@@ -329,9 +332,10 @@ DATA_cosas_A362:
 	defb 0ffh,0ffh	; a3a4
 
 ; ----------------------------------------------------------------------
-; DATOS cosas_A3A6: cosas puestas en el camino: [fila de 8 puntos (9 bits) y
-;   tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328
-;   (56 bytes)
+; DATOS cosas_A3A6: cosas puestas en el camino: [fila lo][fila hi +
+;   4*tipo][dato] de 3 bytes, 0xFFFF acaba (p01:7323); el tipo 4 es el torii
+;   que lleva a la sala y el 5 la salida de la sala, con el numero de puerta
+;   en el dato; lo leen p01:7328 (56 bytes)
 ;   0xa3a6..0xa3de  (56 bytes)
 DATA_cosas_A3A6:
 	defb 014h,004h,010h	; a3a6
@@ -355,9 +359,10 @@ DATA_cosas_A3A6:
 	defb 0ffh,0ffh	; a3dc
 
 ; ----------------------------------------------------------------------
-; DATOS cosas_A3DE: cosas puestas en el camino: [fila de 8 puntos (9 bits) y
-;   tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328
-;   (62 bytes)
+; DATOS cosas_A3DE: cosas puestas en el camino: [fila lo][fila hi +
+;   4*tipo][dato] de 3 bytes, 0xFFFF acaba (p01:7323); el tipo 4 es el torii
+;   que lleva a la sala y el 5 la salida de la sala, con el numero de puerta
+;   en el dato; lo leen p01:7328 (62 bytes)
 ;   0xa3de..0xa41c  (62 bytes)
 DATA_cosas_A3DE:
 	defb 029h,030h,088h	; a3de
@@ -383,9 +388,10 @@ DATA_cosas_A3DE:
 	defb 0ffh,0ffh	; a41a
 
 ; ----------------------------------------------------------------------
-; DATOS cosas_A41C: cosas puestas en el camino: [fila de 8 puntos (9 bits) y
-;   tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328
-;   (62 bytes)
+; DATOS cosas_A41C: cosas puestas en el camino: [fila lo][fila hi +
+;   4*tipo][dato] de 3 bytes, 0xFFFF acaba (p01:7323); el tipo 4 es el torii
+;   que lleva a la sala y el 5 la salida de la sala, con el numero de puerta
+;   en el dato; lo leen p01:7328 (62 bytes)
 ;   0xa41c..0xa45a  (62 bytes)
 DATA_cosas_A41C:
 	defb 01ah,034h,065h	; a41c
@@ -411,9 +417,10 @@ DATA_cosas_A41C:
 	defb 0ffh,0ffh	; a458
 
 ; ----------------------------------------------------------------------
-; DATOS cosas_A45A: cosas puestas en el camino: [fila de 8 puntos (9 bits) y
-;   tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328
-;   (50 bytes)
+; DATOS cosas_A45A: cosas puestas en el camino: [fila lo][fila hi +
+;   4*tipo][dato] de 3 bytes, 0xFFFF acaba (p01:7323); el tipo 4 es el torii
+;   que lleva a la sala y el 5 la salida de la sala, con el numero de puerta
+;   en el dato; lo leen p01:7328 (50 bytes)
 ;   0xa45a..0xa48c  (50 bytes)
 DATA_cosas_A45A:
 	defb 014h,004h,011h	; a45a
@@ -435,9 +442,10 @@ DATA_cosas_A45A:
 	defb 0ffh,0ffh	; a48a
 
 ; ----------------------------------------------------------------------
-; DATOS cosas_A48C: cosas puestas en el camino: [fila de 8 puntos (9 bits) y
-;   tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328
-;   (77 bytes)
+; DATOS cosas_A48C: cosas puestas en el camino: [fila lo][fila hi +
+;   4*tipo][dato] de 3 bytes, 0xFFFF acaba (p01:7323); el tipo 4 es el torii
+;   que lleva a la sala y el 5 la salida de la sala, con el numero de puerta
+;   en el dato; lo leen p01:7328 (77 bytes)
 ;   0xa48c..0xa4d9  (77 bytes)
 DATA_cosas_A48C:
 	defb 000h,034h,065h	; a48c
@@ -468,9 +476,10 @@ DATA_cosas_A48C:
 	defb 0ffh,0ffh	; a4d7
 
 ; ----------------------------------------------------------------------
-; DATOS cosas_A4D9: cosas puestas en el camino: [fila de 8 puntos (9 bits) y
-;   tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328
-;   (68 bytes)
+; DATOS cosas_A4D9: cosas puestas en el camino: [fila lo][fila hi +
+;   4*tipo][dato] de 3 bytes, 0xFFFF acaba (p01:7323); el tipo 4 es el torii
+;   que lleva a la sala y el 5 la salida de la sala, con el numero de puerta
+;   en el dato; lo leen p01:7328 (68 bytes)
 ;   0xa4d9..0xa51d  (68 bytes)
 DATA_cosas_A4D9:
 	defb 011h,034h,0c9h	; a4d9
@@ -498,9 +507,10 @@ DATA_cosas_A4D9:
 	defb 0ffh,0ffh	; a51b
 
 ; ----------------------------------------------------------------------
-; DATOS cosas_A51D: cosas puestas en el camino: [fila de 8 puntos (9 bits) y
-;   tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328
-;   (71 bytes)
+; DATOS cosas_A51D: cosas puestas en el camino: [fila lo][fila hi +
+;   4*tipo][dato] de 3 bytes, 0xFFFF acaba (p01:7323); el tipo 4 es el torii
+;   que lleva a la sala y el 5 la salida de la sala, con el numero de puerta
+;   en el dato; lo leen p01:7328 (71 bytes)
 ;   0xa51d..0xa564  (71 bytes)
 DATA_cosas_A51D:
 	defb 014h,004h,012h	; a51d
@@ -529,9 +539,10 @@ DATA_cosas_A51D:
 	defb 0ffh,0ffh	; a562
 
 ; ----------------------------------------------------------------------
-; DATOS cosas_A564: cosas puestas en el camino: [fila de 8 puntos (9 bits) y
-;   tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328
-;   (53 bytes)
+; DATOS cosas_A564: cosas puestas en el camino: [fila lo][fila hi +
+;   4*tipo][dato] de 3 bytes, 0xFFFF acaba (p01:7323); el tipo 4 es el torii
+;   que lleva a la sala y el 5 la salida de la sala, con el numero de puerta
+;   en el dato; lo leen p01:7328 (53 bytes)
 ;   0xa564..0xa599  (53 bytes)
 DATA_cosas_A564:
 	defb 04ch,030h,028h	; a564
@@ -554,9 +565,10 @@ DATA_cosas_A564:
 	defb 0ffh,0ffh	; a597
 
 ; ----------------------------------------------------------------------
-; DATOS cosas_A599: cosas puestas en el camino: [fila de 8 puntos (9 bits) y
-;   tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328
-;   (77 bytes)
+; DATOS cosas_A599: cosas puestas en el camino: [fila lo][fila hi +
+;   4*tipo][dato] de 3 bytes, 0xFFFF acaba (p01:7323); el tipo 4 es el torii
+;   que lleva a la sala y el 5 la salida de la sala, con el numero de puerta
+;   en el dato; lo leen p01:7328 (77 bytes)
 ;   0xa599..0xa5e6  (77 bytes)
 DATA_cosas_A599:
 	defb 008h,030h,048h	; a599
@@ -587,9 +599,10 @@ DATA_cosas_A599:
 	defb 0ffh,0ffh	; a5e4
 
 ; ----------------------------------------------------------------------
-; DATOS cosas_A5E6: cosas puestas en el camino: [fila de 8 puntos (9 bits) y
-;   tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328
-;   (68 bytes)
+; DATOS cosas_A5E6: cosas puestas en el camino: [fila lo][fila hi +
+;   4*tipo][dato] de 3 bytes, 0xFFFF acaba (p01:7323); el tipo 4 es el torii
+;   que lleva a la sala y el 5 la salida de la sala, con el numero de puerta
+;   en el dato; lo leen p01:7328 (68 bytes)
 ;   0xa5e6..0xa62a  (68 bytes)
 DATA_cosas_A5E6:
 	defb 014h,004h,013h	; a5e6
@@ -617,9 +630,10 @@ DATA_cosas_A5E6:
 	defb 0ffh,0ffh	; a628
 
 ; ----------------------------------------------------------------------
-; DATOS cosas_A62A: cosas puestas en el camino: [fila de 8 puntos (9 bits) y
-;   tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328
-;   (80 bytes)
+; DATOS cosas_A62A: cosas puestas en el camino: [fila lo][fila hi +
+;   4*tipo][dato] de 3 bytes, 0xFFFF acaba (p01:7323); el tipo 4 es el torii
+;   que lleva a la sala y el 5 la salida de la sala, con el numero de puerta
+;   en el dato; lo leen p01:7328 (80 bytes)
 ;   0xa62a..0xa67a  (80 bytes)
 DATA_cosas_A62A:
 	defb 004h,020h,040h	; a62a
@@ -1829,7 +1843,7 @@ DATA_sin_lector_B9D5:
 
 
 L_B9DF:
-	call con_hmmv		;b9df
+	call con_hmmv		;b9df   ; entrada 0 de la tabla de p09:B9D2 (L_B9CF)
 	call rutina_2		;b9e2
 	ld hl,0bc6eh		;b9e5
 	call 04f87h		;b9e8
@@ -1839,7 +1853,7 @@ L_B9EE:
 	inc (hl)			;b9f1
 	ret			;b9f2
 L_B9F3:
-	call mira_king_kong_2		;b9f3
+	call mira_king_kong_2		;b9f3   ; entrada 1 de la tabla de p09:B9D2 (L_B9CF)
 	jp c,L_BB39		;b9f6
 	push af			;b9f9
 	ld hl,0bcb3h		;b9fa
@@ -1851,7 +1865,7 @@ L_B9F3:
 	call 04f87h		;ba07
 	jr L_B9EE		;ba0a
 L_BA0C:
-	ld a,001h		;ba0c
+	ld a,001h		;ba0c   ; entrada 2 de la tabla de p09:B9D2 (L_B9CF)
 	call 000eah		;ba0e   ; BIOS TAPOON - Turns on the cassette motor and writes the header
 	ld b,00ah		;ba11   ; 10 vueltas
 L_BA13:
@@ -1875,7 +1889,7 @@ L_BA24:
 	djnz L_BA24		;ba30
 	jr L_B9EE		;ba32
 L_BA34:
-	xor a			;ba34
+	xor a			;ba34   ; entrada 3 de la tabla de p09:B9D2 (L_B9CF)
 	call 000eah		;ba35   ; BIOS TAPOON - Turns on the cassette motor and writes the header
 	jp c,L_BA84		;ba38
 	ld hl,0bcfbh		;ba3b
@@ -1955,14 +1969,14 @@ DATA_sin_lector_BAA2:
 
 
 L_BAA8:
-	call con_hmmv		;baa8
+	call con_hmmv		;baa8   ; entrada 0 de la tabla de p09:BA9F (L_BA9C)
 	call rutina_2		;baab
 	ld hl,0bc8ch		;baae
 	call 04f87h		;bab1
 	call mira_king_kong_4		;bab4
 	jp L_B9EE		;bab7
 L_BABA:
-	call mira_king_kong_2		;baba
+	call mira_king_kong_2		;baba   ; entrada 1 de la tabla de p09:BA9F (L_BA9C)
 	jp c,L_BB39		;babd
 	push af			;bac0
 	ld hl,0bcebh		;bac1

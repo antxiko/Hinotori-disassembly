@@ -425,11 +425,19 @@ def por_area_banco_9(t, bl):
              "6 bytes por cada una de las 18 areas de camino, uno por cada 32 filas de 8 puntos "
              "(p01:71D1): que bichos salen en ese tramo", "p01:71D4", ancho=2)
     cosas = sorted({H.palabra(0xA130 + 2 * k, B129) for k in range(25)})
-    for i, a in enumerate(cosas):
-        f = cosas[i + 1] if i + 1 < len(cosas) else 0xA67A
-        bl.anota(B129, a, f, "cosas_%04X" % a,
-                 "cosas puestas en el camino: [fila de 8 puntos (9 bits) y tipo][x] de 3 bytes, "
-                 "hasta la lista siguiente (p01:7323)", "p01:7328", ancho=3)
+    for a in cosas:
+        f = a
+        while not (H.lee(f, B129) == 0xFF and H.lee(f + 1, B129) == 0xFF):
+            f += 3
+        bl.anota(B129, a, f + 2, "cosas_%04X" % a,
+                 "cosas puestas en el camino: [fila lo][fila hi + 4*tipo][dato] de 3 bytes, "
+                 "0xFFFF acaba (p01:7323); el tipo 4 es el torii que lleva a la sala y el 5 la "
+                 "salida de la sala, con el numero de puerta en el dato", "p01:7328", ancho=3)
+    bl.anota(B129, 0xA269, 0xA269 + 6 * 18, "puertas",
+             "las 18 PUERTAS: [area][fila lo][fila hi][y][x][?] a donde lleva cada una "
+             "(p01:607C: 0xC486-0xC48B y a cambiar de area); las 0-5 van a las salas, las "
+             "6-13 de las salas a las fases, las 14-17 al area 0x18, que no existe",
+             "p01:6083", ancho=6)
     bichos = sorted({H.palabra(0xA162 + 2 * k, B129) for k in range(18)})
     for i, a in enumerate(bichos):
         if i + 1 < len(bichos):

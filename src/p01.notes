@@ -22,6 +22,8 @@ D 0x7ED7 0x7EF3 tabla_7ED7  14 destinos del despachador de 0x40AE (call en p01:7
 F 0x7ED7 2
 # --- fin de los bloques de bloques.py ---
 
+
+
 # --- RESTO (seccion que reescribe tools/resto.py; no editar a mano) ---
 D 0x6041 0x6079 tabla_6041  tabla que lee p01:6034, p06:AD68, p06:AE74 (56 bytes)
 D 0x60A8 0x60B0 sin_lector_60A8  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (8 bytes)
@@ -131,7 +133,7 @@ L 0x728F mira_dificultad_2
 L 0x72A9 mira_avanza_2
 L 0x7323 pon_cosas
 L 0x7352 ficha_campo_40
-L 0x73BE cosa_06
+L 0x73BE cosa_tipo_07
 L 0x73E3 rutina_7
 L 0x7400 rutina_8
 L 0x7436 rutina_9
@@ -186,6 +188,7 @@ C 0x6005 0xC160: las VIDAS, en BCD (p00:4417; GAOOOOOOOOOOH suma 10)
 C 0x6034 p01:6041 tabla_6041: tabla que lee p01:6034, p06:AD68, p06:AE74 (56 bytes)
 C 0x6037 p00:40A4 hl_mas_a
 C 0x607D el banco 9 en 0xA000
+C 0x6083 p09:A269 puertas: las 18 PUERTAS: [area][fila lo][fila hi][y][x][?] a donde lleva cada una (p01:607C: 0xC486-0xC48B y a cambiar 
 C 0x608F 0xC485: bit 7: hay que cambiar de area (p01:64CD)
 C 0x60A3 el banco 3 en 0xA000
 C 0x60B0 0xC102: bit 0: es la demostracion; bit 6: hay partida (p00:46A5)
@@ -335,7 +338,7 @@ C 0x6864 ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 C 0x686A ix+0x05: la X (p01:70BD la compara con la de Gao)
 C 0x6871 ix+0x00: el TIPO de la ficha (0 = libre; p01:6D12)
 C 0x6875 p00:40AE despacha
-C 0x68EC 0xD409: lo que controla la salida de bichos
+C 0x68EC tipo 51
 C 0x68F5 ix+0x74: el tipo de choque (p01:7093)
 C 0x68FF ix+0x07: el paso de la animacion (p01:6124)
 C 0x6906 ix+0x07: el paso de la animacion (p01:6124)
@@ -357,12 +360,12 @@ C 0x69A6 la ficha pasa al paso 0
 C 0x69B6 HL = la ficha
 C 0x69BD 2 vueltas
 C 0x69C0 0xE628: y, x, patron y color de los 32 sprites (p00:4B7A)
-C 0x69CE ix+0x06: cuenta atras (p01:6124)
+C 0x69CE nace tipo 43
 C 0x69D2 ix+0x10: el PATRON del sprite (p01:70FB)
 C 0x69D6 ix+0x11: cuenta atras de lo que hace
 C 0x69DA ix+0x74: el tipo de choque (p01:7093)
 C 0x69EC 0xD400: lo que controla la salida de bichos
-C 0x6A50 cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
+C 0x6A50 tipo 43
 C 0x6A54 ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 C 0x6A5C ix+0x10: el PATRON del sprite (p01:70FB)
 C 0x6A60 ix+0x10: el PATRON del sprite (p01:70FB)
@@ -381,7 +384,7 @@ C 0x6ADA ix+0x00: el TIPO de la ficha (0 = libre; p01:6D12)
 C 0x6AED ix+0x00: el TIPO de la ficha (0 = libre; p01:6D12)
 C 0x6AF1 ix+0x06: cuenta atras (p01:6124)
 C 0x6AF9 ix+0x11: cuenta atras de lo que hace
-C 0x6B0F cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
+C 0x6B0F tipo 57
 C 0x6B1A 0xDC00: fichas de lo que se mueve
 C 0x6B21 0xD700: fichas de lo que se mueve
 C 0x6B24 10 vueltas
@@ -544,6 +547,7 @@ C 0x736F la ficha es la de HL
 C 0x7372 ix+0x40: dato del tipo (p01:7372)
 C 0x7379 0xCB04: las cosas del camino que se van poniendo (p01:72ED)
 C 0x737D p00:40AE despacha
+C 0x73BE cosa tipo 07
 C 0x7425 0xC385: el SCROLL vertical: R#23 del VDP (p00:4C65)
 C 0x7456 la ficha es la de HL
 C 0x7459 ix+0x40: dato del tipo (p01:7372)
@@ -569,6 +573,7 @@ C 0x7550 la ficha es la de HL
 C 0x7553 ix+0x40: dato del tipo (p01:7372)
 C 0x7557 0xC388: lo que se ha movido el mapa este cuadro (p00:56E8)
 C 0x7567 p00:40AE despacha
+C 0x75A8 entrada 6 de la tabla de p01:7567 (L_7550)
 C 0x75A9 0xD000: la ficha del bicho 0, byte 0x00 (p01:74B7)
 C 0x75AC 8 vueltas
 C 0x75CE HL = la ficha
@@ -577,6 +582,16 @@ C 0x7606 8 vueltas
 C 0x761A la ficha es la de HL
 C 0x7624 0xE900: la contrasena: la que se ensena y la tecleada (p06:B43E)
 C 0x7648 p00:40AE despacha
+C 0x7663 entrada 0 de la tabla de p01:7648 (L_7641)
+C 0x7664 entrada 1 de la tabla de p01:7648 (L_7641)
+C 0x7692 entrada 2 de la tabla de p01:7648 (L_7641)
+C 0x769B entrada 3 de la tabla de p01:7648 (L_7641)
+C 0x76A4 entrada 4 de la tabla de p01:7648 (L_7641)
+C 0x76A6 entrada 6 de la tabla de p01:7648 (L_7641)
+C 0x76C6 entrada 8 de la tabla de p01:7648 (L_7641)
+C 0x76C7 entrada 9 de la tabla de p01:7648 (L_7641)
+C 0x76D2 entrada 10 de la tabla de p01:7648 (L_7641)
+C 0x76DD entrada 11 de la tabla de p01:7648 (L_7641)
 C 0x76E1 0xC385: el SCROLL vertical: R#23 del VDP (p00:4C65)
 C 0x7709 ix+0x40: dato del tipo (p01:7372)
 C 0x7721 24 vueltas
@@ -629,9 +644,11 @@ C 0x78B9 ix+0x10: el PATRON del sprite (p01:70FB)
 C 0x78BD ix+0x11: cuenta atras de lo que hace
 C 0x78C8 ix+0x00: el TIPO de la ficha (0 = libre; p01:6D12)
 C 0x78CC p00:40AE despacha
-C 0x78E2 0xC480: el AREA (0-23): 3*(fase-1) + columna, o 18 + fase - 1 (p01:64D5)
+C 0x78D7 entrada 0 de la tabla de p01:78CC (L_7888)
+C 0x78D8 entrada 1 de la tabla de p01:78CC (L_7888)
+C 0x78E2 entrada 2 de la tabla de p01:78CC (L_7888)
 C 0x78E8 ix+0x11: cuenta atras de lo que hace
-C 0x78ED p01:7907 ficha_7907: 11 bytes de la ficha del bicho desde ix+7 (p01:7073)
+C 0x78ED entrada 3 de la tabla de p01:78CC (L_7888)
 C 0x792C ix+0x07: el paso de la animacion (p01:6124)
 C 0x794A ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 C 0x794D ix+0x05: la X (p01:70BD la compara con la de Gao)
@@ -718,19 +735,29 @@ C 0x7E7D 0xC820: la ficha de Gao
 C 0x7E84 0xCC00: 16 fichas de 0x10 (p01:749F)
 C 0x7ED4 p00:40AE despacha
 C 0x7EFB el sonido 0x28 (p14:9C47 + 2*0x28)
+C 0x7F06 entrada 1 de la tabla de p01:7ED4 (L_7EC0)
 C 0x7F08 0xC580: variables del avance del mapa
+C 0x7F0C entrada 12 de la tabla de p01:7ED4 (L_7EC0)
 C 0x7F11 0xC0F2: la musica de la pausa esta sonando (p14:9411)
 C 0x7F16 el sonido 0x4C (p14:9C47 + 2*0x4C)
+C 0x7F1B entrada 2 de la tabla de p01:7ED4 (L_7EC0)
 C 0x7F1C 0xC860: el OBJETO 5 (byte 0 de 4; p06:BAC2)
+C 0x7F21 entrada 4 de la tabla de p01:7ED4 (L_7EC0)
 C 0x7F22 0xC858: el OBJETO 3 (byte 0 de 4; p06:BAC2)
+C 0x7F25 entrada 6 de la tabla de p01:7ED4 (L_7EC0)
 C 0x7F2A el sonido 0x18 (p14:9C47 + 2*0x18)
+C 0x7F2F entrada 0 de la tabla de p01:7ED4 (L_7EC0)
 C 0x7F35 el sonido 0x18 (p14:9C47 + 2*0x18)
+C 0x7F3A entrada 9 de la tabla de p01:7ED4 (L_7EC0)
 C 0x7F3F 0xC481: la FASE, 1-6 (p01:65B4)
 C 0x7F48 el sonido 0x18 (p14:9C47 + 2*0x18)
+C 0x7F4D entrada 13 de la tabla de p01:7ED4 (L_7EC0)
 C 0x7F50 el sonido 0x18 (p14:9C47 + 2*0x18)
+C 0x7F55 entrada 5 de la tabla de p01:7ED4 (L_7EC0)
 C 0x7F58 el sonido 0x18 (p14:9C47 + 2*0x18)
 C 0x7F6B 0xC850: el OBJETO 1 (byte 0 de 4; p06:BAC2)
 C 0x7F73 p01:7F7B tabla_7F7B: tabla que lee p01:7F73 (40 bytes)
+C 0x7FA3 entrada 3 de la tabla de p01:7ED4 (L_7EC0)
 C 0x7FA6 el sonido 0x18 (p14:9C47 + 2*0x18)
 C 0x7FAB 0xC85C: el ARMA de Gao: su cuenta es la del objeto 4 (p01:7FAB)
 C 0x7FAE p01:7FBD tabla_7FBD: tabla que lee p01:7FAE (15 bytes)

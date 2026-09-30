@@ -2,53 +2,55 @@
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0xA000 0xA1D3 dibujos_9DB0_cola  32 dibujos de 8x8 a 4 bits (32 bytes cada uno) que la lista de 0x63A3 sube a la hoja desde el A0 (sigue del banco anterior, 0x9DB0); se solapan 5 bloques (0xA000-0xA1B0, 0xA130-0xA162, 0xA162-0xA186, 0xA186-0xA1AA, 0xA1AA-0xA1D3); lo leen p00:54CC (lista 0x63A3), p01:6CB7, p01:71D4, p01:7328, p01:74DE (467 bytes)
 F 0xA000 8
-D 0xA1D3 0xA20B cosas_A1D3  cosas puestas en el camino: [fila de 8 puntos (9 bits) y tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328 (56 bytes)
+D 0xA1D3 0xA20B cosas_A1D3  cosas puestas en el camino: [fila lo][fila hi + 4*tipo][dato] de 3 bytes, 0xFFFF acaba (p01:7323); el tipo 4 es el torii que lleva a la sala y el 5 la salida de la sala, con el numero de puerta en el dato; lo leen p01:7328 (56 bytes)
 F 0xA1D3 3
-D 0xA20B 0xA243 cosas_A20B  cosas puestas en el camino: [fila de 8 puntos (9 bits) y tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328 (56 bytes)
+D 0xA20B 0xA243 cosas_A20B  cosas puestas en el camino: [fila lo][fila hi + 4*tipo][dato] de 3 bytes, 0xFFFF acaba (p01:7323); el tipo 4 es el torii que lleva a la sala y el 5 la salida de la sala, con el numero de puerta en el dato; lo leen p01:7328 (56 bytes)
 F 0xA20B 3
-D 0xA243 0xA248 cosas_A243  cosas puestas en el camino: [fila de 8 puntos (9 bits) y tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328 (5 bytes)
+D 0xA243 0xA248 cosas_A243  cosas puestas en el camino: [fila lo][fila hi + 4*tipo][dato] de 3 bytes, 0xFFFF acaba (p01:7323); el tipo 4 es el torii que lleva a la sala y el 5 la salida de la sala, con el numero de puerta en el dato; lo leen p01:7328 (5 bytes)
 F 0xA243 3
-D 0xA248 0xA24D cosas_A248  cosas puestas en el camino: [fila de 8 puntos (9 bits) y tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328 (5 bytes)
+D 0xA248 0xA24D cosas_A248  cosas puestas en el camino: [fila lo][fila hi + 4*tipo][dato] de 3 bytes, 0xFFFF acaba (p01:7323); el tipo 4 es el torii que lleva a la sala y el 5 la salida de la sala, con el numero de puerta en el dato; lo leen p01:7328 (5 bytes)
 F 0xA248 3
-D 0xA24D 0xA255 cosas_A24D  cosas puestas en el camino: [fila de 8 puntos (9 bits) y tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328 (8 bytes)
+D 0xA24D 0xA255 cosas_A24D  cosas puestas en el camino: [fila lo][fila hi + 4*tipo][dato] de 3 bytes, 0xFFFF acaba (p01:7323); el tipo 4 es el torii que lleva a la sala y el 5 la salida de la sala, con el numero de puerta en el dato; lo leen p01:7328 (8 bytes)
 F 0xA24D 3
-D 0xA255 0xA25A cosas_A255  cosas puestas en el camino: [fila de 8 puntos (9 bits) y tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328 (5 bytes)
+D 0xA255 0xA25A cosas_A255  cosas puestas en el camino: [fila lo][fila hi + 4*tipo][dato] de 3 bytes, 0xFFFF acaba (p01:7323); el tipo 4 es el torii que lleva a la sala y el 5 la salida de la sala, con el numero de puerta en el dato; lo leen p01:7328 (5 bytes)
 F 0xA255 3
-D 0xA25A 0xA262 cosas_A25A  cosas puestas en el camino: [fila de 8 puntos (9 bits) y tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328 (8 bytes)
+D 0xA25A 0xA262 cosas_A25A  cosas puestas en el camino: [fila lo][fila hi + 4*tipo][dato] de 3 bytes, 0xFFFF acaba (p01:7323); el tipo 4 es el torii que lleva a la sala y el 5 la salida de la sala, con el numero de puerta en el dato; lo leen p01:7328 (8 bytes)
 F 0xA25A 3
-D 0xA262 0xA267 cosas_A262  cosas puestas en el camino: [fila de 8 puntos (9 bits) y tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328 (5 bytes)
+D 0xA262 0xA267 cosas_A262  cosas puestas en el camino: [fila lo][fila hi + 4*tipo][dato] de 3 bytes, 0xFFFF acaba (p01:7323); el tipo 4 es el torii que lleva a la sala y el 5 la salida de la sala, con el numero de puerta en el dato; lo leen p01:7328 (5 bytes)
 F 0xA262 3
-D 0xA267 0xA2D5 cosas_A267  cosas puestas en el camino: [fila de 8 puntos (9 bits) y tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328 (110 bytes)
+D 0xA267 0xA269 cosas_A267  cosas puestas en el camino: [fila lo][fila hi + 4*tipo][dato] de 3 bytes, 0xFFFF acaba (p01:7323); el tipo 4 es el torii que lleva a la sala y el 5 la salida de la sala, con el numero de puerta en el dato; lo leen p01:7328 (2 bytes)
 F 0xA267 3
-D 0xA2D5 0xA30A cosas_A2D5  cosas puestas en el camino: [fila de 8 puntos (9 bits) y tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328 (53 bytes)
+D 0xA269 0xA2D5 puertas  las 18 PUERTAS: [area][fila lo][fila hi][y][x][?] a donde lleva cada una (p01:607C: 0xC486-0xC48B y a cambiar de area); las 0-5 van a las salas, las 6-13 de las salas a las fases, las 14-17 al area 0x18, que no existe; lo leen p01:6083 (108 bytes)
+F 0xA269 6
+D 0xA2D5 0xA30A cosas_A2D5  cosas puestas en el camino: [fila lo][fila hi + 4*tipo][dato] de 3 bytes, 0xFFFF acaba (p01:7323); el tipo 4 es el torii que lleva a la sala y el 5 la salida de la sala, con el numero de puerta en el dato; lo leen p01:7328 (53 bytes)
 F 0xA2D5 3
-D 0xA30A 0xA33C cosas_A30A  cosas puestas en el camino: [fila de 8 puntos (9 bits) y tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328 (50 bytes)
+D 0xA30A 0xA33C cosas_A30A  cosas puestas en el camino: [fila lo][fila hi + 4*tipo][dato] de 3 bytes, 0xFFFF acaba (p01:7323); el tipo 4 es el torii que lleva a la sala y el 5 la salida de la sala, con el numero de puerta en el dato; lo leen p01:7328 (50 bytes)
 F 0xA30A 3
-D 0xA33C 0xA362 cosas_A33C  cosas puestas en el camino: [fila de 8 puntos (9 bits) y tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328 (38 bytes)
+D 0xA33C 0xA362 cosas_A33C  cosas puestas en el camino: [fila lo][fila hi + 4*tipo][dato] de 3 bytes, 0xFFFF acaba (p01:7323); el tipo 4 es el torii que lleva a la sala y el 5 la salida de la sala, con el numero de puerta en el dato; lo leen p01:7328 (38 bytes)
 F 0xA33C 3
-D 0xA362 0xA3A6 cosas_A362  cosas puestas en el camino: [fila de 8 puntos (9 bits) y tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328 (68 bytes)
+D 0xA362 0xA3A6 cosas_A362  cosas puestas en el camino: [fila lo][fila hi + 4*tipo][dato] de 3 bytes, 0xFFFF acaba (p01:7323); el tipo 4 es el torii que lleva a la sala y el 5 la salida de la sala, con el numero de puerta en el dato; lo leen p01:7328 (68 bytes)
 F 0xA362 3
-D 0xA3A6 0xA3DE cosas_A3A6  cosas puestas en el camino: [fila de 8 puntos (9 bits) y tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328 (56 bytes)
+D 0xA3A6 0xA3DE cosas_A3A6  cosas puestas en el camino: [fila lo][fila hi + 4*tipo][dato] de 3 bytes, 0xFFFF acaba (p01:7323); el tipo 4 es el torii que lleva a la sala y el 5 la salida de la sala, con el numero de puerta en el dato; lo leen p01:7328 (56 bytes)
 F 0xA3A6 3
-D 0xA3DE 0xA41C cosas_A3DE  cosas puestas en el camino: [fila de 8 puntos (9 bits) y tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328 (62 bytes)
+D 0xA3DE 0xA41C cosas_A3DE  cosas puestas en el camino: [fila lo][fila hi + 4*tipo][dato] de 3 bytes, 0xFFFF acaba (p01:7323); el tipo 4 es el torii que lleva a la sala y el 5 la salida de la sala, con el numero de puerta en el dato; lo leen p01:7328 (62 bytes)
 F 0xA3DE 3
-D 0xA41C 0xA45A cosas_A41C  cosas puestas en el camino: [fila de 8 puntos (9 bits) y tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328 (62 bytes)
+D 0xA41C 0xA45A cosas_A41C  cosas puestas en el camino: [fila lo][fila hi + 4*tipo][dato] de 3 bytes, 0xFFFF acaba (p01:7323); el tipo 4 es el torii que lleva a la sala y el 5 la salida de la sala, con el numero de puerta en el dato; lo leen p01:7328 (62 bytes)
 F 0xA41C 3
-D 0xA45A 0xA48C cosas_A45A  cosas puestas en el camino: [fila de 8 puntos (9 bits) y tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328 (50 bytes)
+D 0xA45A 0xA48C cosas_A45A  cosas puestas en el camino: [fila lo][fila hi + 4*tipo][dato] de 3 bytes, 0xFFFF acaba (p01:7323); el tipo 4 es el torii que lleva a la sala y el 5 la salida de la sala, con el numero de puerta en el dato; lo leen p01:7328 (50 bytes)
 F 0xA45A 3
-D 0xA48C 0xA4D9 cosas_A48C  cosas puestas en el camino: [fila de 8 puntos (9 bits) y tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328 (77 bytes)
+D 0xA48C 0xA4D9 cosas_A48C  cosas puestas en el camino: [fila lo][fila hi + 4*tipo][dato] de 3 bytes, 0xFFFF acaba (p01:7323); el tipo 4 es el torii que lleva a la sala y el 5 la salida de la sala, con el numero de puerta en el dato; lo leen p01:7328 (77 bytes)
 F 0xA48C 3
-D 0xA4D9 0xA51D cosas_A4D9  cosas puestas en el camino: [fila de 8 puntos (9 bits) y tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328 (68 bytes)
+D 0xA4D9 0xA51D cosas_A4D9  cosas puestas en el camino: [fila lo][fila hi + 4*tipo][dato] de 3 bytes, 0xFFFF acaba (p01:7323); el tipo 4 es el torii que lleva a la sala y el 5 la salida de la sala, con el numero de puerta en el dato; lo leen p01:7328 (68 bytes)
 F 0xA4D9 3
-D 0xA51D 0xA564 cosas_A51D  cosas puestas en el camino: [fila de 8 puntos (9 bits) y tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328 (71 bytes)
+D 0xA51D 0xA564 cosas_A51D  cosas puestas en el camino: [fila lo][fila hi + 4*tipo][dato] de 3 bytes, 0xFFFF acaba (p01:7323); el tipo 4 es el torii que lleva a la sala y el 5 la salida de la sala, con el numero de puerta en el dato; lo leen p01:7328 (71 bytes)
 F 0xA51D 3
-D 0xA564 0xA599 cosas_A564  cosas puestas en el camino: [fila de 8 puntos (9 bits) y tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328 (53 bytes)
+D 0xA564 0xA599 cosas_A564  cosas puestas en el camino: [fila lo][fila hi + 4*tipo][dato] de 3 bytes, 0xFFFF acaba (p01:7323); el tipo 4 es el torii que lleva a la sala y el 5 la salida de la sala, con el numero de puerta en el dato; lo leen p01:7328 (53 bytes)
 F 0xA564 3
-D 0xA599 0xA5E6 cosas_A599  cosas puestas en el camino: [fila de 8 puntos (9 bits) y tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328 (77 bytes)
+D 0xA599 0xA5E6 cosas_A599  cosas puestas en el camino: [fila lo][fila hi + 4*tipo][dato] de 3 bytes, 0xFFFF acaba (p01:7323); el tipo 4 es el torii que lleva a la sala y el 5 la salida de la sala, con el numero de puerta en el dato; lo leen p01:7328 (77 bytes)
 F 0xA599 3
-D 0xA5E6 0xA62A cosas_A5E6  cosas puestas en el camino: [fila de 8 puntos (9 bits) y tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328 (68 bytes)
+D 0xA5E6 0xA62A cosas_A5E6  cosas puestas en el camino: [fila lo][fila hi + 4*tipo][dato] de 3 bytes, 0xFFFF acaba (p01:7323); el tipo 4 es el torii que lleva a la sala y el 5 la salida de la sala, con el numero de puerta en el dato; lo leen p01:7328 (68 bytes)
 F 0xA5E6 3
-D 0xA62A 0xA67A cosas_A62A  cosas puestas en el camino: [fila de 8 puntos (9 bits) y tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328 (80 bytes)
+D 0xA62A 0xA67A cosas_A62A  cosas puestas en el camino: [fila lo][fila hi + 4*tipo][dato] de 3 bytes, 0xFFFF acaba (p01:7323); el tipo 4 es el torii que lleva a la sala y el 5 la salida de la sala, con el numero de puerta en el dato; lo leen p01:7328 (80 bytes)
 F 0xA62A 3
 D 0xA67A 0xA6FD bichos_A67A  bichos del area: [fila lo][fila hi + 2*tipo][dato] de 3 bytes; tipo 0 acaba (p01:6CFC); lo leen p01:6CFC (131 bytes)
 F 0xA67A 3
@@ -154,6 +156,8 @@ F 0xBF58 16
 # --- A MANO: datos con su explicacion ---
 D 0xB925 0xB9CF codigo_para_f220  0xAA bytes de CODIGO que p09:B919 copia a 0xF220 (ldir) y que corre alli: p09:B8A4 pone 0xF220 en el gancho H.TIMI (0xFD9F) antes de saltar al INIT de King Kong 2 copiado en 0xF120; solo pasa si p00:5DFF encontro King Kong 2 en otra ranura (0xC110 = 2). Se deja como datos porque se ensambla para 0xF220 y no para aqui
 
+
+
 # --- RESTO (seccion que reescribe tools/resto.py; no editar a mano) ---
 D 0xB018 0xB0F0 sin_lector_B018  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (216 bytes)
 D 0xB658 0xB880 tabla_B658  tabla que lee p09:BD7D, p09:BD88, p09:BDD1, p09:BEF3, p09:BEFE (552 bytes)
@@ -205,14 +209,20 @@ C 0xB919 p09:B925 codigo_para_f220: 0xAA bytes de CODIGO que p09:B919 copia a 0x
 C 0xB91C 0xF220: el INIT de King Kong 2 y el gancho de Hinotori, copiados (p09:B8EA, p09:B919)
 C 0xB9CF 0xF108: lo de arrancar King Kong 2 (p09:B880)
 C 0xB9D2 p00:40AE despacha
+C 0xB9DF entrada 0 de la tabla de p09:B9D2 (L_B9CF)
 C 0xB9EE 0xF108: lo de arrancar King Kong 2 (p09:B880)
+C 0xB9F3 entrada 1 de la tabla de p09:B9D2 (L_B9CF)
+C 0xBA0C entrada 2 de la tabla de p09:B9D2 (L_B9CF)
 C 0xBA11 10 vueltas
 C 0xBA1F 6 vueltas
 C 0xBA21 0xF10A: lo de arrancar King Kong 2 (p09:B880)
+C 0xBA34 entrada 3 de la tabla de p09:B9D2 (L_B9CF)
 C 0xBA7F 0xF108: lo de arrancar King Kong 2 (p09:B880)
 C 0xBA98 0xF108: lo de arrancar King Kong 2 (p09:B880)
 C 0xBA9C 0xF108: lo de arrancar King Kong 2 (p09:B880)
 C 0xBA9F p00:40AE despacha
+C 0xBAA8 entrada 0 de la tabla de p09:BA9F (L_BA9C)
+C 0xBABA entrada 1 de la tabla de p09:BA9F (L_BA9C)
 C 0xBAD4 10 vueltas
 C 0xBAE4 6 vueltas
 C 0xBAE6 0xF110: lo de arrancar King Kong 2 (p09:B880)

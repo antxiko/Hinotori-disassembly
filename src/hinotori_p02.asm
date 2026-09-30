@@ -91,13 +91,13 @@ DATA_tabla_8043:
 
 
 L_804B:
-	ld hl,0c88ch		;804b   ; 0xC88C: el OBJETO 16 (byte 0 de 4; p06:BAC2)
+	ld hl,0c88ch		;804b   ; entrada 0 de la tabla de p02:80B0 (L_80A9)
 	jr L_8058		;804e
 L_8050:
-	ld hl,0c8bch		;8050   ; 0xC8BC: el OBJETO 28 (byte 0 de 4; p06:BAC2)
+	ld hl,0c8bch		;8050   ; entrada 0 de la tabla de p02:802E (L_8027)
 	jr L_8058		;8053
 L_8055:
-	ld hl,0c8a4h		;8055   ; 0xC8A4: el OBJETO 22 (byte 0 de 4; p06:BAC2)
+	ld hl,0c8a4h		;8055   ; entrada 0 de la tabla de p02:8040 (L_8039)
 L_8058:
 	ld a,(0c481h)		;8058   ; 0xC481: la FASE, 1-6 (p01:65B4)
 	dec a			;805b
@@ -109,7 +109,7 @@ L_8058:
 	ret z			;8063
 	jr L_80A0		;8064
 L_8066:
-	ld a,(ix+046h)		;8066   ; ix+0x46: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld a,(ix+046h)		;8066   ; entrada 1 de la tabla de p02:80B0 (L_80A9)
 	or a			;8069
 	ret nz			;806a
 	ld (ix+046h),040h		;806b   ; ix+0x46: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
@@ -126,7 +126,7 @@ L_8066:
 	ld a,023h		;8089   ; el sonido 0x23 (p14:9C47 + 2*0x23)
 	jp 041ach		;808b
 L_808E:
-	ld bc,00205h		;808e
+	ld bc,00205h		;808e   ; entrada 2 de la tabla de p02:80B0 (L_80A9)
 	call ficha_x		;8091
 	ld a,d			;8094
 	add a,008h		;8095
@@ -140,7 +140,7 @@ L_80A0:
 	inc (ix+001h)		;80a0   ; la ficha pasa al paso siguiente
 	ret			;80a3
 L_80A4:
-	ld bc,02020h		;80a4
+	ld bc,02020h		;80a4   ; entrada 3 de la tabla de p02:802E (L_8027)
 	jr $+117		;80a7
 L_80A9:
 	call 0623eh		;80a9
@@ -164,7 +164,7 @@ DATA_tabla_80B3:
 
 
 L_80BB:
-	ld bc,02020h		;80bb
+	ld bc,02020h		;80bb   ; entrada 3 de la tabla de p02:80B0 (L_80A9)
 	call rutina		;80be
 	ld a,(0c800h)		;80c1   ; 0xC800: lo que hace Gao (p00:5C68)
 	cp 002h		;80c4
@@ -314,7 +314,7 @@ rutina_2:
 	add a,090h		;81a6
 	ld e,a			;81a8
 	ret			;81a9
-cosa_04:
+cosa_tipo_05:
 	call 06136h		;81aa
 	ld (ix+046h),080h		;81ad   ; ix+0x46: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ld de,082beh		;81b1
@@ -336,7 +336,7 @@ cosa_04:
 	ld (ix+016h),040h		;81df   ; ix+0x16: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ld (ix+015h),010h		;81e3   ; ix+0x15: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ret			;81e7
-cosa_03:
+cosa_tipo_04:
 	call 06136h		;81e8
 	ld de,082cch		;81eb
 	call 06162h		;81ee
@@ -361,7 +361,7 @@ cosa_03:
 	ld (ix+016h),040h		;8228   ; ix+0x16: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ld (ix+015h),020h		;822c   ; ix+0x15: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ret			;8230
-cosa_00:
+cosa_tipo_01:
 	call 06136h		;8231
 	ld (ix+046h),080h		;8234   ; ix+0x46: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ld de,082c5h		;8238
@@ -369,7 +369,7 @@ cosa_00:
 	call 061cfh		;823e
 	ld hl,0827eh		;8241   ; p02:827E tabla_827E: tabla que lee p02:81B1, p02:81B7, p02:81C3, p02:81EB, p02:81F1, p02:81F7 (93 bytes)
 	jp ficha_x_2		;8244
-cosa_01:
+cosa_tipo_02:
 	call 06136h		;8247
 	ld (ix+046h),080h		;824a   ; ix+0x46: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ld de,082cch		;824e
@@ -926,7 +926,7 @@ DATA_tabla_868E:
 
 
 L_869A:
-	xor a			;869a
+	xor a			;869a   ; entrada 5 de la tabla de p02:868B (L_8672)
 	ld (0c800h),a		;869b   ; 0xC800: lo que hace Gao (p00:5C68)
 	ret			;869e
 
@@ -943,7 +943,7 @@ DATA_sin_lector_869F:
 
 
 L_86A5:
-	ld a,(0c106h)		;86a5   ; 0xC106: cursores, ESPACIO y los disparos pulsados en este cuadro (p00:533B)
+	ld a,(0c106h)		;86a5   ; entrada 0 de la tabla de p02:868B (L_8672)
 	and 020h		;86a8
 	jr z,L_86B5		;86aa
 	ld hl,00001h		;86ac
@@ -989,7 +989,7 @@ L_8703:
 	ld hl,00004h		;8703
 	jp pon_estado_de_gao_2		;8706
 L_8709:
-	ld a,(0c106h)		;8709   ; 0xC106: cursores, ESPACIO y los disparos pulsados en este cuadro (p00:533B)
+	ld a,(0c106h)		;8709   ; entrada 4 de la tabla de p02:868B (L_8672)
 	and 020h		;870c
 	jr z,L_8720		;870e
 	ld a,(0c82eh)		;8710   ; 0xC82E: la ficha de Gao
@@ -1027,7 +1027,7 @@ L_8740:
 	ld hl,00000h		;8759
 	jp pon_estado_de_gao_2		;875c
 L_875F:
-	ld a,(0c801h)		;875f   ; 0xC801: la ficha de Gao
+	ld a,(0c801h)		;875f   ; entrada 1 de la tabla de p02:868B (L_8672)
 	call 040aeh		;8762   ; p00:40AE despacha
 
 ; ----------------------------------------------------------------------
@@ -1046,7 +1046,7 @@ DATA_tabla_8765:
 
 
 L_876D:
-	call mira_gao_2		;876d
+	call mira_gao_2		;876d   ; entrada 0 de la tabla de p02:8762 (L_875F)
 	ld a,00bh		;8770   ; el sonido 0x0B (p14:9C47 + 2*0x0B)
 	call 041c1h		;8772
 	call mira_teclas		;8775
@@ -1060,7 +1060,7 @@ L_876D:
 	ld (0c818h),a		;8788   ; 0xC818: la ficha de Gao
 	call mira_gao		;878b
 L_878E:
-	call pon_y_de_gao		;878e
+	call pon_y_de_gao		;878e   ; entrada 1 de la tabla de p02:8762 (L_875F)
 	call rutina_10		;8791
 	call pon_gao_5		;8794
 	call mira_x_de_gao_2		;8797
@@ -1072,14 +1072,14 @@ L_878E:
 	call pon_gao_7		;87a5
 	jr mira_gao		;87a8
 L_87AA:
-	call pon_y_de_gao		;87aa
+	call pon_y_de_gao		;87aa   ; entrada 2 de la tabla de p02:8762 (L_875F)
 	ld a,001h		;87ad
 	ld (0c803h),a		;87af   ; 0xC803: la ficha de Gao
 	call pon_gao_6		;87b2
 	call mira_x_de_gao_2		;87b5
 	jr mira_gao		;87b8
 L_87BA:
-	call pon_y_de_gao		;87ba
+	call pon_y_de_gao		;87ba   ; entrada 3 de la tabla de p02:8762 (L_875F)
 	ld a,001h		;87bd
 	ld (0c818h),a		;87bf   ; 0xC818: la ficha de Gao
 	ld a,001h		;87c2
@@ -1114,7 +1114,7 @@ pon_estado_de_gao_2:
 	ld (0c800h),hl		;87ff   ; 0xC800: lo que hace Gao (p00:5C68)
 	ret			;8802
 L_8803:
-	ld a,(0c801h)		;8803   ; 0xC801: la ficha de Gao
+	ld a,(0c801h)		;8803   ; entrada 2 de la tabla de p02:868B (L_8672)
 	dec a			;8806
 	jp z,L_889E		;8807
 	xor a			;880a
@@ -1238,7 +1238,7 @@ L_88AD:
 	call pon_estado_de_gao_2		;88c5
 	ret			;88c8
 L_88C9:
-	ld a,(0c801h)		;88c9   ; 0xC801: la ficha de Gao
+	ld a,(0c801h)		;88c9   ; entrada 3 de la tabla de p02:868B (L_8672)
 	dec a			;88cc
 	jr z,L_8906		;88cd
 	jp p,L_894C		;88cf
@@ -2291,7 +2291,7 @@ DATA_tabla_91A4:
 
 
 L_91C2:
-	ld a,(ix+001h)		;91c2   ; ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
+	ld a,(ix+001h)		;91c2   ; entrada 14 de la tabla de p02:91A1 (L_9196)
 	or a			;91c5
 	jr nz,pon_buffer		;91c6
 	ld a,(0c848h)		;91c8   ; 0xC848: la ficha de Gao
@@ -2310,10 +2310,10 @@ L_91C2:
 	inc (ix+001h)		;91e4   ; la ficha pasa al paso siguiente
 	ret			;91e7
 L_91E8:
-	call pon_buffer		;91e8
+	call pon_buffer		;91e8   ; entrada 5 de la tabla de p02:91A1 (L_9196)
 	jr L_921E		;91eb
 pon_buffer:
-	exx			;91ed
+	exx			;91ed   ; entrada 8 de la tabla de p02:91A1 (L_9196)
 	push hl			;91ee
 	call ficha_y		;91ef
 	pop hl			;91f2
@@ -2369,7 +2369,7 @@ L_921E:
 	ld (hl),a			;923a
 	ret			;923b
 rutina_13:
-	exx			;923c
+	exx			;923c   ; entrada 0 de la tabla de p02:91A1 (L_9196)
 	inc l			;923d
 	inc l			;923e
 	call rutina_14		;923f
@@ -2396,7 +2396,7 @@ rutina_14:
 	ld (hl),e			;9256
 	ret			;9257
 L_9258:
-	exx			;9258
+	exx			;9258   ; entrada 4 de la tabla de p02:91A1 (L_9196)
 	inc l			;9259
 	inc (hl)			;925a
 	ld a,(hl)			;925b
@@ -2432,7 +2432,7 @@ L_928D:
 	ld (ix+000h),0ffh		;928d   ; ix+0x00: el TIPO de la ficha (0 = libre; p01:6D12)
 	ret			;9291
 L_9292:
-	call rutina_13		;9292
+	call rutina_13		;9292   ; entrada 1 de la tabla de p02:91A1 (L_9196)
 ficha_y:
 	ld a,(ix+003h)		;9295   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 	ld e,a			;9298
@@ -2705,13 +2705,13 @@ DATA_tabla_9581:
 
 
 L_9587:
-	bit 2,(ix+055h)		;9587   ; ix+0x55: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	bit 2,(ix+055h)		;9587   ; entrada 0 de la tabla de p02:957E (L_9577)
 	ret z			;958b
 L_958C:
 	inc (ix+001h)		;958c   ; la ficha pasa al paso siguiente
 	ret			;958f
 L_9590:
-	ld a,(0c800h)		;9590   ; 0xC800: lo que hace Gao (p00:5C68)
+	ld a,(0c800h)		;9590   ; entrada 1 de la tabla de p02:957E (L_9577)
 	cp 002h		;9593
 	ret z			;9595
 	ld a,(ix+041h)		;9596   ; ix+0x41: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
@@ -2740,9 +2740,9 @@ L_9590:
 L_95C2:
 	jr L_958C		;95c2
 L_95C4:
-	call 075ceh		;95c4
+	call 075ceh		;95c4   ; entrada 2 de la tabla de p02:957E (L_9577)
 	jp 0af5ch		;95c7
-cosa_14:
+cosa_tipo_15:
 	call 06136h		;95ca
 	ld a,(0cb06h)		;95cd   ; 0xCB06: las cosas del camino que se van poniendo (p01:72ED)
 	ld c,a			;95d0
@@ -2794,7 +2794,7 @@ DATA_tabla_960E:
 
 
 L_9616:
-	ld a,(ix+003h)		;9616   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
+	ld a,(ix+003h)		;9616   ; entrada 0 de la tabla de p02:960B (L_95FD)
 	sub 008h		;9619
 	cp 0c0h		;961b
 	ret nc			;961d
@@ -2806,7 +2806,7 @@ rutina_15:
 	cp 080h		;962a
 	ret			;962c
 L_962D:
-	call ficha_paso_2		;962d
+	call ficha_paso_2		;962d   ; entrada 1 de la tabla de p02:960B (L_95FD)
 	ld a,(ix+009h)		;9630
 	dec a			;9633
 	jr z,L_964E		;9634
@@ -2856,7 +2856,7 @@ ficha_paso_2:
 	ld (ix+046h),010h		;9692   ; ix+0x46: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ret			;9696
 L_9697:
-	ld a,(ix+046h)		;9697   ; ix+0x46: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	ld a,(ix+046h)		;9697   ; entrada 2 de la tabla de p02:960B (L_95FD)
 	or a			;969a
 	ret nz			;969b
 	set 7,(ix+020h)		;969c   ; ix+0x20: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
@@ -2864,7 +2864,7 @@ L_96A0:
 	inc (ix+001h)		;96a0   ; la ficha pasa al paso siguiente
 	ret			;96a3
 L_96A4:
-	ld c,02ch		;96a4
+	ld c,02ch		;96a4   ; entrada 3 de la tabla de p02:960B (L_95FD)
 	ld b,000h		;96a6
 	call ficha_x		;96a8
 	ld a,d			;96ab
@@ -2943,7 +2943,7 @@ rutina_16:
 	cp 030h		;972b
 	ret nc			;972d
 	jp 075ceh		;972e
-cosa_11:
+cosa_tipo_12:
 	call 06136h		;9731
 	ld a,(0cb06h)		;9734   ; 0xCB06: las cosas del camino que se van poniendo (p01:72ED)
 	ld c,a			;9737
@@ -3021,7 +3021,7 @@ rutina_17:
 	ret nc			;97c9
 	jp 075ceh		;97ca
 L_97CD:
-	call ficha_paso_3		;97cd
+	call ficha_paso_3		;97cd   ; entrada 0 de la tabla de p02:97B8 (L_97AA)
 	call mira_cuadros_2_2		;97d0
 	call rutina_18		;97d3
 	jr nc,L_97DA		;97d6
@@ -3154,13 +3154,13 @@ ficha_paso_3:
 	inc (ix+001h)		;98be   ; la ficha pasa al paso siguiente
 	ret			;98c1
 L_98C2:
-	set 7,(ix+030h)		;98c2   ; ix+0x30: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+	set 7,(ix+030h)		;98c2   ; entrada 1 de la tabla de p02:97B8 (L_97AA)
 	inc (ix+001h)		;98c6   ; la ficha pasa al paso siguiente
 	ld a,01ah		;98c9   ; el sonido 0x1A (p14:9C47 + 2*0x1A)
 	call 041ach		;98cb
 	ld hl,00014h		;98ce
 	jp 04818h		;98d1
-cosa_07:
+cosa_tipo_08:
 	call 06136h		;98d4
 	ld a,(0cb06h)		;98d7   ; 0xCB06: las cosas del camino que se van poniendo (p01:72ED)
 	ld c,a			;98da
@@ -3222,21 +3222,21 @@ L_9942:
 	ld a,(ix+041h)		;994e   ; ix+0x41: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	call 073e3h		;9951
 	jp 075ceh		;9954
-cosa_15:
-	call cosa_10		;9957
+cosa_tipo_16:
+	call cosa_tipo_11		;9957
 	ld a,(ix+041h)		;995a   ; ix+0x41: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	add a,024h		;995d
 	ld (ix+041h),a		;995f   ; ix+0x41: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ld (ix+020h),004h		;9962   ; ix+0x20: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ret			;9966
-cosa_09:
-	call cosa_10		;9967
+cosa_tipo_10:
+	call cosa_tipo_11		;9967
 	ld a,(ix+041h)		;996a   ; ix+0x41: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	add a,010h		;996d
 	ld (ix+041h),a		;996f   ; ix+0x41: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ld (ix+020h),004h		;9972   ; ix+0x20: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ret			;9976
-cosa_10:
+cosa_tipo_11:
 	call 06136h		;9977
 	ld a,(0cb06h)		;997a   ; 0xCB06: las cosas del camino que se van poniendo (p01:72ED)
 	ld c,a			;997d
@@ -3344,7 +3344,7 @@ DATA_tabla_9A05:
 
 
 L_9A1F:
-	dec (ix+011h)		;9a1f   ; cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
+	dec (ix+011h)		;9a1f   ; entrada 0 de la tabla de p02:9A02 (L_99F2)
 	ret nz			;9a22
 	inc (ix+001h)		;9a23   ; la ficha pasa al paso siguiente
 	ld (ix+00bh),001h		;9a26
@@ -3353,7 +3353,7 @@ L_9A1F:
 	ret z			;9a32
 	jp 070a1h		;9a33
 L_9A36:
-	dec (ix+011h)		;9a36   ; cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
+	dec (ix+011h)		;9a36   ; entrada 1 de la tabla de p02:9A02 (L_99F2)
 	ret nz			;9a39
 	inc (ix+001h)		;9a3a   ; la ficha pasa al paso siguiente
 	ld (ix+00bh),000h		;9a3d
@@ -3369,7 +3369,7 @@ L_9A52:
 	ld (ix+011h),b		;9a52   ; ix+0x11: cuenta atras de lo que hace
 	ret			;9a55
 L_9A56:
-	dec (ix+011h)		;9a56   ; cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
+	dec (ix+011h)		;9a56   ; entrada 2 de la tabla de p02:9A02 (L_99F2)
 	ret nz			;9a59
 	inc (ix+001h)		;9a5a   ; la ficha pasa al paso siguiente
 	ld (ix+00bh),001h		;9a5d
@@ -3377,7 +3377,7 @@ L_9A56:
 	call 0709dh		;9a65
 	jp 070a1h		;9a68
 L_9A6B:
-	dec (ix+011h)		;9a6b   ; cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
+	dec (ix+011h)		;9a6b   ; entrada 3 de la tabla de p02:9A02 (L_99F2)
 	ret nz			;9a6e
 	inc (ix+001h)		;9a6f   ; la ficha pasa al paso siguiente
 	ld (ix+00bh),000h		;9a72
@@ -3393,14 +3393,14 @@ L_9A87:
 	ld (ix+011h),b		;9a87   ; ix+0x11: cuenta atras de lo que hace
 	ret			;9a8a
 L_9A8B:
-	dec (ix+011h)		;9a8b   ; cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
+	dec (ix+011h)		;9a8b   ; entrada 6 de la tabla de p02:9A02 (L_99F2)
 	ret nz			;9a8e
 	inc (ix+001h)		;9a8f   ; la ficha pasa al paso siguiente
 	ld (ix+00bh),001h		;9a92
 	ld (ix+011h),00ah		;9a96   ; ix+0x11: cuenta atras de lo que hace
 	jp 070a1h		;9a9a
 L_9A9D:
-	ret			;9a9d
+	ret			;9a9d   ; entrada 12 de la tabla de p02:9A02 (L_99F2)
 ficha_cuenta:
 	ld hl,09ab3h		;9a9e   ; p02:9AB3 tabla_9AB3: tabla que lee p02:9A9E (4 bytes)
 	inc (ix+060h)		;9aa1   ; ix+0x60: cuenta de cuadros (p01:70F1)

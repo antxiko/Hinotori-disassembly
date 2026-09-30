@@ -158,6 +158,29 @@ test:
 	@echo "=================================================================="
 	@python3 -m unittest discover -s tests -v
 
+# Las imagenes de la web, dibujadas desde las tablas de la ROM con nuestro
+# codigo (tools/titulo.py, laminas.py, figuras.py). Ninguna es una captura.
+imagenes: $(ROM)
+	@mkdir -p docs/imagenes
+	python3 tools/titulo.py logo docs/imagenes/konami.png
+	python3 tools/titulo.py titulo docs/imagenes/titulo.png
+	python3 tools/titulo.py menu docs/imagenes/menu.png
+	python tools/mapa_general.py docs/imagenes
+	python3 tools/figuras.py objetos docs/imagenes/objetos.png
+	python3 tools/figuras.py gao docs/imagenes/gao.png
+	python3 tools/figuras.py cosas docs/imagenes/cosas.png
+
+# El cotejo contra los volcados de openMSX (work/, no viajan: se rehacen con
+# tools/lanza_bp.sh y lanza_vuelca.sh, ver docs/IN-THE-EMULATOR.md). Los tres
+# primeros tienen que dar 0; el mapa y la hoja dicen cuanto pisa el juego.
+coteja: $(ROM)
+	python3 tools/titulo.py logo $(WORK)/c_logo.png $(WORK)/logo/bp.vram
+	python3 tools/titulo.py titulo $(WORK)/c_titulo.png $(WORK)/v4/t023.vram
+	python3 tools/titulo.py menu $(WORK)/c_menu.png $(WORK)/menu_qbert/bp.vram
+	-python3 tools/mapa.py coteja $(WORK)/v3/t045.ram $(WORK)/v3/t045.vram
+	python3 tools/mapa.py coteja_hoja $(WORK)/area_1/bp.ram $(WORK)/area_1/bp.vram $(WORK)/area_1/bp.pal
+	python3 tools/mapa.py coteja_hoja $(WORK)/area_2/bp.ram $(WORK)/area_2/bp.vram $(WORK)/area_2/bp.pal
+
 # La web: las paginas se escriben en markdown y se convierten con md2html.py;
 # la portada la monta make_web.py con lo de tools/contenido_web.py.
 web:
@@ -172,4 +195,4 @@ clean:
 	      $(WORK)/hinotori_reensamblada.rom $(WORK)/pasmo.err
 
 .PHONY: all comprueba reconoce paginas semillas trace listado verify \
-        sanity densidad test web clean
+        sanity densidad test web clean imagenes coteja

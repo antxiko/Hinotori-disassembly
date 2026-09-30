@@ -154,7 +154,29 @@ def coteja(ram, vram):
     return mal
 
 
+def coteja_hoja(ram, vram, pal):
+    """Al acabar de montar el area (p00:5D6E): cada dibujo que usa el mapa
+    del area, en NUESTRA hoja y en la del volcado, y la paleta."""
+    r, v, pd = open(ram, "rb").read(), open(vram, "rb").read(), open(pal, "rb").read()
+    area, juego, col = r[0x480], r[0x482], r[0x483]
+    h = H.hoja_de_la_fase(juego, col)
+    usados = sorted({t for fila in dibujos_del_area(area) for t in fila})
+
+    def trozo(m, t):
+        return b"".join(m[0x8000 + ((t >> 5) * 8 + j) * 128 + (t & 31) * 4:
+                          0x8000 + ((t >> 5) * 8 + j) * 128 + (t & 31) * 4 + 4] for j in range(8))
+    mal = [t for t in usados if trozo(h.m, t) != trozo(v, t)]
+    p = H.paleta(juego, area)
+    pv = [((pd[2 * i] >> 4) & 7, pd[2 * i + 1] & 7, pd[2 * i] & 7) for i in range(16)]
+    malp = [i for i in range(16) if p[i] != pv[i]]
+    print("area %d: %d dibujos del mapa, %d distintos; paleta: %d colores distintos"
+          % (area, len(usados), len(mal), len(malp)))
+    return len(mal) + len(malp)
+
+
 def main(argv):
+    if argv[1] == "coteja_hoja":
+        sys.exit(1 if coteja_hoja(argv[2], argv[3], argv[4]) else 0)
     if argv[1] == "coteja":
         sys.exit(1 if coteja(argv[2], argv[3]) else 0)
     area = int(argv[1], 0)

@@ -80,7 +80,7 @@ L_607C:
 	ld a,009h		;607d   ; el banco 9 en 0xA000
 	call 05434h		;607f
 	pop af			;6082
-	ld de,0a269h		;6083
+	ld de,0a269h		;6083   ; p09:A269 puertas: las 18 PUERTAS: [area][fila lo][fila hi][y][x][?] a donde lleva cada una (p01:607C: 0xC486-0xC48B y a cambiar
 	ld l,a			;6086
 	ld h,000h		;6087
 	add hl,hl			;6089
@@ -1253,7 +1253,7 @@ DATA_tabla_6878:
 
 
 tipo_51:
-	ld a,(0d409h)		;68ec   ; 0xD409: lo que controla la salida de bichos
+	ld a,(0d409h)		;68ec   ; tipo 51
 	and a			;68ef
 	ld b,002h		;68f0
 	jr z,L_68F5		;68f2
@@ -1367,7 +1367,7 @@ L_69BF:
 	ld l,a			;69cb
 	djnz L_69BF		;69cc
 nace_tipo_43:
-	ld (ix+006h),000h		;69ce   ; ix+0x06: cuenta atras (p01:6124)
+	ld (ix+006h),000h		;69ce   ; nace tipo 43
 	ld (ix+010h),047h		;69d2   ; ix+0x10: el PATRON del sprite (p01:70FB)
 	ld (ix+011h),003h		;69d6   ; ix+0x11: cuenta atras de lo que hace
 	ld (ix+074h),003h		;69da   ; ix+0x74: el tipo de choque (p01:7093)
@@ -1424,7 +1424,7 @@ DATA_tabla_6A1A:
 
 
 tipo_43:
-	dec (ix+011h)		;6a50   ; cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
+	dec (ix+011h)		;6a50   ; tipo 43
 	ret nz			;6a53
 	ld a,(ix+001h)		;6a54   ; ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 	cp 003h		;6a57
@@ -1533,7 +1533,7 @@ L_6AE3:
 	call cambia_de_signo		;6b09
 	jp L_792C		;6b0c
 tipo_57:
-	dec (ix+011h)		;6b0f   ; cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
+	dec (ix+011h)		;6b0f   ; tipo 57
 	ret nz			;6b12
 	ld (ix+062h),001h		;6b13
 	jp L_699F		;6b17
@@ -2776,8 +2776,8 @@ DATA_tabla_7380:
 ; ======================================================================
 
 
-cosa_06:
-	ret			;73be
+cosa_tipo_07:
+	ret			;73be   ; cosa tipo 07
 L_73BF:
 	call mira_bicho_0		;73bf
 	jp L_6136		;73c2
@@ -3083,7 +3083,7 @@ DATA_tabla_756A:
 
 
 L_75A8:
-	ret			;75a8
+	ret			;75a8   ; entrada 6 de la tabla de p01:7567 (L_7550)
 mira_bicho_0_2:
 	ld hl,0d000h		;75a9   ; 0xD000: la ficha del bicho 0, byte 0x00 (p01:74B7)
 	ld b,008h		;75ac   ; 8 vueltas
@@ -3238,9 +3238,9 @@ DATA_tabla_764B:
 
 
 L_7663:
-	ret			;7663
+	ret			;7663   ; entrada 0 de la tabla de p01:7648 (L_7641)
 L_7664:
-	exx			;7664
+	exx			;7664   ; entrada 1 de la tabla de p01:7648 (L_7641)
 	push hl			;7665
 	exx			;7666
 	call ficha_campo_40_3		;7667
@@ -3279,19 +3279,19 @@ L_7664:
 	ld (hl),a			;7690
 	ret			;7691
 L_7692:
-	exx			;7692
+	exx			;7692   ; entrada 2 de la tabla de p01:7648 (L_7641)
 	call mira_scroll_3		;7693
 	ld a,001h		;7696
 	jp 05226h		;7698
 L_769B:
-	exx			;769b
+	exx			;769b   ; entrada 3 de la tabla de p01:7648 (L_7641)
 	call mira_scroll_3		;769c
 	ld a,048h		;769f
 	jp 051f2h		;76a1
 L_76A4:
-	jr $+86		;76a4
+	jr $+86		;76a4   ; entrada 4 de la tabla de p01:7648 (L_7641)
 L_76A6:
-	exx			;76a6
+	exx			;76a6   ; entrada 6 de la tabla de p01:7648 (L_7641)
 	ld e,(hl)			;76a7
 	inc l			;76a8
 	ld d,(hl)			;76a9
@@ -3318,9 +3318,9 @@ L_76A6:
 	ld (hl),000h		;76c3
 	ret			;76c5
 L_76C6:
-	ret			;76c6
+	ret			;76c6   ; entrada 8 de la tabla de p01:7648 (L_7641)
 L_76C7:
-	ret			;76c7
+	ret			;76c7   ; entrada 9 de la tabla de p01:7648 (L_7641)
 
 ; ----------------------------------------------------------------------
 ; DATOS sin_llamar_76C8: codigo que no llama nadie (ninguna palabra del
@@ -3336,14 +3336,14 @@ DATA_sin_llamar_76C8:
 
 
 L_76D2:
-	exx			;76d2
+	exx			;76d2   ; entrada 10 de la tabla de p01:7648 (L_7641)
 	call mira_scroll_3		;76d3
 	ex de,hl			;76d6
 	ld a,d			;76d7
 	ld d,000h		;76d8
 	jp 0527eh		;76da
 L_76DD:
-	exx			;76dd
+	exx			;76dd   ; entrada 11 de la tabla de p01:7648 (L_7641)
 	call mira_scroll_3		;76de
 	ld a,(0c385h)		;76e1   ; 0xC385: el SCROLL vertical: R#23 del VDP (p00:4C65)
 	neg		;76e4
@@ -3660,20 +3660,20 @@ DATA_tabla_78CF:
 
 
 L_78D7:
-	ret			;78d7
+	ret			;78d7   ; entrada 0 de la tabla de p01:78CC (L_7888)
 L_78D8:
-	call pon_buffer_8		;78d8
+	call pon_buffer_8		;78d8   ; entrada 1 de la tabla de p01:78CC (L_7888)
 	call rutina_13		;78db
 	ex de,hl			;78de
 	jp L_792C		;78df
 L_78E2:
-	ld a,(0c480h)		;78e2   ; 0xC480: el AREA (0-23): 3*(fase-1) + columna, o 18 + fase - 1 (p01:64D5)
+	ld a,(0c480h)		;78e2   ; entrada 2 de la tabla de p01:78CC (L_7888)
 	cp 013h		;78e5
 	ret nz			;78e7
 	ld (ix+011h),001h		;78e8   ; ix+0x11: cuenta atras de lo que hace
 	ret			;78ec
 L_78ED:
-	ld hl,07907h		;78ed   ; p01:7907 ficha_7907: 11 bytes de la ficha del bicho desde ix+7 (p01:7073)
+	ld hl,07907h		;78ed   ; entrada 3 de la tabla de p01:78CC (L_7888)
 	call copia_bytes_2		;78f0
 	call mira_x_de_gao_2		;78f3
 	jr nc,L_78FF		;78f6
@@ -4626,11 +4626,11 @@ L_7EF3:
 	ld hl,0000ah		;7f00
 	jp 04818h		;7f03
 L_7F06:
-	ld a,001h		;7f06
+	ld a,001h		;7f06   ; entrada 1 de la tabla de p01:7ED4 (L_7EC0)
 	ld (0c580h),a		;7f08   ; 0xC580: variables del avance del mapa
 	ret			;7f0b
 L_7F0C:
-	call rutina_17		;7f0c
+	call rutina_17		;7f0c   ; entrada 12 de la tabla de p01:7ED4 (L_7EC0)
 	ld (hl),05ah		;7f0f
 	ld a,(0c0f2h)		;7f11   ; 0xC0F2: la musica de la pausa esta sonando (p14:9411)
 	or a			;7f14
@@ -4638,24 +4638,24 @@ L_7F0C:
 	ld a,04ch		;7f16   ; el sonido 0x4C (p14:9C47 + 2*0x4C)
 	jp 041ach		;7f18
 L_7F1B:
-	xor a			;7f1b
+	xor a			;7f1b   ; entrada 2 de la tabla de p01:7ED4 (L_7EC0)
 	ld (0c860h),a		;7f1c   ; 0xC860: el OBJETO 5 (byte 0 de 4; p06:BAC2)
 	jr L_7F25		;7f1f
 L_7F21:
-	xor a			;7f21
+	xor a			;7f21   ; entrada 4 de la tabla de p01:7ED4 (L_7EC0)
 	ld (0c858h),a		;7f22   ; 0xC858: el OBJETO 3 (byte 0 de 4; p06:BAC2)
 L_7F25:
-	call rutina_17		;7f25
+	call rutina_17		;7f25   ; entrada 6 de la tabla de p01:7ED4 (L_7EC0)
 	ld (hl),00dh		;7f28
 	ld a,018h		;7f2a   ; el sonido 0x18 (p14:9C47 + 2*0x18)
 	jp 041ach		;7f2c
 L_7F2F:
-	call rutina_17		;7f2f
+	call rutina_17		;7f2f   ; entrada 0 de la tabla de p01:7ED4 (L_7EC0)
 	call c,pon_arma_dato		;7f32
 	ld a,018h		;7f35   ; el sonido 0x18 (p14:9C47 + 2*0x18)
 	jp 041ach		;7f37
 L_7F3A:
-	call rutina_17		;7f3a
+	call rutina_17		;7f3a   ; entrada 9 de la tabla de p01:7ED4 (L_7EC0)
 	ret nc			;7f3d
 	inc hl			;7f3e
 	ld a,(0c481h)		;7f3f   ; 0xC481: la FASE, 1-6 (p01:65B4)
@@ -4666,11 +4666,11 @@ L_7F3A:
 	ld a,018h		;7f48   ; el sonido 0x18 (p14:9C47 + 2*0x18)
 	jp 041ach		;7f4a
 L_7F4D:
-	call rutina_17		;7f4d
+	call rutina_17		;7f4d   ; entrada 13 de la tabla de p01:7ED4 (L_7EC0)
 	ld a,018h		;7f50   ; el sonido 0x18 (p14:9C47 + 2*0x18)
 	jp 041ach		;7f52
 L_7F55:
-	call rutina_17		;7f55
+	call rutina_17		;7f55   ; entrada 5 de la tabla de p01:7ED4 (L_7EC0)
 	ld a,018h		;7f58   ; el sonido 0x18 (p14:9C47 + 2*0x18)
 	jp 041ach		;7f5a
 rutina_17:
@@ -4713,7 +4713,7 @@ DATA_tabla_7F7B:
 
 
 L_7FA3:
-	call rutina_17		;7fa3
+	call rutina_17		;7fa3   ; entrada 3 de la tabla de p01:7ED4 (L_7EC0)
 	ld a,018h		;7fa6   ; el sonido 0x18 (p14:9C47 + 2*0x18)
 	call 041ach		;7fa8
 L_7FAB:

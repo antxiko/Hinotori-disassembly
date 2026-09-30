@@ -112,6 +112,8 @@ D 0xBE43 0xC000 relleno_p03  0xFF hasta el final del banco: nadie lo lee; lo lee
 F 0xBE43 16
 # --- fin de los bloques de bloques.py ---
 
+
+
 # --- RESTO (seccion que reescribe tools/resto.py; no editar a mano) ---
 D 0xA112 0xA118 tabla_A112  tabla que lee p03:A10C (6 bytes)
 D 0xA12B 0xA136 tabla_A12B  tabla que lee p03:A125 (11 bytes)
@@ -355,14 +357,14 @@ C 0xA121 ix+0x06: cuenta atras (p01:6124)
 C 0xA125 p03:A12B tabla_A12B: tabla que lee p03:A125 (11 bytes)
 C 0xA13D reparte por el PASO de la ficha (ix+1): la tabla va detras del call
 C 0xA140 p00:40AE despacha
-C 0xA151 ix+0x11: cuenta atras de lo que hace
+C 0xA151 entrada 6 de la tabla de p03:AA04 (L_A9FE)
 C 0xA158 0xC80B: la Y de Gao (p01:70B3)
 C 0xA15B ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 C 0xA163 0xC809: la X de Gao (p01:70BD)
 C 0xA166 ix+0x05: la X (p01:70BD la compara con la de Gao)
-C 0xA172 cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
+C 0xA172 entrada 0 de la tabla de p03:AA04 (L_A9FE)
 C 0xA176 la ficha pasa al paso siguiente
-C 0xA17A 0xC809: la X de Gao (p01:70BD)
+C 0xA17A entrada 1 de la tabla de p03:A140 (L_A13A)
 C 0xA17D ix+0x05: la X (p01:70BD la compara con la de Gao)
 C 0xA186 0xC80B: la Y de Gao (p01:70B3)
 C 0xA189 ix+0x03: la Y (p01:70B3 la compara con la de Gao)
@@ -377,8 +379,14 @@ C 0xA1D2 ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no 
 C 0xA1D5 ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0xA1D9 ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 C 0xA1DE ix+0x05: la X (p01:70BD la compara con la de Gao)
+C 0xA1EE entrada 7 de la tabla de p03:A499 (L_A499)
+C 0xA1F3 entrada 6 de la tabla de p03:A499 (L_A499)
 C 0xA1F8 ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+C 0xA201 entrada 2 de la tabla de p03:A499 (L_A499)
+C 0xA208 entrada 2 de la tabla de p03:AA04 (L_A9FE)
 C 0xA20F ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+C 0xA217 entrada 3 de la tabla de p03:A499 (L_A499)
+C 0xA21E entrada 3 de la tabla de p03:AA04 (L_A9FE)
 C 0xA225 ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0xA22E ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0xA231 p00:40A4 hl_mas_a
@@ -387,12 +395,16 @@ C 0xA23D ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 C 0xA241 la ficha pasa al paso 6
 C 0xA245 ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0xA249 ix+0x11: cuenta atras de lo que hace
+C 0xA24E entrada 4 de la tabla de p03:A499 (L_A499)
+C 0xA25B entrada 4 de la tabla de p03:AA04 (L_A9FE)
 C 0xA263 p03:A28E tabla_A28E: tabla que lee p03:A1EE, p03:A1F3, p03:A201, p03:A208, p03:A217, p03:A21E (132 bytes)
 C 0xA266 ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0xA269 ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0xA26F p00:40A4 hl_mas_a
-C 0xA275 ix+0x05: la X (p01:70BD la compara con la de Gao)
-C 0xA27F ix+0x05: la X (p01:70BD la compara con la de Gao)
+C 0xA275 entrada 8 de la tabla de p03:A499 (L_A499)
+C 0xA27F entrada 9 de la tabla de p03:A499 (L_A499)
+C 0xA284 entrada 5 de la tabla de p03:A499 (L_A499)
+C 0xA289 entrada 5 de la tabla de p03:AA04 (L_A9FE)
 C 0xA312 p03:A318 tabla_A318: tabla que lee p03:A312 (6 bytes)
 C 0xA324 p03:A33E ficha_A33E: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
 C 0xA32A ix+0x10: el PATRON del sprite (p01:70FB)
@@ -453,6 +465,7 @@ C 0xA4CE ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 C 0xA4D7 ix+0x10: el PATRON del sprite (p01:70FB)
 C 0xA4DB ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 C 0xA4DF cuenta atras en ix+0x1F: hasta que llegue a 0, nada mas
+C 0xA4FB entrada 1 de la tabla de p03:A499 (L_A499)
 C 0xA4FE 0xC80B: la Y de Gao (p01:70B3)
 C 0xA501 ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 C 0xA509 0xC809: la X de Gao (p01:70BD)
@@ -515,20 +528,26 @@ C 0xA6C7 ix+0x06: cuenta atras (p01:6124)
 C 0xA6E9 ix+0x06: cuenta atras (p01:6124)
 C 0xA6F6 reparte por el PASO de la ficha (ix+1): la tabla va detras del call
 C 0xA6F9 p00:40AE despacha
-C 0xA702 cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
+C 0xA702 entrada 0 de la tabla de p03:A6F9 (L_A6F6)
 C 0xA706 ix+0x11: cuenta atras de lo que hace
 C 0xA70A ix+0x7B: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
-C 0xA710 ix+0x06: cuenta atras (p01:6124)
+C 0xA710 entrada 1 de la tabla de p03:A6F9 (L_A6F6)
 C 0xA714 ix+0x11: cuenta atras de lo que hace
 C 0xA71D la ficha pasa al paso siguiente
 C 0xA721 ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 C 0xA72A ix+0x7B: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0xA730 ix+0x7B: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0xA734 cuenta atras en ix+0x61: hasta que llegue a 0, nada mas
+C 0xA740 entrada 2 de la tabla de p03:A6F9 (L_A6F6)
 C 0xA745 ix+0x11: cuenta atras de lo que hace
 C 0xA74E ix+0x7B: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+C 0xA75E entrada 7 de la tabla de p03:A787 (L_A782)
+C 0xA770 entrada 6 de la tabla de p03:A787 (L_A782)
 C 0xA787 p00:40AE despacha
-C 0xA79A p03:A7BB tabla_A7BB: tabla que lee p03:A79A, p03:A79F, p03:A7A4, p03:A7A9 (16 bytes)
+C 0xA79A entrada 5 de la tabla de p03:A787 (L_A782)
+C 0xA79F entrada 4 de la tabla de p03:A787 (L_A782)
+C 0xA7A4 entrada 0 de la tabla de p03:A787 (L_A782)
+C 0xA7A9 entrada 2 de la tabla de p03:A787 (L_A782)
 C 0xA7CB ix+0x06: cuenta atras (p01:6124)
 C 0xA7DB ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 C 0xA7DE ix+0x05: la X (p01:70BD la compara con la de Gao)
@@ -582,7 +601,7 @@ C 0xA9F3 ix+0x1D: campo propio de este tipo de ficha (el codigo comun de p01 no 
 C 0xA9F9 ix+0x74: el tipo de choque (p01:7093)
 C 0xAA01 reparte por el PASO de la ficha (ix+1): la tabla va detras del call
 C 0xAA04 p00:40AE despacha
-C 0xAA15 ix+0x1A: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+C 0xAA15 entrada 1 de la tabla de p03:AA04 (L_A9FE)
 C 0xAA1E ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 C 0xAA24 ix+0x1D: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0xAA29 ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
@@ -620,23 +639,30 @@ C 0xAAE6 ix+0x1A: campo propio de este tipo de ficha (el codigo comun de p01 no 
 C 0xAAEA p03:AAF8 tabla_AAF8: tabla que lee p03:AAEA (11 bytes)
 C 0xAAF0 ix+0x05: la X (p01:70BD la compara con la de Gao)
 C 0xAB09 p00:40AE despacha
+C 0xAB12 entrada 0 de la tabla de p03:AB09 (L_AB03)
 C 0xAB15 cuenta atras en ix+0x17: hasta que llegue a 0, nada mas
 C 0xAB1C ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0xAB1F ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+C 0xAB24 entrada 1 de la tabla de p03:AB09 (L_AB03)
 C 0xAB27 cuenta atras en ix+0x17: hasta que llegue a 0, nada mas
 C 0xAB2B ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0xAB30 ix+0x06: cuenta atras (p01:6124)
+C 0xAB3B entrada 2 de la tabla de p03:AB09 (L_AB03)
 C 0xAB3E cuenta atras en ix+0x17: hasta que llegue a 0, nada mas
 C 0xAB44 ix+0x06: cuenta atras (p01:6124)
 C 0xAB4A ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0xAB4D ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0xAB53 la ficha pasa al paso 0
 C 0xAB5E p00:40AE despacha
+C 0xAB69 entrada 0 de la tabla de p03:AB5E (L_AB58)
 C 0xAB79 ix+0x06: cuenta atras (p01:6124)
 C 0xAB7D ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0xAB81 la ficha pasa al paso siguiente
+C 0xAB85 entrada 1 de la tabla de p03:AB5E (L_AB58)
 C 0xAB88 cuenta atras en ix+0x17: hasta que llegue a 0, nada mas
 C 0xAB8F ix+0x06: cuenta atras (p01:6124)
+C 0xAB95 entrada 2 de la tabla de p03:AB5E (L_AB58)
+C 0xABB9 entrada 3 de la tabla de p03:AB5E (L_AB58)
 C 0xABBF ix+0x1A: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0xABD1 ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 C 0xABD5 cuenta atras en ix+0x19: hasta que llegue a 0, nada mas
@@ -781,7 +807,7 @@ C 0xB068 0xD400: lo que controla la salida de bichos
 C 0xB06C 0xD402: lo que controla la salida de bichos
 C 0xB072 0xD402: lo que controla la salida de bichos
 C 0xB077 0xC4BD: variables de la partida
-C 0xB07F 0xD401: lo que controla la salida de bichos
+C 0xB07F entrada 0 de la tabla de p03:ADED (L_ADE5)
 C 0xB098 0xD401: lo que controla la salida de bichos
 C 0xB09D 0xD402: lo que controla la salida de bichos
 C 0xB0A5 0xD407: lo que controla la salida de bichos
@@ -795,9 +821,11 @@ C 0xB0E1 ix+0x68: campo propio de este tipo de ficha (el codigo comun de p01 no 
 C 0xB0FA 0xD402: lo que controla la salida de bichos
 C 0xB102 reparte por el PASO de la ficha (ix+1): la tabla va detras del call
 C 0xB105 p00:40AE despacha
+C 0xB112 entrada 0 de la tabla de p03:B105 (L_B0F7)
 C 0xB116 ix+0x06: cuenta atras (p01:6124)
 C 0xB11A ix+0x11: cuenta atras de lo que hace
 C 0xB11E ix+0x74: el tipo de choque (p01:7093)
+C 0xB123 entrada 1 de la tabla de p03:B105 (L_B0F7)
 C 0xB12F ix+0x19: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0xB135 0xC809: la X de Gao (p01:70BD)
 C 0xB138 ix+0x05: la X (p01:70BD la compara con la de Gao)
@@ -811,7 +839,7 @@ C 0xB17F ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no 
 C 0xB183 la ficha pasa al paso siguiente
 C 0xB187 la ficha pasa al paso 3
 C 0xB18B ix+0x06: cuenta atras (p01:6124)
-C 0xB191 ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+C 0xB191 entrada 2 de la tabla de p03:B105 (L_B0F7)
 C 0xB194 ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0xB19E ix+0x11: cuenta atras de lo que hace
 C 0xB1A2 la ficha pasa al paso siguiente
@@ -820,6 +848,7 @@ C 0xB1AA 0xC012: el sonido del primer canal (p14:9420)
 C 0xB1B0 el sonido 0x29 (p14:9C47 + 2*0x29)
 C 0xB1B7 ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 C 0xB1BA ix+0x05: la X (p01:70BD la compara con la de Gao)
+C 0xB1C0 entrada 3 de la tabla de p03:B105 (L_B0F7)
 C 0xB1C6 ix+0x11: cuenta atras de lo que hace
 C 0xB1D8 ix+0x11: cuenta atras de lo que hace
 C 0xB1DC ix+0x19: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
@@ -831,7 +860,7 @@ C 0xB21D ix+0x16: campo propio de este tipo de ficha (el codigo comun de p01 no 
 C 0xB224 p03:B24D tabla_B24D: tabla que lee p03:B224, p03:B22B, p03:B232, p03:B237 (12 bytes)
 C 0xB245 ix+0x11: cuenta atras de lo que hace
 C 0xB248 la ficha pasa al paso 1
-C 0xB259 ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
+C 0xB259 entrada 4 de la tabla de p03:B105 (L_B0F7)
 C 0xB25C ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0xB267 ix+0x19: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0xB26A ix+0x06: cuenta atras (p01:6124)
@@ -840,7 +869,7 @@ C 0xB272 p03:B2A6 ficha_B2A6: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) 
 C 0xB278 p03:B29B ficha_B29B: 11 bytes de la ficha del bicho desde ix+7 (p01:7073)
 C 0xB27E 0xC809: la X de Gao (p01:70BD)
 C 0xB281 ix+0x05: la X (p01:70BD la compara con la de Gao)
-C 0xB2AD 0xD401: lo que controla la salida de bichos
+C 0xB2AD entrada 2 de la tabla de p03:ADED (L_ADE5)
 C 0xB2C9 0xD402: lo que controla la salida de bichos
 C 0xB2D1 0xD407: lo que controla la salida de bichos
 C 0xB2DC el sonido 0x4F (p14:9C47 + 2*0x4F)
@@ -892,7 +921,7 @@ C 0xB421 0xC809: la X de Gao (p01:70BD)
 C 0xB424 ix+0x05: la X (p01:70BD la compara con la de Gao)
 C 0xB430 ix+0x11: cuenta atras de lo que hace
 C 0xB43C ix+0x11: cuenta atras de lo que hace
-C 0xB445 0xD401: lo que controla la salida de bichos
+C 0xB445 entrada 1 de la tabla de p03:ADED (L_ADE5)
 C 0xB461 0xD402: lo que controla la salida de bichos
 C 0xB469 0xD407: lo que controla la salida de bichos
 C 0xB474 el sonido 0x4F (p14:9C47 + 2*0x4F)
@@ -961,7 +990,7 @@ C 0xB655 ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 C 0xB663 0xD41A: lo que controla la salida de bichos
 C 0xB666 0xC012: el sonido del primer canal (p14:9420)
 C 0xB66B el sonido 0x1E (p14:9C47 + 2*0x1E)
-C 0xB690 0xD401: lo que controla la salida de bichos
+C 0xB690 entrada 3 de la tabla de p03:ADED (L_ADE5)
 C 0xB6AC 0xD402: lo que controla la salida de bichos
 C 0xB6B4 0xD407: lo que controla la salida de bichos
 C 0xB6BF el sonido 0x4F (p14:9C47 + 2*0x4F)
@@ -977,21 +1006,21 @@ C 0xB703 0xD409: lo que controla la salida de bichos
 C 0xB716 0xD402: lo que controla la salida de bichos
 C 0xB722 reparte por el PASO de la ficha (ix+1): la tabla va detras del call
 C 0xB725 p00:40AE despacha
-C 0xB732 ix+0x11: cuenta atras de lo que hace
+C 0xB732 entrada 0 de la tabla de p03:B725 (L_B71F)
 C 0xB737 ix+0x11: cuenta atras de lo que hace
 C 0xB741 la ficha pasa al paso siguiente
 C 0xB744 ix+0x11: cuenta atras de lo que hace
 C 0xB749 ix+0x74: el tipo de choque (p01:7093)
 C 0xB74C 0xD409: lo que controla la salida de bichos
-C 0xB752 cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
+C 0xB752 entrada 1 de la tabla de p03:B725 (L_B71F)
 C 0xB756 la ficha pasa al paso siguiente
 C 0xB759 ix+0x11: cuenta atras de lo que hace
-C 0xB760 cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
+C 0xB760 entrada 2 de la tabla de p03:B725 (L_B71F)
 C 0xB764 la ficha pasa al paso siguiente
 C 0xB767 ix+0x11: cuenta atras de lo que hace
 C 0xB76B ix+0x74: el tipo de choque (p01:7093)
 C 0xB771 0xD409: lo que controla la salida de bichos
-C 0xB776 cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
+C 0xB776 entrada 3 de la tabla de p03:B725 (L_B71F)
 C 0xB77A la ficha pasa al paso siguiente
 C 0xB77D ix+0x16: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0xB780 ix+0x16: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
@@ -999,7 +1028,7 @@ C 0xB787 ix+0x16: campo propio de este tipo de ficha (el codigo comun de p01 no 
 C 0xB78F p00:40A4 hl_mas_a
 C 0xB793 ix+0x05: la X (p01:70BD la compara con la de Gao)
 C 0xB798 ix+0x03: la Y (p01:70B3 la compara con la de Gao)
-C 0xB7B0 la ficha pasa al paso 1
+C 0xB7B0 entrada 4 de la tabla de p03:B725 (L_B71F)
 C 0xB7B4 ix+0x11: cuenta atras de lo que hace
 C 0xB7B9 ix+0x74: el tipo de choque (p01:7093)
 C 0xB7BC 0xD409: lo que controla la salida de bichos
@@ -1027,7 +1056,7 @@ C 0xB85D p03:B8A1 ficha_B8A1: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) 
 C 0xB863 ix+0x10: el PATRON del sprite (p01:70FB)
 C 0xB86A 0xD408: lo que controla la salida de bichos
 C 0xB86F p00:40A4 hl_mas_a
-C 0xB8A8 0xD401: lo que controla la salida de bichos
+C 0xB8A8 entrada 4 de la tabla de p03:ADED (L_ADE5)
 C 0xB8C4 0xD402: lo que controla la salida de bichos
 C 0xB8CC 0xD407: lo que controla la salida de bichos
 C 0xB8D7 el sonido 0x4F (p14:9C47 + 2*0x4F)
@@ -1040,30 +1069,31 @@ C 0xB8FC ix+0x68: campo propio de este tipo de ficha (el codigo comun de p01 no 
 C 0xB90A 0xD402: lo que controla la salida de bichos
 C 0xB918 reparte por el PASO de la ficha (ix+1): la tabla va detras del call
 C 0xB91B p00:40AE despacha
+C 0xB92C entrada 0 de la tabla de p03:B91B (L_B907)
 C 0xB931 ix+0x74: el tipo de choque (p01:7093)
 C 0xB935 ix+0x06: cuenta atras (p01:6124)
 C 0xB938 ix+0x11: cuenta atras de lo que hace
 C 0xB93B ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
-C 0xB93F cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
+C 0xB93F entrada 1 de la tabla de p03:B91B (L_B907)
 C 0xB943 ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0xB949 ix+0x11: cuenta atras de lo que hace
 C 0xB95E ix+0x11: cuenta atras de lo que hace
-C 0xB970 cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
+C 0xB970 entrada 2 de la tabla de p03:B91B (L_B907)
 C 0xB974 ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
-C 0xB991 cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
+C 0xB991 entrada 3 de la tabla de p03:B91B (L_B907)
 C 0xB995 ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0xB9AC ix+0x11: cuenta atras de lo que hace
 C 0xB9B6 ix+0x11: cuenta atras de lo que hace
-C 0xB9C6 cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
+C 0xB9C6 entrada 4 de la tabla de p03:B91B (L_B907)
 C 0xB9CA ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
-C 0xB9E4 cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
+C 0xB9E4 entrada 5 de la tabla de p03:B91B (L_B907)
 C 0xB9E8 ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0xB9EE ix+0x11: cuenta atras de lo que hace
 C 0xBA02 ix+0x11: cuenta atras de lo que hace
 C 0xBA10 ix+0x11: cuenta atras de lo que hace
 C 0xBA14 la ficha pasa al paso 6
 C 0xBA18 ix+0x06: cuenta atras (p01:6124)
-C 0xBA1E cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
+C 0xBA1E entrada 6 de la tabla de p03:B91B (L_B907)
 C 0xBA22 ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0xBA28 ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0xBA2C ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
@@ -1090,7 +1120,7 @@ C 0xBB0A 0xC072: el sonido que lleva el ruido del PSG (p14:9439)
 C 0xBB14 ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 C 0xBB19 ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 C 0xBB1F la ficha pasa al paso siguiente
-C 0xBB2E 0xD401: lo que controla la salida de bichos
+C 0xBB2E entrada 5 de la tabla de p03:ADED (L_ADE5)
 C 0xBB4A 0xD402: lo que controla la salida de bichos
 C 0xBB55 el sonido 0x52 (p14:9C47 + 2*0x52)
 C 0xBB5A p03:BB65 tabla_BB65: tabla que lee p03:BB5A (20 bytes)

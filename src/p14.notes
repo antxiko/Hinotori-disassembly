@@ -70,6 +70,8 @@ D 0x9FE6 0xA000 pista_9FE6  pista de los sonidos 0x14 (p14:94FA: notas, 0xDx oct
 F 0x9FE6 16
 # --- fin de los bloques de bloques.py ---
 
+
+
 # --- RESTO (seccion que reescribe tools/resto.py; no editar a mano) ---
 D 0x814B 0x81AB sin_lector_814B  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (96 bytes)
 D 0x8D4B 0x9400 tabla_8D4B  tabla que lee p01:645E, p01:64A1, p01:64B3 (1717 bytes)
