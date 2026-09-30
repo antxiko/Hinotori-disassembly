@@ -49,7 +49,7 @@ L_A000:
 	add hl,de			;a01e
 	ld b,004h		;a01f
 L_A021:
-	push bc			;a021
+	push bc			;a021   ; tramo: mira control_de_bichos
 	push hl			;a022
 	ld e,(iy+003h)		;a023   ; iy+0x03: la Y (p01:70B3 la compara con la de Gao)
 	ld d,(iy+005h)		;a026   ; iy+0x05: la X (p01:70BD la compara con la de Gao)
@@ -60,7 +60,7 @@ L_A021:
 	ld a,(0d411h)		;a030   ; 0xD411: lo que controla la salida de bichos
 	and a			;a033
 	jr z,L_A043		;a034
-	push ix		;a036
+	push ix		;a036   ; tramo: pone control_de_bichos
 	pop de			;a038
 	ld (hl),e			;a039
 	inc l			;a03a
@@ -69,7 +69,7 @@ L_A021:
 	ld (0d417h),de		;a03d   ; 0xD417: lo que controla la salida de bichos
 	djnz L_A021		;a041
 L_A043:
-	ld (hl),0ffh		;a043
+	ld (hl),0ffh		;a043   ; tramo: mira control_de_bichos
 	ld hl,(0d417h)		;a045   ; 0xD417: lo que controla la salida de bichos
 	ld (iy+017h),l		;a048   ; iy+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ld (iy+018h),h		;a04b   ; iy+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
@@ -115,11 +115,11 @@ L_A06C:
 	jr nc,L_A082		;a07f
 	dec h			;a081
 L_A082:
-	ld l,a			;a082
+	ld l,a			;a082   ; tramo: mira avance_del_cuadro
 	ld (ix+00eh),l		;a083
 	ld (ix+00fh),h		;a086
 	ld a,(0c388h)		;a089   ; 0xC388: lo que se ha movido el mapa este cuadro (p00:56E8)
-	and a			;a08c
+	and a			;a08c   ; ¿es 0 avance_del_cuadro?
 	ret z			;a08d
 	inc (ix+003h)		;a08e   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 	inc (ix+019h)		;a091   ; ix+0x19: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
@@ -153,7 +153,7 @@ L_A0CB:
 	djnz L_A0CB		;a0cf
 	ret			;a0d1
 tipo_10:
-	call ficha_campo_11		;a0d2
+	call ficha_campo_11		;a0d2   ; tramo: llama a hl_mas_a
 	ld l,(ix+017h)		;a0d5   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ld h,(ix+018h)		;a0d8   ; ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	inc l			;a0db
@@ -227,7 +227,7 @@ DATA_ficha_A136:
 
 
 tipo_11:
-	call 0710fh		;a13a
+	call 0710fh		;a13a   ; tramo: llama a despacha
 	ld a,(ix+001h)		;a13d   ; reparte por el PASO de la ficha (ix+1): la tabla va detras del call
 	call 040aeh		;a140   ; p00:40AE despacha
 
@@ -260,7 +260,7 @@ L_A158:
 	jr nc,L_A162		;a15e
 	neg		;a160
 L_A162:
-	ld c,a			;a162
+	ld c,a			;a162   ; tramo: mira x_de_gao
 	ld a,(0c809h)		;a163   ; 0xC809: la X de Gao (p01:70BD)
 	sub (ix+005h)		;a166   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	jr nc,L_A16D		;a169
@@ -572,7 +572,7 @@ L_A3E3:
 	ld (ix+01bh),a		;a3e6   ; ix+0x1B: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ret			;a3e9
 L_A3EA:
-	call ficha_y_2		;a3ea
+	call ficha_y_2		;a3ea   ; tramo: mira cuadros_2
 	ld a,(0c4b0h)		;a3ed   ; 0xC4B0: cuenta los cuadros; el bit 0 alterna los colores de los sprites (p02:93AA)
 	and 003h		;a3f0
 	ret nz			;a3f2
@@ -607,7 +607,7 @@ con_hl_mas_a:
 	jr z,L_A438		;a435
 	cpl			;a437
 L_A438:
-	and 03fh		;a438
+	and 03fh		;a438   ; tramo: llama a hl_mas_a
 	ld hl,07a51h		;a43a
 	call 040a4h		;a43d   ; p00:40A4 hl_mas_a
 	ld a,(hl)			;a440
@@ -751,7 +751,7 @@ L_A4FB:
 	jr nc,L_A508		;a504
 	neg		;a506
 L_A508:
-	ld e,a			;a508
+	ld e,a			;a508   ; tramo: mira x_de_gao
 	ld a,(0c809h)		;a509   ; 0xC809: la X de Gao (p01:70BD)
 	sub (ix+005h)		;a50c   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	jr nc,L_A513		;a50f
@@ -806,7 +806,7 @@ L_A55F:
 	xor a			;a564
 	ret			;a565
 L_A566:
-	ld a,r		;a566
+	ld a,r		;a566   ; tramo: llama a hl_mas_a
 	and 00ch		;a568
 	ld hl,0a58dh		;a56a   ; p03:A58D tabla_A58D: tabla que lee p03:A56A (16 bytes)
 	call 040a4h		;a56d   ; p00:40A4 hl_mas_a
@@ -1163,7 +1163,7 @@ L_A77C:
 	or 001h		;a77f
 	ret			;a781
 L_A782:
-	call 0987fh		;a782
+	call 0987fh		;a782   ; tramo: llama a despacha
 	and 007h		;a785
 	call 040aeh		;a787   ; p00:40AE despacha
 
@@ -1293,7 +1293,7 @@ DATA_tabla_A837:
 
 tipo_19:
 	ld a,(0c012h)		;a842   ; 0xC012: el sonido del primer canal (p14:9420)
-	or a			;a845
+	or a			;a845   ; ¿es 0 sonido_1?
 	jr z,L_A852		;a846
 	ld a,(0c072h)		;a848   ; 0xC072: el sonido que lleva el ruido del PSG (p14:9439)
 	ld b,a			;a84b
@@ -1322,7 +1322,7 @@ L_A877:
 	ret			;a87a
 mira_dificultad_2:
 	ld a,(0c4aah)		;a87b   ; 0xC4AA: la dificultad: 0xC172 + lo de la tabla p01:7062 segun 0xC840, hasta 15 (p01:7049)
-	cp 00ch		;a87e
+	cp 00ch		;a87e   ; ¿dificultad = 0x0C?
 	ret c			;a880
 	dec (ix+017h)		;a881   ; cuenta atras en ix+0x17: hasta que llegue a 0, nada mas
 	ret nz			;a884
@@ -1331,7 +1331,7 @@ mira_dificultad_2:
 mira_dificultad_3:
 	ld c,030h		;a88b
 mira_dificultad_4:
-	ld a,r		;a88d
+	ld a,r		;a88d   ; tramo: mira dificultad
 	and 007h		;a88f
 	add a,c			;a891
 	ld c,a			;a892
@@ -1383,7 +1383,7 @@ DATA_tabla_A8CC:
 
 
 nace_tipo_18:
-	call 07119h		;a8d0
+	call 07119h		;a8d0   ; tramo: mira control_de_bichos, llama a hl_mas_a
 	ld hl,0a904h		;a8d3   ; p03:A904 ficha_A904: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
 	call 07084h		;a8d6
 	ld (ix+010h),026h		;a8d9   ; ix+0x10: el PATRON del sprite (p01:70FB)
@@ -1566,7 +1566,7 @@ nace_tipo_22:
 	ld (ix+074h),003h		;a9f9   ; ix+0x74: el tipo de choque (p01:7093)
 	ret			;a9fd
 tipo_22:
-	call 0710fh		;a9fe
+	call 0710fh		;a9fe   ; tramo: llama a despacha
 	ld a,(ix+001h)		;aa01   ; reparte por el PASO de la ficha (ix+1): la tabla va detras del call
 	call 040aeh		;aa04   ; p00:40AE despacha
 
@@ -1626,7 +1626,7 @@ mira_x_de_gao_3:
 	ld hl,0aa76h		;aa61   ; p03:AA76 ficha_AA76: los 6 primeros bytes de la ficha del bicho (ix+0..5) (p01:706A)
 	call 0706ah		;aa64
 	ld a,(0c809h)		;aa67   ; 0xC809: la X de Gao (p01:70BD)
-	cp 080h		;aa6a
+	cp 080h		;aa6a   ; ¿x_de_gao = 0x80?
 	ld b,040h		;aa6c
 	jr nc,L_AA72		;aa6e
 	ld b,0c0h		;aa70
@@ -1651,7 +1651,7 @@ L_AA7C:
 	ld (ix+003h),01ah		;aa7f   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 	ret			;aa83
 nace_tipo_23:
-	call 07119h		;aa84
+	call 07119h		;aa84   ; tramo: mira dificultad
 	ld (ix+01ah),000h		;aa87   ; ix+0x1A: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ld hl,0aa9fh		;aa8b   ; p03:AA9F tabla_AA9F: tabla que lee p03:AA8B (11 bytes)
 	call mira_dificultad_5		;aa8e
@@ -1678,7 +1678,7 @@ nace_tipo_24:
 	ld (ix+01ah),001h		;aaaa   ; ix+0x1A: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ld hl,0aad7h		;aaae   ; p03:AAD7 ficha_AAD7: 11 bytes de la ficha del bicho desde ix+7 (p01:7073)
 mira_dificultad_5:
-	call 07073h		;aab1
+	call 07073h		;aab1   ; tramo: mira dificultad
 	ld hl,0aae2h		;aab4   ; p03:AAE2 ficha_AAE2: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
 	call 07084h		;aab7
 	ld a,(0c4aah)		;aaba   ; 0xC4AA: la dificultad: 0xC172 + lo de la tabla p01:7062 segun 0xC840, hasta 15 (p01:7049)
@@ -1736,7 +1736,7 @@ DATA_tabla_AAF8:
 
 
 tipo_23:
-	call ficha_x_5		;ab03
+	call ficha_x_5		;ab03   ; tramo: llama a despacha
 	call ficha_paso_5		;ab06
 	call 040aeh		;ab09   ; p00:40AE despacha
 
@@ -1785,7 +1785,7 @@ L_AB3B:
 	ld (ix+001h),000h		;ab53   ; la ficha pasa al paso 0
 	ret			;ab57
 tipo_25:
-	call ficha_x_5		;ab58
+	call ficha_x_5		;ab58   ; tramo: llama a despacha
 	call ficha_paso_5		;ab5b
 	call 040aeh		;ab5e   ; p00:40AE despacha
 
@@ -1959,7 +1959,7 @@ L_AC85:
 	jp 06a85h		;ac8c
 nace_tipo_44:
 	ld a,(0c4e3h)		;ac8f   ; 0xC4E3: HANEYOKAGAYAKE: las cosas que dan 1 de vida dan 10 (p03:AC8F)
-	or a			;ac92
+	or a			;ac92   ; ¿es 0 truco_plumas?
 	jr z,L_AC99		;ac93
 	ld (ix+000h),02dh		;ac95   ; ix+0x00: el TIPO de la ficha (0 = libre; p01:6D12)
 L_AC99:
@@ -2006,10 +2006,10 @@ tipo_44:
 	ld b,004h		;acda
 	ld de,0acf0h		;acdc   ; p03:ACF0 tabla_ACF0: tabla que lee p03:ACDC (1 bytes)
 	call z,070ffh		;acdf
-	call mira_teclas_nuevas		;ace2
+	call mira_teclas_nuevas		;ace2   ; tramo: mira estado_de_gao
 	call ficha_x_8		;ace5
 	ld a,(0c800h)		;ace8   ; 0xC800: lo que hace Gao (p00:5C68)
-	cp 002h		;aceb
+	cp 002h		;aceb   ; ¿estado_de_gao = 0x02?
 	ret z			;aced
 	jr $+13		;acee
 
@@ -2157,12 +2157,12 @@ DATA_ficha_ADBD:
 tipo_42:
 	jp rutina_13		;adc1
 nace_tipo_47:
-	ld bc,02810h		;adc4
+	ld bc,02810h		;adc4   ; tramo: mira fase
 	call 07123h		;adc7
 	ld hl,0addeh		;adca   ; p03:ADDE ficha_ADDE: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
 	call 07084h		;adcd
 	ld a,(0c481h)		;add0   ; 0xC481: la FASE, 1-6 (p01:65B4)
-	cp 005h		;add3
+	cp 005h		;add3   ; ¿fase = 0x05?
 	jr nz,L_ADDB		;add5
 	ld (ix+025h),00fh		;add7   ; ix+0x25: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 L_ADDB:
@@ -2183,7 +2183,7 @@ DATA_ficha_ADDE:
 tipo_47:
 	jp rutina_13		;ade2
 L_ADE5:
-	call mira_area		;ade5
+	call mira_area		;ade5   ; tramo: mira control_de_bichos
 	ld a,(0d400h)		;ade8   ; 0xD400: lo que controla la salida de bichos
 	dec a			;adeb
 	ret m			;adec
@@ -2213,7 +2213,7 @@ mira_estado_de_gao:
 	ld de,06fach		;ae01
 	call z,06ef5h		;ae04
 	ld a,(0c800h)		;ae07   ; 0xC800: lo que hace Gao (p00:5C68)
-	cp 002h		;ae0a
+	cp 002h		;ae0a   ; ¿estado_de_gao = 0x02?
 	jr nz,L_AE12		;ae0c
 	ld (ix+013h),000h		;ae0e   ; ix+0x13: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 L_AE12:
@@ -2221,7 +2221,7 @@ L_AE12:
 	and 00bh		;ae15
 	ret z			;ae17
 	ld a,(0c480h)		;ae18   ; 0xC480: el AREA (0-23): 3*(fase-1) + columna, o 18 + fase - 1 (p01:64D5)
-	cp 017h		;ae1b
+	cp 017h		;ae1b   ; ¿area = 0x17?
 	ld a,030h		;ae1d
 	jr nz,L_AE23		;ae1f
 	ld a,031h		;ae21   ; el sonido 0x31 (p14:9C47 + 2*0x31)
@@ -2267,7 +2267,7 @@ L_AE66:
 	ld hl,0d403h		;ae66   ; 0xD403: lo que controla la salida de bichos
 	dec (hl)			;ae69
 	ret nz			;ae6a
-	xor a			;ae6b
+	xor a			;ae6b   ; tramo: pone control_de_bichos, mira avance
 	ld (0d400h),a		;ae6c   ; 0xD400: lo que controla la salida de bichos
 	ld (0d40ah),a		;ae6f   ; 0xD40A: lo que controla la salida de bichos
 	ld (0d40bh),a		;ae72   ; 0xD40B: lo que controla la salida de bichos
@@ -2288,7 +2288,7 @@ mira_fase:
 	ld a,(hl)			;ae92
 	and a			;ae93
 	ret nz			;ae94
-	ld a,01bh		;ae95
+	ld a,01bh		;ae95   ; tramo: mira control_de_bichos
 	add a,b			;ae97
 	ld de,(0d405h)		;ae98   ; 0xD405: lo que controla la salida de bichos
 	jp 073e3h		;ae9c
@@ -2337,13 +2337,13 @@ pon_control_de_bichos:
 	ld a,(0d40ah)		;aed6   ; 0xD40A: lo que controla la salida de bichos
 	and a			;aed9
 	ret z			;aeda
-	ld b,a			;aedb
+	ld b,a			;aedb   ; tramo: mira control_de_bichos
 	ld a,(0d40bh)		;aedc   ; 0xD40B: lo que controla la salida de bichos
 	and a			;aedf
 	jr nz,L_AEE5		;aee0
 	ld a,(ix+012h)		;aee2   ; ix+0x12: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 L_AEE5:
-	add a,b			;aee5
+	add a,b			;aee5   ; tramo: pone control_de_bichos
 	srl a		;aee6
 	ld (ix+012h),a		;aee8   ; ix+0x12: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ld a,b			;aeeb
@@ -2377,7 +2377,7 @@ L_AF00:
 	pop bc			;af13
 	pop hl			;af14
 	djnz L_AF00		;af15
-	ld a,03ch		;af17
+	ld a,03ch		;af17   ; tramo: pone control_de_bichos
 	ld (0d403h),a		;af19   ; 0xD403: lo que controla la salida de bichos
 	ret			;af1c
 nace_tipo_51:
@@ -2432,7 +2432,7 @@ L_AF61:
 	pop hl			;af71
 	pop bc			;af72
 L_AF73:
-	ld de,00080h		;af73
+	ld de,00080h		;af73   ; la siguiente, 0x80 bytes mas alla
 	add hl,de			;af76
 	djnz L_AF61		;af77
 	ret			;af79
@@ -2449,7 +2449,7 @@ L_AF7F:
 	pop hl			;af88
 	pop bc			;af89
 L_AF8A:
-	ld de,00080h		;af8a
+	ld de,00080h		;af8a   ; la siguiente, 0x80 bytes mas alla
 	add hl,de			;af8d
 	djnz L_AF7F		;af8e
 	ret			;af90
@@ -2555,7 +2555,7 @@ mira_area:
 	ld a,(0c480h)		;b032   ; 0xC480: el AREA (0-23): 3*(fase-1) + columna, o 18 + fase - 1 (p01:64D5)
 	sub 012h		;b035
 	ret c			;b037
-	ld hl,00023h		;b038
+	ld hl,00023h		;b038   ; tramo: mira fila
 	ld bc,(0c302h)		;b03b   ; 0xC302: la FILA de 8 puntos del mapa que se esta pintando; sube al avanzar (p00:57B8)
 	and a			;b03f
 	sbc hl,bc		;b040
@@ -2564,7 +2564,7 @@ mira_area:
 	and a			;b046
 	ret nz			;b047
 	ld a,(0c481h)		;b048   ; 0xC481: la FASE, 1-6 (p01:65B4)
-	cp 006h		;b04b
+	cp 006h		;b04b   ; ¿fase = 0x06?
 	jr nz,L_B060		;b04d
 	ld hl,0c8dch		;b04f   ; 0xC8DC: el OBJETO 36 (byte 0 de 4; p06:BAC2)
 	ld b,005h		;b052   ; 5 vueltas
@@ -2572,7 +2572,7 @@ mira_area:
 L_B055:
 	cp (hl)			;b055
 	jr z,L_B070		;b056
-	ld de,00004h		;b058
+	ld de,00004h		;b058   ; la siguiente, 0x4 bytes mas alla
 	add hl,de			;b05b
 	djnz L_B055		;b05c
 	ld a,006h		;b05e
@@ -2586,7 +2586,7 @@ L_B060:
 	ld (0d402h),a		;b06c   ; 0xD402: lo que controla la salida de bichos
 	ret			;b06f
 L_B070:
-	ld a,001h		;b070
+	ld a,001h		;b070   ; tramo: pone control_de_bichos, pone partida
 	ld (0d402h),a		;b072   ; 0xD402: lo que controla la salida de bichos
 	ld a,028h		;b075
 	ld (0c4bdh),a		;b077   ; 0xC4BD: variables de la partida
@@ -2611,7 +2611,7 @@ L_B09D:
 	ld a,(0d402h)		;b09d   ; 0xD402: lo que controla la salida de bichos
 	and a			;b0a0
 	ret z			;b0a1
-	call mira_fase		;b0a2
+	call mira_fase		;b0a2   ; tramo: mira control_de_bichos
 	ld hl,0d407h		;b0a5   ; 0xD407: lo que controla la salida de bichos
 	set 0,(hl)		;b0a8
 	ld hl,00064h		;b0aa
@@ -2666,11 +2666,11 @@ DATA_ficha_B0F3:
 
 
 tipo_26:
-	call mira_estado_de_gao		;b0f7
+	call mira_estado_de_gao		;b0f7   ; tramo: mira control_de_bichos
 	ld a,(0d402h)		;b0fa   ; 0xD402: lo que controla la salida de bichos
 	and a			;b0fd
 	ret nz			;b0fe
-	call pon_control_de_bichos_2		;b0ff
+	call pon_control_de_bichos_2		;b0ff   ; tramo: llama a despacha
 	ld a,(ix+001h)		;b102   ; reparte por el PASO de la ficha (ix+1): la tabla va detras del call
 	call 040aeh		;b105   ; p00:40AE despacha
 
@@ -2762,7 +2762,7 @@ L_B191:
 L_B1A6:
 	ld (ix+010h),030h		;b1a6   ; ix+0x10: el PATRON del sprite (p01:70FB)
 	ld a,(0c012h)		;b1aa   ; 0xC012: el sonido del primer canal (p14:9420)
-	or a			;b1ad
+	or a			;b1ad   ; ¿es 0 sonido_1?
 	jr z,L_B1B5		;b1ae
 	ld a,029h		;b1b0   ; el sonido 0x29 (p14:9C47 + 2*0x29)
 	call 041ach		;b1b2
@@ -2931,7 +2931,7 @@ L_B2C9:
 	ld a,(0d402h)		;b2c9   ; 0xD402: lo que controla la salida de bichos
 	and a			;b2cc
 	ret z			;b2cd
-	call mira_fase		;b2ce
+	call mira_fase		;b2ce   ; tramo: mira control_de_bichos
 	ld hl,0d407h		;b2d1   ; 0xD407: lo que controla la salida de bichos
 	set 2,(hl)		;b2d4
 	ld hl,00064h		;b2d6
@@ -2985,7 +2985,7 @@ DATA_ficha_B321:
 
 
 tipo_27:
-	call mira_estado_de_gao		;b325
+	call mira_estado_de_gao		;b325   ; tramo: mira control_de_bichos
 	ld a,(0d402h)		;b328   ; 0xD402: lo que controla la salida de bichos
 	and a			;b32b
 	ret nz			;b32c
@@ -3077,7 +3077,7 @@ L_B3CD:
 	ret			;b3d9
 nace_tipo_40:
 	ld a,(0c012h)		;b3da   ; 0xC012: el sonido del primer canal (p14:9420)
-	or a			;b3dd
+	or a			;b3dd   ; ¿es 0 sonido_1?
 	jr z,L_B3E5		;b3de
 	ld a,02ah		;b3e0   ; el sonido 0x2A (p14:9C47 + 2*0x2A)
 	call 041ach		;b3e2
@@ -3156,7 +3156,7 @@ L_B461:
 	ld a,(0d402h)		;b461   ; 0xD402: lo que controla la salida de bichos
 	and a			;b464
 	ret z			;b465
-	call mira_fase		;b466
+	call mira_fase		;b466   ; tramo: mira control_de_bichos
 	ld hl,0d407h		;b469   ; 0xD407: lo que controla la salida de bichos
 	set 1,(hl)		;b46c
 	ld hl,00064h		;b46e
@@ -3210,7 +3210,7 @@ DATA_ficha_B4BF:
 
 
 tipo_28:
-	call mira_estado_de_gao		;b4c3
+	call mira_estado_de_gao		;b4c3   ; tramo: mira control_de_bichos
 	ld a,(0d402h)		;b4c6   ; 0xD402: lo que controla la salida de bichos
 	and a			;b4c9
 	ret nz			;b4ca
@@ -3277,7 +3277,7 @@ L_B549:
 	call ficha_x_10		;b552
 	jr z,L_B562		;b555
 	ld a,(0c012h)		;b557   ; 0xC012: el sonido del primer canal (p14:9420)
-	or a			;b55a
+	or a			;b55a   ; ¿es 0 sonido_1?
 	jr z,L_B562		;b55b
 	ld a,01ch		;b55d   ; el sonido 0x1C (p14:9C47 + 2*0x1C)
 	call 041ach		;b55f
@@ -3297,7 +3297,7 @@ L_B56C:
 	call ficha_x_10		;b580
 	ret z			;b583
 	ld a,(0c012h)		;b584   ; 0xC012: el sonido del primer canal (p14:9420)
-	or a			;b587
+	or a			;b587   ; ¿es 0 sonido_1?
 	ret z			;b588
 	ld a,01dh		;b589   ; el sonido 0x1D (p14:9C47 + 2*0x1D)
 	jp 041ach		;b58b
@@ -3411,7 +3411,7 @@ L_B635:
 	djnz L_B62F		;b636
 	ret			;b638
 L_B639:
-	ld a,001h		;b639
+	ld a,001h		;b639   ; tramo: pone control_de_bichos
 	ld (0d41ah),a		;b63b   ; 0xD41A: lo que controla la salida de bichos
 	call 06a85h		;b63e
 	ld b,008h		;b641
@@ -3437,10 +3437,10 @@ L_B646:
 	pop bc			;b65e
 	inc hl			;b65f
 	djnz L_B646		;b660
-	xor a			;b662
+	xor a			;b662   ; tramo: pone control_de_bichos, mira sonido_1
 	ld (0d41ah),a		;b663   ; 0xD41A: lo que controla la salida de bichos
 	ld a,(0c012h)		;b666   ; 0xC012: el sonido del primer canal (p14:9420)
-	or a			;b669
+	or a			;b669   ; ¿es 0 sonido_1?
 	ret z			;b66a
 	ld a,01eh		;b66b   ; el sonido 0x1E (p14:9C47 + 2*0x1E)
 	jp 041ach		;b66d
@@ -3473,7 +3473,7 @@ L_B6AC:
 	ld a,(0d402h)		;b6ac   ; 0xD402: lo que controla la salida de bichos
 	and a			;b6af
 	ret z			;b6b0
-	call mira_fase		;b6b1
+	call mira_fase		;b6b1   ; tramo: mira control_de_bichos, llama a pon_un_color
 	ld hl,0d407h		;b6b4   ; 0xD407: lo que controla la salida de bichos
 	set 3,(hl)		;b6b7
 	ld hl,00064h		;b6b9
@@ -3527,14 +3527,14 @@ DATA_ficha_B70C:
 
 
 tipo_29:
-	call con_pon_paleta		;b710
+	call con_pon_paleta		;b710   ; tramo: mira control_de_bichos
 	call mira_estado_de_gao		;b713
 	ld a,(0d402h)		;b716   ; 0xD402: lo que controla la salida de bichos
 	and a			;b719
 	jr z,L_B71F		;b71a
 	call mira_scroll_2		;b71c
 L_B71F:
-	call pon_control_de_bichos_2		;b71f
+	call pon_control_de_bichos_2		;b71f   ; tramo: llama a despacha
 	ld a,(ix+001h)		;b722   ; reparte por el PASO de la ficha (ix+1): la tabla va detras del call
 	call 040aeh		;b725   ; p00:40AE despacha
 
@@ -3592,7 +3592,7 @@ L_B776:
 	jr c,L_B78B		;b785
 	ld (ix+016h),000h		;b787   ; ix+0x16: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 L_B78B:
-	add a,a			;b78b
+	add a,a			;b78b   ; tramo: llama a hl_mas_a
 	ld hl,0b79ch		;b78c
 	call 040a4h		;b78f   ; p00:40A4 hl_mas_a
 	ld a,(hl)			;b792
@@ -3663,7 +3663,7 @@ L_B80F:
 	ld d,(ix+005h)		;b812   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	ld e,(ix+003h)		;b815   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 L_B818:
-	ld a,b			;b818
+	ld a,b			;b818   ; tramo: pone control_de_bichos
 	ld (0d408h),a		;b819   ; 0xD408: lo que controla la salida de bichos
 	push bc			;b81c
 	push de			;b81d
@@ -3674,7 +3674,7 @@ L_B818:
 	pop bc			;b826
 	djnz L_B818		;b827
 	ld a,(0c012h)		;b829   ; 0xC012: el sonido del primer canal (p14:9420)
-	or a			;b82c
+	or a			;b82c   ; ¿es 0 sonido_1?
 	ret z			;b82d
 	ld a,01dh		;b82e   ; el sonido 0x1D (p14:9C47 + 2*0x1D)
 	jp 041ach		;b830
@@ -3758,7 +3758,7 @@ L_B8C4:
 	ld a,(0d402h)		;b8c4   ; 0xD402: lo que controla la salida de bichos
 	and a			;b8c7
 	ret z			;b8c8
-	call mira_fase		;b8c9
+	call mira_fase		;b8c9   ; tramo: mira control_de_bichos
 	ld hl,0d407h		;b8cc   ; 0xD407: lo que controla la salida de bichos
 	set 4,(hl)		;b8cf
 	ld hl,00064h		;b8d1
@@ -3792,11 +3792,11 @@ DATA_ficha_B903:
 
 
 tipo_30:
-	call mira_estado_de_gao		;b907
+	call mira_estado_de_gao		;b907   ; tramo: mira control_de_bichos
 	ld a,(0d402h)		;b90a   ; 0xD402: lo que controla la salida de bichos
 	and a			;b90d
 	ret nz			;b90e
-	call pon_control_de_bichos_2		;b90f
+	call pon_control_de_bichos_2		;b90f   ; tramo: llama a despacha
 	ld bc,03810h		;b912
 	call 070f1h		;b915
 	ld a,(ix+001h)		;b918   ; reparte por el PASO de la ficha (ix+1): la tabla va detras del call
@@ -3959,7 +3959,7 @@ L_BA2C:
 	ld (ix+017h),005h		;ba41   ; ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	jp L_BAAA		;ba45
 L_BA48:
-	add a,a			;ba48
+	add a,a			;ba48   ; tramo: llama a hl_mas_a
 	ld hl,0ba68h		;ba49
 	call 040a4h		;ba4c   ; p00:40A4 hl_mas_a
 	ld a,(hl)			;ba4f
@@ -3999,7 +3999,7 @@ L_BAAA:
 	ld d,(ix+005h)		;baad   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	ld e,(ix+003h)		;bab0   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 L_BAB3:
-	ld a,b			;bab3
+	ld a,b			;bab3   ; tramo: pone control_de_bichos
 	ld (0d408h),a		;bab4   ; 0xD408: lo que controla la salida de bichos
 	push bc			;bab7
 	push de			;bab8
@@ -4008,7 +4008,7 @@ L_BAB3:
 	pop bc			;babd
 	djnz L_BAB3		;babe
 	ld a,(0c012h)		;bac0   ; 0xC012: el sonido del primer canal (p14:9420)
-	or a			;bac3
+	or a			;bac3   ; ¿es 0 sonido_1?
 	ret z			;bac4
 	ld a,01dh		;bac5   ; el sonido 0x1D (p14:9C47 + 2*0x1D)
 	jp 041ach		;bac7
@@ -4050,7 +4050,7 @@ tipo_37:
 	and 003h		;bb00
 	jr nz,L_BB14		;bb02
 	ld a,(0c012h)		;bb04   ; 0xC012: el sonido del primer canal (p14:9420)
-	or a			;bb07
+	or a			;bb07   ; ¿es 0 sonido_1?
 	jr z,L_BB14		;bb08
 	ld a,(0c072h)		;bb0a   ; 0xC072: el sonido que lleva el ruido del PSG (p14:9439)
 	ld b,a			;bb0d
@@ -4110,7 +4110,7 @@ L_BB79:
 	ld hl,0d403h		;bb79   ; 0xD403: lo que controla la salida de bichos
 	dec (hl)			;bb7c
 	ret nz			;bb7d
-	xor a			;bb7e
+	xor a			;bb7e   ; tramo: pone control_de_bichos
 	ld (0d400h),a		;bb7f   ; 0xD400: lo que controla la salida de bichos
 	ld a,00ch		;bb82
 	jp 0432eh		;bb84
@@ -4145,7 +4145,7 @@ DATA_ficha_BBB0:
 
 
 tipo_31:
-	call mira_estado_de_gao		;bbb4
+	call mira_estado_de_gao		;bbb4   ; tramo: mira control_de_bichos
 	ld a,(0d402h)		;bbb7   ; 0xD402: lo que controla la salida de bichos
 	and a			;bbba
 	ret nz			;bbbb
@@ -4163,7 +4163,7 @@ tipo_31:
 	ld (ix+074h),000h		;bbd8   ; ix+0x74: el tipo de choque (p01:7093)
 	ret			;bbdc
 L_BBDD:
-	ld bc,03a08h		;bbdd
+	ld bc,03a08h		;bbdd   ; tramo: mira bicho_0, mira cuadros_2
 	call 070f1h		;bbe0
 	ld bc,0d030h		;bbe3   ; 0xD030: la ficha del bicho 0, byte 0x30 (p01:74B7)
 	ld de,00300h		;bbe6
@@ -4232,7 +4232,7 @@ L_BC75:
 	ld hl,0d408h		;bc7e   ; 0xD408: lo que controla la salida de bichos
 	inc (hl)			;bc81
 	ld a,(0c012h)		;bc82   ; 0xC012: el sonido del primer canal (p14:9420)
-	or a			;bc85
+	or a			;bc85   ; ¿es 0 sonido_1?
 	ret z			;bc86
 	ld a,019h		;bc87   ; el sonido 0x19 (p14:9C47 + 2*0x19)
 	jp 041ach		;bc89
@@ -4363,7 +4363,7 @@ L_BD78:
 	and 004h		;bd7b
 	ret z			;bd7d
 	ld a,(0c800h)		;bd7e   ; 0xC800: lo que hace Gao (p00:5C68)
-	cp 001h		;bd81
+	cp 001h		;bd81   ; ¿estado_de_gao = 0x01?
 	ret z			;bd83
 	cp 002h		;bd84
 	ret z			;bd86
@@ -4387,7 +4387,7 @@ L_BD78:
 	call 041ach		;bdaf
 	jp 075ceh		;bdb2
 L_BDB5:
-	call 06136h		;bdb5
+	call 06136h		;bdb5   ; tramo: mira cosas
 	ld (ix+043h),001h		;bdb8   ; ix+0x43: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 	ld de,0be36h		;bdbc   ; p03:BE36 tabla_BE36: tabla que lee p03:BDBC, p03:BDC2, p03:BDC8, p03:BDCE, p03:BDE7 (13 bytes)
 	call 06162h		;bdbf

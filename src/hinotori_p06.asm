@@ -480,7 +480,7 @@ L_AD2E:
 	ld a,(0cd81h)		;ad31   ; 0xCD81: la escena del final y las pantallas de p06
 	or a			;ad34
 	ret z			;ad35
-	call 05900h		;ad36
+	call 05900h		;ad36   ; tramo: pone paginas_hmmm
 	call 04c8dh		;ad39
 	ld bc,00f07h		;ad3c
 	call 00047h		;ad3f   ; BIOS WRTVDP - Writes data in the VDP-register
@@ -569,13 +569,13 @@ L_ADD4:
 	inc hl			;adf1
 	ld (hl),007h		;adf2
 L_ADF4:
-	ld a,007h		;adf4
+	ld a,007h		;adf4   ; tramo: pone escena
 	ld (0cd89h),a		;adf6   ; 0xCD89: la escena del final y las pantallas de p06
 	jp L_AEE3		;adf9
 L_ADFC:
 	call mira_cuadros_2		;adfc
 	ret nz			;adff
-	ld hl,00090h		;ae00
+	ld hl,00090h		;ae00   ; tramo: mira escena
 	ld bc,00040h		;ae03
 	ld a,000h		;ae06
 	call 04961h		;ae08
@@ -589,7 +589,7 @@ L_ADFC:
 L_AE1B:
 	call mira_cuadros_2_2		;ae1b
 	ret nz			;ae1e
-	xor a			;ae1f
+	xor a			;ae1f   ; tramo: pone demo_cuenta, pone escena
 	ld (0c10eh),a		;ae20   ; 0xC10E: cuadros que quedan de la tecla de la demostracion (p01:63FF)
 	ld (0cd01h),a		;ae23   ; 0xCD01: la escena del final y las pantallas de p06
 	ret			;ae26
@@ -604,7 +604,7 @@ pon_demo_cuenta:
 	call 00141h		;ae36   ; BIOS SNSMAT - Returns the value of the specified line from the keyboard matrix
 	bit 1,a		;ae39
 	ret nz			;ae3b
-	ld hl,00090h		;ae3c
+	ld hl,00090h		;ae3c   ; tramo: pone demo_cuenta, pone escena
 	ld bc,00040h		;ae3f
 	ld a,000h		;ae42
 	call 04961h		;ae44
@@ -648,11 +648,11 @@ L_AE91:
 	ld a,(hl)			;ae97
 	cp 05ah		;ae98
 	ret nz			;ae9a
-	ld a,067h		;ae9b
+	ld a,067h		;ae9b   ; tramo: pone sonido_pedido
 	ld (0c0f4h),a		;ae9d   ; 0xC0F4: el sonido que se pide para el cuadro siguiente (p14:94C1)
 	ret			;aea0
 L_AEA1:
-	xor a			;aea1
+	xor a			;aea1   ; tramo: pone escena
 	ld (0cd01h),a		;aea2   ; 0xCD01: la escena del final y las pantallas de p06
 	ld a,008h		;aea5
 	jp L_ADAE		;aea7
@@ -667,7 +667,7 @@ L_AEAA:
 	ld a,(0c4b0h)		;aebd   ; 0xC4B0: cuenta los cuadros; el bit 0 alterna los colores de los sprites (p02:93AA)
 	and 01fh		;aec0
 	ret nz			;aec2
-	ld hl,000f0h		;aec3
+	ld hl,000f0h		;aec3   ; tramo: mira escena, llama a despacha
 	ld bc,00010h		;aec6
 	ld a,000h		;aec9
 	call 04961h		;aecb
@@ -719,7 +719,7 @@ L_AF07:
 	ld hl,0c10eh		;af07   ; entrada 2 de la tabla de p06:AED1 (L_AEAA)
 	dec (hl)			;af0a
 	ret nz			;af0b
-	xor a			;af0c
+	xor a			;af0c   ; tramo: pone escena
 	ld (0cd80h),a		;af0d   ; 0xCD80: la escena del final y las pantallas de p06
 	jr L_AEE3		;af10
 L_AF12:
@@ -746,21 +746,21 @@ L_AF32:
 	ld a,00ah		;af37
 	jp L_ADAE		;af39
 pon_escena:
-	ld a,001h		;af3c
+	ld a,001h		;af3c   ; tramo: pone escena
 	ld (0cd83h),a		;af3e   ; 0xCD83: la escena del final y las pantallas de p06
 pon_escena_2:
 	ld a,(0cd82h)		;af41   ; 0xCD82: la escena del final y las pantallas de p06
 	dec a			;af44
 	jr z,L_AF5E		;af45
-	push hl			;af47
-	call 05b5eh		;af48
+	push hl			;af47   ; tramo: llama a fundido_guarda, mira escena
+	call 05b5eh		;af48   ; p00:5B5E fundido_guarda
 	pop hl			;af4b
 	ld a,(0cd83h)		;af4c   ; 0xCD83: la escena del final y las pantallas de p06
 	and a			;af4f
 	jr z,L_AF55		;af50
 	call 05b70h		;af52
 L_AF55:
-	xor a			;af55
+	xor a			;af55   ; tramo: pone escena, mira escena
 	ld (0cd81h),a		;af56   ; 0xCD81: la escena del final y las pantallas de p06
 	ld hl,0cd82h		;af59   ; 0xCD82: la escena del final y las pantallas de p06
 	inc (hl)			;af5c
@@ -772,7 +772,7 @@ L_AF5E:
 	call 05b31h		;af64
 	ret nz			;af67
 L_AF68:
-	xor a			;af68
+	xor a			;af68   ; tramo: pone escena
 	ld (0cd83h),a		;af69   ; 0xCD83: la escena del final y las pantallas de p06
 	ld (0cd82h),a		;af6c   ; 0xCD82: la escena del final y las pantallas de p06
 	inc a			;af6f
@@ -783,18 +783,18 @@ L_AF74:
 	ret nz			;af77
 	jr L_AF68		;af78
 rutina:
-	call 04c65h		;af7a
+	call 04c65h		;af7a   ; tramo: llama a piezas_de_las_fichas_d700, llama a pinta_las_fichas_d700
 	call 04b4dh		;af7d
 	call 06656h		;af80
 	call 0681eh		;af83
-	call 06b21h		;af86
-	call 06bdch		;af89
+	call 06b21h		;af86   ; p01:6B21 piezas_de_las_fichas_d700
+	call 06bdch		;af89   ; p01:6BDC pinta_las_fichas_d700
 	call 07539h		;af8c
 	call 07603h		;af8f
 	call 04b7ah		;af92
 	ret			;af95
 mira_sitios_de_sprite:
-	ld a,031h		;af96
+	ld a,031h		;af96   ; tramo: mira sitios_de_sprite, llama a hl_mas_a
 	ld hl,0cf00h		;af98   ; 0xCF00: que cosa hay en cada sitio de los patrones (p00:56A2)
 	call 040a4h		;af9b   ; p00:40A4 hl_mas_a
 	ld b,003h		;af9e   ; 3 vueltas
@@ -883,7 +883,7 @@ DATA_sin_lector_AFF5:
 
 
 mira_pantalla_2:
-	ld de,07090h		;aff6
+	ld de,07090h		;aff6   ; tramo: mira pantalla, sigue en hmmm
 	ld hl,0e090h		;aff9   ; 0xE090: la tabla de 32x32 dibujos de la pantalla
 	ld bc,02020h		;affc
 	ld a,001h		;afff
@@ -900,7 +900,7 @@ pon_avance:
 	ld a,(0ce98h)		;b016   ; 0xCE98: la escena del final y las pantallas de p06
 	sub 020h		;b019
 	jr c,L_B022		;b01b
-	ld a,001h		;b01d
+	ld a,001h		;b01d   ; tramo: pone escena
 	ld (0cd84h),a		;b01f   ; 0xCD84: la escena del final y las pantallas de p06
 L_B022:
 	ld hl,000d5h		;b022
@@ -938,7 +938,7 @@ L_B04E:
 	jr z,L_B058		;b055
 	dec a			;b057
 L_B058:
-	ld (hl),a			;b058
+	ld (hl),a			;b058   ; tramo: sigue en pon_un_color
 	ld e,a			;b059
 	ld a,c			;b05a
 	jp 04d03h		;b05b   ; p00:4D03 pon_un_color
@@ -987,7 +987,7 @@ L_B08B:
 	jr z,L_B09A		;b097
 	inc a			;b099
 L_B09A:
-	ld (hl),a			;b09a
+	ld (hl),a			;b09a   ; tramo: sigue en pon_un_color
 	ld e,a			;b09b
 	ld a,c			;b09c
 	jp 04d03h		;b09d   ; p00:4D03 pon_un_color
@@ -1053,7 +1053,7 @@ DATA_tabla_B115:
 
 
 pon_escena_3:
-	xor a			;b1ce
+	xor a			;b1ce   ; tramo: pone escena, mira escena
 	ld (0cd12h),a		;b1cf   ; 0xCD12: la escena del final y las pantallas de p06
 	ld h,a			;b1d2
 	ld l,03ch		;b1d3
@@ -1081,7 +1081,7 @@ L_B1F9:
 	ld (hl),d			;b1ff
 	ret			;b200
 pon_escena_4:
-	call ficha_campo_07		;b201
+	call ficha_campo_07		;b201   ; tramo: mira escena, pone escena
 	call pon_avance		;b204
 	ld hl,(0cd10h)		;b207   ; 0xCD10: la escena del final y las pantallas de p06
 	ld a,(0cd12h)		;b20a   ; 0xCD12: la escena del final y las pantallas de p06
@@ -1204,7 +1204,7 @@ L_B3A8:
 	dec a			;b3b6
 	jp z,L_BA36		;b3b7
 	jp p,L_BA4A		;b3ba
-	ld hl,01720h		;b3bd
+	ld hl,01720h		;b3bd   ; tramo: mira bicho_0, mira fichas_especiales
 	ld a,0cch		;b3c0
 	ld bc,0d040h		;b3c2   ; 0xD040: la ficha del bicho 0, byte 0x40 (p01:74B7)
 	call 04941h		;b3c5
@@ -1246,7 +1246,7 @@ L_B40F:
 	ld a,(0c106h)		;b418   ; 0xC106: cursores, ESPACIO y los disparos pulsados en este cuadro (p00:533B)
 	and 010h		;b41b
 	ret z			;b41d
-	ld a,05bh		;b41e
+	ld a,05bh		;b41e   ; tramo: pone sonido_pedido, pone paso_de_la_pausa
 	ld (0c0f4h),a		;b420   ; 0xC0F4: el sonido que se pide para el cuadro siguiente (p14:94C1)
 	ld a,004h		;b423
 	ld (0c137h),a		;b425   ; 0xC137: la ventana de la pausa: contrasena, teclear, comprobar... (p06:B3A8)
@@ -1260,7 +1260,7 @@ L_B42B:
 	call 04fc8h		;b439
 	jr $-85		;b43c
 mira_contrasena:
-	call mira_area_nueva		;b43e
+	call mira_area_nueva		;b43e   ; tramo: mira contrasena
 	ld hl,0e902h		;b441   ; 0xE902: la contrasena: la que se ensena y la tecleada (p06:B43E)
 	call rutina_8		;b444
 	ld hl,0e902h		;b447   ; 0xE902: la contrasena: la que se ensena y la tecleada (p06:B43E)
@@ -1270,7 +1270,7 @@ mira_contrasena:
 	call pon_cursor_de_la_contrasena		;b453
 	ret			;b456
 pon_cursor_de_la_contrasena:
-	ld hl,04830h		;b457
+	ld hl,04830h		;b457   ; tramo: pone contrasena, mira contrasena, pone cursor_de_la_contrasena
 	ld (0e980h),hl		;b45a   ; 0xE980: la contrasena: la que se ensena y la tecleada (p06:B43E)
 	ld hl,0e982h		;b45d   ; 0xE982: la contrasena tecleada (p06:B7EF)
 	ld (0c4b4h),hl		;b460   ; 0xC4B4: donde va la siguiente letra de la contrasena (p06:B7BC)
@@ -1306,7 +1306,7 @@ L_B486:
 	ld d,a			;b489
 	ret			;b48a
 mira_area_nueva:
-	call 0882ch		;b48b
+	call 0882ch		;b48b   ; tramo: pone contrasena, mira contrasena, mira area_nueva, mira columna ...
 	ld d,000h		;b48e
 	ld bc,03830h		;b490
 	ld (0e900h),bc		;b493   ; 0xE900: la contrasena: la que se ensena y la tecleada (p06:B43E)
@@ -1319,12 +1319,12 @@ mira_area_nueva:
 	ld a,(0c486h)		;b4a3   ; 0xC486: el area a la que se va (p01:6549)
 	call rutina_9		;b4a6
 	ld a,(0c483h)		;b4a9   ; 0xC483: la COLUMNA: 0-2 el camino, 3 la sala (p01:6543)
-	cp 003h		;b4ac
+	cp 003h		;b4ac   ; ¿columna = 0x03?
 	ld a,(0c487h)		;b4ae   ; 0xC487: la fila del mapa con que se entra (p00:5924)
 	jr nz,L_B4B5		;b4b1
 	ld a,01fh		;b4b3
 L_B4B5:
-	ld h,a			;b4b5
+	ld h,a			;b4b5   ; tramo: mira vidas, mira x_de_entrada, mira y_de_entrada, mira objeto_21 ...
 	and 00fh		;b4b6
 	call rutina_9		;b4b8
 	ld a,h			;b4bb
@@ -1586,7 +1586,7 @@ pon_buffers:
 	inc bc			;b664
 	sub h			;b665
 	ret nz			;b666
-	push hl			;b667
+	push hl			;b667   ; tramo: mira objeto_1, pone buffers, pone nivel_c840, pone dificultad ...
 	push de			;b668
 	push bc			;b669
 	ld hl,0c850h		;b66a   ; 0xC850: el OBJETO 1 (byte 0 de 4; p06:BAC2)
@@ -1643,7 +1643,7 @@ pon_buffers:
 	ld a,(0ec03h)		;b6e1   ; 0xEC03: buffers de pantallas y dibujos
 	and 008h		;b6e4
 	jr z,L_B6ED		;b6e6
-	ld a,001h		;b6e8
+	ld a,001h		;b6e8   ; tramo: pone objeto_14
 	ld (0c884h),a		;b6ea   ; 0xC884: el OBJETO 14 (byte 0 de 4; p06:BAC2)
 L_B6ED:
 	ld a,(0ec00h)		;b6ed   ; 0xEC00: buffers de pantallas y dibujos
@@ -1759,7 +1759,7 @@ L_B7BC:
 	ld a,e			;b7c0
 	cp 097h		;b7c1
 	jr nc,L_B78F		;b7c3
-	ld a,c			;b7c5
+	ld a,c			;b7c5   ; tramo: pone cursor_de_la_contrasena
 	ld (de),a			;b7c6
 	inc de			;b7c7
 	ld (0c4b4h),de		;b7c8   ; 0xC4B4: donde va la siguiente letra de la contrasena (p06:B7BC)
@@ -1785,13 +1785,13 @@ L_B7DC:
 	ld a,e			;b7e0
 	cp 082h		;b7e1
 	jr z,$-84		;b7e3
-	dec de			;b7e5
+	dec de			;b7e5   ; tramo: pone cursor_de_la_contrasena
 	xor a			;b7e6
 	ld (de),a			;b7e7
 	ld (0c4b4h),de		;b7e8   ; 0xC4B4: donde va la siguiente letra de la contrasena (p06:B7BC)
 	jr $-93		;b7ec
 pon_espera:
-	xor a			;b7ee
+	xor a			;b7ee   ; tramo: mira contrasena
 	ld hl,0e982h		;b7ef   ; 0xE982: la contrasena tecleada (p06:B7EF)
 L_B7F2:
 	ld d,(hl)			;b7f2
@@ -1811,9 +1811,9 @@ L_B7FA:
 	call pon_espera		;b80b
 	or a			;b80e
 	jr nz,L_B827		;b80f
-	call pon_buffers		;b811
+	call pon_buffers		;b811   ; tramo: mira cambio_de_area
 	ld a,(0c485h)		;b814   ; 0xC485: bit 7: hay que cambiar de area (p01:64CD)
-	cp 080h		;b817
+	cp 080h		;b817   ; ¿cambio_de_area = 0x80?
 	jr nz,L_B827		;b819
 	ld a,(0e902h)		;b81b   ; 0xE902: la contrasena: la que se ensena y la tecleada (p06:B43E)
 	cp 0ffh		;b81e
@@ -1827,7 +1827,7 @@ L_B827:
 	ld hl,0b84ah		;b82d
 	call 04fbeh		;b830
 L_B833:
-	ld a,01eh		;b833
+	ld a,01eh		;b833   ; tramo: pone espera, pone sonido_pedido
 	ld (0c104h),a		;b835   ; 0xC104: cuenta atras del paso del estado (p00:4345)
 	ld a,05bh		;b838
 	ld (0c0f4h),a		;b83a   ; 0xC0F4: el sonido que se pide para el cuadro siguiente (p14:94C1)
@@ -1851,7 +1851,7 @@ rutina_19:
 	ld hl,0b840h		;b858   ; p06:B840 tabla_B840: tabla que lee p06:B82D, p06:B858 (18 bytes)
 	jp 04fbeh		;b85b
 pon_contrasena_buena:
-	xor a			;b85e
+	xor a			;b85e   ; tramo: pone contrasena_buena, pone final
 	ld (0c4dch),a		;b85f   ; 0xC4DC: se ha aceptado una de las 17 (p06:B895)
 	ld hl,00000h		;b862
 	ld (0c4dah),hl		;b865   ; 0xC4DA: el final: lo pone ENDDEMOGAMITAINA (p06:B98A)
@@ -1862,7 +1862,7 @@ L_B86A:
 	pop bc			;b86e
 	djnz L_B86A		;b86f
 	ld a,(0c4dch)		;b871   ; 0xC4DC: se ha aceptado una de las 17 (p06:B895)
-	or a			;b874
+	or a			;b874   ; ¿es 0 contrasena_buena?
 	ret			;b875
 pon_contrasena_buena_2:
 	ld de,0b8a0h		;b876   ; p06:B8A0 tabla_B8A0: tabla que lee p06:B876 (44 bytes)
@@ -1885,7 +1885,7 @@ L_B881:
 	ld a,(hl)			;b891
 	or a			;b892
 	ret nz			;b893
-	inc a			;b894
+	inc a			;b894   ; tramo: pone contrasena_buena
 	ld (0c4dch),a		;b895   ; 0xC4DC: se ha aceptado una de las 17 (p06:B895)
 	ld (hl),a			;b898
 	ex de,hl			;b899
@@ -1952,7 +1952,7 @@ DATA_sin_lector_B8F3:
 
 
 L_B902:
-	ld a,001h		;b902
+	ld a,001h		;b902   ; tramo: pone truco_plumas
 	ld (0c4e3h),a		;b904   ; 0xC4E3: HANEYOKAGAYAKE: las cosas que dan 1 de vida dan 10 (p03:AC8F)
 	ret			;b907
 
@@ -1969,7 +1969,7 @@ DATA_sin_lector_B908:
 
 
 L_B911:
-	ld a,009h		;b911
+	ld a,009h		;b911   ; tramo: pone objeto_9
 	ld (0c870h),a		;b913   ; 0xC870: el OBJETO 9 (byte 0 de 4; p06:BAC2)
 	ret			;b916
 
@@ -1986,7 +1986,7 @@ DATA_sin_lector_B917:
 
 
 L_B91D:
-	ld a,003h		;b91d
+	ld a,003h		;b91d   ; tramo: pone objeto_1
 	ld (0c850h),a		;b91f   ; 0xC850: el OBJETO 1 (byte 0 de 4; p06:BAC2)
 	ret			;b922
 
@@ -2003,7 +2003,7 @@ DATA_sin_lector_B923:
 
 
 L_B92E:
-	ld a,0c8h		;b92e
+	ld a,0c8h		;b92e   ; tramo: pone vida
 	ld (0c845h),a		;b930   ; 0xC845: la VIDA de Gao, hasta 200 (p03:AD1C; METALSLAVE la llena)
 	ret			;b933
 
@@ -2020,7 +2020,7 @@ DATA_sin_lector_B934:
 
 
 L_B943:
-	ld a,009h		;b943
+	ld a,009h		;b943   ; tramo: pone objeto_14
 	ld (0c884h),a		;b945   ; 0xC884: el OBJETO 14 (byte 0 de 4; p06:BAC2)
 	ret			;b948
 
@@ -2075,7 +2075,7 @@ DATA_sin_lector_B979:
 
 
 L_B98A:
-	ld hl,0000ch		;b98a
+	ld hl,0000ch		;b98a   ; tramo: pone final, pone avance_del_cuadro, pone musica_de_pausa, pone canales ...
 	ld (0c4dah),hl		;b98d   ; 0xC4DA: el final: lo pone ENDDEMOGAMITAINA (p06:B98A)
 	xor a			;b990
 	ld (0c388h),a		;b991   ; 0xC388: lo que se ha movido el mapa este cuadro (p00:56E8)
@@ -2100,7 +2100,7 @@ DATA_sin_lector_B9A6:
 
 
 L_B9AC:
-	ld a,001h		;b9ac
+	ld a,001h		;b9ac   ; tramo: pone truco_aaaaa, mira objeto_1
 	ld (0c4d1h),a		;b9ae   ; 0xC4D1: lo pone la contrasena 'aaaaa', que no se puede teclear (p06:B9AC)
 	ld hl,0c850h		;b9b1   ; 0xC850: el OBJETO 1 (byte 0 de 4; p06:BAC2)
 	ld bc,000a7h		;b9b4
@@ -2120,7 +2120,7 @@ DATA_sin_lector_B9BC:
 
 
 L_B9C7:
-	ld a,006h		;b9c7
+	ld a,006h		;b9c7   ; tramo: pone objeto_10
 	ld (0c874h),a		;b9c9   ; 0xC874: el OBJETO 10 (byte 0 de 4; p06:BAC2)
 	ld a,03fh		;b9cc
 	ld (0c875h),a		;b9ce   ; 0xC875: el OBJETO 10 (byte 1 de 4; p06:BAC2)
@@ -2139,7 +2139,7 @@ DATA_sin_lector_B9D2:
 
 
 L_B9E2:
-	ld a,001h		;b9e2
+	ld a,001h		;b9e2   ; tramo: pone truco_vidas
 	ld (0c4e0h),a		;b9e4   ; 0xC4E0: NANDANANDANANDA: al perder una vida se devuelve (p00:441A)
 	ret			;b9e7
 
@@ -2156,7 +2156,7 @@ DATA_sin_lector_B9E8:
 
 
 L_B9F1:
-	ld a,003h		;b9f1
+	ld a,003h		;b9f1   ; tramo: pone arma, pone truco_disparo
 	ld (0c85ch),a		;b9f3   ; 0xC85C: el ARMA de Gao: su cuenta es la del objeto 4 (p01:7FAB)
 	ld (0c4e1h),a		;b9f6   ; 0xC4E1: AUTOSHOT: el arma 4 en cada cuadro (p02:8F56)
 	jp 07fabh		;b9f9
@@ -2174,7 +2174,7 @@ DATA_sin_lector_B9FC:
 
 
 L_BA0A:
-	ld a,001h		;ba0a
+	ld a,001h		;ba0a   ; tramo: pone truco_invencible
 	ld (0c4e2h),a		;ba0c   ; 0xC4E2: ILOVEHINOTORI: invencible (p02:8600)
 	ret			;ba0f
 
@@ -2191,7 +2191,7 @@ DATA_sin_lector_BA10:
 
 
 L_BA1C:
-	ld a,006h		;ba1c
+	ld a,006h		;ba1c   ; tramo: pone objeto_11
 	ld (0c878h),a		;ba1e   ; 0xC878: el OBJETO 11 (byte 0 de 4; p06:BAC2)
 	ld a,03fh		;ba21
 	ld (0c879h),a		;ba23   ; 0xC879: el OBJETO 11 (byte 1 de 4; p06:BAC2)
@@ -2210,14 +2210,14 @@ DATA_sin_lector_BA27:
 
 
 L_BA2E:
-	ld a,003h		;ba2e
+	ld a,003h		;ba2e   ; tramo: pone arma
 	ld (0c85ch),a		;ba30   ; 0xC85C: el ARMA de Gao: su cuenta es la del objeto 4 (p01:7FAB)
 	jp 07fabh		;ba33
 L_BA36:
 	ld a,(0c012h)		;ba36   ; 0xC012: el sonido del primer canal (p14:9420)
-	or a			;ba39
+	or a			;ba39   ; ¿es 0 sonido_1?
 	ret nz			;ba3a
-	ld hl,01720h		;ba3b
+	ld hl,01720h		;ba3b   ; tramo: mira bicho_0, llama a enciende_los_sprites
 	ld bc,0d040h		;ba3e   ; 0xD040: la ficha del bicho 0, byte 0x40 (p01:74B7)
 	call 04972h		;ba41
 	call 04cf8h		;ba44   ; p00:4CF8 enciende_los_sprites
@@ -2231,7 +2231,7 @@ L_BA4B:
 	dec a			;ba50
 	jp z,L_BAA0		;ba51
 	jp p,L_BAA8		;ba54
-	ld hl,01720h		;ba57
+	ld hl,01720h		;ba57   ; tramo: mira bicho_0, mira fichas_especiales, mira pantalla, llama a apaga_los_sprites
 	ld de,01018h		;ba5a
 	ld a,0cch		;ba5d
 	ld bc,0d058h		;ba5f   ; 0xD058: la ficha del bicho 0, byte 0x58 (p01:74B7)
@@ -2266,11 +2266,11 @@ L_BA9A:
 	jp 04348h		;ba9d
 L_BAA0:
 	ld a,(0c106h)		;baa0   ; 0xC106: cursores, ESPACIO y los disparos pulsados en este cuadro (p00:533B)
-	or a			;baa3
+	or a			;baa3   ; ¿es 0 teclas_nuevas?
 	ret z			;baa4
 	jp 04348h		;baa5
 L_BAA8:
-	ld hl,01720h		;baa8
+	ld hl,01720h		;baa8   ; tramo: mira bicho_0, llama a enciende_los_sprites
 	ld de,01018h		;baab
 	ld bc,0d058h		;baae   ; 0xD058: la ficha del bicho 0, byte 0x58 (p01:74B7)
 	call 0497bh		;bab1
@@ -2310,7 +2310,7 @@ mira_buffer:
 	res 0,d		;baec
 	rrca			;baee
 	jr c,L_BB03		;baef
-	push de			;baf1
+	push de			;baf1   ; tramo: mira buffer, llama a pinta_cifras
 	ld hl,0e880h		;baf2   ; 0xE880: buffer de trabajo
 	ld b,001h		;baf5
 	ld a,d			;baf7
@@ -2319,7 +2319,7 @@ mira_buffer:
 	ld a,e			;bafb
 	add a,004h		;bafc
 	ld e,a			;bafe
-	call 04853h		;baff
+	call 04853h		;baff   ; p00:4853 pinta_cifras
 	pop de			;bb02
 L_BB03:
 	ld hl,0e800h		;bb03   ; 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
@@ -2350,7 +2350,7 @@ L_BB69:
 	dec a			;bb6a
 	jp z,L_BBBF		;bb6b
 	jp p,L_BD0C		;bb6e
-	call 0558ah		;bb71
+	call 0558ah		;bb71   ; tramo: mira bicho_0, mira fichas_especiales, llama a apaga_los_sprites, mira buffers
 	ld hl,01720h		;bb74
 	ld de,01018h		;bb77
 	ld a,0cch		;bb7a
@@ -2378,7 +2378,7 @@ L_BB69:
 	ld a,034h		;bbba   ; el sonido 0x34 (p14:9C47 + 2*0x34)
 	jp 041c1h		;bbbc
 L_BBBF:
-	ld a,078h		;bbbf
+	ld a,078h		;bbbf   ; tramo: pone espera, mira partida
 	ld (0c104h),a		;bbc1   ; 0xC104: cuenta atras del paso del estado (p00:4345)
 	ld a,(0c4bdh)		;bbc4   ; 0xC4BD: variables de la partida
 	ld hl,0be43h		;bbc7
@@ -2414,16 +2414,16 @@ rutina_21:
 	or a			;bbfb
 	ret			;bbfc
 pon_partida:
-	ld bc,00001h		;bbfd
+	ld bc,00001h		;bbfd   ; tramo: pone partida
 	ld (0c4bbh),bc		;bc00   ; 0xC4BB: variables de la partida
 pon_partida_2:
-	ld bc,01605h		;bc04
+	ld bc,01605h		;bc04   ; tramo: pone partida
 	ld (0c4b6h),bc		;bc07   ; 0xC4B6: variables de la partida
 	ld bc,0040bh		;bc0b
 	ld (0c4b8h),bc		;bc0e   ; 0xC4B8: variables de la partida
 	ret			;bc12
 L_BC13:
-	call pon_partida_2		;bc13
+	call pon_partida_2		;bc13   ; tramo: mira partida, mira buffer
 	ld bc,00000h		;bc16
 	ld a,(0c4b6h)		;bc19   ; 0xC4B6: variables de la partida
 	dec a			;bc1c
@@ -2436,14 +2436,14 @@ L_BC25:
 	call mira_partida		;bc26
 	pop bc			;bc29
 	call c,rutina_22		;bc2a
-	inc bc			;bc2d
+	inc bc			;bc2d   ; tramo: mira partida
 	or a			;bc2e
 	push hl			;bc2f
 	ld hl,(0c4bbh)		;bc30   ; 0xC4BB: variables de la partida
 	sbc hl,bc		;bc33
 	pop hl			;bc35
 	jr nz,L_BC25		;bc36
-	inc bc			;bc38
+	inc bc			;bc38   ; tramo: pone partida
 	ld (0c4bbh),bc		;bc39   ; 0xC4BB: variables de la partida
 	cp 07eh		;bc3d
 	jr z,L_BC86		;bc3f
@@ -2549,7 +2549,7 @@ L_BCD1:
 	scf			;bcd2
 	ret			;bcd3
 L_BCD4:
-	push hl			;bcd4
+	push hl			;bcd4   ; tramo: mira partida
 	ld hl,0c4b6h		;bcd5   ; 0xC4B6: variables de la partida
 	ld a,(hl)			;bcd8
 	inc hl			;bcd9
@@ -2558,7 +2558,7 @@ L_BCD4:
 	pop hl			;bcdc
 	jr mira_partida		;bcdd
 L_BCDF:
-	call pon_partida_2		;bcdf
+	call pon_partida_2		;bcdf   ; tramo: mira partida
 	ld bc,00000h		;bce2
 	ld a,(0c4b6h)		;bce5   ; 0xC4B6: variables de la partida
 	dec a			;bce8
@@ -2567,7 +2567,7 @@ L_BCDF:
 	ld e,a			;bced
 	ret			;bcee
 mira_partida_2:
-	inc d			;bcef
+	inc d			;bcef   ; tramo: mira partida
 	ld a,d			;bcf0
 	ld hl,0c4b6h		;bcf1   ; 0xC4B6: variables de la partida
 	sub (hl)			;bcf4
@@ -2594,17 +2594,17 @@ mira_partida_2:
 	ret			;bd0b
 L_BD0C:
 	ld a,(0c104h)		;bd0c   ; 0xC104: cuenta atras del paso del estado (p00:4345)
-	or a			;bd0f
+	or a			;bd0f   ; ¿es 0 espera?
 	jr nz,L_BD19		;bd10
 	ld a,(0c102h)		;bd12   ; 0xC102: bit 0: es la demostracion; bit 6: hay partida (p00:46A5)
 	and 001h		;bd15
 	jr nz,L_BD1E		;bd17
 L_BD19:
 	ld a,(0c106h)		;bd19   ; 0xC106: cursores, ESPACIO y los disparos pulsados en este cuadro (p00:533B)
-	or a			;bd1c
+	or a			;bd1c   ; ¿es 0 teclas_nuevas?
 	ret z			;bd1d
 L_BD1E:
-	ld hl,01720h		;bd1e
+	ld hl,01720h		;bd1e   ; tramo: mira bicho_0, llama a enciende_los_sprites, pone partida, pone estado
 	ld de,01018h		;bd21
 	ld bc,0d060h		;bd24   ; 0xD060: la ficha del bicho 0, byte 0x60 (p01:74B7)
 	call 0497bh		;bd27

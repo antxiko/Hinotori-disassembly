@@ -166,12 +166,78 @@ def idioma(tx, ins, i):
         return "HL = la ficha"
     if tx == "push hl" and sig == "pop ix":
         return "la ficha es la de HL"
+    m = re.match(r"ld de,0*([0-9a-f]+)h$", tx)
+    if m and i is not None and re.match(r"add (hl|ix|iy),de", sig):
+        for k in range(i + 2, min(i + 6, len(ins))):
+            if ins[k][1].startswith(("djnz", "dec c", "dec b")):
+                return "la siguiente, 0x%X bytes mas alla" % int(m.group(1), 16)
+    # ld a,(var) / or a|and a / salto: se dice que se mira
+    if i is not None and tx in ("or a", "and a") and i > 0:
+        m = re.match(r"ld a,\(0([cdef][0-9a-f]{3})h\)$", ins[i - 1][1])
+        if m:
+            q = R.VARS.get(int(m.group(1), 16))
+            if q:
+                return "¿es 0 %s?" % q[0]
+    m = re.match(r"cp 0?([0-9a-f]+)h$", tx)
+    if m and i is not None and i > 0:
+        mm = re.match(r"ld a,\(0([cdef][0-9a-f]{3})h\)$", ins[i - 1][1])
+        if mm:
+            q = R.VARS.get(int(mm.group(1), 16))
+            if q:
+                return "¿%s = 0x%02X?" % (q[0], int(m.group(1), 16))
     m = re.match(r"ld b,0?([0-9a-f]+)h$", tx)
     if m and i is not None:
         for k in range(i + 1, min(i + 12, len(ins))):
             if ins[k][1].startswith("djnz"):
                 return "%d vueltas" % int(m.group(1), 16)
     return None
+
+
+SALTO_CC = re.compile(r"(jr|jp|ret|call) (nz|z|nc|c|po|pe|p|m)\b|djnz")
+
+
+def resumenes(ins, labs, todos, p, t):
+    """{addr: "tramo: ..."}: lo que toca cada tramo del codigo (desde una
+    etiqueta o desde lo que sigue a un salto condicional hasta el siguiente
+    corte): que variables pone o mira, a que llama, que sonido pide."""
+    nombres = {v: k for k, v in labs.items()}
+    fuera = {}
+    n = len(ins)
+    inicios = [i for i in range(n) if ins[i][0] in labs or (i and SALTO_CC.match(ins[i - 1][1]))]
+    for k, i0 in enumerate(inicios):
+        fin = inicios[k + 1] if k + 1 < len(inicios) else n
+        cosas = []
+        for j in range(i0, fin):
+            tx = ins[j][1]
+            for m in re.finditer(r"\b0([cdef][0-9a-f]{3})h\b", tx):
+                v = int(m.group(1), 16)
+                q = R.VARS.get(v) or R.que_es(v)
+                if not q:
+                    continue
+                w = bool(re.match(r"ld \(0[cdef][0-9a-f]{3}h\)", tx)) or tx.startswith(("inc (", "dec ("))
+                cosas.append(("pone " if w else "mira ") + q[0])
+            m = re.match(r"(?:call|jp)\s+(?:[a-z]+,)?([A-Za-z_][A-Za-z_0-9]*)$", tx)
+            if m and not m.group(1).startswith("L_"):
+                cosas.append(("llama a " if tx.startswith("call") else "sigue en ") + m.group(1))
+            m = re.match(r"(?:call|jp)\s+(?:[a-z]+,)?0([0-9a-f]{4})h$", tx)
+            if m:
+                d = int(m.group(1), 16)
+                nb = todos.get((0, d)) if d < 0x6000 else None
+                if nb is None and 0x6000 <= d < 0xC000:
+                    for s_ in t.config_de.get((p, ins[j][0]), ()):
+                        nb = todos.get((s_[(d - 0x6000) >> 13], d))
+                        break
+                if nb and not nb.startswith("L_"):
+                    cosas.append(("llama a " if tx.startswith("call") else "sigue en ") + nb)
+            if tx.startswith(("ret", "jp ", "jr ")) and not SALTO_CC.match(tx):
+                break
+        vistas = []
+        for c in cosas:
+            if c not in vistas:
+                vistas.append(c)
+        if vistas:
+            fuera[ins[i0][0]] = "tramo: " + ", ".join(vistas[:4]) + (" ..." if len(vistas) > 4 else "")
+    return fuera
 
 
 def destino(texto):
@@ -345,6 +411,7 @@ def main(argv):
                 else:
                     pasos.setdefault(w, "entrada %d de la tabla de %s:%04X (%s)" % (k, nombre(b), pc, rut))
         descr = descripciones()
+        tramos = resumenes(ins, labs, todos, p, t)
         for a, tx, com in ins:
             if a in c_mano or com:
                 continue
@@ -396,6 +463,8 @@ def main(argv):
                     n = todos.get((b, d)) if b is not None else None
                     if n and not n.startswith("L_"):
                         c = "%s:%04X %s" % (nombre(b), d, n)
+            if not c and a in tramos:
+                c = tramos[a]
             if c:
                 lineas.append("C 0x%04X %s" % (a, c))
                 total_c += 1

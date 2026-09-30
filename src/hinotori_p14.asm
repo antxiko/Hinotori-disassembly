@@ -498,19 +498,19 @@ DATA_tabla_8D4B:
 
 
 L_9400:
-	ld c,a			;9400
+	ld c,a			;9400   ; tramo: mira musica_de_pausa
 	ld a,(0c0f2h)		;9401   ; 0xC0F2: la musica de la pausa esta sonando (p14:9411)
-	or a			;9404
+	or a			;9404   ; ¿es 0 musica_de_pausa?
 	jr nz,L_9420		;9405
 	ld a,c			;9407
 	cp 070h		;9408
 	jr z,L_9416		;940a
 	cp 04ch		;940c
 	jp nz,L_9420		;940e
-	ld a,001h		;9411
+	ld a,001h		;9411   ; tramo: pone musica_de_pausa
 	ld (0c0f2h),a		;9413   ; 0xC0F2: la musica de la pausa esta sonando (p14:9411)
 L_9416:
-	ld a,c			;9416
+	ld a,c			;9416   ; tramo: mira canales
 	ld hl,0c010h		;9417   ; 0xC010: los canales del sonido (0x20 bytes cada uno, p14:94CA)
 	ld de,0c090h		;941a   ; 0xC090: los canales del sonido (0x20 bytes cada uno, p14:94CA)
 	call pon_sonido_0f1		;941d
@@ -528,16 +528,16 @@ L_9431:
 	inc b			;9432
 	cp 052h		;9433
 	jp c,L_9454		;9435
-	xor a			;9438
+	xor a			;9438   ; tramo: pone sonido_ruido
 	ld (0c072h),a		;9439   ; 0xC072: el sonido que lleva el ruido del PSG (p14:9439)
 	jp L_9454		;943c
 L_943F:
-	ld l,072h		;943f
+	ld l,072h		;943f   ; tramo: mira sonido_3
 	ld a,(0c052h)		;9441   ; 0xC052: el sonido del tercer canal
-	cp 052h		;9444
+	cp 052h		;9444   ; ¿sonido_3 = 0x52?
 	ret nc			;9446
 	ld a,(0c012h)		;9447   ; 0xC012: el sonido del primer canal (p14:9420)
-	cp 043h		;944a
+	cp 043h		;944a   ; ¿sonido_1 = 0x43?
 	ld a,(hl)			;944c
 	call z,rutina		;944d
 	ld e,a			;9450
@@ -610,9 +610,9 @@ L_9497:
 	xor a			;94a4
 	ld (0c0f3h),a		;94a5
 	ld a,(0c0f1h)		;94a8   ; 0xC0F1: lo pone p00:4588 al volver de la pausa: 1 si no sonaba la musica de pausa
-	or a			;94ab
+	or a			;94ab   ; ¿es 0 sonido_0f1?
 	jp z,L_94C1		;94ac
-	ld a,c			;94af
+	ld a,c			;94af   ; tramo: mira canales, pone musica_de_pausa
 	ld hl,0c090h		;94b0   ; 0xC090: los canales del sonido (0x20 bytes cada uno, p14:94CA)
 	ld de,0c010h		;94b3   ; 0xC010: los canales del sonido (0x20 bytes cada uno, p14:94CA)
 	call pon_sonido_0f1		;94b6
@@ -621,9 +621,9 @@ L_9497:
 	ld (0c0f3h),a		;94be
 L_94C1:
 	ld a,(0c0f4h)		;94c1   ; 0xC0F4: el sonido que se pide para el cuadro siguiente (p14:94C1)
-	or a			;94c4
+	or a			;94c4   ; ¿es 0 sonido_pedido?
 	call nz,mira_sonido_pedido		;94c5
-	ld c,001h		;94c8
+	ld c,001h		;94c8   ; tramo: mira canales
 	ld ix,0c010h		;94ca   ; 0xC010: los canales del sonido (0x20 bytes cada uno, p14:94CA)
 	exx			;94ce
 L_94CF:
@@ -713,7 +713,7 @@ L_9552:
 	cp 005h		;9560
 	jp nz,L_956C		;9562
 	ld a,(0c072h)		;9565   ; 0xC072: el sonido que lleva el ruido del PSG (p14:9439)
-	or a			;9568
+	or a			;9568   ; ¿es 0 sonido_ruido?
 	jp nz,L_9571		;9569
 L_956C:
 	ld a,006h		;956c
@@ -763,7 +763,7 @@ L_95BA:
 	dec (ix+000h)		;95ba   ; ix+0x00: cuadros que le quedan a la nota (p14:94F4)
 	jp z,L_94FA		;95bd
 	ld a,(0c0f7h)		;95c0   ; 0xC0F7: todo el sonido callado (p14:95C0)
-	or a			;95c3
+	or a			;95c3   ; ¿es 0 sonido_callado?
 	ret nz			;95c4
 	ld a,(ix+010h)		;95c5   ; ix+0x10: la orden 0xEx de un byte (p14:96A3)
 	or a			;95c8
@@ -884,12 +884,12 @@ L_9689:
 	ld (ix+010h),a		;96a3   ; ix+0x10: la orden 0xEx de un byte (p14:96A3)
 	jp L_96DE		;96a6
 L_96A9:
-	xor a			;96a9
+	xor a			;96a9   ; tramo: mira sonido_callado
 	ld (ix+00fh),a		;96aa   ; ix+0x0F: banderas: bit 2 vibrato, bit 3 envolvente (p14:96C7)
 	ld (ix+010h),a		;96ad   ; ix+0x10: la orden 0xEx de un byte (p14:96A3)
 	inc hl			;96b0
 	ld a,(0c0f7h)		;96b1   ; 0xC0F7: todo el sonido callado (p14:95C0)
-	or a			;96b4
+	or a			;96b4   ; ¿es 0 sonido_callado?
 	jp z,L_965B		;96b5
 	xor a			;96b8
 	ld (ix+005h),a		;96b9   ; ix+0x05: el byte de la nota que suena (p14:9519)
@@ -948,7 +948,7 @@ L_96ED:
 	ld e,(ix+001h)		;971b   ; ix+0x01: lo que dura la nota (p14:95B1 lo copia en ix+0)
 	ld (ix+000h),e		;971e   ; ix+0x00: cuadros que le quedan a la nota (p14:94F4)
 	ld a,(0c0f7h)		;9721   ; 0xC0F7: todo el sonido callado (p14:95C0)
-	or a			;9724
+	or a			;9724   ; ¿es 0 sonido_callado?
 	ret nz			;9725
 	ld a,(ix+00ch)		;9726   ; ix+0x0C: cuando empieza a caer el volumen (p14:967E)
 	add a,e			;9729
@@ -982,7 +982,7 @@ L_974F:
 	jr nc,L_9758		;9755
 	inc d			;9757
 L_9758:
-	ld a,(de)			;9758
+	ld a,(de)			;9758   ; tramo: mira sonido_callado
 	ld l,a			;9759
 	inc de			;975a
 	ld a,(de)			;975b
@@ -990,7 +990,7 @@ L_9758:
 	ld a,(ix+001h)		;975d   ; ix+0x01: lo que dura la nota (p14:95B1 lo copia en ix+0)
 	ld (ix+000h),a		;9760   ; ix+0x00: cuadros que le quedan a la nota (p14:94F4)
 	ld a,(0c0f7h)		;9763   ; 0xC0F7: todo el sonido callado (p14:95C0)
-	or a			;9766
+	or a			;9766   ; ¿es 0 sonido_callado?
 	ret nz			;9767
 	ld a,b			;9768
 	add a,a			;9769
@@ -1058,7 +1058,7 @@ L_97D4:
 	ld a,c			;97ed
 	cp 007h		;97ee
 	jp c,mira_sonido_ruido_2		;97f0
-	dec c			;97f3
+	dec c			;97f3   ; tramo: mira canales
 	dec c			;97f4
 	ld ix,0c050h		;97f5   ; 0xC050: los canales del sonido (0x20 bytes cada uno, p14:94CA)
 	ld (ix+017h),008h		;97f9   ; ix+0x17: el volumen que se escribe en el PSG (p14:959E)
@@ -1137,7 +1137,7 @@ mira_sonido_pedido:
 	ld a,(hl)			;986c
 	cp 009h		;986d
 	ret c			;986f
-	xor a			;9870
+	xor a			;9870   ; tramo: mira sonido_pedido
 	ld hl,0c0f4h		;9871   ; 0xC0F4: el sonido que se pide para el cuadro siguiente (p14:94C1)
 	ld e,(hl)			;9874
 	ld (hl),a			;9875
@@ -1200,7 +1200,7 @@ L_98CC:
 	ld e,h			;98cd
 	jp 00093h		;98ce   ; BIOS WRTPSG - Writes data to PSG-register
 pon_sonido_0f1:
-	ld bc,00060h		;98d1
+	ld bc,00060h		;98d1   ; tramo: pone sonido_0f1
 	ldir		;98d4
 	ld c,a			;98d6
 	xor a			;98d7

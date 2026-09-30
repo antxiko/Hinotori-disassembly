@@ -37,17 +37,17 @@ DATA_cabecera_de_konami:
 
 
 L_4048:
-	di			;4048
+	di			;4048   ; tramo: mira otro_cartucho
 	ld a,(0c110h)		;4049   ; 0xC110: 1: hay un Game Master o Q*bert al lado; 2: King Kong 2 (p00:5DFF)
-	or a			;404c
+	or a			;404c   ; ¿es 0 otro_cartucho?
 	jp nz,L_4124		;404d
 L_4050:
-	di			;4050
+	di			;4050   ; tramo: mira en_la_interrupcion
 	ld hl,0c139h		;4051   ; 0xC139: semaforo de la interrupcion (p00:4051)
 	ld a,(hl)			;4054
 	and a			;4055
 	jr nz,L_40A2		;4056
-	inc (hl)			;4058
+	inc (hl)			;4058   ; tramo: mira banco_a000, mira banco_8000, mira banco_6000, pone en_la_interrupcion ...
 	ld a,001h		;4059
 	ld (06000h),a		;405b
 	ld a,002h		;405e
@@ -74,7 +74,7 @@ L_4050:
 	ld hl,0c105h		;4091   ; 0xC105: el juego no se mete dos veces (si el cuadro anterior no acabo)
 	bit 0,(hl)		;4094
 	jp nz,L_40A2		;4096
-	inc (hl)			;4099
+	inc (hl)			;4099   ; tramo: pone en_marcha
 	ei			;409a
 	call pon_banco_de_a000		;409b   ; p00:4200: el juego entero, un cuadro
 	xor a			;409e
@@ -140,12 +140,12 @@ L_40B8:
 	ld a,003h		;40e9
 	ld (0c10ch),a		;40eb   ; 0xC10C: el banco que p00:53E9 pone en 0xA000 con el 1 y el 2
 	call mira_banco_6000		;40ee
-	call pon_otro_cartucho		;40f1
+	call busca_otros_cartuchos		;40f1   ; busca_otros_cartuchos: las cuatro ranuras primarias
 	ld a,(0c110h)		;40f4   ; 0xC110: 1: hay un Game Master o Q*bert al lado; 2: King Kong 2 (p00:5DFF)
-	cp 002h		;40f7
+	cp 002h		;40f7   ; ¿otro_cartucho = 0x02?
 	jr z,L_4117		;40f9
-	call mira_banco_6000		;40fb
-	call pon_atributos_vram_2		;40fe
+	call mira_banco_6000		;40fb   ; tramo: pone modo_king_kong
+	call pon_atributos_vram_2		;40fe   ; L_52A8: los sprites, la pagina de la hoja...
 	di			;4101
 	ld a,0c3h		;4102
 	ld (0fd9fh),a		;4104
@@ -158,13 +158,13 @@ L_40B8:
 L_4115:
 	jr L_4115		;4115
 L_4117:
-	ld a,001h		;4117
+	ld a,001h		;4117   ; tramo: pone modo_king_kong
 	ld (0f0ffh),a		;4119   ; 0xF0FF: 1: se esta arrancando King Kong 2 (p00:4117)
 	ld a,009h		;411c
 	ld (0a000h),a		;411e
 	jp 0b880h		;4121
 L_4124:
-	ld a,007h		;4124
+	ld a,007h		;4124   ; tramo: mira teclas_stop, mira congelado
 	call 00141h		;4126   ; BIOS SNSMAT - Returns the value of the specified line from the keyboard matrix
 	cpl			;4129
 	and 010h		;412a
@@ -205,7 +205,7 @@ L_4161:
 	ei			;4164
 	ret			;4165
 pon_estado_del_juego:
-	ld a,008h		;4166
+	ld a,008h		;4166   ; tramo: pone estado_del_juego
 	call 00096h		;4168   ; BIOS RDPSG - Reads value from PSG-register
 	ld (0c121h),a		;416b   ; 0xC121: variables del juego
 	ld a,009h		;416e
@@ -238,7 +238,7 @@ mira_estado_del_juego:
 	ld a,00ah		;41a7
 	jp 00093h		;41a9   ; BIOS WRTPSG - Writes data to PSG-register
 mira_banderas_juego:
-	di			;41ac
+	di			;41ac   ; tramo: mira banderas_juego
 	push hl			;41ad
 	ld hl,0c102h		;41ae   ; 0xC102: bit 0: es la demostracion; bit 6: hay partida (p00:46A5)
 	bit 6,(hl)		;41b1
@@ -251,7 +251,7 @@ pon_banco_8000_guardado:
 	di			;41c1
 	push hl			;41c2
 L_41C3:
-	push de			;41c3
+	push de			;41c3   ; tramo: mira banco_8000, pone banco_8000_guardado, mira banco_a000, pone banco_a000_guardado ...
 	push bc			;41c4
 	push af			;41c5
 	ld c,a			;41c6
@@ -286,13 +286,13 @@ pon_banco_de_a000:
 	ld a,(hl)			;4203
 	cp 001h		;4204
 	ret z			;4206
-	ld (hl),000h		;4207
+	ld (hl),000h		;4207   ; tramo: pone banco_de_a000, mira banderas_juego
 	ld a,003h		;4209
 	ld (0c10ch),a		;420b   ; 0xC10C: el banco que p00:53E9 pone en 0xA000 con el 1 y el 2
 	call pon_banco_a000		;420e
 	ld hl,0c102h		;4211   ; 0xC102: bit 0: es la demostracion; bit 6: hay partida (p00:46A5)
 	bit 0,(hl)		;4214
-	call z,rutina_9		;4216
+	call z,rutina_8		;4216
 	ld hl,0c102h		;4219   ; 0xC102: bit 0: es la demostracion; bit 6: hay partida (p00:46A5)
 	bit 0,(hl)		;421c
 	call nz,063dbh		;421e
@@ -300,9 +300,9 @@ pon_banco_de_a000:
 	bit 0,(hl)		;4224
 	jr z,L_4235		;4226
 	ld a,(0c100h)		;4228   ; 0xC100: el ESTADO del juego (p00:4254): 1 titulo, 2 demostracion, 4 empieza el area, 5 jugando, 9 MENU, 0x0A pausa...
-	cp 005h		;422b
+	cp 005h		;422b   ; ¿estado = 0x05?
 	jr nz,L_4235		;422d
-	ld hl,00102h		;422f
+	ld hl,00102h		;422f   ; tramo: pone estado
 	ld (0c100h),hl		;4232   ; 0xC100: el ESTADO del juego (p00:4254): 1 titulo, 2 demostracion, 4 empieza el area, 5 jugando, 9 MENU, 0x0A pausa...
 L_4235:
 	ld hl,0c103h		;4235   ; 0xC103: cuenta los cuadros (p00:4238)
@@ -321,7 +321,7 @@ L_4250:
 	ld hl,04680h		;4250
 	push hl			;4253
 L_4254:
-	call despacha		;4254
+	call despacha		;4254   ; tramo: llama a despacha
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_4257: 19 destinos del despachador de 0x40AE (call en p00:4254):
@@ -370,19 +370,19 @@ L_4290:
 	ld hl,0c104h		;4292   ; 0xC104: cuenta atras del paso del estado (p00:4345)
 	dec (hl)			;4295
 	ret nz			;4296
-	call con_lee_de_la_vram		;4297
+	call fundido_guarda		;4297   ; fundido_guarda: guarda la paleta de la VRAM (0xF680) en 0xC510
 	jp mira_paso		;429a
 L_429D:
 	djnz L_42AC		;429d
-	call rutina_21		;429f
-	call rutina_21		;42a2
-	call rutina_21		;42a5
+	call rutina_16		;429f
+	call rutina_16		;42a2
+	call rutina_16		;42a5
 	ret nz			;42a8
 	jp mira_paso		;42a9
 L_42AC:
 	djnz L_42B7		;42ac
 	call pon_scroll		;42ae
-	call rutina_19		;42b1
+	call con_fundido_guarda		;42b1
 	jp L_4390		;42b4
 L_42B7:
 	call escribe_vdp		;42b7
@@ -397,15 +397,15 @@ estado_01:
 	ld hl,0c104h		;42cb   ; 0xC104: cuenta atras del paso del estado (p00:4345)
 	dec (hl)			;42ce
 	ret nz			;42cf
-	call con_lee_de_la_vram		;42d0
+	call fundido_guarda		;42d0   ; fundido_guarda: guarda la paleta de la VRAM (0xF680) en 0xC510
 	jr mira_paso		;42d3
 L_42D5:
 	djnz L_42DE		;42d5
-	call rutina_21		;42d7
+	call rutina_16		;42d7
 	ret nz			;42da
 	jp L_4390		;42db
 L_42DE:
-	call rutina_20		;42de
+	call rutina_15		;42de
 	ret nz			;42e1
 	ld a,061h		;42e2   ; el sonido 0x61 (p14:9C47 + 2*0x61)
 	call pon_banco_8000_guardado		;42e4
@@ -413,9 +413,9 @@ L_42DE:
 	jr L_4345		;42e9
 estado_02:
 	djnz L_4339		;42eb   ; estado 02
-	call 063cdh		;42ed
+	call 063cdh		;42ed   ; tramo: mira hay_partida
 	ld a,(0c163h)		;42f0   ; 0xC163: hay una partida en marcha (p00:4388)
-	or a			;42f3
+	or a			;42f3   ; ¿es 0 hay_partida?
 	jr z,L_4323		;42f4
 	ld a,(0c108h)		;42f6   ; 0xC108: F1, F2 y F3 pulsadas en este cuadro, bits 0-2 (p00:5318)
 	rra			;42f9
@@ -439,7 +439,7 @@ estado_02:
 	ret nc			;431f
 	jp L_43ED		;4320
 L_4323:
-	ld a,074h		;4323
+	ld a,074h		;4323   ; tramo: pone sonido_pedido, mira banderas_juego
 	ld (0c0f4h),a		;4325   ; 0xC0F4: el sonido que se pide para el cuadro siguiente (p14:94C1)
 	ld hl,0c102h		;4328   ; 0xC102: bit 0: es la demostracion; bit 6: hay partida (p00:46A5)
 	res 0,(hl)		;432b
@@ -451,7 +451,7 @@ L_432E:
 	ld (0c104h),a		;4333   ; 0xC104: cuenta atras del paso del estado (p00:4345)
 	jp L_4399		;4336
 L_4339:
-	call pon_avance		;4339
+	call pon_avance		;4339   ; tramo: pone demo_acaba
 	xor a			;433c
 	ld (0c13bh),a		;433d   ; 0xC13B: la demostracion se esta acabando (p01:63DB)
 	call 06335h		;4340
@@ -469,11 +469,11 @@ estado_03:
 	jr z,mira_paso		;4353
 	bit 1,(hl)		;4355
 	ld hl,053cbh		;4357
-	jp z,con_hmmm		;435a
-	jp L_4F8B		;435d
+	jp z,con_sitio_del_dibujo		;435a   ; L_4F87: texto en letras de color (la mascara C = 0xFF)
+	jp L_4F8B		;435d   ; L_4F8B: texto en blanco (C = 0)
 L_4360:
 	djnz L_4371		;4360
-	call escribe_vdp_2		;4362
+	call escribe_vdp_2		;4362   ; tramo: llama a espera_al_vdp
 	call espera_al_vdp		;4365   ; espera_al_vdp: espera a que el V9938 acabe la orden (bit 0 de S#2)
 	call pon_musica_de_pausa		;4368
 	call mira_menu_hecho		;436b
@@ -488,21 +488,21 @@ L_4371:
 	jp L_4345		;4380
 estado_04:
 	djnz L_439E		;4383   ; estado 04
-	call pon_partida		;4385
+	call pon_partida		;4385   ; tramo: mira hay_partida, llama a enciende_los_sprites
 	ld hl,0c163h		;4388   ; 0xC163: hay una partida en marcha (p00:4388)
 	ld (hl),001h		;438b
 	call enciende_los_sprites		;438d   ; enciende_los_sprites: la copia de R#8 sin el bit 1: se ven los sprites
 L_4390:
-	ld a,020h		;4390
+	ld a,020h		;4390   ; tramo: pone espera, mira estado
 	ld (0c104h),a		;4392   ; 0xC104: cuenta atras del paso del estado (p00:4345)
 	ld hl,0c100h		;4395   ; 0xC100: el ESTADO del juego (p00:4254): 1 titulo, 2 demostracion, 4 empieza el area, 5 jugando, 9 MENU, 0x0A pausa...
 	inc (hl)			;4398
 L_4399:
-	xor a			;4399
+	xor a			;4399   ; tramo: pone paso
 	ld (0c101h),a		;439a   ; 0xC101: el paso dentro del estado (p00:4348)
 	ret			;439d
 L_439E:
-	call mira_scroll_5		;439e
+	call mira_scroll_5		;439e   ; tramo: mira vidas
 	ld hl,0c160h		;43a1   ; 0xC160: las VIDAS, en BCD (p00:4417; GAOOOOOOOOOOH suma 10)
 	ld a,(hl)			;43a4
 	or a			;43a5
@@ -511,19 +511,19 @@ L_439E:
 	daa			;43aa
 	ld (hl),a			;43ab
 L_43AC:
-	call pon_avance_3		;43ac
+	call pon_avance_3		;43ac   ; tramo: llama a apaga_los_sprites
 	call apaga_los_sprites		;43af   ; apaga_los_sprites: la copia de R#8 (0xFFE7)...
 	jp mira_paso		;43b2
 estado_05:
 	ld hl,0c485h		;43b5   ; estado 05
 	bit 7,(hl)		;43b8
 	call nz,064cdh		;43ba
-	call mira_cuadros_2		;43bd
+	call mira_cuadros_2		;43bd   ; tramo: mira hay_partida
 	ld a,(0c163h)		;43c0   ; 0xC163: hay una partida en marcha (p00:4388)
-	or a			;43c3
+	or a			;43c3   ; ¿es 0 hay_partida?
 	jp z,L_4390		;43c4
 	ld a,(0c800h)		;43c7   ; 0xC800: lo que hace Gao (p00:5C68)
-	cp 002h		;43ca
+	cp 002h		;43ca   ; ¿estado_de_gao = 0x02?
 	ret z			;43cc
 	ld a,(0c108h)		;43cd   ; 0xC108: F1, F2 y F3 pulsadas en este cuadro, bits 0-2 (p00:5318)
 	rra			;43d0
@@ -564,7 +564,7 @@ estado_06:
 	ld (0c170h),hl		;4414   ; 0xC170: variables del juego
 	ld hl,0c160h		;4417   ; 0xC160: las VIDAS, en BCD (p00:4417; GAOOOOOOOOOOH suma 10)
 	ld a,(0c4e0h)		;441a   ; 0xC4E0: NANDANANDANANDA: al perder una vida se devuelve (p00:441A)
-	or a			;441d
+	or a			;441d   ; ¿es 0 truco_vidas?
 	ld a,(hl)			;441e
 	jr z,L_4427		;441f
 	add a,001h		;4421
@@ -588,7 +588,7 @@ estado_07:
 	and 002h		;443e
 	jr nz,L_4451		;4440
 	ld a,(0c012h)		;4442   ; 0xC012: el sonido del primer canal (p14:9420)
-	or a			;4445
+	or a			;4445   ; ¿es 0 sonido_1?
 	ret nz			;4446
 L_4447:
 	ld hl,0c102h		;4447   ; 0xC102: bit 0: es la demostracion; bit 6: hay partida (p00:46A5)
@@ -597,7 +597,7 @@ L_4447:
 	ld (hl),a			;444d
 	jp L_432D		;444e
 L_4451:
-	ld a,003h		;4451
+	ld a,003h		;4451   ; tramo: pone vidas, pone estado_del_juego, llama a hmmv, mira canales
 	ld (0c160h),a		;4453   ; 0xC160: las VIDAS, en BCD (p00:4417; GAOOOOOOOOOOH suma 10)
 	xor a			;4456
 	ld h,a			;4457
@@ -619,14 +619,14 @@ L_4451:
 L_4480:
 	djnz L_448C		;4480
 	ld a,(0c012h)		;4482   ; 0xC012: el sonido del primer canal (p14:9420)
-	or a			;4485
+	or a			;4485   ; ¿es 0 sonido_1?
 	ret nz			;4486
 	call 08eb4h		;4487
 	jr L_442C		;448a
 L_448C:
 	call pon_avance		;448c
 	ld hl,053dch		;448f
-	call rutina_7		;4492
+	call con_sitio_del_dibujo_3		;4492   ; L_4FBE: lo mismo con LMMM y el color 0 transparente
 	call rutina		;4495
 	call bucle		;4498
 	ld a,078h		;449b
@@ -664,7 +664,7 @@ estado_10:
 	ld bc,08c3ch		;44dc
 	call con_hmmv		;44df
 	ld hl,04525h		;44e2   ; p00:4525 tabla_4525: tabla que lee p00:44E2, p00:4511 (45 bytes)
-	call rutina_7		;44e5
+	call con_sitio_del_dibujo_3		;44e5   ; L_4FBE: lo mismo con LMMM y el color 0 transparente
 	ld hl,(0c158h)		;44e8   ; 0xC158: variables del juego
 	ld a,(0c15ah)		;44eb   ; 0xC15A: variables del juego
 	ld b,a			;44ee
@@ -677,11 +677,11 @@ estado_10:
 	ld (hl),c			;44f9
 	ld de,08050h		;44fa
 	ld b,003h		;44fd
-	call bucle_2		;44ff
+	call pinta_cifras		;44ff   ; pinta_cifras: B pares de cifras BCD de HL hacia atras
 	ld hl,0c160h		;4502   ; 0xC160: las VIDAS, en BCD (p00:4417; GAOOOOOOOOOOH suma 10)
 	ld de,09044h		;4505
 	ld b,001h		;4508
-	call bucle_2		;450a
+	call pinta_cifras		;450a   ; pinta_cifras: B pares de cifras BCD de HL hacia atras
 	ld a,(0c481h)		;450d   ; 0xC481: la FASE, 1-6 (p01:65B4)
 	dec a			;4510
 	ld hl,04549h		;4511
@@ -711,11 +711,11 @@ L_4552:
 	bit 1,a		;4557
 	jr z,L_4563		;4559
 	ld a,(0c106h)		;455b   ; 0xC106: cursores, ESPACIO y los disparos pulsados en este cuadro (p00:533B)
-	or a			;455e
+	or a			;455e   ; ¿es 0 teclas_nuevas?
 	ret z			;455f
 	jp mira_paso		;4560
 L_4563:
-	ld hl,03820h		;4563
+	ld hl,03820h		;4563   ; tramo: pone paso_de_la_pausa, mira paso
 	ld bc,09040h		;4566
 	call rutina_6		;4569
 	call rutina_3		;456c
@@ -726,7 +726,7 @@ L_4563:
 	ret			;4578
 L_4579:
 	ld a,(0c0f2h)		;4579   ; 0xC0F2: la musica de la pausa esta sonando (p14:9411)
-	or a			;457c
+	or a			;457c   ; ¿es 0 musica_de_pausa?
 	ld a,001h		;457d
 	jp z,L_4588		;457f
 	ld a,04ch		;4582   ; el sonido 0x4C (p14:9C47 + 2*0x4C)
@@ -742,7 +742,7 @@ L_4588:
 	ld b,005h		;459a
 	jp L_43ED		;459c
 L_459F:
-	ld a,006h		;459f
+	ld a,006h		;459f   ; tramo: pone banco_de_a000, mira paso_de_la_pausa
 	ld (0c10ch),a		;45a1   ; 0xC10C: el banco que p00:53E9 pone en 0xA000 con el 1 y el 2
 	call pon_banco_a000_5		;45a4
 	call 0b3a8h		;45a7
@@ -750,7 +750,7 @@ L_459F:
 	ld (0c10ch),a		;45ac   ; 0xC10C: el banco que p00:53E9 pone en 0xA000 con el 1 y el 2
 	call pon_banco_a000_5		;45af
 	ld a,(0c137h)		;45b2   ; 0xC137: la ventana de la pausa: contrasena, teclear, comprobar... (p06:B3A8)
-	cp 005h		;45b5
+	cp 005h		;45b5   ; ¿paso_de_la_pausa = 0x05?
 	ret nz			;45b7
 	ld a,(0c4dah)		;45b8   ; 0xC4DA: el final: lo pone ENDDEMOGAMITAINA (p06:B98A)
 	ld b,a			;45bb
@@ -760,7 +760,7 @@ L_459F:
 	or a			;45c2
 	jr nz,L_45D3		;45c3
 	ld a,(0c0f2h)		;45c5   ; 0xC0F2: la musica de la pausa esta sonando (p14:9411)
-	or a			;45c8
+	or a			;45c8   ; ¿es 0 musica_de_pausa?
 	ld a,001h		;45c9
 	jp z,L_45D4		;45cb
 	ld a,04ch		;45ce   ; el sonido 0x4C (p14:9C47 + 2*0x4C)
@@ -771,7 +771,7 @@ L_45D4:
 	ld (0c0f1h),a		;45d4   ; 0xC0F1: lo pone p00:4588 al volver de la pausa: 1 si no sonaba la musica de pausa
 	call enciende_los_sprites		;45d7   ; enciende_los_sprites: la copia de R#8 sin el bit 1: se ven los sprites
 	ld a,(0c4dah)		;45da   ; 0xC4DA: el final: lo pone ENDDEMOGAMITAINA (p06:B98A)
-	or a			;45dd
+	or a			;45dd   ; ¿es 0 final?
 	ld b,005h		;45de
 	jp z,L_43ED		;45e0
 	ld hl,(0c4dah)		;45e3   ; 0xC4DA: el final: lo pone ENDDEMOGAMITAINA (p06:B98A)
@@ -780,7 +780,7 @@ L_45D4:
 	ld (0c4dah),hl		;45ec   ; 0xC4DA: el final: lo pone ENDDEMOGAMITAINA (p06:B98A)
 	ret			;45ef
 mira_musica_de_pausa:
-	ld c,000h		;45f0
+	ld c,000h		;45f0   ; tramo: mira musica_de_pausa
 	ld hl,0c0f2h		;45f2   ; 0xC0F2: la musica de la pausa esta sonando (p14:9411)
 	ld a,(hl)			;45f5
 	ld (hl),c			;45f6
@@ -800,7 +800,7 @@ estado_12:
 	ld a,(hl)			;4608
 	cp 001h		;4609
 	ret z			;460b
-	ld (hl),000h		;460c
+	ld (hl),000h		;460c   ; tramo: pone banco_de_a000
 	ld a,006h		;460e
 	ld (0c10ch),a		;4610   ; 0xC10C: el banco que p00:53E9 pone en 0xA000 con el 1 y el 2
 	call pon_banco_a000_5		;4613
@@ -809,9 +809,9 @@ estado_12:
 	ld (0c10ch),a		;461b   ; 0xC10C: el banco que p00:53E9 pone en 0xA000 con el 1 y el 2
 	jp pon_banco_a000_5		;461e
 L_4621:
-	call con_sube_una_letra		;4621
+	call con_sube_una_letra		;4621   ; tramo: mira escena, pone partida, pone avance_del_cuadro
 	call con_sube_letras		;4624
-	call rutina_13		;4627
+	call rutina_11		;4627
 	ld hl,0cd00h		;462a   ; 0xCD00: la escena del final y las pantallas de p06
 	ld bc,00200h		;462d
 	call copia_bytes		;4630
@@ -852,9 +852,9 @@ L_4680:
 	call 00141h		;4682   ; BIOS SNSMAT - Returns the value of the specified line from the keyboard matrix
 	bit 7,a		;4685
 	call z,pon_sonido_1		;4687
-	call escribe_psg_2		;468a
+	call lee_el_mando		;468a   ; lee_el_mando: el puerto de mandos 1 (R#15 del PSG = 0x8F)...
 	ld hl,0c151h		;468d   ; 0xC151: variables del juego
-	call rutina_10		;4690
+	call rutina_9		;4690   ; L_533E: recien pulsado = lo de ahora y no lo de antes
 	or a			;4693
 	ret z			;4694
 	ld hl,0c104h		;4695   ; 0xC104: cuenta atras del paso del estado (p00:4345)
@@ -864,27 +864,27 @@ L_4680:
 	djnz L_46B9		;469e
 	and 030h		;46a0
 	ret z			;46a2
-	ld a,040h		;46a3
+	ld a,040h		;46a3   ; tramo: pone banderas_juego, mira otro_cartucho
 	ld (0c102h),a		;46a5   ; 0xC102: bit 0: es la demostracion; bit 6: hay partida (p00:46A5)
 	push hl			;46a8
 	call con_pon_un_color		;46a9
 	pop hl			;46ac
 	ld a,(0c110h)		;46ad   ; 0xC110: 1: hay un Game Master o Q*bert al lado; 2: King Kong 2 (p00:5DFF)
-	or a			;46b0
+	or a			;46b0   ; ¿es 0 otro_cartucho?
 	jr nz,L_4705		;46b1
 	ld (hl),003h		;46b3
 	inc hl			;46b5
 	ld (hl),000h		;46b6
 	ret			;46b8
 L_46B9:
-	push hl			;46b9
+	push hl			;46b9   ; tramo: mira banderas_juego
 	ld hl,0c102h		;46ba   ; 0xC102: bit 0: es la demostracion; bit 6: hay partida (p00:46A5)
 	bit 0,(hl)		;46bd
 	jr z,L_46C6		;46bf
-	ld a,074h		;46c1
+	ld a,074h		;46c1   ; tramo: pone sonido_pedido
 	ld (0c0f4h),a		;46c3   ; 0xC0F4: el sonido que se pide para el cuadro siguiente (p14:94C1)
 L_46C6:
-	res 0,(hl)		;46c6
+	res 0,(hl)		;46c6   ; tramo: mira banderas_juego
 	pop hl			;46c8
 	ld (hl),001h		;46c9
 	inc hl			;46cb
@@ -895,12 +895,12 @@ L_46C6:
 	call nz,mira_banderas_juego		;46d5
 	jp L_5A3B		;46d8
 pon_sonido_1:
-	ld a,001h		;46db
+	ld a,001h		;46db   ; tramo: pone estado_del_juego, mira sonido_1
 	ld (0c13ah),a		;46dd   ; 0xC13A: variables del juego
 	ld a,(0c012h)		;46e0   ; 0xC012: el sonido del primer canal (p14:9420)
-	cp 061h		;46e3
+	cp 061h		;46e3   ; ¿sonido_1 = 0x61?
 	ret z			;46e5
-	xor a			;46e6
+	xor a			;46e6   ; tramo: pone sonido_1, pone sonido_2, pone sonido_3, pone canales
 	ld (0c012h),a		;46e7   ; 0xC012: el sonido del primer canal (p14:9420)
 	ld (0c032h),a		;46ea   ; 0xC032: el sonido del segundo canal
 	ld (0c052h),a		;46ed   ; 0xC052: el sonido del tercer canal
@@ -916,7 +916,7 @@ mira_menu_hecho:
 	ld (hl),000h		;4700
 	jp L_5FDD		;4702
 L_4705:
-	xor a			;4705
+	xor a			;4705   ; tramo: pone menu_hecho, pone menu_fase, pone menu_fase_2, pone menu_jugadores
 	ld (0c114h),a		;4706   ; 0xC114: el MENU ha cambiado algo (p00:46FA)
 	ld a,001h		;4709
 	ld (0c115h),a		;470b   ; 0xC115: la fase con que empieza la partida (MENU)
@@ -927,7 +927,7 @@ L_4705:
 	jp L_432E		;4718
 rutina:
 	ld hl,04721h		;471b   ; p00:4721 tabla_4721: tabla que lee p00:471B, p06:BBA2 (20 bytes)
-	jp rutina_7		;471e
+	jp con_sitio_del_dibujo_3		;471e   ; L_4FBE: lo mismo con LMMM y el color 0 transparente
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_4721: tabla que lee p00:471B, p06:BBA2 (20 bytes)
@@ -942,60 +942,60 @@ DATA_tabla_4721:
 
 
 estado_09:
-	djnz L_476D		;4735   ; estado 09
-	ld a,(0c106h)		;4737   ; 0xC106: cursores, ESPACIO y los disparos pulsados en este cuadro (p00:533B)
+	djnz L_476D		;4735   ; EL MENU (con 0xC110 = 1)
+	ld a,(0c106h)		;4737   ; cursores arriba y abajo, ESPACIO y disparo recien pulsados
 	and 033h		;473a
 	ret z			;473c
-	and 003h		;473d
+	and 003h		;473d   ; arriba o abajo: mueve el cursor (p01:6009)
 	jp nz,06009h		;473f
-	ld a,(0c11bh)		;4742
+	ld a,(0c11bh)		;4742   ; ESPACIO: segun la linea del cursor (0xC11B)
 	or a			;4745
 	jp nz,L_4753		;4746
-	call mira_canales		;4749
+	call mira_canales		;4749   ; en START: se borra el menu y al estado 3, a empezar
 	ld hl,00003h		;474c
 	ld (0c100h),hl		;474f   ; 0xC100: el ESTADO del juego (p00:4254): 1 titulo, 2 demostracion, 4 empieza el area, 5 jugando, 9 MENU, 0x0A pausa...
 	ret			;4752
 L_4753:
 	dec a			;4753
 	jr z,L_4761		;4754
-	ld hl,0b8b8h		;4756
+	ld hl,0b8b8h		;4756   ; en la linea 2: teclear las vidas...
 	ld (0c112h),hl		;4759
 	call mira_menu_jugadores		;475c
 	jr L_476A		;475f
 L_4761:
-	ld hl,0b0b8h		;4761
+	ld hl,0b0b8h		;4761   ; ...en la 1: teclear la fase
 	ld (0c112h),hl		;4764
 	call mira_menu_fase		;4767
 L_476A:
 	jp mira_paso		;476a
 L_476D:
 	djnz L_47A2		;476d
-	call lee_teclado_2		;476f
+	call lee_teclado_2		;476f   ; STOP?
 	jr nz,L_4777		;4772
-	jp L_5F51		;4774
+	jp L_5F51		;4774   ; L_5F51: las teclas de los numeros
 L_4777:
-	ld a,(0c11bh)		;4777
+	ld a,(0c11bh)		;4777   ; lo tecleado...
 	ld b,a			;477a
 	ld hl,0c114h		;477b   ; 0xC114: el MENU ha cambiado algo (p00:46FA)
 	or (hl)			;477e
 	ld (hl),a			;477f
 	ld a,(0c125h)		;4780   ; 0xC125: la fila 7 del teclado que se tiene pulsada
-	or a			;4783
+	or a			;4783   ; ¿es 0 f4_f5?
 	jr z,L_4798		;4784
-	ld a,(0c11eh)		;4786
+	ld a,(0c11eh)		;4786   ; ...la cifra nueva
 	ld d,a			;4789
 	ld a,(0c11fh)		;478a
-	bit 0,b		;478d
+	bit 0,b		;478d   ; en la fase...
 	jr z,L_479D		;478f
 	ld (0c115h),a		;4791   ; 0xC115: la fase con que empieza la partida (MENU)
 	ld a,d			;4794
 	ld (0c116h),a		;4795   ; 0xC116: copia de la fase del MENU (p00:4795)
 L_4798:
-	xor a			;4798
+	xor a			;4798   ; tramo: pone paso
 	ld (0c101h),a		;4799   ; 0xC101: el paso dentro del estado (p00:4348)
 	ret			;479c
 L_479D:
-	ld (0c117h),a		;479d   ; 0xC117: las vidas con que empieza la partida (MENU)
+	ld (0c117h),a		;479d   ; ...o en las vidas
 	jr L_4798		;47a0
 L_47A2:
 	call con_marco		;47a2
@@ -1033,7 +1033,7 @@ pon_musica_de_pausa:
 	ld (0c480h),a		;47ed   ; 0xC480: el AREA (0-23): 3*(fase-1) + columna, o 18 + fase - 1 (p01:64D5)
 	ld (0c486h),a		;47f0   ; 0xC486: el area a la que se va (p01:6549)
 pon_x_de_entrada:
-	call 065bfh		;47f3
+	call 065bfh		;47f3   ; tramo: pone x_de_entrada, pone y_de_entrada, pone partida, pone fila_de_entrada
 	call 065b0h		;47f6
 	ld a,080h		;47f9
 	ld (0c48ah),a		;47fb   ; 0xC48A: la x de Gao al entrar (p01:6553)
@@ -1059,7 +1059,7 @@ DATA_tabla_4815:
 
 
 L_4818:
-	push hl			;4818
+	push hl			;4818   ; tramo: mira estado_del_juego, pone estado_del_juego
 	ld de,(0c15bh)		;4819   ; 0xC15B: variables del juego
 	add hl,de			;481d
 	ld (0c15bh),hl		;481e   ; 0xC15B: variables del juego
@@ -1078,7 +1078,7 @@ L_4836:
 	ld a,036h		;4839   ; el sonido 0x36 (p14:9C47 + 2*0x36)
 	call mira_banderas_juego		;483b
 L_483E:
-	pop hl			;483e
+	pop hl			;483e   ; tramo: mira estado_del_juego, pone estado_del_juego
 	or a			;483f
 	ld de,(0c158h)		;4840   ; 0xC158: variables del juego
 	adc hl,de		;4844
@@ -1090,28 +1090,28 @@ L_483E:
 	ret			;4851
 bucle:
 	ret			;4852
-bucle_2:
-	ld a,(hl)			;4853
-	rra			;4854
+pinta_cifras:
+	ld a,(hl)			;4853   ; B pares de cifras BCD de HL hacia atras
+	rra			;4854   ; la de las decenas...
 	rra			;4855
 	rra			;4856
 	rra			;4857
-	call rutina_2		;4858
+	call rutina_2		;4858   ; ...y la de las unidades
 	ld a,(hl)			;485b
-	call rutina_2		;485c
-	dec hl			;485f
-	djnz bucle_2		;4860
+	call rutina_2		;485c   ; L_4863: la cifra c es la letra 0x30 + c
+	dec hl			;485f   ; el byte anterior
+	djnz pinta_cifras		;4860
 	ret			;4862
 rutina_2:
-	and 00fh		;4863
+	and 00fh		;4863   ; la cifra c es la letra 0x30 + c
 	add a,030h		;4865
-	call mira_scroll_6		;4867
-	ld a,d			;486a
+	call mira_scroll_6		;4867   ; con LMMM a la altura del scroll
+	ld a,d			;486a   ; 8 puntos a la derecha
 	add a,008h		;486b
 	ld d,a			;486d
 	ret			;486e
 L_486F:
-	ld l,a			;486f
+	ld l,a			;486f   ; DE = la palabra A de la tabla de DE
 	ld h,000h		;4870
 	add hl,hl			;4872
 	add hl,de			;4873
@@ -1120,25 +1120,25 @@ L_486F:
 	ld d,(hl)			;4876
 	ret			;4877
 con_hl_mas_a:
-	add a,a			;4878
+	add a,a			;4878   ; HL = la palabra A de la tabla de HL
 con_hl_mas_a_2:
-	call hl_mas_a		;4879
+	call hl_mas_a		;4879   ; tramo: llama a hl_mas_a
 	ld a,(hl)			;487c
 	inc hl			;487d
 	ld h,(hl)			;487e
 	ld l,a			;487f
 	ret			;4880
 L_4881:
-	call rutina_13		;4881
+	call rutina_11		;4881
 L_4884:
 	call con_sube_letras		;4884
 	call con_sube_una_letra		;4887
-	call rutina_14		;488a
+	call rutina_12		;488a
 rutina_3:
 	call pon_base_de_la_hoja_3		;488d
 	jp L_55D1		;4890
 L_4893:
-	ld b,000h		;4893
+	ld b,000h		;4893   ; binario de 16 bits (HL) y B a BCD en CDE
 rutina_4:
 	exx			;4895
 	ld b,018h		;4896
@@ -1146,11 +1146,11 @@ rutina_4:
 	ld de,00000h		;4899
 	ld c,d			;489c
 L_489D:
-	add hl,hl			;489d
+	add hl,hl			;489d   ; un bit mas...
 	ld a,b			;489e
 	adc a,a			;489f
 	ld b,a			;48a0
-	ld a,e			;48a1
+	ld a,e			;48a1   ; ...y se dobla el BCD con acarreo
 	adc a,a			;48a2
 	daa			;48a3
 	ld e,a			;48a4
@@ -1165,27 +1165,27 @@ L_489D:
 	exx			;48ad
 	dec b			;48ae
 	exx			;48af
-	jr nz,L_489D		;48b0
+	jr nz,L_489D		;48b0   ; los 24 bits
 	ret			;48b2
 rutina_5:
-	push hl			;48b3
+	push hl			;48b3   ; la casilla de 0xEA00 del punto (D, E)
 	ld a,e			;48b4
-	call mira_pantalla		;48b5
+	call mira_pantalla		;48b5   ; L_48C3: fila = y / 8...
 	ld de,02000h		;48b8
 	add hl,de			;48bb
 	pop de			;48bc
 	add hl,de			;48bd
 	ret			;48be
 mira_scroll:
-	ld a,(0c385h)		;48bf   ; 0xC385: el SCROLL vertical: R#23 del VDP (p00:4C65)
+	ld a,(0c385h)		;48bf   ; la casilla de la pantalla 0xE000 del punto (D, E + scroll)
 	add a,e			;48c2
 mira_pantalla:
-	rrca			;48c3
+	rrca			;48c3   ; fila = y / 8...
 	rrca			;48c4
 	rrca			;48c5
 	and 01fh		;48c6
 	ld h,a			;48c8
-	ld a,d			;48c9
+	ld a,d			;48c9   ; ...columna = x / 8: 32 por fila
 	srl h		;48ca
 	rra			;48cc
 	srl h		;48cd
@@ -1212,7 +1212,7 @@ DATA_sin_lector_48D9:
 
 
 L_48FB:
-	call mira_scroll		;48fb
+	call mira_scroll		;48fb   ; L_48BF: la casilla de la pantalla 0xE000 del punto (D, E + scroll)
 	ld e,(hl)			;48fe
 	ld d,0c9h		;48ff
 	ld a,(de)			;4901
@@ -1221,7 +1221,7 @@ L_48FB:
 	ld a,e			;4904
 	ret			;4905
 L_4906:
-	call mira_scroll		;4906
+	call mira_scroll		;4906   ; L_48BF: la casilla de la pantalla 0xE000 del punto (D, E + scroll)
 	ld e,(hl)			;4909
 	ld d,0c9h		;490a
 	ld a,(de)			;490c
@@ -1232,7 +1232,7 @@ L_4906:
 	ld a,e			;4911
 	ret			;4912
 L_4913:
-	call mira_scroll		;4913
+	call mira_scroll		;4913   ; L_48BF: la casilla de la pantalla 0xE000 del punto (D, E + scroll)
 	ld e,(hl)			;4916
 	ld d,0c9h		;4917
 	ld a,(de)			;4919
@@ -1266,7 +1266,7 @@ DATA_sin_llamar_4927:
 
 
 mira_scroll_2:
-	ex af,af'			;4937
+	ex af,af'			;4937   ; tramo: mira scroll, sigue en pon_dibujo_transparente
 	ld a,(0c385h)		;4938   ; 0xC385: el SCROLL vertical: R#23 del VDP (p00:4C65)
 	add a,e			;493b
 	ld e,a			;493c
@@ -1275,7 +1275,7 @@ mira_scroll_2:
 mira_scroll_3:
 	ld de,01000h		;4941
 L_4944:
-	push af			;4944
+	push af			;4944   ; tramo: mira logotipo, pone logotipo, mira scroll
 	ld a,(0c204h)		;4945   ; 0xC204: el logotipo y el titulo (p01:66D4)
 	set 1,a		;4948
 	ld (0c204h),a		;494a   ; 0xC204: el logotipo y el titulo (p01:66D4)
@@ -1285,14 +1285,14 @@ L_4944:
 	push hl			;4952
 	push bc			;4953
 	ld a,004h		;4954
-	call con_hmmm_4		;4956
+	call con_hmmm_2		;4956
 	pop bc			;4959
 	pop hl			;495a
 	ld d,000h		;495b
 	pop af			;495d
 	jp con_hmmv		;495e
 L_4961:
-	push af			;4961
+	push af			;4961   ; tramo: mira scroll
 	ld a,(0c385h)		;4962   ; 0xC385: el SCROLL vertical: R#23 del VDP (p00:4C65)
 	add a,l			;4965
 	ld l,a			;4966
@@ -1307,12 +1307,12 @@ L_4972:
 	call mira_scroll_4		;4975
 	jp L_4881		;4978
 mira_scroll_4:
-	ex de,hl			;497b
+	ex de,hl			;497b   ; tramo: mira scroll, mira avance, sigue en espera_al_vdp
 	ld a,(0c385h)		;497c   ; 0xC385: el SCROLL vertical: R#23 del VDP (p00:4C65)
 	add a,e			;497f
 	ld e,a			;4980
 	ld a,001h		;4981
-	call con_hmmm_3		;4983
+	call con_hmmm		;4983
 	ld hl,0c581h		;4986   ; 0xC581: variables del avance del mapa
 	res 1,(hl)		;4989
 	jp espera_al_vdp		;498b   ; bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
@@ -1514,7 +1514,7 @@ L_4AC5:
 	call mira_buffer		;4ac5
 	jr con_rle_a_la_vram		;4ac8
 con_rle_a_la_vram_2:
-	ld e,(hl)			;4aca
+	ld e,(hl)			;4aca   ; tramo: llama a rle_a_la_vram
 	inc hl			;4acb
 	ld d,(hl)			;4acc
 	inc hl			;4acd
@@ -1529,7 +1529,7 @@ con_rle_a_la_vram_2:
 	pop hl			;4ad8
 	ret			;4ad9
 mira_buffer:
-	ld e,(hl)			;4ada
+	ld e,(hl)			;4ada   ; tramo: mira buffer, llama a lee_de_la_vram, mira buffers, llama a copia_a_la_vram
 	inc hl			;4adb
 	ld d,(hl)			;4adc
 	inc hl			;4add
@@ -1564,7 +1564,7 @@ mira_buffer:
 	pop hl			;4b05
 	ret			;4b06
 con_copia_a_la_vram:
-	ld e,(hl)			;4b07
+	ld e,(hl)			;4b07   ; tramo: llama a copia_a_la_vram
 	inc hl			;4b08
 	ld d,(hl)			;4b09
 	inc hl			;4b0a
@@ -1587,20 +1587,20 @@ mira_buffer_2:
 	ld de,0ec10h		;4b1e   ; 0xEC10: buffers de pantallas y dibujos
 	ld c,a			;4b21
 L_4B22:
-	call bucle_3		;4b22
+	call bucle_2		;4b22
 	ld a,0e0h		;4b25
 	add a,e			;4b27
 	ld e,a			;4b28
 	jr c,L_4B2C		;4b29
 	dec d			;4b2b
 L_4B2C:
-	call bucle_3		;4b2c
+	call bucle_2		;4b2c   ; tramo: llama a de_mas_a
 	ld a,020h		;4b2f
 	call de_mas_a		;4b31
 	dec c			;4b34
 	jp nz,L_4B22		;4b35
 	ret			;4b38
-bucle_3:
+bucle_2:
 	ld b,010h		;4b39
 L_4B3B:
 	ld a,(hl)			;4b3b
@@ -1629,7 +1629,7 @@ pon_atributos_vram:
 	ld b,0efh		;4b62
 	jp 00047h		;4b64   ; BIOS WRTVDP - Writes data in the VDP-register
 L_4B67:
-	ld hl,0f600h		;4b67
+	ld hl,0f600h		;4b67   ; tramo: pone atributos_vram, pone colores_vram
 	ld (0c132h),hl		;4b6a   ; 0xC132: donde van los atributos de los sprites este cuadro (p00:4B4D)
 	ld hl,0f400h		;4b6d
 	ld (0c134h),hl		;4b70   ; 0xC134: donde van los colores de los sprites este cuadro
@@ -1637,7 +1637,7 @@ L_4B67:
 	ld b,0e7h		;4b75
 	jp 00047h		;4b77   ; BIOS WRTVDP - Writes data in the VDP-register
 mira_atributos_vram:
-	ld hl,0c10fh		;4b7a
+	ld hl,0c10fh		;4b7a   ; tramo: mira atributos_vram, llama a vram_para_escribir
 	ld a,(hl)			;4b7d
 	add a,068h		;4b7e
 	and 078h		;4b80
@@ -1651,7 +1651,7 @@ mira_atributos_vram:
 	ld d,010h		;4b93
 	ld h,0e6h		;4b95
 L_4B97:
-	ld l,a			;4b97
+	ld l,a			;4b97   ; tramo: mira scroll
 	ex af,af'			;4b98
 	ld a,(0c385h)		;4b99   ; 0xC385: el SCROLL vertical: R#23 del VDP (p00:4C65)
 	ld e,a			;4b9c
@@ -1712,30 +1712,30 @@ DATA_sin_llamar_4BDF:
 ; ======================================================================
 
 
-con_vram_para_escribir:
+sube_un_dibujo_al_reves:
 	push de			;4bec
 	ld a,(00007h)		;4bed
 	ld c,a			;4bf0
-	ld b,008h		;4bf1
+	ld b,008h		;4bf1   ; 8 filas
 L_4BF3:
-	push bc			;4bf3
+	push bc			;4bf3   ; tramo: llama a vram_para_escribir
 	ex de,hl			;4bf4
 	call vram_para_escribir		;4bf5   ; vram_para_escribir: prepara el V9938 para escribir en la direccion de VRAM HL (R#14 y el puerto 1)
 	ex de,hl			;4bf8
-	ld b,004h		;4bf9   ; 4 vueltas
+	ld b,004h		;4bf9   ; cada una, 4 bytes de atras adelante...
 L_4BFB:
 	ld a,(hl)			;4bfb
-	dec hl			;4bfc
+	dec hl			;4bfc   ; ...con los dos puntos de cada byte cambiados
 	rrca			;4bfd
 	rrca			;4bfe
 	rrca			;4bff
 	rrca			;4c00
 	out (c),a		;4c01   ; al VDP
 	djnz L_4BFB		;4c03
-	ld c,008h		;4c05
+	ld c,008h		;4c05   ; la fila siguiente de la fuente
 	add hl,bc			;4c07
 	ex de,hl			;4c08
-	ld c,080h		;4c09
+	ld c,080h		;4c09   ; la fila siguiente de la VRAM (128 bytes)
 	add hl,bc			;4c0b
 	ex de,hl			;4c0c
 	pop bc			;4c0d
@@ -1743,15 +1743,15 @@ L_4BFB:
 	pop de			;4c10
 	ret			;4c11
 L_4C12:
-	inc hl			;4c12
+	inc hl			;4c12   ; al reves: se empieza por el ultimo byte de la primera fila
 	inc hl			;4c13
 	inc hl			;4c14
 L_4C15:
-	push bc			;4c15
-	call con_vram_para_escribir		;4c16
-	ld a,004h		;4c19
+	push bc			;4c15   ; B dibujos al reves...
+	call sube_un_dibujo_al_reves		;4c16
+	ld a,004h		;4c19   ; ...el siguiente, 4 bytes a la derecha...
 	add a,e			;4c1b
-	cp 080h		;4c1c
+	cp 080h		;4c1c   ; ...y al llegar al borde, 8 lineas mas abajo
 	jr nz,L_4C25		;4c1e
 	ld a,004h		;4c20
 	add a,d			;4c22
@@ -1789,7 +1789,7 @@ escribe_vdp:
 	ld c,017h		;4c73
 	jp 00047h		;4c75   ; BIOS WRTVDP - Writes data in the VDP-register
 escribe_vdp_2:
-	call pon_avance_3		;4c78
+	call pon_avance_3		;4c78   ; tramo: llama a paleta_inicial
 	call mira_atributos_de_sprites		;4c7b
 	call pon_avance_5		;4c7e
 	ld bc,00f07h		;4c81
@@ -1823,7 +1823,7 @@ pon_avance_5:
 	ld d,a			;4cb5
 	dec a			;4cb6
 L_4CB7:
-	ld hl,00000h		;4cb7
+	ld hl,00000h		;4cb7   ; tramo: pone avance, llama a hmmv
 	ld bc,00000h		;4cba
 	ld (0c384h),hl		;4cbd   ; 0xC384: lo que ha avanzado el mapa, 8.8 (p00:56D8)
 	call hmmv		;4cc0   ; hmmv: el color, a un lado
@@ -1831,7 +1831,7 @@ L_4CB7:
 	ld c,017h		;4cc5
 	jp 00047h		;4cc7   ; BIOS WRTVDP - Writes data in the VDP-register
 mira_atributos_de_sprites:
-	ld hl,0f600h		;4cca
+	ld hl,0f600h		;4cca   ; tramo: llama a rellena_la_vram, mira atributos_de_sprites
 	ld a,0e0h		;4ccd
 	ld bc,00080h		;4ccf
 	call rellena_la_vram		;4cd2   ; rellena_la_vram: BC bytes con A desde la VRAM de HL
@@ -1910,7 +1910,7 @@ pon_paleta:
 	inc hl			;4d40
 	inc a			;4d41   ; 0xFF acaba
 	ret z			;4d42
-	dec a			;4d43
+	dec a			;4d43   ; tramo: llama a pon_un_color
 	ld d,(hl)			;4d44   ; RB y G
 	inc hl			;4d45
 	ld e,(hl)			;4d46
@@ -2032,7 +2032,7 @@ marco:
 	ld b,e			;4df3
 	jp raya_vertical_guardando		;4df4
 raya_vertical_guardando:
-	push hl			;4df7
+	push hl			;4df7   ; tramo: llama a raya_vertical
 	push de			;4df8
 	push bc			;4df9
 	call raya_vertical		;4dfa   ; raya_vertical: orden LINE con MAJ = 1: la raya va hacia abajo
@@ -2041,7 +2041,7 @@ raya_vertical_guardando:
 	pop hl			;4dff
 	ret			;4e00
 raya_horizontal_guardando:
-	push hl			;4e01
+	push hl			;4e01   ; tramo: llama a raya_horizontal
 	push de			;4e02
 	push bc			;4e03
 	call raya_horizontal		;4e04   ; raya_horizontal: orden LINE del V9938 (MAJ = 0): de (H, L), B-1 puntos
@@ -2185,11 +2185,11 @@ lmmm:
 	ret			;4ed6
 sube_letras:
 	call sube_una_letra		;4ed7   ; B letras de 1 bit de HL, en color C, a la hoja de la pagina 1 desde (D, E)
-	call rutina_8		;4eda   ; siguiente_sitio: D + 8; al dar la vuelta, E + 8
+	call rutina_7		;4eda   ; siguiente_sitio: D + 8; al dar la vuelta, E + 8
 	djnz sube_letras		;4edd   ; la siguiente letra
 	ret			;4edf
 sube_una_letra:
-	push bc			;4ee0
+	push bc			;4ee0   ; tramo: mira buffer, llama a sube_un_dibujo
 	push de			;4ee1
 	push hl			;4ee2
 	push de			;4ee3   ; 1 bit a 4 bits, en 0xE800
@@ -2215,7 +2215,7 @@ sube_un_dibujo:
 	push de			;4f01   ; un dibujo de 8x8 a 4 bits (32 bytes) de HL a la VRAM de DE
 	ld b,008h		;4f02   ; 8 filas
 L_4F04:
-	push bc			;4f04
+	push bc			;4f04   ; tramo: llama a copia_a_la_vram
 	ld bc,00004h		;4f05   ; de 4 bytes (8 puntos)
 	call copia_a_la_vram		;4f08   ; copia_a_la_vram: BC bytes de HL a la VRAM de DE
 	ex de,hl			;4f0b
@@ -2258,7 +2258,7 @@ DATA_sin_lector_4F2B:
 
 
 mira_buffer_3:
-	ld b,008h		;4f55
+	ld b,008h		;4f55   ; tramo: mira buffer
 	ld de,0e800h		;4f57   ; 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
 L_4F5A:
 	push bc			;4f5a
@@ -2298,51 +2298,51 @@ L_4F7B:
 	pop bc			;4f83
 	djnz L_4F5A		;4f84
 	ret			;4f86
-con_hmmm:
-	ld c,0ffh		;4f87
+con_sitio_del_dibujo:
+	ld c,0ffh		;4f87   ; texto en letras de color (la mascara C = 0xFF)
 	jr L_4F8D		;4f89
 L_4F8B:
-	ld c,000h		;4f8b
+	ld c,000h		;4f8b   ; texto en blanco (C = 0)
 L_4F8D:
-	ld d,(hl)			;4f8d
+	ld d,(hl)			;4f8d   ; [x][y]
 	inc hl			;4f8e
 	ld e,(hl)			;4f8f
 	inc hl			;4f90
 L_4F91:
-	ld a,(hl)			;4f91
+	ld a,(hl)			;4f91   ; la letra
 	inc hl			;4f92
 	ld b,a			;4f93
-	inc b			;4f94
+	inc b			;4f94   ; 0xFF acaba
 	ret z			;4f95
-	inc b			;4f96
-	jr z,con_hmmm		;4f97
-	and c			;4f99
-	call con_hmmm_2		;4f9a
-	ld a,d			;4f9d
+	inc b			;4f96   ; 0xFE: otro [x][y]
+	jr z,con_sitio_del_dibujo		;4f97
+	and c			;4f99   ; (la mascara)
+	call con_sitio_del_dibujo_2		;4f9a   ; la letra a la pantalla
+	ld a,d			;4f9d   ; 8 puntos a la derecha
 	add a,008h		;4f9e
 	ld d,a			;4fa0
 	jr L_4F91		;4fa1
-con_hmmm_2:
-	push bc			;4fa3
+con_sitio_del_dibujo_2:
+	push bc			;4fa3   ; la letra c es el dibujo c + 0x10 de la hoja, 0x60 lineas mas abajo...
 	push hl			;4fa4
 	push de			;4fa5
 	or a			;4fa6
 	ld h,a			;4fa7
-	jr z,L_4FB1		;4fa8
-	add a,010h		;4faa
-	call mira_modo_king_kong		;4fac
+	jr z,L_4FB1		;4fa8   ; ...y la 0, un hueco
+	add a,010h		;4faa   ; tramo: llama a sitio_del_dibujo
+	call sitio_del_dibujo		;4fac
 	add a,060h		;4faf
 L_4FB1:
-	ld l,a			;4fb1
-	ld bc,00808h		;4fb2
+	ld l,a			;4fb1   ; tramo: llama a hmmm
+	ld bc,00808h		;4fb2   ; 8x8 con HMMM de la pagina 1 a la 0
 	ld a,001h		;4fb5
 	call hmmm		;4fb7   ; hmmm: orden HMMM del V9938: copia BxC puntos de (H, L) a (D, E); A lleva las paginas
 	pop de			;4fba
 	pop hl			;4fbb
 	pop bc			;4fbc
 	ret			;4fbd
-rutina_7:
-	ld c,0ffh		;4fbe
+con_sitio_del_dibujo_3:
+	ld c,0ffh		;4fbe   ; lo mismo con LMMM y el color 0 transparente
 	jr L_4FC4		;4fc0
 L_4FC2:
 	ld c,000h		;4fc2
@@ -2352,51 +2352,51 @@ L_4FC4:
 	ld e,(hl)			;4fc6
 	inc hl			;4fc7
 L_4FC8:
-	ld a,(hl)			;4fc8
+	ld a,(hl)			;4fc8   ; la letra
 	inc hl			;4fc9
 	ld b,a			;4fca
-	inc b			;4fcb
+	inc b			;4fcb   ; 0xFF acaba
 	ret z			;4fcc
-	inc b			;4fcd
-	jr z,rutina_7		;4fce
-	inc b			;4fd0
+	inc b			;4fcd   ; 0xFE: otro [x][y]
+	jr z,con_sitio_del_dibujo_3		;4fce
+	inc b			;4fd0   ; 0xFD [dx][dy]: se mueve
 	jr z,L_4FDD		;4fd1
 	and c			;4fd3
-	call mira_scroll_6		;4fd4
+	call mira_scroll_6		;4fd4   ; L_4FE7: la letra...
 	ld a,d			;4fd7
 	add a,008h		;4fd8
 	ld d,a			;4fda
 	jr L_4FC8		;4fdb
 L_4FDD:
-	ld a,(hl)			;4fdd
+	ld a,(hl)			;4fdd   ; dx...
 	add a,d			;4fde
 	ld d,a			;4fdf
 	inc hl			;4fe0
-	ld a,(hl)			;4fe1
+	ld a,(hl)			;4fe1   ; ...y dy
 	add a,e			;4fe2
 	ld e,a			;4fe3
 	inc hl			;4fe4
 	jr L_4FC8		;4fe5
 mira_scroll_6:
-	push bc			;4fe7
+	push bc			;4fe7   ; la letra...
 	push hl			;4fe8
 	push de			;4fe9
 	or a			;4fea
 	ld h,a			;4feb
 	jr z,L_5005		;4fec
-	add a,010h		;4fee
-	call mira_modo_king_kong		;4ff0
+	add a,010h		;4fee   ; tramo: llama a sitio_del_dibujo, mira scroll
+	call sitio_del_dibujo		;4ff0
 	add a,060h		;4ff3
 	ld l,a			;4ff5
 	ld bc,00808h		;4ff6
-	ld a,(0c385h)		;4ff9   ; 0xC385: el SCROLL vertical: R#23 del VDP (p00:4C65)
+	ld a,(0c385h)		;4ff9   ; ...a la altura del scroll
 	add a,e			;4ffc
 	ld e,a			;4ffd
 	ld a,048h		;4ffe
 	call con_lmmm		;5000
 	jr L_5015		;5003
 L_5005:
-	ld a,(0c385h)		;5005   ; 0xC385: el SCROLL vertical: R#23 del VDP (p00:4C65)
+	ld a,(0c385h)		;5005   ; la letra 0: un cuadro de color 0xFF
 	add a,e			;5008
 	ld e,a			;5009
 	ex de,hl			;500a
@@ -2422,10 +2422,10 @@ DATA_tabla_5019:
 
 
 L_5024:
-	push bc			;5024
+	push bc			;5024   ; tramo: llama a sitio_del_dibujo, mira paginas_hmmm, llama a hmmm
 	push hl			;5025
 	push de			;5026
-	call mira_modo_king_kong		;5027
+	call sitio_del_dibujo		;5027
 	ld bc,00808h		;502a
 	ld a,(0c138h)		;502d   ; 0xC138: las paginas de origen y destino de las copias de dibujos (p00:502D)
 	call hmmm		;5030   ; hmmm: orden HMMM del V9938: copia BxC puntos de (H, L) a (D, E); A lleva las paginas
@@ -2437,7 +2437,7 @@ pon_dibujo_transparente:
 	push bc			;5037   ; lo mismo con LMMM + TIMP: el color 0 no pinta
 	push hl			;5038
 	push de			;5039
-	call mira_modo_king_kong		;503a   ; sitio_del_dibujo: H = (A & 31)*8, L = (A >> 5)*8: donde esta el dibujo A en la hoja
+	call sitio_del_dibujo		;503a   ; sitio_del_dibujo: H = (A & 31)*8, L = (A >> 5)*8: donde esta el dibujo A en la hoja
 	ld bc,00808h		;503d   ; 8x8 con LMMM y TIMP, de la pagina 1 a la 0
 	ld a,048h		;5040
 	call con_lmmm		;5042   ; lmmm: orden LMMM del V9938: lo mismo con operacion logica (A: paginas y operacion; 8 = TIMP)
@@ -2446,10 +2446,10 @@ pon_dibujo_transparente:
 	pop bc			;5047
 	ret			;5048
 copia_dibujo_en_la_hoja:
-	push bc			;5049
+	push bc			;5049   ; tramo: llama a sitio_del_dibujo, llama a hmmm
 	push hl			;504a
 	push de			;504b
-	call mira_modo_king_kong		;504c   ; sitio_del_dibujo: H = (A & 31)*8, L = (A >> 5)*8: donde esta el dibujo A en la hoja
+	call sitio_del_dibujo		;504c   ; sitio_del_dibujo: H = (A & 31)*8, L = (A >> 5)*8: donde esta el dibujo A en la hoja
 	ld bc,00808h		;504f   ; 8x8, dentro de la pagina 1
 	ld a,005h		;5052
 	call hmmm		;5054   ; hmmm: orden HMMM del V9938: copia BxC puntos de (H, L) a (D, E); A lleva las paginas
@@ -2457,44 +2457,44 @@ copia_dibujo_en_la_hoja:
 	pop hl			;5058
 	pop bc			;5059
 	ret			;505a
-copia_8x8_en_la_hoja:
-	push bc			;505b
+copia_dibujo_que_se_mueve:
+	push bc			;505b   ; tramo: llama a hmmm
 	push hl			;505c
 	push de			;505d
-	sub 0cch		;505e
+	sub 0cch		;505e   ; los dibujos 0xCC en adelante se animan: el cuadro 0-7...
 	ld h,a			;5060
-	and 0f8h		;5061
+	and 0f8h		;5061   ; ...va a una columna de 0x30 en adelante...
 	add a,030h		;5063
 	ld l,a			;5065
 	ld a,h			;5066
-	and 007h		;5067
+	and 007h		;5067   ; ...y la animacion a la fila (32 lineas cada una)
 	add a,a			;5069
 	add a,a			;506a
 	add a,a			;506b
 	add a,a			;506c
 	add a,a			;506d
 	ld h,a			;506e
-	ld bc,02008h		;506f
+	ld bc,02008h		;506f   ; 32x8 puntos con HMMM dentro de la pagina 1
 	ld a,001h		;5072
 	call hmmm		;5074   ; hmmm: orden HMMM del V9938: copia BxC puntos de (H, L) a (D, E); A lleva las paginas
 	pop de			;5077
 	pop hl			;5078
 	pop bc			;5079
 	ret			;507a
-mira_modo_king_kong:
-	ld b,a			;507b
-	and 01fh		;507c
+sitio_del_dibujo:
+	ld b,a			;507b   ; tramo: mira modo_king_kong
+	and 01fh		;507c   ; x = (dibujo & 31) * 8
 	add a,a			;507e
 	add a,a			;507f
 	add a,a			;5080
 	ld h,a			;5081
 	ld a,b			;5082
-	and 0e0h		;5083
+	and 0e0h		;5083   ; y = (dibujo >> 5) * 8
 	rrca			;5085
 	rrca			;5086
 	ld l,a			;5087
-	ld a,(0f0ffh)		;5088   ; 0xF0FF: 1: se esta arrancando King Kong 2 (p00:4117)
-	and a			;508b
+	ld a,(0f0ffh)		;5088   ; arrancando King Kong 2 la hoja esta 0x30 lineas mas arriba
+	and a			;508b   ; ¿es 0 modo_king_kong?
 	jr z,L_5093		;508c
 	ld a,l			;508e
 	sub 030h		;508f
@@ -2503,8 +2503,8 @@ mira_modo_king_kong:
 L_5093:
 	ld a,l			;5093
 	ret			;5094
-rutina_8:
-	ld a,d			;5095
+rutina_7:
+	ld a,d			;5095   ; 8 puntos a la derecha; al dar la vuelta, 8 lineas mas abajo
 	add a,008h		;5096
 	ld d,a			;5098
 	ret nz			;5099
@@ -2513,135 +2513,135 @@ rutina_8:
 	ld e,a			;509d
 	ret			;509e
 L_509F:
-	push bc			;509f
+	push bc			;509f   ; tramo: mira buffer
 	push de			;50a0
 	exx			;50a1
 	ld hl,0e800h		;50a2   ; 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
 	exx			;50a5
 L_50A6:
-	push bc			;50a6
-	call bucle_4		;50a7
+	push bc			;50a6   ; tramo: llama a dibujo_de_1_bit
+	call dibujo_de_1_bit		;50a7
 	pop bc			;50aa
 	djnz L_50A6		;50ab
-	pop de			;50ad
+	pop de			;50ad   ; tramo: mira buffer, sigue en sube_dibujos
 	pop bc			;50ae
 	ld hl,0e800h		;50af   ; 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
 	jp sube_dibujos		;50b2   ; sube_dibujos: B dibujos de 8x8 a 4 bits de HL a la VRAM de DE
 L_50B5:
-	push bc			;50b5
+	push bc			;50b5   ; tramo: mira buffer
 	push de			;50b6
 	exx			;50b7
 	ld hl,0e800h		;50b8   ; 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
 	exx			;50bb
 L_50BC:
-	push bc			;50bc
-	call bucle_4		;50bd
+	push bc			;50bc   ; tramo: llama a dibujo_de_1_bit
+	call dibujo_de_1_bit		;50bd
 	pop bc			;50c0
 	djnz L_50BC		;50c1
-	pop de			;50c3
+	pop de			;50c3   ; tramo: mira buffer
 	pop bc			;50c4
 	ld hl,0e800h		;50c5   ; 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
-	jp L_4C12		;50c8
-bucle_4:
+	jp L_4C12		;50c8   ; L_4C12: al reves: se empieza por el ultimo byte de la primera fila
+dibujo_de_1_bit:
 	ld b,008h		;50cb   ; 8 vueltas
 L_50CD:
-	ld e,(hl)			;50cd
+	ld e,(hl)			;50cd   ; un byte por fila: los 8 puntos, un bit cada uno
 	inc hl			;50ce
 	push bc			;50cf
-	call multiplica		;50d0
+	call fila_de_1_bit		;50d0   ; la fila a 4 bytes de 4 bits en el buffer
 	pop bc			;50d3
-	djnz L_50CD		;50d4
+	djnz L_50CD		;50d4   ; las 8 filas
 	ret			;50d6
-multiplica:
-	ld b,004h		;50d7
+fila_de_1_bit:
+	ld b,004h		;50d7   ; 4 bytes de salida, dos puntos cada uno
 L_50D9:
-	xor a			;50d9
+	xor a			;50d9   ; el bit alto de la fila...
 	rl e		;50da
 	rla			;50dc
-	exx			;50dd
+	exx			;50dd   ; ...es el color 0 o 1 de la tabla de 0xC500
 	ld e,a			;50de
 	ld d,0c5h		;50df
-	ld a,(de)			;50e1
-	add a,a			;50e2
+	ld a,(de)			;50e1   ; el color del punto de la izquierda...
+	add a,a			;50e2   ; ...al nibble alto
 	add a,a			;50e3
 	add a,a			;50e4
 	add a,a			;50e5
 	ld c,a			;50e6
 	exx			;50e7
-	xor a			;50e8
+	xor a			;50e8   ; el siguiente bit, el punto de la derecha
 	rl e		;50e9
 	rla			;50eb
 	exx			;50ec
 	ld e,a			;50ed
 	ld d,0c5h		;50ee
-	ld a,(de)			;50f0
-	or c			;50f1
-	ld (hl),a			;50f2
+	ld a,(de)			;50f0   ; su color...
+	or c			;50f1   ; ...en el nibble bajo
+	ld (hl),a			;50f2   ; un byte de 4 bits al buffer
 	inc hl			;50f3
 	exx			;50f4
-	djnz L_50D9		;50f5
+	djnz L_50D9		;50f5   ; los cuatro bytes de la fila
 	ret			;50f7
 L_50F8:
-	push bc			;50f8
+	push bc			;50f8   ; tramo: mira buffer
 	push de			;50f9
 	exx			;50fa
 	ld hl,0e800h		;50fb   ; 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
 	exx			;50fe
 L_50FF:
-	push bc			;50ff
-	call bucle_5		;5100
+	push bc			;50ff   ; un dibujo de 2 bits al buffer de 0xE800
+	call dibujo_de_2_bits		;5100
 	pop bc			;5103
-	djnz L_50FF		;5104
-	pop de			;5106
+	djnz L_50FF		;5104   ; B dibujos
+	pop de			;5106   ; tramo: mira buffer, sigue en sube_dibujos
 	pop bc			;5107
 	ld hl,0e800h		;5108   ; 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
 	jp sube_dibujos		;510b   ; sube_dibujos: B dibujos de 8x8 a 4 bits de HL a la VRAM de DE
 L_510E:
-	push bc			;510e
+	push bc			;510e   ; tramo: mira buffer
 	push de			;510f
 	exx			;5110
 	ld hl,0e800h		;5111   ; 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
 	exx			;5114
 L_5115:
-	push bc			;5115
-	call bucle_5		;5116
+	push bc			;5115   ; lo mismo...
+	call dibujo_de_2_bits		;5116
 	pop bc			;5119
 	djnz L_5115		;511a
-	pop de			;511c
+	pop de			;511c   ; tramo: mira buffer
 	pop bc			;511d
-	ld hl,0e800h		;511e   ; 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
-	jp L_4C12		;5121
-bucle_5:
+	ld hl,0e800h		;511e   ; ...y al reves de izquierda a derecha (p00:4C12)
+	jp L_4C12		;5121   ; L_4C12: al reves: se empieza por el ultimo byte de la primera fila
+dibujo_de_2_bits:
 	ld b,008h		;5124   ; 8 vueltas
 L_5126:
-	push bc			;5126
-	call multiplica_2		;5127
+	push bc			;5126   ; las 8 filas del dibujo
+	call fila_de_2_bits		;5127   ; fila_de_2_bits: cuatro bytes de salida por fila
 	pop bc			;512a
 	djnz L_5126		;512b
 	ret			;512d
-multiplica_2:
-	ld b,004h		;512e
-	ld e,(hl)			;5130
+fila_de_2_bits:
+	ld b,004h		;512e   ; cuatro bytes de salida por fila
+	ld e,(hl)			;5130   ; E: el plano del bit bajo
 	inc hl			;5131
-	ld d,(hl)			;5132
+	ld d,(hl)			;5132   ; D: el del bit alto
 	inc hl			;5133
 L_5134:
-	xor a			;5134
+	xor a			;5134   ; el bit de D y el de E...
 	rl d		;5135
 	rla			;5137
 	rl e		;5138
 	rla			;513a
-	exx			;513b
+	exx			;513b   ; ...dan el color 0-3 de la tabla de 0xC500
 	ld e,a			;513c
 	ld d,0c5h		;513d
-	ld a,(de)			;513f
+	ld a,(de)			;513f   ; el punto de la izquierda, al nibble alto
 	add a,a			;5140
 	add a,a			;5141
 	add a,a			;5142
 	add a,a			;5143
 	ld c,a			;5144
 	exx			;5145
-	xor a			;5146
+	xor a			;5146   ; el siguiente punto
 	rl d		;5147
 	rla			;5149
 	rl e		;514a
@@ -2649,78 +2649,78 @@ L_5134:
 	exx			;514d
 	ld e,a			;514e
 	ld d,0c5h		;514f
-	ld a,(de)			;5151
+	ld a,(de)			;5151   ; el de la derecha, al nibble bajo
 	or c			;5152
-	ld (hl),a			;5153
+	ld (hl),a			;5153   ; un byte de 4 bits al buffer
 	inc hl			;5154
 	exx			;5155
-	djnz L_5134		;5156
+	djnz L_5134		;5156   ; los cuatro bytes de la fila
 	ret			;5158
 L_5159:
-	push bc			;5159
+	push bc			;5159   ; tramo: mira buffer
 	push de			;515a
 	exx			;515b
 	ld hl,0e800h		;515c   ; 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
 	exx			;515f
 L_5160:
-	push bc			;5160
-	call bucle_6		;5161
+	push bc			;5160   ; un dibujo de 3 bits al buffer
+	call dibujo_de_3_bits		;5161
 	pop bc			;5164
-	djnz L_5160		;5165
-	pop de			;5167
+	djnz L_5160		;5165   ; B dibujos
+	pop de			;5167   ; tramo: mira buffer, sigue en sube_dibujos
 	pop bc			;5168
 	ld hl,0e800h		;5169   ; 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
 	jp sube_dibujos		;516c   ; sube_dibujos: B dibujos de 8x8 a 4 bits de HL a la VRAM de DE
 L_516F:
-	push bc			;516f
+	push bc			;516f   ; tramo: mira buffer
 	push de			;5170
 	exx			;5171
 	ld hl,0e800h		;5172   ; 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
 	exx			;5175
 L_5176:
-	push bc			;5176
-	call bucle_6		;5177
+	push bc			;5176   ; lo mismo, al reves
+	call dibujo_de_3_bits		;5177
 	pop bc			;517a
 	djnz L_5176		;517b
-	pop de			;517d
+	pop de			;517d   ; tramo: mira buffer
 	pop bc			;517e
 	ld hl,0e800h		;517f   ; 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
-	jp L_4C12		;5182
-bucle_6:
+	jp L_4C12		;5182   ; L_4C12: al reves: se empieza por el ultimo byte de la primera fila
+dibujo_de_3_bits:
 	ld b,008h		;5185   ; 8 vueltas
 L_5187:
-	push bc			;5187
-	call multiplica_3		;5188
+	push bc			;5187   ; las 8 filas
+	call fila_de_3_bits		;5188   ; fila_de_3_bits: tres planos por fila:
 	pop bc			;518b
 	djnz L_5187		;518c
 	ret			;518e
-multiplica_3:
-	ld b,004h		;518f
-	ld e,(hl)			;5191
+fila_de_3_bits:
+	ld b,004h		;518f   ; tres planos por fila:
+	ld e,(hl)			;5191   ; E el bit bajo...
 	inc hl			;5192
-	ld d,(hl)			;5193
+	ld d,(hl)			;5193   ; ...D el del medio...
 	inc hl			;5194
-	ld c,(hl)			;5195
+	ld c,(hl)			;5195   ; ...y C el alto
 	inc hl			;5196
 L_5197:
-	xor a			;5197
+	xor a			;5197   ; los tres bits de un punto...
 	rl c		;5198
 	rla			;519a
 	rl d		;519b
 	rla			;519d
 	rl e		;519e
 	rla			;51a0
-	exx			;51a1
+	exx			;51a1   ; ...dan el color 0-7 de 0xC500
 	ld e,a			;51a2
 	ld d,0c5h		;51a3
-	ld a,(de)			;51a5
+	ld a,(de)			;51a5   ; el punto de la izquierda, al nibble alto
 	add a,a			;51a6
 	add a,a			;51a7
 	add a,a			;51a8
 	add a,a			;51a9
 	ld c,a			;51aa
 	exx			;51ab
-	xor a			;51ac
+	xor a			;51ac   ; el de la derecha
 	rl c		;51ad
 	rla			;51af
 	rl d		;51b0
@@ -2730,23 +2730,23 @@ L_5197:
 	exx			;51b6
 	ld e,a			;51b7
 	ld d,0c5h		;51b8
-	ld a,(de)			;51ba
+	ld a,(de)			;51ba   ; su color, al nibble bajo
 	or c			;51bb
-	ld (hl),a			;51bc
+	ld (hl),a			;51bc   ; al buffer
 	inc hl			;51bd
 	exx			;51be
-	djnz L_5197		;51bf
+	djnz L_5197		;51bf   ; los cuatro bytes de la fila
 	ret			;51c1
 L_51C2:
-	push hl			;51c2
-	call mira_scroll		;51c3
+	push hl			;51c2   ; un trozo de la tabla de la pantalla (0xE000) desde (D, E + scroll)...
+	call mira_scroll		;51c3   ; L_48BF: la casilla de la pantalla 0xE000 del punto (D, E + scroll)
 	jr L_51CF		;51c6
 L_51C8:
-	push hl			;51c8
+	push hl			;51c8   ; ...o de la de 0xEA00
 	ld hl,0ea00h		;51c9   ; 0xEA00: buffers de pantallas y dibujos
-	call rutina_5		;51cc
+	call rutina_5		;51cc   ; L_48B3: la casilla de 0xEA00 del punto (D, E)
 L_51CF:
-	pop de			;51cf
+	pop de			;51cf   ; B columnas por C filas desde DE
 	ex af,af'			;51d0
 	ld a,b			;51d1
 	ex af,af'			;51d2
@@ -2756,14 +2756,14 @@ L_51D3:
 	ex af,af'			;51d5
 	push hl			;51d6
 L_51D7:
-	ld a,(de)			;51d7
+	ld a,(de)			;51d7   ; una fila
 	ld (hl),a			;51d8
 	inc hl			;51d9
 	inc de			;51da
 	djnz L_51D7		;51db
 	pop hl			;51dd
-	push de			;51de
-	ld de,00020h		;51df
+	push de			;51de   ; la fila siguiente, 32 mas alla, dando la vuelta a 0xE000
+	ld de,00020h		;51df   ; la siguiente, 0x20 bytes mas alla
 	add hl,de			;51e2
 	pop de			;51e3
 	res 2,h		;51e4
@@ -2771,7 +2771,7 @@ L_51D7:
 	jr nz,L_51D3		;51e7
 	ret			;51e9
 L_51EA:
-	ex af,af'			;51ea
+	ex af,af'			;51ea   ; LMMM a la altura del scroll
 	ld a,(0c385h)		;51eb   ; 0xC385: el SCROLL vertical: R#23 del VDP (p00:4C65)
 	add a,e			;51ee
 	ld e,a			;51ef
@@ -2780,14 +2780,14 @@ con_lmmm:
 	ex af,af'			;51f2
 	ld a,e			;51f3
 L_51F4:
-	add a,c			;51f4
+	add a,c			;51f4   ; si el trozo pasa de la linea 255...
 	jr z,L_51F9		;51f5
 	jr c,L_51FD		;51f7
 L_51F9:
-	ex af,af'			;51f9
+	ex af,af'			;51f9   ; tramo: sigue en lmmm
 	jp lmmm		;51fa   ; lmmm: orden LMMM del V9938: lo mismo con operacion logica (A: paginas y operacion; 8 = TIMP)
 L_51FD:
-	ex af,af'			;51fd
+	ex af,af'			;51fd   ; ...se parte en dos: lo de abajo...
 	push af			;51fe
 	push bc			;51ff
 	push de			;5200
@@ -2803,7 +2803,7 @@ L_51FD:
 	pop bc			;520d
 	pop af			;520e
 	ex af,af'			;520f
-	ld a,e			;5210
+	ld a,e			;5210   ; ...y lo que da la vuelta, desde la linea 0
 	neg		;5211
 	add a,l			;5213
 	ld l,a			;5214
@@ -2826,17 +2826,17 @@ DATA_sin_lector_521E:
 ; ======================================================================
 
 
-con_hmmm_3:
+con_hmmm:
 	ex af,af'			;5226
 	ld a,e			;5227
 	add a,c			;5228
 	jr z,L_522D		;5229
 	jr c,L_5231		;522b
 L_522D:
-	ex af,af'			;522d
+	ex af,af'			;522d   ; tramo: sigue en hmmm
 	jp hmmm		;522e   ; hmmm: orden HMMM del V9938: copia BxC puntos de (H, L) a (D, E); A lleva las paginas
 L_5231:
-	ex af,af'			;5231
+	ex af,af'			;5231   ; tramo: llama a hmmm, sigue en hmmm
 	push af			;5232
 	push bc			;5233
 	push de			;5234
@@ -2862,17 +2862,17 @@ L_5231:
 	ld e,000h		;524c
 	ex af,af'			;524e
 	jp hmmm		;524f   ; hmmm: orden HMMM del V9938: copia BxC puntos de (H, L) a (D, E); A lleva las paginas
-con_hmmm_4:
+con_hmmm_2:
 	ex af,af'			;5252
 	ld a,l			;5253
 	add a,c			;5254
 	jr z,L_5259		;5255
 	jr c,L_525D		;5257
 L_5259:
-	ex af,af'			;5259
+	ex af,af'			;5259   ; tramo: sigue en hmmm
 	jp hmmm		;525a   ; hmmm: orden HMMM del V9938: copia BxC puntos de (H, L) a (D, E); A lleva las paginas
 L_525D:
-	ex af,af'			;525d
+	ex af,af'			;525d   ; tramo: llama a hmmm, sigue en hmmm
 	push af			;525e
 	push bc			;525f
 	push de			;5260
@@ -2905,10 +2905,10 @@ con_hmmv:
 	jr z,L_5285		;5281
 	jr c,L_5289		;5283
 L_5285:
-	ex af,af'			;5285
+	ex af,af'			;5285   ; tramo: sigue en hmmv
 	jp hmmv		;5286   ; hmmv: el color, a un lado
 L_5289:
-	ex af,af'			;5289
+	ex af,af'			;5289   ; tramo: llama a hmmv, sigue en hmmv
 	push af			;528a
 	push bc			;528b
 	push de			;528c
@@ -2933,36 +2933,36 @@ L_5289:
 	ex af,af'			;52a4
 	jp hmmv		;52a5   ; hmmv: el color, a un lado
 pon_atributos_vram_2:
-	call pon_sonido_callado		;52a8
-	ld hl,0f600h		;52ab
+	call pon_sonido_callado		;52a8   ; los sprites, la pagina de la hoja...
+	ld hl,0f600h		;52ab   ; los atributos a 0xF600...
 	ld (0c132h),hl		;52ae   ; 0xC132: donde van los atributos de los sprites este cuadro (p00:4B4D)
-	ld hl,0f400h		;52b1
+	ld hl,0f400h		;52b1   ; ...y los colores a 0xF400
 	ld (0c134h),hl		;52b4   ; 0xC134: donde van los colores de los sprites este cuadro
-	ld a,001h		;52b7
+	ld a,001h		;52b7   ; las copias de dibujos, de la pagina 1 a la 0
 	ld (0c138h),a		;52b9   ; 0xC138: las paginas de origen y destino de las copias de dibujos (p00:502D)
 	ret			;52bc
 pon_sonido_callado:
-	xor a			;52bd
+	xor a			;52bd   ; el sonido y el VDP al arrancar
 	ld (0c0f7h),a		;52be   ; 0xC0F7: todo el sonido callado (p14:95C0)
-	ld a,0bfh		;52c1
+	ld a,0bfh		;52c1   ; el mezclador del PSG: tonos si, ruido no
 	ld (0c0f0h),a		;52c3   ; 0xC0F0: la copia del registro 7 del PSG (p00:52C1)
 	ld e,a			;52c6
 	ld a,007h		;52c7
 	call 00093h		;52c9   ; BIOS WRTPSG - Writes data to PSG-register
 	call apaga_los_sprites		;52cc   ; apaga_los_sprites: la copia de R#8 (0xFFE7)...
-	ld a,00fh		;52cf
+	ld a,00fh		;52cf   ; el borde de color 15
 	ld (0f3ebh),a		;52d1
-	ld a,005h		;52d4
+	ld a,005h		;52d4   ; SCREEN 5
 	call 0005fh		;52d6   ; BIOS CHGMOD - Switches to given screen mode
 	call pon_avance_3		;52d9
-	xor a			;52dc
+	xor a			;52dc   ; la franja de abajo (0xD8, 0x28 lineas) a 0
 	ld h,a			;52dd
 	ld l,0d8h		;52de
 	ld b,a			;52e0
 	ld c,028h		;52e1
 	ld d,a			;52e3
 	call hmmv		;52e4   ; hmmv: el color, a un lado
-	xor a			;52e7
+	xor a			;52e7   ; la pagina 1 entera a 0
 	ld h,a			;52e8
 	ld l,a			;52e9
 	ld b,a			;52ea
@@ -2970,11 +2970,11 @@ pon_sonido_callado:
 	ld d,001h		;52ec
 	call hmmv		;52ee   ; hmmv: el color, a un lado
 	call espera_al_vdp		;52f1   ; espera_al_vdp: espera a que el V9938 acabe la orden (bit 0 de S#2)
-	ld b,004h		;52f4   ; 4 vueltas
+	ld b,004h		;52f4   ; 4 registros del VDP de la tabla de 0x530C
 	ld hl,0530ch		;52f6   ; p00:530C tabla_530C: tabla que lee p00:52F6 (8 bytes)
 L_52F9:
 	push bc			;52f9
-	ld c,(hl)			;52fa
+	ld c,(hl)			;52fa   ; [registro][valor]
 	inc hl			;52fb
 	ld b,(hl)			;52fc
 	inc hl			;52fd
@@ -2997,82 +2997,82 @@ DATA_tabla_530C:
 ; ======================================================================
 
 
-rutina_9:
-	call mira_f1_f3		;5314
+rutina_8:
+	call mira_f1_f3		;5314   ; L_5318: la fila 6: F1, F2 y F3 (bits 5-7)
 	ret			;5317
 mira_f1_f3:
-	ld a,006h		;5318
+	ld a,006h		;5318   ; la fila 6: F1, F2 y F3 (bits 5-7)
 	call 00141h		;531a   ; BIOS SNSMAT - Returns the value of the specified line from the keyboard matrix
 	cpl			;531d
 	rlca			;531e
 	rlca			;531f
 	rlca			;5320
 	and 007h		;5321
-	ld hl,0c109h		;5323   ; 0xC109: F1, F2 y F3 que se tienen pulsadas
-	call rutina_10		;5326
-	ld a,007h		;5329
+	ld hl,0c109h		;5323   ; a 0xC108 lo recien pulsado
+	call rutina_9		;5326   ; L_533E: recien pulsado = lo de ahora y no lo de antes
+	ld a,007h		;5329   ; la fila 7: F4, F5, STOP...
 	call 00141h		;532b   ; BIOS SNSMAT - Returns the value of the specified line from the keyboard matrix
 	cpl			;532e
 	ld c,a			;532f
-	ld hl,0c125h		;5330   ; 0xC125: la fila 7 del teclado que se tiene pulsada
+	ld hl,0c125h		;5330   ; lo recien pulsado a 0xC124
 	xor (hl)			;5333
 	and c			;5334
 	ld (hl),c			;5335
 	dec hl			;5336
 	ld (hl),a			;5337
-	call escribe_psg_2		;5338
+	call lee_el_mando		;5338   ; el mando y el teclado
 L_533B:
 	ld hl,0c107h		;533b   ; 0xC107: cursores, ESPACIO y los disparos que se tienen pulsados (p00:5345)
-rutina_10:
-	ld c,(hl)			;533e
-	ld (hl),a			;533f
+rutina_9:
+	ld c,(hl)			;533e   ; recien pulsado = lo de ahora y no lo de antes
+	ld (hl),a			;533f   ; lo de ahora se guarda
 	xor c			;5340
 	and (hl)			;5341
 	dec hl			;5342
-	ld (hl),a			;5343
+	ld (hl),a			;5343   ; lo nuevo, en la direccion de antes
 	ret			;5344
-escribe_psg_2:
-	ld e,08fh		;5345
+lee_el_mando:
+	ld e,08fh		;5345   ; el puerto de mandos 1 (R#15 del PSG = 0x8F)...
 	ld a,00fh		;5347
 	call 00093h		;5349   ; BIOS WRTPSG - Writes data to PSG-register
-	ld a,00eh		;534c
+	ld a,00eh		;534c   ; ...y se lee (R#14): arriba, abajo, izquierda, derecha y los dos botones
 	di			;534e
 	call 00096h		;534f   ; BIOS RDPSG - Reads value from PSG-register
 	ei			;5352
-	cpl			;5353
+	cpl			;5353   ; activos a 1
 	and 03fh		;5354
 	push af			;5356
-	ld a,004h		;5357
+	ld a,004h		;5357   ; la fila 4 del teclado:
 	call 00141h		;5359   ; BIOS SNSMAT - Returns the value of the specified line from the keyboard matrix
 	cpl			;535c
-	rlca			;535d
+	rlca			;535d   ; la N (bit 3)...
 	rlca			;535e
 	ld c,a			;535f
-	rlca			;5360
+	rlca			;5360   ; ...y la M (bit 2)...
 	or c			;5361
-	and 020h		;5362
+	and 020h		;5362   ; ...son el segundo disparo (bit 5)
 	ld e,a			;5364
-	ld a,008h		;5365
+	ld a,008h		;5365   ; la fila 8: cursores y ESPACIO
 	call 00141h		;5367   ; BIOS SNSMAT - Returns the value of the specified line from the keyboard matrix
 	cpl			;536a
-	rrca			;536b
+	rrca			;536b   ; la izquierda (bit 4) al bit 2
 	rrca			;536c
 	ld b,a			;536d
 	and 004h		;536e
 	or e			;5370
 	ld c,a			;5371
 	ld a,b			;5372
-	rrca			;5373
+	rrca			;5373   ; la derecha al bit 3 y ESPACIO al 4
 	rrca			;5374
 	ld b,a			;5375
 	and 018h		;5376
 	or c			;5378
 	ld c,a			;5379
 	ld a,b			;537a
-	rrca			;537b
+	rrca			;537b   ; arriba y abajo a los bits 0 y 1
 	and 003h		;537c
 	or c			;537e
-	pop bc			;537f
+	pop bc			;537f   ; y todo junto con el mando
 	or b			;5380
 	ret			;5381
 
@@ -3094,7 +3094,7 @@ DATA_tabla_5382:
 
 
 mira_banco_6000:
-	di			;53e9
+	di			;53e9   ; tramo: mira banco_6000, mira banco_de_a000
 	push hl			;53ea
 	ld hl,0f0f1h		;53eb   ; 0xF0F1: copia de lo que hay en 0x6000 (p00:5408)
 	ld a,001h		;53ee
@@ -3115,7 +3115,7 @@ mira_banco_6000_2:
 	di			;5405
 	ld a,004h		;5406
 mira_banco_6000_3:
-	di			;5408
+	di			;5408   ; tramo: mira banco_6000
 	push hl			;5409
 	ld hl,0f0f1h		;540a   ; 0xF0F1: copia de lo que hay en 0x6000 (p00:5408)
 	ld (06000h),a		;540d
@@ -3148,156 +3148,156 @@ pon_banco_a000_4:
 	ld a,00dh		;5430
 	jr mira_banco_6000_3		;5432
 pon_banco_a000_5:
-	di			;5434
+	di			;5434   ; tramo: pone banco_a000
 	ld (0f0f3h),a		;5435   ; 0xF0F3: copia de lo que hay en 0xA000
 	ld (0a000h),a		;5438
 	ei			;543b
 	ret			;543c
 L_543D:
-	di			;543d
+	di			;543d   ; tramo: pone banco_8000
 	ld (0f0f2h),a		;543e   ; 0xF0F2: copia de lo que hay en 0x8000
 	ld (08000h),a		;5441
 	ei			;5444
 	ret			;5445
-L_5446:
-	ld de,0c500h		;5446   ; 0xC500: los colores de los dibujos de 1, 2 y 3 bits (p00:5446)
-	ld b,004h		;5449
+colores_de_la_lista:
+	ld de,0c500h		;5446   ; 0xFD, 0xFE o 0xFF: los colores de los dibujos de 3, 2 o 1 bits, en 0xC500
+	ld b,004h		;5449   ; 0xFD: cuatro bytes, ocho colores
 	jr z,L_5455		;544b
-	cp 0feh		;544d
+	cp 0feh		;544d   ; 0xFE: dos bytes, cuatro colores
 	ld b,002h		;544f
 	jr z,L_5455		;5451
-	ld b,001h		;5453
+	ld b,001h		;5453   ; 0xFF: un byte, dos colores
 L_5455:
-	ld a,(hl)			;5455
+	ld a,(hl)			;5455   ; cada byte son dos colores:
 	ld c,a			;5456
-	rrca			;5457
+	rrca			;5457   ; el nibble alto...
 	rrca			;5458
 	rrca			;5459
 	rrca			;545a
 	and 00fh		;545b
-	ld (de),a			;545d
+	ld (de),a			;545d   ; ...en un sitio de 0xC500
 	inc hl			;545e
 	inc de			;545f
-	ld a,c			;5460
+	ld a,c			;5460   ; y el bajo en el siguiente
 	and 00fh		;5461
 	ld (de),a			;5463
 	inc de			;5464
-	djnz L_5455		;5465
-	jr rutina_11		;5467
+	djnz L_5455		;5465   ; los B bytes
+	jr con_lista_de_dibujos		;5467   ; y sigue la lista
 pon_base_de_la_hoja:
-	add a,a			;5469
+	add a,a			;5469   ; base de la hoja = 32*A (0xC4B2)
 	add a,a			;546a
 	add a,a			;546b
 pon_base_de_la_hoja_2:
-	add a,a			;546c
+	add a,a			;546c   ; base de la hoja = 4*A
 	add a,a			;546d
 	ld (0c4b2h),a		;546e   ; 0xC4B2: el byte alto de la VRAM donde las listas suben los dibujos (p00:546E)
-	jr rutina_11		;5471
+	jr con_lista_de_dibujos		;5471   ; y la lista de HL
 pon_base_de_la_hoja_3:
 	ld a,(0c483h)		;5473   ; 0xC483: la COLUMNA: 0-2 el camino, 3 la sala (p01:6543)
-	cp 003h		;5476
+	cp 003h		;5476   ; ¿columna = 0x03?
 	ld hl,0e050h		;5478   ; 0xE050: la tabla de 32x32 dibujos de la pantalla
 	ld d,001h		;547b
 	ld a,000h		;547d
 	ld bc,02020h		;547f
 	call nz,hmmv		;5482   ; hmmv: el color, a un lado
-	ld hl,063f9h		;5485
+	ld hl,063f9h		;5485   ; tramo: mira columna
 	ld a,036h		;5488
-	call pon_base_de_la_hoja_2		;548a
+	call pon_base_de_la_hoja_2		;548a   ; L_546C: base de la hoja = 4*A
 	ld hl,06423h		;548d
 	ld a,038h		;5490
-	call pon_base_de_la_hoja_2		;5492
+	call pon_base_de_la_hoja_2		;5492   ; L_546C: base de la hoja = 4*A
 	ld hl,06430h		;5495
 	ld a,(0c483h)		;5498   ; 0xC483: la COLUMNA: 0-2 el camino, 3 la sala (p01:6543)
-	cp 003h		;549b
+	cp 003h		;549b   ; ¿columna = 0x03?
 	ld a,02ah		;549d
-	call nz,pon_base_de_la_hoja_2		;549f
-	ld hl,061e9h		;54a2
+	call nz,pon_base_de_la_hoja_2		;549f   ; L_546C: base de la hoja = 4*A
+	ld hl,061e9h		;54a2   ; tramo: pone base_de_la_hoja, mira juego_de_dibujos
 	ld a,005h		;54a5
-	call pon_base_de_la_hoja		;54a7
+	call pon_base_de_la_hoja		;54a7   ; L_5469: base de la hoja = 32*A (0xC4B2)
 	ld a,080h		;54aa
 	ld (0c4b2h),a		;54ac   ; 0xC4B2: el byte alto de la VRAM donde las listas suben los dibujos (p00:546E)
 	ld hl,06271h		;54af
 	ld a,(0c482h)		;54b2   ; 0xC482: el juego de dibujos, 0-7 (p01:65BB)
-	cp 006h		;54b5
-	call c,rutina_11		;54b7
-	call mira_banco_6000_2		;54ba
+	cp 006h		;54b5   ; ¿juego_de_dibujos = 0x06?
+	call c,con_lista_de_dibujos		;54b7   ; L_54C6: la lista, y los bancos 1-2-y el de 0xC10C al acabar
+	call mira_banco_6000_2		;54ba   ; tramo: mira juego_de_dibujos
 	ld a,(0c482h)		;54bd   ; 0xC482: el juego de dibujos, 0-7 (p01:65BB)
 	ld hl,06000h		;54c0   ; p04:6000 listas_de_cada_juego: las listas de dibujos de cada juego (0xC482 = 0..7), una palabra cada una
-	call con_hl_mas_a		;54c3
-rutina_11:
-	call mira_base_de_la_hoja		;54c6
+	call con_hl_mas_a		;54c3   ; L_4878: HL = la palabra A de la tabla de HL
+con_lista_de_dibujos:
+	call lista_de_dibujos		;54c6   ; la lista, y los bancos 1-2-y el de 0xC10C al acabar
 	jp mira_banco_6000		;54c9
-mira_base_de_la_hoja:
-	call mira_banco_6000_2		;54cc
-	ld a,(hl)			;54cf
+lista_de_dibujos:
+	call mira_banco_6000_2		;54cc   ; LA LISTA: con los bancos 4-5-6...
+	ld a,(hl)			;54cf   ; ...n dibujos (0 acaba)
 	ld b,a			;54d0
 	ld c,a			;54d1
 	inc hl			;54d2
 	or a			;54d3
 	ret z			;54d4
-	cp 0fdh		;54d5
-	jp nc,L_5446		;54d7
-	ld e,(hl)			;54da
-	ld d,0c9h		;54db
+	cp 0fdh		;54d5   ; 0xFD-0xFF: colores
+	jp nc,colores_de_la_lista		;54d7   ; colores_de_la_lista: 0xFD, 0xFE o 0xFF: los colores de los dibujos de 3, 2 o 1 bits, en 0xC500
+	ld e,(hl)			;54da   ; el primer dibujo de la hoja
+	ld d,0c9h		;54db   ; y su propiedad, en 0xC900 + dibujo...
 	inc hl			;54dd
 	ld a,(hl)			;54de
 	push de			;54df
 L_54E0:
-	ld (de),a			;54e0
+	ld (de),a			;54e0   ; ...una por dibujo
 	inc de			;54e1
 	dec c			;54e2
 	jr nz,L_54E0		;54e3
-	pop de			;54e5
+	pop de			;54e5   ; tramo: mira base_de_la_hoja, llama a sube_con_formato
 	inc hl			;54e6
-	ld d,e			;54e7
-	ld a,e			;54e8
+	ld d,e			;54e7   ; el sitio del dibujo en la VRAM:
+	ld a,e			;54e8   ; la columna (dibujo & 31) por 4 bytes...
 	and 01fh		;54e9
 	add a,a			;54eb
 	add a,a			;54ec
 	ld e,a			;54ed
-	ld a,d			;54ee
+	ld a,d			;54ee   ; ...y la fila (dibujo >> 5) por 0x400
 	and 0e0h		;54ef
 	rrca			;54f1
 	rrca			;54f2
 	rrca			;54f3
 	ld d,a			;54f4
-	ld a,(0c4b2h)		;54f5   ; 0xC4B2: el byte alto de la VRAM donde las listas suben los dibujos (p00:546E)
+	ld a,(0c4b2h)		;54f5   ; mas la base de la lista
 	add a,d			;54f8
 	ld d,a			;54f9
 	push hl			;54fa
 	push de			;54fb
-	ld e,(hl)			;54fc
+	ld e,(hl)			;54fc   ; la fuente...
 	inc hl			;54fd
 	ld d,(hl)			;54fe
 	inc hl			;54ff
-	ld a,(hl)			;5500
+	ld a,(hl)			;5500   ; ...y el tipo
 	inc hl			;5501
 	ex de,hl			;5502
 	pop de			;5503
-	call con_despacha		;5504
+	call sube_con_formato		;5504   ; a subirlos
 	pop hl			;5507
-	inc hl			;5508
+	inc hl			;5508   ; la entrada siguiente, 6 bytes mas alla
 	inc hl			;5509
 	inc hl			;550a
-	jr mira_base_de_la_hoja		;550b
-con_despacha:
-	ld c,a			;550d
+	jr lista_de_dibujos		;550b
+sube_con_formato:
+	ld c,a			;550d   ; el nibble bajo del tipo es el primer banco del trio de la fuente
 	and 00fh		;550e
 	exx			;5510
 	call mira_banco_6000_3		;5511
 	exx			;5514
-	ld a,c			;5515
+	ld a,c			;5515   ; los tres bits altos, el formato
 	rlca			;5516
 	rlca			;5517
 	rlca			;5518
 	and 007h		;5519
 	exx			;551b
-	ld hl,mira_banco_6000_2		;551c
+	ld hl,mira_banco_6000_2		;551c   ; al volver, otra vez los bancos 4-5-6
 	push hl			;551f
-	cp 008h		;5520
+	cp 008h		;5520   ; (un formato 8 no existe)
 	ret nc			;5522
-	call despacha		;5523
+	call despacha		;5523   ; reparte por el formato (p00:5526)
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_5526: 8 destinos del despachador de 0x40AE (call en p00:5523):
@@ -3320,34 +3320,34 @@ DATA_tabla_5526:
 
 
 L_5536:
-	exx			;5536   ; entrada 0 de la tabla de p00:5523 (L_550D)
+	exx			;5536   ; 0: 4 bits tal cual
 	jp sube_dibujos		;5537   ; sube_dibujos: B dibujos de 8x8 a 4 bits de HL a la VRAM de DE
 L_553A:
-	exx			;553a   ; entrada 1 de la tabla de p00:5523 (L_550D)
-	jp L_4C12		;553b
+	exx			;553a   ; 1: 4 bits, al reves
+	jp L_4C12		;553b   ; L_4C12: al reves: se empieza por el ultimo byte de la primera fila
 L_553E:
-	exx			;553e   ; entrada 2 de la tabla de p00:5523 (L_550D)
-	call rutina_12		;553f
+	exx			;553e   ; 2: 1 bit
+	call rutina_10		;553f   ; L_5579: como mucho 0x40 dibujos: el buffer de 0xE800 es de 2 KB
 	jp L_509F		;5542
 L_5545:
-	exx			;5545   ; entrada 3 de la tabla de p00:5523 (L_550D)
-	call rutina_12		;5546
+	exx			;5545   ; 3: 1 bit, al reves
+	call rutina_10		;5546   ; L_5579: como mucho 0x40 dibujos: el buffer de 0xE800 es de 2 KB
 	jp L_50B5		;5549
 L_554C:
-	exx			;554c   ; entrada 4 de la tabla de p00:5523 (L_550D)
-	call rutina_12		;554d
+	exx			;554c   ; 4: 2 bits
+	call rutina_10		;554d   ; L_5579: como mucho 0x40 dibujos: el buffer de 0xE800 es de 2 KB
 	jp L_50F8		;5550
 L_5553:
-	exx			;5553   ; entrada 5 de la tabla de p00:5523 (L_550D)
-	call rutina_12		;5554
+	exx			;5553   ; 5: 2 bits, al reves
+	call rutina_10		;5554   ; L_5579: como mucho 0x40 dibujos: el buffer de 0xE800 es de 2 KB
 	jp L_510E		;5557
 L_555A:
-	exx			;555a   ; entrada 6 de la tabla de p00:5523 (L_550D)
-	call rutina_12		;555b
+	exx			;555a   ; 6: 3 bits
+	call rutina_10		;555b   ; L_5579: como mucho 0x40 dibujos: el buffer de 0xE800 es de 2 KB
 	jp L_5159		;555e
 L_5561:
-	exx			;5561   ; entrada 7 de la tabla de p00:5523 (L_550D)
-	call rutina_12		;5562
+	exx			;5561   ; 7: 3 bits, al reves
+	call rutina_10		;5562   ; L_5579: como mucho 0x40 dibujos: el buffer de 0xE800 es de 2 KB
 	jp L_516F		;5565
 
 ; ----------------------------------------------------------------------
@@ -3363,56 +3363,56 @@ DATA_sin_lector_5568:
 ; ======================================================================
 
 
-rutina_12:
-	ld a,b			;5579
+rutina_10:
+	ld a,b			;5579   ; como mucho 0x40 dibujos: el buffer de 0xE800 es de 2 KB
 	cp 040h		;557a
 	jr c,L_5580		;557c
 	ld a,040h		;557e
 L_5580:
 	ld b,a			;5580
 	ret			;5581
-rutina_13:
+rutina_11:
 	ld a,032h		;5582
 	ld hl,063a3h		;5584
-	jp pon_base_de_la_hoja_2		;5587
+	jp pon_base_de_la_hoja_2		;5587   ; L_546C: base de la hoja = 4*A
 L_558A:
 	ld hl,0638ah		;558a
 	ld a,004h		;558d
-	jp pon_base_de_la_hoja		;558f
+	jp pon_base_de_la_hoja		;558f   ; L_5469: base de la hoja = 32*A (0xC4B2)
 L_5592:
 	ld a,004h		;5592
 	ld hl,06371h		;5594
-	jp pon_base_de_la_hoja		;5597
+	jp pon_base_de_la_hoja		;5597   ; L_5469: base de la hoja = 32*A (0xC4B2)
 L_559A:
 	ld a,004h		;559a
 	ld hl,0632ch		;559c
-	jp pon_base_de_la_hoja		;559f
+	jp pon_base_de_la_hoja		;559f   ; L_5469: base de la hoja = 32*A (0xC4B2)
 mira_juego_de_dibujos:
-	call mira_banco_6000_2		;55a2
+	call mira_banco_6000_2		;55a2   ; tramo: llama a pon_paleta, mira juego_de_dibujos, mira area
 	ld hl,09d58h		;55a5   ; p05:9D58 paleta_comun: la paleta comun a todas las fases: [color][RB][G] ... 0xFF (p00:4D3F)
 	call pon_paleta		;55a8   ; pon_paleta: lista [color][RB][G] ... 0xFF
 	ld a,(0c482h)		;55ab   ; 0xC482: el juego de dibujos, 0-7 (p01:65BB)
 	ld hl,09d77h		;55ae   ; p05:9D77 paletas_de_cada_juego: la paleta de cada juego de dibujos (0xC482), una palabra
-	call con_hl_mas_a		;55b1
+	call con_hl_mas_a		;55b1   ; L_4878: HL = la palabra A de la tabla de HL
 	call pon_paleta		;55b4   ; pon_paleta: lista [color][RB][G] ... 0xFF
 	ld a,(0c480h)		;55b7   ; 0xC480: el AREA (0-23): 3*(fase-1) + columna, o 18 + fase - 1 (p01:64D5)
 	ld hl,09e2ch		;55ba   ; p05:9E2C paletas_de_cada_area: la paleta de cada area (0xC480), una palabra
-	call con_hl_mas_a		;55bd
+	call con_hl_mas_a		;55bd   ; L_4878: HL = la palabra A de la tabla de HL
 	call pon_paleta		;55c0   ; pon_paleta: lista [color][RB][G] ... 0xFF
 	jp mira_banco_6000		;55c3
 L_55C6:
-	push hl			;55c6
+	push hl			;55c6   ; tramo: llama a pon_paleta
 	call mira_banco_6000_2		;55c7
 	pop hl			;55ca
 	call pon_paleta		;55cb   ; pon_paleta: lista [color][RB][G] ... 0xFF
 	jp mira_banco_6000		;55ce
 L_55D1:
-	ld hl,00000h		;55d1
+	ld hl,00000h		;55d1   ; tramo: llama a hmmv
 	ld d,001h		;55d4
 	ld bc,00808h		;55d6
 	call hmmv		;55d9   ; hmmv: el color, a un lado
 con_sube_una_letra:
-	call pon_banco_a000_4		;55dc
+	call pon_banco_a000_4		;55dc   ; tramo: llama a sube_una_letra, llama a sube_letras
 	ld de,00000h		;55df
 	ld c,000h		;55e2
 	ld hl,06158h		;55e4   ; p13:6158 letras_6158: 1 letras de 8x8 a 1 bit (8 bytes cada una) que p00:55E7 sube a la hoja (p00:4EE0)
@@ -3428,7 +3428,7 @@ con_copia_a_la_vram_2:
 	ld de,0f800h		;55ff
 	ld b,010h		;5602
 L_5604:
-	push bc			;5604
+	push bc			;5604   ; tramo: llama a copia_a_la_vram
 	push de			;5605
 	ld hl,06000h		;5606   ; p13:6000 letras_6000: 43 letras de 8x8 a 1 bit (8 bytes cada una) que p00:55F3 sube a la hoja (p00:4ED7)
 	ld bc,00050h		;5609
@@ -3449,20 +3449,20 @@ L_5604:
 	djnz L_5604		;5626
 	jp mira_banco_6000		;5628
 con_sube_letras:
-	call pon_banco_a000_4		;562b
+	call pon_banco_a000_4		;562b   ; tramo: llama a sube_letras
 	ld de,08078h		;562e
 	ld hl,061b8h		;5631   ; p13:61B8 letras_61B8: 54 letras de 8x8 a 1 bit (8 bytes cada una) que p00:5637 sube a la hoja (p00:4ED7)
 	ld bc,0360ch		;5634
 	call sube_letras		;5637   ; sube_letras: B letras de 1 bit de HL, en color C, a la hoja de la pagina 1 desde (D, E)
 	jp mira_banco_6000		;563a
-rutina_14:
+rutina_12:
 	ret			;563d
 L_563E:
 	call pon_banco_a000_2		;563e
 	call con_rle_a_la_vram		;5641
 	jp mira_banco_6000		;5644
 mira_area:
-	call pon_banco_a000_2		;5647
+	call pon_banco_a000_2		;5647   ; tramo: mira sitios_de_sprite, mira area, llama a sprites_del_area
 	ld hl,06030h		;564a   ; p07:6030 lista_vram_6030: lista de p00:4AB0: 0 [rle][vram]; 1 [vram][n][vram]: n dibujos de la VRAM girados; 2+ [fuente][n][vram]: n byt
 	call con_rle_a_la_vram		;564d
 	call mira_banco_6000		;5650
@@ -3472,31 +3472,31 @@ mira_area:
 	call pon_banco_a000_2		;565c
 	ld a,(0c480h)		;565f   ; 0xC480: el AREA (0-23): 3*(fase-1) + columna, o 18 + fase - 1 (p01:64D5)
 	ld hl,06000h		;5662   ; p07:6000 sprites_de_cada_area: la lista de patrones de sprite de cada area (0xC480), una palabra
-	call con_hl_mas_a		;5665
-	call rutina_15		;5668
+	call con_hl_mas_a		;5665   ; L_4878: HL = la palabra A de la tabla de HL
+	call sprites_del_area		;5668   ; sprites_del_area: pares [cosa][sitio] hasta 0xFF
 	jp mira_banco_6000		;566b
 mira_nivel_c840:
-	call pon_banco_a000_2		;566e
+	call pon_banco_a000_2		;566e   ; tramo: mira nivel_c840, llama a copia_a_la_vram
 	ld a,(0c840h)		;5671   ; 0xC840: elige los 32 bytes de p07:70AE que van a los patrones de 0xF8A0 (p00:5671) y el sumando de la dificultad (p01:704D); 6 es especial (p02:8F4F)
 	ld hl,070aeh		;5674   ; p07:70AE patrones_f8a0: 7 palabras, por 0xC840: los 32 bytes que p00:566E sube a la VRAM 0xF8A0 (un patron de sprite de 16x16)
-	call con_hl_mas_a		;5677
+	call con_hl_mas_a		;5677   ; L_4878: HL = la palabra A de la tabla de HL
 	ld de,0f8a0h		;567a
 	ld bc,00020h		;567d
 	call copia_a_la_vram		;5680   ; copia_a_la_vram: BC bytes de HL a la VRAM de DE
 	jp mira_banco_6000		;5683
-rutina_15:
-	ld a,(hl)			;5686
+sprites_del_area:
+	ld a,(hl)			;5686   ; pares [cosa][sitio] hasta 0xFF
 	cp 0ffh		;5687
 	ret z			;5689
-	inc hl			;568a
+	inc hl			;568a   ; tramo: llama a una_cosa_con_sprite
 	ld b,(hl)			;568b
 	inc hl			;568c
 	push hl			;568d
-	call rutina_16		;568e
+	call una_cosa_con_sprite		;568e   ; sube la cosa al sitio
 	pop hl			;5691
-	jr rutina_15		;5692
-rutina_16:
-	ld l,a			;5694
+	jr sprites_del_area		;5692
+una_cosa_con_sprite:
+	ld l,a			;5694   ; la cosa: 6 bytes de 0x6173 (banco 7)
 	ld h,000h		;5695
 	add hl,hl			;5697
 	ld d,h			;5698
@@ -3505,13 +3505,13 @@ rutina_16:
 	add hl,de			;569b
 	ld de,06173h		;569c   ; p07:6173 cosas_con_sprite: 41 cosas: [ficha 0xCF00+][tipo 0 = RLE, 1 = nada, 2+ = tal cual][fuente][bytes] (p00:5694); las listas de las
 	add hl,de			;569f
-	ld e,(hl)			;56a0
+	ld e,(hl)			;56a0   ; su ficha en 0xCF00...
 	inc hl			;56a1
 	ld d,0cfh		;56a2
-	ld a,b			;56a4
+	ld a,b			;56a4   ; ...apunta el sitio
 	ld (de),a			;56a5
 	push hl			;56a6
-	ld l,a			;56a7
+	ld l,a			;56a7   ; el sitio: 8 bytes de patron cada uno desde 0xF800
 	ld h,000h		;56a8
 	add hl,hl			;56aa
 	add hl,hl			;56ab
@@ -3521,7 +3521,7 @@ rutina_16:
 	push hl			;56b1   ; la ficha es la de HL
 	pop ix		;56b2
 	pop hl			;56b4
-	ld a,(hl)			;56b5
+	ld a,(hl)			;56b5   ; el tipo: 0xFF nada, 0 RLE, 1 nada, 2+ tal cual
 	inc hl			;56b6
 	inc a			;56b7
 	ret z			;56b8
@@ -3532,14 +3532,14 @@ rutina_16:
 	ret z			;56be
 	jr L_56CA		;56bf
 L_56C1:
-	ld e,(hl)			;56c1
+	ld e,(hl)			;56c1   ; 0: RLE a la VRAM (p00:4A8D)
 	inc hl			;56c2
 	ld d,(hl)			;56c3
 	push ix		;56c4   ; HL = la ficha
 	pop hl			;56c6
 	jp rle_a_la_vram		;56c7   ; rle_a_la_vram: el RLE de DE a la VRAM de HL (n con el bit 7: n bytes tal cual; sin el, repetir; 0 acaba)
 L_56CA:
-	ld e,(hl)			;56ca
+	ld e,(hl)			;56ca   ; 2+: bytes tal cual (cuantos, en la entrada)
 	inc hl			;56cb
 	ld d,(hl)			;56cc
 	inc hl			;56cd
@@ -3565,7 +3565,7 @@ DATA_sin_lector_56D8:
 
 
 L_56E9:
-	xor a			;56e9
+	xor a			;56e9   ; tramo: pone avance_del_cuadro
 	ld (0c388h),a		;56ea   ; 0xC388: lo que se ha movido el mapa este cuadro (p00:56E8)
 	ret			;56ed
 pon_sonido_0f1:
@@ -3587,7 +3587,7 @@ L_5700:
 	call pon_avance_6		;5709
 	jp mira_banco_6000		;570c
 pon_avance_6:
-	xor a			;570f
+	xor a			;570f   ; tramo: pone control_de_bichos
 	ld (0d404h),a		;5710   ; 0xD404: lo que controla la salida de bichos
 	ld a,(0c38ch)		;5713
 	rra			;5716
@@ -3607,7 +3607,7 @@ pon_avance_6:
 	jr z,L_573A		;5730
 	cp 007h		;5732
 	jr nz,L_573A		;5734
-	xor a			;5736
+	xor a			;5736   ; tramo: pone paso_del_avance
 	ld (0c380h),a		;5737   ; 0xC380: el paso del avance del mapa (p00:573A)
 L_573A:
 	ld a,(0c380h)		;573a   ; 0xC380: el paso del avance del mapa (p00:573A)
@@ -3644,40 +3644,40 @@ L_5752:
 	or 0e0h		;575f
 	ld h,a			;5761
 	ld (0c30ch),hl		;5762   ; 0xC30C: la fila de 0xE000 donde va la siguiente (p00:59C7)
-	call pon_fila		;5765
+	call pon_fila		;5765   ; L_57B8: una fila de 8 puntos mas
 	ld a,001h		;5768
 	ld (0c389h),a		;576a   ; 0xC389: 1: el mapa avanza (p01:6CA2); p00:57CE lo pone a 0 con la orden 0xFC
 	jr L_57AE		;576d
 L_576F:
 	ld de,00000h		;576f   ; entrada 1 de la tabla de p00:573D (L_573A)
-	call mira_fila_del_buffer		;5772
+	call mira_fila_del_buffer		;5772   ; L_5856: 5 dibujos...
 	xor a			;5775
 	ld (0c389h),a		;5776   ; 0xC389: 1: el mapa avanza (p01:6CA2); p00:57CE lo pone a 0 con la orden 0xFC
 	jr L_57AE		;5779
 L_577B:
 	ld de,02805h		;577b   ; entrada 2 de la tabla de p00:573D (L_573A)
-	call mira_fila_del_buffer		;577e
+	call mira_fila_del_buffer		;577e   ; L_5856: 5 dibujos...
 	jr L_57AE		;5781
 L_5783:
 	ld de,0500ah		;5783   ; entrada 3 de la tabla de p00:573D (L_573A)
-	call mira_fila_del_buffer		;5786
+	call mira_fila_del_buffer		;5786   ; L_5856: 5 dibujos...
 	jr L_57AE		;5789
 L_578B:
 	ld de,0780fh		;578b   ; entrada 4 de la tabla de p00:573D (L_573A)
-	call mira_fila_del_buffer		;578e
+	call mira_fila_del_buffer		;578e   ; L_5856: 5 dibujos...
 	jr L_57AE		;5791
 L_5793:
 	ld de,0a014h		;5793   ; entrada 5 de la tabla de p00:573D (L_573A)
-	call mira_fila_del_buffer		;5796
+	call mira_fila_del_buffer		;5796   ; L_5856: 5 dibujos...
 	jr L_57AE		;5799
 L_579B:
 	ld de,0c819h		;579b   ; entrada 6 de la tabla de p00:573D (L_573A)
-	call mira_fila_del_buffer		;579e
+	call mira_fila_del_buffer		;579e   ; L_5856: 5 dibujos...
 	jr L_57AE		;57a1
 L_57A3:
 	ld de,0f01eh		;57a3   ; entrada 7 de la tabla de p00:573D (L_573A)
 	ld b,002h		;57a6
-	call mira_fila_del_buffer_2		;57a8
+	call mira_fila_del_buffer_2		;57a8   ; L_5858: ...de la fila del buffer...
 	jr L_57AE		;57ab
 L_57AD:
 	ret			;57ad   ; entrada 8 de la tabla de p00:573D (L_573A)
@@ -3689,55 +3689,55 @@ L_57B3:
 	ld hl,(0c302h)		;57b3   ; 0xC302: la FILA de 8 puntos del mapa que se esta pintando; sube al avanzar (p00:57B8)
 	jr L_57BF		;57b6
 pon_fila:
-	ld hl,(0c302h)		;57b8   ; 0xC302: la FILA de 8 puntos del mapa que se esta pintando; sube al avanzar (p00:57B8)
+	ld hl,(0c302h)		;57b8   ; una fila de 8 puntos mas
 	inc hl			;57bb
 	ld (0c302h),hl		;57bc   ; 0xC302: la FILA de 8 puntos del mapa que se esta pintando; sube al avanzar (p00:57B8)
 L_57BF:
-	call mira_fila		;57bf
+	call mira_fila		;57bf   ; el byte del mapa de esta fila...
 	ld a,(hl)			;57c2
-	inc a			;57c3
+	inc a			;57c3   ; 0xFF: salta a la fila de la palabra que sigue
 	jr z,L_580E		;57c4
-	inc a			;57c6
+	inc a			;57c6   ; 0xFE: una puerta que depende de la fase
 	jr z,L_57FC		;57c7
-	inc a			;57c9
+	inc a			;57c9   ; 0xFD: lo mismo, al reves
 	jr z,L_57D7		;57ca
 	inc a			;57cc
-	ret nz			;57cd
-	xor a			;57ce
+	ret nz			;57cd   ; 0xFC: el mapa se para
+	xor a			;57ce   ; ...y ya no avanza
 	ld (0c389h),a		;57cf   ; 0xC389: 1: el mapa avanza (p01:6CA2); p00:57CE lo pone a 0 con la orden 0xFC
 	inc a			;57d2
 	ld (0c581h),a		;57d3   ; 0xC581: variables del avance del mapa
 	ret			;57d6
 L_57D7:
-	push hl			;57d7
-	call mira_fase		;57d8
+	push hl			;57d7   ; 0xFD: si la fase ya esta hecha (0xD407), como 0xFF
+	call mira_fase		;57d8   ; L_5836: el bit de la fase (p00:5847) en 0xD407
 	pop hl			;57db
 	jr nz,L_580E		;57dc
-	ld a,001h		;57de
+	ld a,001h		;57de   ; si no, sale el jefe (0xD404)...
 	ld (0d404h),a		;57e0   ; 0xD404: lo que controla la salida de bichos
 	ld hl,0d402h		;57e3   ; 0xD402: lo que controla la salida de bichos
 	ld (hl),000h		;57e6
-	ld hl,(0c302h)		;57e8   ; 0xC302: la FILA de 8 puntos del mapa que se esta pintando; sube al avanzar (p00:57B8)
+	ld hl,(0c302h)		;57e8   ; ...y se apunta su fila
 	dec hl			;57eb
 	ld (0c390h),hl		;57ec   ; 0xC390: la fila del mapa que lleva la puerta (p00:57EC)
 L_57EF:
-	ld a,00ch		;57ef
+	ld a,00ch		;57ef   ; 12 filas mas alla
 	ld hl,(0c302h)		;57f1   ; 0xC302: la FILA de 8 puntos del mapa que se esta pintando; sube al avanzar (p00:57B8)
 	call hl_mas_a		;57f4
 	ld (0c302h),hl		;57f7   ; 0xC302: la FILA de 8 puntos del mapa que se esta pintando; sube al avanzar (p00:57B8)
 	jr L_57B3		;57fa
 L_57FC:
-	push hl			;57fc
-	call mira_fase		;57fd
+	push hl			;57fc   ; 0xFE: si la fase no esta hecha, como 0xFF
+	call mira_fase		;57fd   ; L_5836: el bit de la fase (p00:5847) en 0xD407
 	pop hl			;5800
 	jr nz,L_5806		;5801
-	jp L_580E		;5803
+	jp L_580E		;5803   ; L_580E: 0xFF [palabra]: el mapa sigue en esa fila
 L_5806:
-	ld hl,00000h		;5806
+	ld hl,00000h		;5806   ; si esta hecha, se salta la puerta: 12 filas
 	ld (0c390h),hl		;5809   ; 0xC390: la fila del mapa que lleva la puerta (p00:57EC)
 	jr L_57EF		;580c
 L_580E:
-	inc hl			;580e
+	inc hl			;580e   ; 0xFF [palabra]: el mapa sigue en esa fila
 	ld a,(hl)			;580f
 	inc hl			;5810
 	ld h,(hl)			;5811
@@ -3746,14 +3746,14 @@ L_580E:
 	call mira_control_de_bichos		;5816
 	jr L_57B3		;5819
 mira_control_de_bichos:
-	xor a			;581b
+	xor a			;581b   ; tramo: mira control_de_bichos, mira cosas
 	ld hl,0d412h		;581c   ; 0xD412: lo que controla la salida de bichos
 	ld (hl),a			;581f
 	ld hl,0cb00h		;5820   ; 0xCB00: las cosas del camino que se van poniendo (p01:72ED)
 	ld (hl),a			;5823
 	ret			;5824
 mira_fila:
-	ld hl,(0c302h)		;5825   ; 0xC302: la FILA de 8 puntos del mapa que se esta pintando; sube al avanzar (p00:57B8)
+	ld hl,(0c302h)		;5825   ; el byte del mapa de la fila 0xC302: 0xC300 + fila/4
 	srl h		;5828
 	rr l		;582a
 	srl h		;582c
@@ -3762,7 +3762,7 @@ mira_fila:
 	add hl,de			;5834
 	ret			;5835
 mira_fase:
-	ld a,(0c481h)		;5836   ; 0xC481: la FASE, 1-6 (p01:65B4)
+	ld a,(0c481h)		;5836   ; el bit de la fase (p00:5847) en 0xD407
 	dec a			;5839
 	and 007h		;583a
 	ld hl,05847h		;583c   ; p00:5847 tabla_5847: tabla que lee p00:583C (15 bytes)
@@ -3783,9 +3783,9 @@ DATA_tabla_5847:
 
 
 mira_fila_del_buffer:
-	ld b,005h		;5856
+	ld b,005h		;5856   ; 5 dibujos...
 mira_fila_del_buffer_2:
-	push de			;5858
+	push de			;5858   ; ...de la fila del buffer...
 	ld d,000h		;5859
 	ld hl,(0c30ch)		;585b   ; 0xC30C: la fila de 0xE000 donde va la siguiente (p00:59C7)
 	add hl,de			;585e
@@ -3793,19 +3793,19 @@ mira_fila_del_buffer_2:
 	add hl,de			;5862
 	res 2,h		;5863
 	pop de			;5865
-	ld a,(0c385h)		;5866   ; 0xC385: el SCROLL vertical: R#23 del VDP (p00:4C65)
+	ld a,(0c385h)		;5866   ; ...a la linea de la pantalla que va a entrar por arriba
 	sub 020h		;5869
 	and 0f8h		;586b
 	ld e,a			;586d
 L_586E:
-	ld a,(hl)			;586e
+	ld a,(hl)			;586e   ; cada dibujo, con HMMM de la hoja
 	call mira_dibujos_d0		;586f
 	inc hl			;5872
-	call rutina_8		;5873
+	call rutina_7		;5873   ; L_5095: 8 puntos a la derecha; al dar la vuelta, 8 lineas mas abajo
 	djnz L_586E		;5876
 	ret			;5878
 mira_dibujos_d0:
-	push hl			;5879
+	push hl			;5879   ; tramo: mira dibujos_d0
 	ld hl,0c392h		;587a   ; 0xC392: bit 0: los dibujos 0xD0 en adelante se copian con p00:505B (p00:587A)
 	bit 0,(hl)		;587d
 	pop hl			;587f
@@ -3818,15 +3818,15 @@ L_588A:
 	ld a,d			;588b
 	and 01fh		;588c
 	ret nz			;588e
-	ex af,af'			;588f
-	jp copia_8x8_en_la_hoja		;5890
-rutina_17:
+	ex af,af'			;588f   ; tramo: sigue en copia_dibujo_que_se_mueve
+	jp copia_dibujo_que_se_mueve		;5890
+rutina_13:
 	call pon_banco_a000_3		;5893
-	call pon_fila_del_buffer		;5896
-	call pon_paginas_hmmm		;5899
+	call pon_fila_del_buffer		;5896   ; L_59AD: las 32 filas de la pantalla, de abajo arriba
+	call pon_paginas_hmmm		;5899   ; L_589F: los 32x32 dibujos de 0xE000 a la pagina 0
 	jp mira_banco_6000		;589c
 pon_paginas_hmmm:
-	ld a,001h		;589f
+	ld a,001h		;589f   ; los 32x32 dibujos de 0xE000 a la pagina 0
 	ld (0c138h),a		;58a1   ; 0xC138: las paginas de origen y destino de las copias de dibujos (p00:502D)
 	ld hl,0e000h		;58a4   ; 0xE000: la tabla de 32x32 dibujos de la pantalla (p00:58A4)
 	ld bc,02020h		;58a7
@@ -3835,12 +3835,12 @@ L_58AD:
 	push bc			;58ad
 	push de			;58ae
 L_58AF:
-	ld a,(hl)			;58af
+	ld a,(hl)			;58af   ; el dibujo...
 	inc hl			;58b0
-	call mira_dibujos_d0		;58b1
-	call rutina_8		;58b4
+	call mira_dibujos_d0		;58b1   ; ...con HMMM
+	call rutina_7		;58b4   ; 8 puntos a la derecha
 	djnz L_58AF		;58b7
-	pop de			;58b9
+	pop de			;58b9   ; la fila siguiente, 8 lineas mas abajo
 	ld a,e			;58ba
 	add a,008h		;58bb
 	ld e,a			;58bd
@@ -3848,8 +3848,8 @@ L_58AF:
 	dec c			;58bf
 	jr nz,L_58AD		;58c0
 	ret			;58c2
-bucle_7:
-	push bc			;58c3
+bucle_3:
+	push bc			;58c3   ; lo mismo, sin pintar los dibujos 0
 	push de			;58c4
 L_58C5:
 	ld a,(hl)			;58c5
@@ -3858,7 +3858,7 @@ L_58C5:
 	jr z,L_58CD		;58c8
 	call mira_dibujos_d0		;58ca
 L_58CD:
-	call rutina_8		;58cd
+	call rutina_7		;58cd   ; L_5095: 8 puntos a la derecha; al dar la vuelta, 8 lineas mas abajo
 	djnz L_58C5		;58d0
 	pop de			;58d2
 	ld a,e			;58d3
@@ -3866,13 +3866,13 @@ L_58CD:
 	ld e,a			;58d6
 	pop bc			;58d7
 	dec c			;58d8
-	jr nz,bucle_7		;58d9
+	jr nz,bucle_3		;58d9
 	ret			;58db
 L_58DC:
-	ld hl,0ea00h		;58dc   ; 0xEA00: buffers de pantallas y dibujos
+	ld hl,0ea00h		;58dc   ; 0xEA00: con LMMM y el color 0 transparente
 	ld bc,02020h		;58df
 	ld de,00000h		;58e2
-bucle_8:
+bucle_4:
 	push bc			;58e5
 	push de			;58e6
 L_58E7:
@@ -3884,7 +3884,7 @@ L_58E7:
 	call mira_scroll_2		;58ed
 	pop de			;58f0
 L_58F1:
-	call rutina_8		;58f1
+	call rutina_7		;58f1   ; L_5095: 8 puntos a la derecha; al dar la vuelta, 8 lineas mas abajo
 	djnz L_58E7		;58f4
 	pop de			;58f6
 	ld a,e			;58f7
@@ -3892,22 +3892,22 @@ L_58F1:
 	ld e,a			;58fa
 	pop bc			;58fb
 	dec c			;58fc
-	jr nz,bucle_8		;58fd
+	jr nz,bucle_4		;58fd
 	ret			;58ff
 pon_mapa:
-	ld hl,0597bh		;5900   ; p00:597B mapa_de_cada_area: el mapa de cada area (0xC480): una superfila por cada 32 puntos
+	ld hl,0597bh		;5900   ; EL AREA: el mapa, las superfilas y los bloques
 	ld a,(0c480h)		;5903   ; 0xC480: el AREA (0-23): 3*(fase-1) + columna, o 18 + fase - 1 (p01:64D5)
-	call con_hl_mas_a		;5906
+	call con_hl_mas_a		;5906   ; L_4878: HL = la palabra A de la tabla de HL
 	ld (0c300h),hl		;5909   ; 0xC300: el MAPA del area (p00:5909)
 	ld hl,0594bh		;590c   ; p00:594B superfilas_de_cada_area: donde empiezan las superfilas (8 bloques) de cada area (0xC480)
 	ld a,(0c480h)		;590f   ; 0xC480: el AREA (0-23): 3*(fase-1) + columna, o 18 + fase - 1 (p01:64D5)
-	call con_hl_mas_a		;5912
+	call con_hl_mas_a		;5912   ; L_4878: HL = la palabra A de la tabla de HL
 	ld (0c306h),hl		;5915   ; 0xC306: las superfilas del area (p00:5915)
 	ld hl,0593bh		;5918   ; p00:593B bloques_de_cada_juego: donde empiezan los bloques de 4x4 dibujos de cada juego (0xC482)
 	ld a,(0c482h)		;591b   ; 0xC482: el juego de dibujos, 0-7 (p01:65BB)
-	call con_hl_mas_a		;591e
+	call con_hl_mas_a		;591e   ; L_4878: HL = la palabra A de la tabla de HL
 	ld (0c304h),hl		;5921   ; 0xC304: los bloques de 4x4 dibujos del juego (p00:5921)
-	ld hl,(0c487h)		;5924   ; 0xC487: la fila del mapa con que se entra (p00:5924)
+	ld hl,(0c487h)		;5924   ; la fila con que se entra
 	ld (0c302h),hl		;5927   ; 0xC302: la FILA de 8 puntos del mapa que se esta pintando; sube al avanzar (p00:57B8)
 	ld hl,00000h		;592a
 	ld (0c487h),hl		;592d   ; 0xC487: la fila del mapa con que se entra (p00:5924)
@@ -4004,19 +4004,19 @@ DATA_sin_lector_59AB:
 
 
 pon_fila_del_buffer:
-	ld hl,0e360h		;59ad   ; 0xE360: la tabla de 32x32 dibujos de la pantalla
+	ld hl,0e360h		;59ad   ; las 32 filas de la pantalla, de abajo arriba
 	ld (0c30ch),hl		;59b0   ; 0xC30C: la fila de 0xE000 donde va la siguiente (p00:59C7)
 	ld hl,(0c302h)		;59b3   ; 0xC302: la FILA de 8 puntos del mapa que se esta pintando; sube al avanzar (p00:57B8)
 	ld b,020h		;59b6
-	call pon_fila_del_buffer_2		;59b8
+	call pon_fila_del_buffer_2		;59b8   ; L_59C2: una fila de dibujos...
 	ld hl,0e360h		;59bb   ; 0xE360: la tabla de 32x32 dibujos de la pantalla
 	ld (0c30ch),hl		;59be   ; 0xC30C: la fila de 0xE000 donde va la siguiente (p00:59C7)
 	ret			;59c1
 pon_fila_del_buffer_2:
-	push hl			;59c2
+	push hl			;59c2   ; una fila de dibujos...
 	push bc			;59c3
-	call pon_fila_de_bloque_2		;59c4
-	ld hl,(0c30ch)		;59c7   ; 0xC30C: la fila de 0xE000 donde va la siguiente (p00:59C7)
+	call pon_fila_de_bloque_2		;59c4   ; L_59E5: fila/4: el byte del mapa
+	ld hl,(0c30ch)		;59c7   ; ...y la de encima en el buffer (32 bytes antes, dando la vuelta)
 	ld de,00020h		;59ca
 	add hl,de			;59cd
 	res 2,h		;59ce
@@ -4027,7 +4027,7 @@ pon_fila_del_buffer_2:
 	djnz pon_fila_del_buffer_2		;59d6
 	ret			;59d8
 L_59D9:
-	ld hl,(0c302h)		;59d9   ; 0xC302: la FILA de 8 puntos del mapa que se esta pintando; sube al avanzar (p00:57B8)
+	ld hl,(0c302h)		;59d9   ; una orden del mapa: 3 filas mas
 	inc hl			;59dc
 	inc hl			;59dd
 	inc hl			;59de
@@ -4035,7 +4035,7 @@ L_59D9:
 pon_fila_de_bloque:
 	ld hl,(0c302h)		;59e2   ; 0xC302: la FILA de 8 puntos del mapa que se esta pintando; sube al avanzar (p00:57B8)
 pon_fila_de_bloque_2:
-	ld c,l			;59e5
+	ld c,l			;59e5   ; fila/4: el byte del mapa
 	sra h		;59e6
 	rr l		;59e8
 	sra h		;59ea
@@ -4043,16 +4043,16 @@ pon_fila_de_bloque_2:
 	ld de,(0c300h)		;59ee   ; 0xC300: el MAPA del area (p00:5909)
 	add hl,de			;59f2
 	ld a,(hl)			;59f3
-	cp 0e0h		;59f4
+	cp 0e0h		;59f4   ; 0xE0 en adelante: orden
 	jr nc,L_59D9		;59f6
-	ld l,a			;59f8
+	ld l,a			;59f8   ; la superfila: 8 bytes cada una
 	ld h,000h		;59f9
 	add hl,hl			;59fb
 	add hl,hl			;59fc
 	add hl,hl			;59fd
 	ld de,(0c306h)		;59fe   ; 0xC306: las superfilas del area (p00:5915)
 	add hl,de			;5a02
-	ld a,c			;5a03
+	ld a,c			;5a03   ; (fila & 3) xor 3: la fila de dibujos del bloque, la de arriba es la ultima
 	and 003h		;5a04
 	xor 003h		;5a06
 	add a,a			;5a08
@@ -4067,20 +4067,20 @@ pon_fila_de_bloque_2:
 	jp L_5A1D		;5a1a
 L_5A1D:
 	exx			;5a1d
-	ld b,008h		;5a1e
+	ld b,008h		;5a1e   ; los 8 bloques de la superfila
 L_5A20:
-	ld a,(hl)			;5a20
+	ld a,(hl)			;5a20   ; el bloque...
 	inc hl			;5a21
 	exx			;5a22
 	ld h,000h		;5a23
 	ld l,a			;5a25
-	add hl,hl			;5a26
+	add hl,hl			;5a26   ; ...16 bytes cada uno...
 	add hl,hl			;5a27
 	add hl,hl			;5a28
 	add hl,hl			;5a29
 	ld bc,(0c308h)		;5a2a   ; 0xC308: la fila de dibujos del bloque que se copia (p00:5A13)
 	add hl,bc			;5a2e
-	ldi		;5a2f
+	ldi		;5a2f   ; ...y sus 4 dibujos de esta fila al buffer
 	ldi		;5a31
 	ldi		;5a33
 	ldi		;5a35
@@ -4088,9 +4088,9 @@ L_5A20:
 	djnz L_5A20		;5a38
 	ret			;5a3a
 L_5A3B:
-	call pon_avance_3		;5a3b
+	call pon_avance_3		;5a3b   ; tramo: llama a espera_al_vdp
 	call pon_scroll		;5a3e
-	call rutina_19		;5a41
+	call con_fundido_guarda		;5a41
 	call espera_al_vdp		;5a44   ; espera_al_vdp: espera a que el V9938 acabe la orden (bit 0 de S#2)
 	call con_pon_un_color		;5a47
 	jp pon_avance_2		;5a4a
@@ -4099,7 +4099,7 @@ con_pon_un_color:
 	ld b,010h		;5a50   ; 16 vueltas
 	ld c,000h		;5a52
 L_5A54:
-	ld d,(hl)			;5a54
+	ld d,(hl)			;5a54   ; tramo: llama a pon_un_color
 	inc hl			;5a55
 	ld e,(hl)			;5a56
 	inc hl			;5a57
@@ -4109,7 +4109,7 @@ L_5A54:
 	djnz L_5A54		;5a5d
 	ret			;5a5f
 pon_scroll:
-	xor a			;5a60
+	xor a			;5a60   ; tramo: pone scroll, llama a apaga_los_sprites
 	ld (0c385h),a		;5a61   ; 0xC385: el SCROLL vertical: R#23 del VDP (p00:4C65)
 	call apaga_los_sprites		;5a64   ; apaga_los_sprites: la copia de R#8 (0xFFE7)...
 	call mira_atributos_de_sprites		;5a67
@@ -4120,7 +4120,7 @@ pon_scroll:
 	ld e,a			;5a72
 	ld b,010h		;5a73   ; 16 vueltas
 L_5A75:
-	inc a			;5a75
+	inc a			;5a75   ; tramo: llama a pon_un_color
 	push af			;5a76
 	call pon_un_color		;5a77   ; pon_un_color: color A de la paleta = D (RB) y E (G)
 	pop af			;5a7a
@@ -4128,26 +4128,26 @@ L_5A75:
 	ld b,000h		;5a7d
 	ld c,007h		;5a7f
 	call 00047h		;5a81   ; BIOS WRTVDP - Writes data in the VDP-register
-rutina_18:
+rutina_14:
 	ld hl,06443h		;5a84
 	ld a,004h		;5a87
-	call pon_base_de_la_hoja		;5a89
+	call pon_base_de_la_hoja		;5a89   ; L_5469: base de la hoja = 32*A (0xC4B2)
 	call pon_banco_a000_4		;5a8c
 	ld hl,07640h		;5a8f
 	ld bc,02012h		;5a92
 	ld de,00028h		;5a95
-	call bucle_7		;5a98
+	call bucle_3		;5a98   ; L_58C3: lo mismo, sin pintar los dibujos 0
 	ld hl,06458h		;5a9b
 	ld a,004h		;5a9e
-	call pon_base_de_la_hoja		;5aa0
+	call pon_base_de_la_hoja		;5aa0   ; L_5469: base de la hoja = 32*A (0xC4B2)
 	call pon_banco_a000_4		;5aa3
 	ld hl,079a0h		;5aa6
 	ld bc,02012h		;5aa9
 	ld de,00028h		;5aac
-	call bucle_7		;5aaf
+	call bucle_3		;5aaf   ; L_58C3: lo mismo, sin pintar los dibujos 0
 	ld hl,06468h		;5ab2
 	ld a,004h		;5ab5
-	call pon_base_de_la_hoja		;5ab7
+	call pon_base_de_la_hoja		;5ab7   ; L_5469: base de la hoja = 32*A (0xC4B2)
 	ld de,02008h		;5aba
 	ld hl,08810h		;5abd
 L_5AC0:
@@ -4155,11 +4155,11 @@ L_5AC0:
 	call pon_banco_a000_4		;5ac1
 	ld hl,07d00h		;5ac4
 	ld bc,00c04h		;5ac7
-	call bucle_8		;5aca
+	call bucle_4		;5aca
 	ld hl,07d30h		;5acd
 	ld bc,00903h		;5ad0
 	pop de			;5ad3
-	call bucle_8		;5ad4
+	call bucle_4		;5ad4
 	call mira_banco_6000		;5ad7
 	jp pon_avance_2		;5ada
 
@@ -4176,27 +4176,27 @@ DATA_tabla_5ADD:
 ; ======================================================================
 
 
-rutina_19:
-	call pon_banco_a000_4		;5b07
-	call rutina_18		;5b0a
+con_fundido_guarda:
+	call pon_banco_a000_4		;5b07   ; tramo: llama a fundido_guarda
+	call rutina_14		;5b0a
 	call mira_banco_6000		;5b0d
 	ld hl,05addh		;5b10   ; p00:5ADD tabla_5ADD: tabla que lee p00:5B10 (42 bytes)
-	call con_hmmm		;5b13
+	call con_sitio_del_dibujo		;5b13   ; L_4F87: texto en letras de color (la mascara C = 0xFF)
 	ld hl,053aah		;5b16
-	call con_hmmm		;5b19
-	call con_lee_de_la_vram		;5b1c
+	call con_sitio_del_dibujo		;5b19   ; L_4F87: texto en letras de color (la mascara C = 0xFF)
+	call fundido_guarda		;5b1c   ; fundido_guarda: guarda la paleta de la VRAM (0xF680) en 0xC510
 	ld hl,05be9h		;5b1f   ; p00:5BE9 tabla_5BE9: tabla que lee p00:5A4D, p00:5B1F (79 bytes)
-	jp L_5B70		;5b22
-rutina_20:
-	call con_hl_mas_a_3		;5b25
-	call con_hl_mas_a_4		;5b28
-	call con_hl_mas_a_3		;5b2b
-	jp con_hl_mas_a_4		;5b2e
-rutina_21:
-	call con_hl_mas_a_3		;5b31
-	call con_pon_un_color_2		;5b34
-	call con_hl_mas_a_3		;5b37
-	jp con_pon_un_color_2		;5b3a
+	jp L_5B70		;5b22   ; L_5B70: la paleta de destino, a 0xC530
+rutina_15:
+	call con_hl_mas_a_3		;5b25   ; L_5B79: un paso del fundido: el color 0xC550 & 15...
+	call con_hl_mas_a_4		;5b28   ; L_5BAC: un paso hacia la paleta de destino: el color C
+	call con_hl_mas_a_3		;5b2b   ; L_5B79: un paso del fundido: el color 0xC550 & 15...
+	jp con_hl_mas_a_4		;5b2e   ; L_5BAC: un paso hacia la paleta de destino: el color C
+rutina_16:
+	call con_hl_mas_a_3		;5b31   ; L_5B79: un paso del fundido: el color 0xC550 & 15...
+	call con_pon_un_color_2		;5b34   ; L_5B88: R y B bajan uno...
+	call con_hl_mas_a_3		;5b37   ; L_5B79: un paso del fundido: el color 0xC550 & 15...
+	jp con_pon_un_color_2		;5b3a   ; L_5B88: R y B bajan uno...
 
 ; ----------------------------------------------------------------------
 ; DATOS sin_llamar_5B3D: codigo que no llama nadie (ninguna palabra del
@@ -4213,21 +4213,21 @@ DATA_sin_llamar_5B3D:
 ; ======================================================================
 
 
-con_lee_de_la_vram:
-	ld hl,0f680h		;5b5e
+fundido_guarda:
+	ld hl,0f680h		;5b5e   ; guarda la paleta de la VRAM (0xF680) en 0xC510
 	ld de,0c510h		;5b61
 	ld bc,00020h		;5b64
 	call lee_de_la_vram		;5b67   ; lee_de_la_vram: LEE BC bytes de la VRAM de HL a DE
-	ld a,080h		;5b6a
+	ld a,080h		;5b6a   ; 0x80 pasos
 	ld (0c550h),a		;5b6c
 	ret			;5b6f
 L_5B70:
-	ld de,0c530h		;5b70
+	ld de,0c530h		;5b70   ; la paleta de destino, a 0xC530
 	ld bc,00020h		;5b73
 	ldir		;5b76
 	ret			;5b78
 con_hl_mas_a_3:
-	ld hl,0c550h		;5b79
+	ld hl,0c550h		;5b79   ; un paso del fundido: el color 0xC550 & 15...
 	dec (hl)			;5b7c
 	ld a,(hl)			;5b7d
 	and 00fh		;5b7e
@@ -4236,13 +4236,13 @@ con_hl_mas_a_3:
 	ld hl,0c510h		;5b82
 	jp hl_mas_a		;5b85
 con_pon_un_color_2:
-	ld a,(hl)			;5b88
+	ld a,(hl)			;5b88   ; R y B bajan uno...
 	and 0f0h		;5b89
 	jr z,L_5B8F		;5b8b
 	sub 010h		;5b8d
 L_5B8F:
 	ld d,a			;5b8f
-	ld a,(hl)			;5b90
+	ld a,(hl)			;5b90   ; ...hasta 0...
 	and 00fh		;5b91
 	jr z,L_5B96		;5b93
 	dec a			;5b95
@@ -4250,28 +4250,28 @@ L_5B96:
 	or d			;5b96
 	ld (hl),a			;5b97
 	ld d,a			;5b98
-	inc hl			;5b99
+	inc hl			;5b99   ; ...y G tambien
 	ld a,(hl)			;5b9a
 	and 00fh		;5b9b
 	jr z,L_5BA0		;5b9d
 	dec a			;5b9f
 L_5BA0:
-	ld (hl),a			;5ba0
+	ld (hl),a			;5ba0   ; tramo: llama a pon_un_color
 	inc hl			;5ba1
 	ld e,a			;5ba2
 	ld a,c			;5ba3
-	call pon_un_color		;5ba4   ; pon_un_color: color A de la paleta = D (RB) y E (G)
-	ld a,(0c550h)		;5ba7
+	call pon_un_color		;5ba4   ; el color al VDP
+	ld a,(0c550h)		;5ba7   ; Z cuando se acaban los pasos
 	and a			;5baa
 	ret			;5bab
 con_hl_mas_a_4:
-	ld a,c			;5bac
+	ld a,c			;5bac   ; un paso hacia la paleta de destino: el color C
 	exx			;5bad
 	add a,a			;5bae
 	ld hl,0c530h		;5baf
 	call hl_mas_a		;5bb2
 	exx			;5bb5
-	ld a,(hl)			;5bb6
+	ld a,(hl)			;5bb6   ; R...
 	and 0f0h		;5bb7
 	push af			;5bb9
 	exx			;5bba
@@ -4280,12 +4280,12 @@ con_hl_mas_a_4:
 	exx			;5bbe
 	ld b,a			;5bbf
 	pop af			;5bc0
-	cp b			;5bc1
+	cp b			;5bc1   ; ...sube uno si no ha llegado
 	jr z,L_5BC6		;5bc2
 	add a,010h		;5bc4
 L_5BC6:
 	ld d,a			;5bc6
-	ld a,(hl)			;5bc7
+	ld a,(hl)			;5bc7   ; B...
 	and 00fh		;5bc8
 	push af			;5bca
 	exx			;5bcb
@@ -4295,15 +4295,15 @@ L_5BC6:
 	exx			;5bd0
 	ld b,a			;5bd1
 	pop af			;5bd2
-	cp b			;5bd3
+	cp b			;5bd3   ; ...sube uno si no ha llegado
 	jr z,L_5BD7		;5bd4
 	inc a			;5bd6
 L_5BD7:
 	or d			;5bd7
-	ld (hl),a			;5bd8
+	ld (hl),a			;5bd8   ; al buffer
 	ld d,a			;5bd9
 	inc hl			;5bda
-	ld a,(hl)			;5bdb
+	ld a,(hl)			;5bdb   ; G, igual
 	and a			;5bdc
 	push af			;5bdd
 	exx			;5bde
@@ -4346,18 +4346,18 @@ mira_cuadros_2:
 	ld a,003h		;5c4f   ; el banco 3 en 0xA000
 	call pon_banco_a000_5		;5c51
 	ld a,(0c4d1h)		;5c54   ; 0xC4D1: lo pone la contrasena 'aaaaa', que no se puede teclear (p06:B9AC)
-	or a			;5c57
+	or a			;5c57   ; ¿es 0 truco_aaaaa?
 	jr z,L_5C65		;5c58
-	ld a,006h		;5c5a
+	ld a,006h		;5c5a   ; tramo: pone objeto_10, pone objeto_11, pone objeto_14
 	ld (0c874h),a		;5c5c   ; 0xC874: el OBJETO 10 (byte 0 de 4; p06:BAC2)
 	ld (0c878h),a		;5c5f   ; 0xC878: el OBJETO 11 (byte 0 de 4; p06:BAC2)
 	ld (0c884h),a		;5c62   ; 0xC884: el OBJETO 14 (byte 0 de 4; p06:BAC2)
 L_5C65:
-	call 06656h		;5c65
+	call 06656h		;5c65   ; tramo: mira estado_de_gao
 	ld a,(0c800h)		;5c68   ; 0xC800: lo que hace Gao (p00:5C68)
-	cp 002h		;5c6b
+	cp 002h		;5c6b   ; ¿estado_de_gao = 0x02?
 	jr z,L_5CB0		;5c6d
-	call pon_sonido_0f1		;5c6f
+	call pon_sonido_0f1		;5c6f   ; tramo: llama a piezas_de_las_fichas_dc00, llama a pinta_las_fichas_dc00, llama a piezas_de_las_fichas_d700, llama a pinta_las_fichas_d700 ...
 	call 060d1h		;5c72
 	call 07049h		;5c75
 	call 072edh		;5c78
@@ -4366,13 +4366,13 @@ L_5C65:
 	call 07757h		;5c81
 	call 08600h		;5c84
 	call 08f46h		;5c87
-	call 06b1ah		;5c8a
-	call 06bd3h		;5c8d
-	call 06b21h		;5c90
-	call 06bdch		;5c93
+	call 06b1ah		;5c8a   ; p01:6B1A piezas_de_las_fichas_dc00
+	call 06bd3h		;5c8d   ; p01:6BD3 pinta_las_fichas_dc00
+	call 06b21h		;5c90   ; p01:6B21 piezas_de_las_fichas_d700
+	call 06bdch		;5c93   ; p01:6BDC pinta_las_fichas_d700
 	call 07539h		;5c96
 	call 07603h		;5c99
-	call rutina_22		;5c9c
+	call rutina_17		;5c9c
 	call 07b15h		;5c9f
 	call 06508h		;5ca2
 	call mira_atributos_vram		;5ca5
@@ -4383,7 +4383,7 @@ L_5C65:
 	dec (hl)			;5cae
 	ret			;5caf
 L_5CB0:
-	xor a			;5cb0
+	xor a			;5cb0   ; tramo: pone avance_del_cuadro, llama a piezas_de_las_fichas_d700, llama a pinta_las_fichas_d700, llama a piezas_de_las_fichas_dc00 ...
 	ld (0c388h),a		;5cb1   ; 0xC388: lo que se ha movido el mapa este cuadro (p00:56E8)
 	call 060d1h		;5cb4
 	call 08600h		;5cb7
@@ -4391,16 +4391,16 @@ L_5CB0:
 	call 09368h		;5cbd
 	call 0681eh		;5cc0
 	call 07757h		;5cc3
-	call 06b21h		;5cc6
+	call 06b21h		;5cc6   ; p01:6B21 piezas_de_las_fichas_d700
 	call 0ade5h		;5cc9
-	call 06bdch		;5ccc
-	call 06b1ah		;5ccf
-	call 06bd3h		;5cd2
+	call 06bdch		;5ccc   ; p01:6BDC pinta_las_fichas_d700
+	call 06b1ah		;5ccf   ; p01:6B1A piezas_de_las_fichas_dc00
+	call 06bd3h		;5cd2   ; p01:6BD3 pinta_las_fichas_dc00
 	call 07539h		;5cd5
 	call 07603h		;5cd8
-	call rutina_22		;5cdb
+	call rutina_17		;5cdb
 	jp mira_atributos_vram		;5cde
-rutina_22:
+rutina_17:
 	call 07bfeh		;5ce1
 	call 07c35h		;5ce4
 	call 07c5fh		;5ce7
@@ -4417,12 +4417,12 @@ mira_propiedades:
 	ldir		;5d02
 	ret			;5d04
 L_5D05:
-	xor a			;5d05
+	xor a			;5d05   ; tramo: pone partida
 	ld (0c4d8h),a		;5d06   ; 0xC4D8: variables de la partida
 	call pon_logotipo		;5d09
 	jr $+61		;5d0c
 L_5D0E:
-	xor a			;5d0e
+	xor a			;5d0e   ; tramo: pone partida
 	ld (0c4d8h),a		;5d0f   ; 0xC4D8: variables de la partida
 	call pon_logotipo		;5d12
 	call 060b0h		;5d15
@@ -4441,7 +4441,7 @@ DATA_sin_llamar_5D1A:
 
 
 pon_partida:
-	ld a,001h		;5d20
+	ld a,001h		;5d20   ; tramo: pone partida
 	ld (0c4d8h),a		;5d22   ; 0xC4D8: variables de la partida
 	call 07aedh		;5d25
 	call pon_objeto_13		;5d28
@@ -4450,23 +4450,23 @@ pon_partida:
 L_5D31:
 	call con_sube_una_letra		;5d31
 	call con_sube_letras		;5d34
-	call rutina_13		;5d37
+	call rutina_11		;5d37
 	call con_copia_a_la_vram_2		;5d3a
 	call pon_base_de_la_hoja_3		;5d3d
 	call 0679fh		;5d40
 	call mira_juego_de_dibujos		;5d43
-	call rutina_14		;5d46
+	call rutina_12		;5d46
 L_5D49:
-	call mira_area		;5d49
+	call mira_area		;5d49   ; tramo: mira partida
 	call mira_nivel_c840		;5d4c
 	call mira_atributos_de_sprites_2		;5d4f
 	call pon_velocidad		;5d52
-	call pon_mapa		;5d55
-	call rutina_17		;5d58
+	call pon_mapa		;5d55   ; L_5900: EL AREA: el mapa, las superfilas y los bloques
+	call rutina_13		;5d58
 	ld a,(0c4d8h)		;5d5b   ; 0xC4D8: variables de la partida
 	or a			;5d5e
 	call nz,08e36h		;5d5f
-	call 08e67h		;5d62
+	call 08e67h		;5d62   ; tramo: pone partida
 	call 07ad5h		;5d65
 	call 074c4h		;5d68
 	call mira_juego_de_dibujos_2		;5d6b
@@ -4491,14 +4491,14 @@ DATA_sin_lector_5D7E:
 
 
 pon_objeto_13:
-	xor a			;5d94
+	xor a			;5d94   ; tramo: pone objeto_13, pone objeto_3, pone objeto_5
 	ld (0c880h),a		;5d95   ; 0xC880: el OBJETO 13 (byte 0 de 4; p06:BAC2)
 	ld (0c858h),a		;5d98   ; 0xC858: el OBJETO 3 (byte 0 de 4; p06:BAC2)
 	ld (0c860h),a		;5d9b   ; 0xC860: el OBJETO 5 (byte 0 de 4; p06:BAC2)
 	ret			;5d9e
 mira_juego_de_dibujos_2:
 	ld a,(0c482h)		;5d9f   ; 0xC482: el juego de dibujos, 0-7 (p01:65BB)
-	cp 006h		;5da2
+	cp 006h		;5da2   ; ¿juego_de_dibujos = 0x06?
 	jr c,L_5DAF		;5da4
 	ld b,028h		;5da6
 	ld c,008h		;5da8
@@ -4509,13 +4509,13 @@ L_5DAF:
 	ld c,008h		;5db1
 	call 00047h		;5db3   ; BIOS WRTVDP - Writes data in the VDP-register
 L_5DB6:
-	ld bc,00f07h		;5db6
+	ld bc,00f07h		;5db6   ; tramo: sigue en pon_un_color
 	call 00047h		;5db9   ; BIOS WRTVDP - Writes data in the VDP-register
 	ld c,00fh		;5dbc
 	ld de,00000h		;5dbe
 	jp pon_un_color		;5dc1   ; pon_un_color: color A de la paleta = D (RB) y E (G)
 pon_logotipo:
-	call pon_avance_3		;5dc4
+	call pon_avance_3		;5dc4   ; tramo: pone logotipo
 	call mira_atributos_de_sprites		;5dc7
 	call con_rellena_la_vram		;5dca
 	xor a			;5dcd
@@ -4523,12 +4523,12 @@ pon_logotipo:
 	ld (0c201h),a		;5dd1   ; 0xC201: el logotipo y el titulo (p01:66D4)
 	jp 072b4h		;5dd4
 con_rellena_la_vram:
-	ld hl,0f300h		;5dd7
+	ld hl,0f300h		;5dd7   ; tramo: sigue en rellena_la_vram
 	ld bc,00080h		;5dda
 	ld a,0e0h		;5ddd
 	jp rellena_la_vram		;5ddf   ; rellena_la_vram: BC bytes con A desde la VRAM de HL
 pon_velocidad:
-	ld hl,0ff00h		;5de2
+	ld hl,0ff00h		;5de2   ; tramo: pone velocidad
 	ld (0c382h),hl		;5de5   ; 0xC382: lo que se suma a 0xC384 cada cuadro (p00:56D8)
 	ret			;5de8
 copia_bytes:
@@ -4545,38 +4545,38 @@ mira_atributos_de_sprites_2:
 	ld bc,00080h		;5df9
 	ldir		;5dfc
 	ret			;5dfe
-pon_otro_cartucho:
-	ld bc,00400h		;5dff
+busca_otros_cartuchos:
+	ld bc,00400h		;5dff   ; las cuatro ranuras primarias
 	ld hl,0fcc1h		;5e02
 L_5E05:
 	push bc			;5e05
 	push hl			;5e06
-	ld a,(hl)			;5e07
+	ld a,(hl)			;5e07   ; expandida: se miran sus cuatro secundarias
 	bit 7,a		;5e08
 	jr nz,L_5E1C		;5e0a
-	call pon_ranura_del_otro		;5e0c
+	call pon_ranura_del_otro		;5e0c   ; la ranura C
 L_5E0F:
 	pop hl			;5e0f
 	pop bc			;5e10
-	jr c,L_5E18		;5e11
+	jr c,L_5E18		;5e11   ; encontrado: se para
 	inc hl			;5e13
 	inc c			;5e14
 	djnz L_5E05		;5e15
-	xor a			;5e17
+	xor a			;5e17   ; nada
 L_5E18:
 	ld (0c110h),a		;5e18   ; 0xC110: 1: hay un Game Master o Q*bert al lado; 2: King Kong 2 (p00:5DFF)
 	ret			;5e1b
 L_5E1C:
-	call bucle_9		;5e1c
+	call bucle_5		;5e1c
 	jr L_5E0F		;5e1f
-bucle_9:
+bucle_5:
 	and 080h		;5e21
 	or c			;5e23
 	ld c,a			;5e24
 	ld b,004h		;5e25   ; 4 vueltas
 L_5E27:
 	push bc			;5e27
-	call pon_ranura_del_otro		;5e28
+	call pon_ranura_del_otro		;5e28   ; L_5E35: la ranura a mirar
 	pop bc			;5e2b
 	ret c			;5e2c
 	ld a,c			;5e2d
@@ -4586,43 +4586,43 @@ L_5E27:
 	xor a			;5e33
 	ret			;5e34
 pon_ranura_del_otro:
-	ld a,c			;5e35
+	ld a,c			;5e35   ; la ranura a mirar
 	ld (0f101h),a		;5e36   ; 0xF101: la ranura del otro cartucho (p00:5E36)
-	call lee_de_otra_ranura_2		;5e39
-	ld a,001h		;5e3c
+	call lee_de_otra_ranura_2		;5e39   ; el Game Master o Q*bert...
+	ld a,001h		;5e3c   ; ...dan 1
 	ret c			;5e3e
-	call lee_de_otra_ranura		;5e3f
-	ld a,002h		;5e42
+	call lee_de_otra_ranura		;5e3f   ; King Kong 2...
+	ld a,002h		;5e42   ; ...da 2
 	ret			;5e44
 lee_de_otra_ranura:
-	ld de,05e7eh		;5e45
+	ld de,05e7eh		;5e45   ; 'CD 07 45 FF' en 0x4010: King Kong 2
 	ld hl,04010h		;5e48   ; p00:4010 cabecera_de_konami: 'C', 0, 'D', 0, 3, 0, 0x15, 0... y las direcciones de la RAM del juego (0xC161 la fase, 0xC160 las vidas, 0xC1
 	ld b,005h		;5e4b
 	jr lee_de_otra_ranura_3		;5e4d
 lee_de_otra_ranura_2:
-	ld de,05e78h		;5e4f   ; p00:5E78 tabla_5E78: tabla que lee p00:5E45, p00:5E4F, p00:5E5B (17 bytes)
+	ld de,05e78h		;5e4f   ; seis bytes en 0x7FFA: el Game Master
 	ld hl,07ffah		;5e52
 	ld b,006h		;5e55
-	call lee_de_otra_ranura_3		;5e57
+	call lee_de_otra_ranura_3		;5e57   ; L_5E63: compara B bytes de la otra ranura (RDSLT)...
 	ret c			;5e5a
-	ld de,05e83h		;5e5b
+	ld de,05e83h		;5e5b   ; seis bytes en 0xBFFA: Q*bert
 	ld hl,0bffah		;5e5e
 	ld b,006h		;5e61
 lee_de_otra_ranura_3:
-	push bc			;5e63
+	push bc			;5e63   ; compara B bytes de la otra ranura (RDSLT)...
 	push de			;5e64
 	ld a,c			;5e65
 	call 0000ch		;5e66   ; BIOS RDSLT - Reads the value of an address in another slot
 	pop de			;5e69
 	pop bc			;5e6a
-	ex de,hl			;5e6b
+	ex de,hl			;5e6b   ; ...con los de DE
 	cp (hl)			;5e6c
 	ex de,hl			;5e6d
 	jr nz,L_5E76		;5e6e
 	inc hl			;5e70
 	inc de			;5e71
 	djnz lee_de_otra_ranura_3		;5e72
-	scf			;5e74
+	scf			;5e74   ; todos iguales: acarreo
 	ret			;5e75
 L_5E76:
 	and a			;5e76
@@ -4641,16 +4641,16 @@ DATA_tabla_5E78:
 
 
 con_marco:
-	call mira_canales		;5e89
+	call mira_canales		;5e89   ; tramo: llama a marco
 	ld c,00ch		;5e8c
 	call marco		;5e8e   ; marco: cuatro rayas: un marco de E por D en HL
 	ld hl,05eb0h		;5e91
-	jp con_hmmm		;5e94
+	jp con_sitio_del_dibujo		;5e94   ; L_4F87: texto en letras de color (la mascara C = 0xFF)
 mira_canales:
-	ld hl,02098h		;5e97
+	ld hl,02098h		;5e97   ; tramo: mira canales
 	ld bc,0c038h		;5e9a   ; 0xC038: los canales del sonido (0x20 bytes cada uno, p14:94CA)
 L_5E9D:
-	xor a			;5e9d
+	xor a			;5e9d   ; tramo: llama a hmmv
 	ld d,000h		;5e9e
 	push bc			;5ea0
 	push hl			;5ea1
@@ -4677,12 +4677,12 @@ DATA_tabla_5EA8:
 
 mira_menu_fase:
 	ld hl,05f0eh		;5efd   ; p00:5F0E tabla_5F0E: tabla que lee p00:5EFD (19 bytes)
-	call rutina_23		;5f00
+	call rutina_18		;5f00
 	ld hl,0c115h		;5f03   ; 0xC115: la fase con que empieza la partida (MENU)
 	ld de,0b0b8h		;5f06
 L_5F09:
-	ld b,001h		;5f09
-	jp bucle_2		;5f0b
+	ld b,001h		;5f09   ; tramo: sigue en pinta_cifras
+	jp pinta_cifras		;5f0b   ; pinta_cifras: B pares de cifras BCD de HL hacia atras
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_5F0E: tabla que lee p00:5EFD (19 bytes)
@@ -4698,15 +4698,15 @@ DATA_tabla_5F0E:
 
 mira_menu_jugadores:
 	ld hl,05f37h		;5f21   ; p00:5F37 tabla_5F37: tabla que lee p00:5F21 (17 bytes)
-	call rutina_23		;5f24
+	call rutina_18		;5f24
 	ld hl,0c117h		;5f27   ; 0xC117: las vidas con que empieza la partida (MENU)
 	ld de,0b8b8h		;5f2a
 	jr $-36		;5f2d
-rutina_23:
+rutina_18:
 	push hl			;5f2f
-	call rutina_24		;5f30
+	call rutina_19		;5f30
 	pop hl			;5f33
-	jp con_hmmm		;5f34
+	jp con_sitio_del_dibujo		;5f34   ; L_4F87: texto en letras de color (la mascara C = 0xFF)
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_5F37: tabla que lee p00:5F21 (17 bytes)
@@ -4720,25 +4720,25 @@ DATA_tabla_5F37:
 ; ======================================================================
 
 
-rutina_24:
+rutina_19:
 	ld hl,024b0h		;5f48
 	ld bc,0b818h		;5f4b
 	jp L_5E9D		;5f4e
 L_5F51:
-	call lee_teclado		;5f51
+	call lee_teclado		;5f51   ; las teclas de los numeros
 	ret z			;5f54
 	ld hl,(0c118h)		;5f55
 	ld d,000h		;5f58
-	ld b,008h		;5f5a
+	ld b,008h		;5f5a   ; del 0 al 7 en la fila 0 del teclado...
 	ld a,l			;5f5c
-	call bucle_10		;5f5d
+	call bucle_6		;5f5d
 	jr c,L_5F69		;5f60
 	ld a,h			;5f62
-	ld b,002h		;5f63
-	call bucle_10		;5f65
+	ld b,002h		;5f63   ; ...el 8 y el 9 en la fila 1
+	call bucle_6		;5f65
 	ret nc			;5f68
 L_5F69:
-	push de			;5f69
+	push de			;5f69   ; se borra la cifra...
 	ld hl,(0c112h)		;5f6a
 	ld bc,01008h		;5f6d
 	xor a			;5f70
@@ -4749,19 +4749,19 @@ L_5F69:
 	ld (hl),0ffh		;5f79
 	ld hl,0c11fh		;5f7b
 	ld a,d			;5f7e
-	rld		;5f7f
+	rld		;5f7f   ; ...y entra la nueva por la derecha (rld)
 	ld de,(0c112h)		;5f81
 	ld b,001h		;5f85   ; 1 vueltas
-	call bucle_2		;5f87
-	jp L_5FB4		;5f8a
-bucle_10:
+	call pinta_cifras		;5f87   ; se pinta
+	jp L_5FB4		;5f8a   ; L_5FB4: las dos cifras BCD de 0xC11F a binario...
+bucle_6:
 	rra			;5f8d
 	ret c			;5f8e
 	inc d			;5f8f
-	djnz bucle_10		;5f90
+	djnz bucle_6		;5f90
 	ret			;5f92
 lee_teclado:
-	xor a			;5f93
+	xor a			;5f93   ; las filas 0 y 1 del teclado, solo lo recien pulsado
 	call 00141h		;5f94   ; BIOS SNSMAT - Returns the value of the specified line from the keyboard matrix
 	cpl			;5f97
 	ld d,a			;5f98
@@ -4787,7 +4787,7 @@ lee_teclado:
 	or d			;5fb2
 	ret			;5fb3
 L_5FB4:
-	ld hl,0c11fh		;5fb4
+	ld hl,0c11fh		;5fb4   ; las dos cifras BCD de 0xC11F a binario...
 	ld a,(hl)			;5fb7
 	ld c,a			;5fb8
 	rrca			;5fb9
@@ -4804,10 +4804,10 @@ L_5FB4:
 	ld a,c			;5fc5
 	and 00fh		;5fc6
 	add a,b			;5fc8
-	ld (0c11eh),a		;5fc9
+	ld (0c11eh),a		;5fc9   ; ...en 0xC11E
 	ret			;5fcc
 lee_teclado_2:
-	ld a,007h		;5fcd
+	ld a,007h		;5fcd   ; STOP recien pulsada (fila 7, bit 7)
 	call 00141h		;5fcf   ; BIOS SNSMAT - Returns the value of the specified line from the keyboard matrix
 	cpl			;5fd2
 	and 080h		;5fd3
@@ -4822,7 +4822,7 @@ L_5FDD:
 	push af			;5fde
 	jr nc,L_5FFF		;5fdf
 	ld a,(0c116h)		;5fe1   ; 0xC116: copia de la fase del MENU (p00:4795)
-	or a			;5fe4
+	or a			;5fe4   ; ¿es 0 menu_fase_2?
 	jr nz,L_5FE8		;5fe5
 	inc a			;5fe7
 L_5FE8:
