@@ -98,7 +98,7 @@ F5 opens a map of the six stages (`p02:8555`). Carrying item 14 (`0xC884`),
 the cursor keys choose one (`0xC887`) and SPACE jumps there, using one up
 (`p02:859F`); you arrive through column 1 (`p01:65CF`). **From the code.**
 
-## Six figures nobody uses
+## Seven figures nobody uses
 
 From `p07:7457` to `p08:82B3` there are 18 strips in a row in the sprite RLE
 (`p00:4A8D`), 3,676 bytes; opened up they give 128 to 320 bytes each, the
@@ -108,8 +108,10 @@ does not read them either.
 
 Opened and read like the sprites that are used (two patterns in a row are the
 two layers of a 16 × 16 sprite, and a figure's sprites go by columns), they
-are six figures that never appear in the game, and none matches any of the 41
-sprite sets that are loaded:
+are six figures that never appear in the game. Right behind them, from
+`p08:82B3` to `0x85B3`, there are 768 bytes that nothing reads either: twelve
+two-layer sprites, not compressed, in two columns of three. That is a seventh
+figure. None of the seven matches any of the 41 sprite sets that are loaded:
 
 | strips | figure |
 |---|---|
@@ -119,6 +121,7 @@ sprite sets that are loaded:
 | 10-11 | something rising from the ground with two claws, 32 × 32 |
 | 13-15, read in a row | a demon, 32 × 48, two frames: the largest drawing in the cartridge |
 | 16-17 | a small warrior with a headband, 16 × 32, two frames |
+| `p08:82B3`, not compressed | a warrior with several arms and faces, 32 × 48, two frames |
 
 ![The six figures](imagenes/huerfanas.png)
 

@@ -102,7 +102,7 @@ F5 abre un mapa de las seis fases (`p02:8555`). Si se lleva el objeto 14
 uno (`p02:859F`); se llega por la columna 1 (`p01:65CF`). **Sale del
 código.**
 
-## Seis figuras que no usa nadie
+## Siete figuras que no usa nadie
 
 De `p07:7457` a `p08:82B3` hay 18 tiras seguidas en el RLE de los sprites
 (`p00:4A8D`), 3.676 bytes; abiertas dan de 128 a 320 bytes cada una, tamaños
@@ -112,8 +112,11 @@ de openMSX tampoco las lee.
 
 Abiertas y leídas como los sprites que sí se usan (dos patrones seguidos son
 las dos capas de un sprite de 16 × 16, y los sprites de una figura van por
-columnas), son seis figuras que no salen en el juego, y ninguna coincide con
-ninguno de los 41 juegos de sprites que se cargan:
+columnas), son seis figuras que no salen en el juego. Justo detrás, de
+`p08:82B3` a `0x85B3`, hay 768 bytes que tampoco lee nadie: doce sprites a
+dos capas sin comprimir, en dos columnas de tres. Es una séptima figura.
+Ninguna de las siete coincide con ninguno de los 41 juegos de sprites que se
+cargan:
 
 | tiras | figura |
 |---|---|
@@ -123,6 +126,7 @@ ninguno de los 41 juegos de sprites que se cargan:
 | 10-11 | algo que sale del suelo con dos garras, 32 × 32 |
 | 13-15, leídas seguidas | un demonio, 32 × 48, dos fotogramas: el dibujo más grande del cartucho |
 | 16-17 | un guerrero pequeño con cinta en la cabeza, 16 × 32, dos fotogramas |
+| `p08:82B3`, sin comprimir | un guerrero de varios brazos y varias caras, 32 × 48, dos fotogramas |
 
 ![Las seis figuras](../imagenes/huerfanas.png)
 

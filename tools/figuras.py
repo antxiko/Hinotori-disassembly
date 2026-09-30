@@ -20,7 +20,9 @@ HUERFANAS (p07:7457 a p08:82B3): 18 tiras seguidas en el mismo RLE que no
   Abiertas y leidas como las cosas -dos patrones seguidos son las dos capas
   de un sprite de 16x16, y los sprites de una figura van por columnas-, dan
   seis figuras: 0-2 seguidas (3 de 32x32), 3-7 y 12 (32x32 cada una), 8-9,
-  10-11, 13-15 seguidas (2 de 32x48) y 16-17 (16x32).
+  10-11, 13-15 seguidas (2 de 32x48) y 16-17 (16x32). Y detras, de p08:82B3
+  a 0x85B3, 768 bytes SIN comprimir que tampoco lee nadie: 12 sprites a dos
+  capas, la septima figura (2 de 32x48).
 
 Uso: figuras.py objetos <salida.png>
      figuras.py gao <salida.png>
@@ -137,6 +139,7 @@ FIGURAS_HUERFANAS = [((0, 1, 2), 2, 2), ((3, 4, 5, 6, 7, 12), 2, 2),
                      ((8, 9), 2, 2), ((10, 11), 2, 2),
                      ((13, 14, 15), 2, 3), ((16, 17), 1, 2)]
 TIRAS_HUERFANAS = (0x7457, 18)
+CRUDO_HUERFANO = (0x82B3, 768, 2, 3)      # direccion, bytes, ancho y alto
 
 
 def huerfanas():
@@ -154,6 +157,11 @@ def huerfanas():
     return tiras, a
 
 
+def crudo_huerfano():
+    a, n, _, _ = CRUDO_HUERFANO
+    return bytes(H.lee(a + i, (7, 8, 9)) for i in range(n))
+
+
 def lamina_huerfanas(ruta, esc=4):
     c1, c2, c12 = (225, 215, 190), (200, 70, 40), (60, 25, 20)
     tiras, _ = huerfanas()
@@ -162,6 +170,9 @@ def lamina_huerfanas(ruta, esc=4):
         datos = b"".join(tiras[k] for k in ks)
         grupos.append([(datos[i:i + 64 * w * h], w, h)
                        for i in range(0, len(datos), 64 * w * h)])
+    a, n, w, h = CRUDO_HUERFANO
+    datos = crudo_huerfano()
+    grupos.append([(datos[i:i + 64 * w * h], w, h) for i in range(0, n, 64 * w * h)])
     sep, fondo, caja = 12, (24, 24, 32), (36, 36, 48)
     ancho = max(sum(w * 16 * esc + sep for _, w, _ in g) for g in grupos) + sep
     altos = [max(h for _, _, h in g) * 16 * esc + sep for g in grupos]
@@ -231,7 +242,8 @@ def main(argv):
         print("%d sprites de 16x16 a dos capas" % len(celdas))
     elif argv[1] == "huerfanas":
         n, f = lamina_huerfanas(argv[2])
-        print("%d tiras, %d dibujos en %d figuras" % (n, f, len(FIGURAS_HUERFANAS)))
+        print("%d tiras y un trozo sin comprimir, %d dibujos en %d figuras"
+              % (n, f, len(FIGURAS_HUERFANAS) + 1))
     return 0
 
 

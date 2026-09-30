@@ -156,6 +156,14 @@ class Huerfanas(unittest.TestCase):
         for t in tiras:
             self.assertNotIn(t, usadas)
 
+    def test_el_trozo_sin_comprimir(self):
+        """p08:82B3: 12 sprites que no son ninguno de los que se cargan."""
+        import figuras as F
+        d = F.crudo_huerfano()
+        cargados = {u[k:k + 64] for u in F.cosas() for k in range(0, len(u), 64)}
+        self.assertEqual(len(d), 12 * 64)
+        self.assertFalse(any(d[k:k + 64] in cargados for k in range(0, 768, 64)))
+
 
 class Cifras(unittest.TestCase):
     """Las cifras de la web son las que miden las herramientas."""

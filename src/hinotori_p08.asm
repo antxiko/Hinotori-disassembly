@@ -60,10 +60,12 @@ DATA_rle_sin_puntero_cola:
 	defb 0f8h,080h,000h	; 82b0
 
 ; ----------------------------------------------------------------------
-; DATOS sin_lector_82B3: bytes sin lector conocido: ninguna instruccion
-;   trazada los apunta y la sonda de openMSX no los lee (768 bytes)
+; DATOS sprites_sin_lector_82B3: 12 sprites de 16x16 a dos capas SIN comprimir
+;   (dos columnas de tres: un guerrero de 32x48 en dos fotogramas) que no lee
+;   nadie: ninguna lista ni instruccion trazada los apunta y la sonda de
+;   openMSX no los lee (tools/figuras.py huerfanas)
 ;   0x82b3..0x85b3  (768 bytes)
-DATA_sin_lector_82B3:
+DATA_sprites_sin_lector_82B3:
 	defb 000h,000h,00eh,019h,023h,02fh,07fh,05eh,04eh,0c6h,087h,09eh,0a3h,087h,08ch,04bh	; 82b3  ....#/.^N......K
 	defb 001h,003h,013h,016h,0bdh,0bfh,079h,05eh,07fh,0bfh,0ffh,0edh,0edh,07fh,0ffh,0ffh	; 82c3  ......y^........
 	defb 000h,000h,00eh,01fh,03dh,032h,075h,07eh,07eh,0fah,0fbh,0ffh,0ffh,0feh,0ffh,07fh	; 82d3  ....=2u~~.......
