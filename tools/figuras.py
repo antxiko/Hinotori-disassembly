@@ -15,9 +15,17 @@ GAO (p02:93D6, banco 6): 20 poses, dos sprites de 16x16 cada una (punteros
 COSAS (p00:5694, bancos 7-8-9): 41 juegos de patrones de sprite, en el RLE
   de p00:4A8D o tal cual, que cada area sube a la VRAM (0xF800 + 8*sitio).
 
+HUERFANAS (p07:7457 a p08:82B3): 18 tiras seguidas en el mismo RLE que no
+  nombra ninguna lista (el RLE solo lo abre p00:4AD5, desde las listas).
+  Abiertas y leidas como las cosas -dos patrones seguidos son las dos capas
+  de un sprite de 16x16, y los sprites de una figura van por columnas-, dan
+  seis figuras: 0-2 seguidas (3 de 32x32), 3-7 y 12 (32x32 cada una), 8-9,
+  10-11, 13-15 seguidas (2 de 32x48) y 16-17 (16x32).
+
 Uso: figuras.py objetos <salida.png>
      figuras.py gao <salida.png>
      figuras.py cosas <salida.png>
+     figuras.py huerfanas <salida.png>
 """
 import os
 import sys
@@ -124,6 +132,68 @@ def cosas():
     return fuera
 
 
+# (tiras que se leen seguidas, ancho y alto en sprites de 16x16) por figura
+FIGURAS_HUERFANAS = [((0, 1, 2), 2, 2), ((3, 4, 5, 6, 7, 12), 2, 2),
+                     ((8, 9), 2, 2), ((10, 11), 2, 2),
+                     ((13, 14, 15), 2, 3), ((16, 17), 1, 2)]
+TIRAS_HUERFANAS = (0x7457, 18)
+
+
+def huerfanas():
+    """Las 18 tiras abiertas, cada una hasta su 0."""
+    a, n = TIRAS_HUERFANAS
+    tiras = []
+    for _ in range(n):
+        tiras.append(rle(a, (7, 8, 9)))
+        while True:                                   # hasta el 0 que la acaba
+            v = H.lee(a, (7, 8, 9))
+            a += 1
+            if v == 0:
+                break
+            a += 2 if v == 0x80 else (v & 0x7F) if v & 0x80 else 1
+    return tiras, a
+
+
+def lamina_huerfanas(ruta, esc=4):
+    c1, c2, c12 = (225, 215, 190), (200, 70, 40), (60, 25, 20)
+    tiras, _ = huerfanas()
+    grupos = []
+    for ks, w, h in FIGURAS_HUERFANAS:
+        datos = b"".join(tiras[k] for k in ks)
+        grupos.append([(datos[i:i + 64 * w * h], w, h)
+                       for i in range(0, len(datos), 64 * w * h)])
+    sep, fondo, caja = 12, (24, 24, 32), (36, 36, 48)
+    ancho = max(sum(w * 16 * esc + sep for _, w, _ in g) for g in grupos) + sep
+    altos = [max(h for _, _, h in g) * 16 * esc + sep for g in grupos]
+    alto = sum(altos) + sep
+    pix = bytearray(bytes(fondo) * ancho * alto)
+
+    def punto(x, y, rgb):
+        for dy in range(esc):
+            o = ((y + dy) * ancho + x) * 3
+            pix[o:o + 3 * esc] = bytes(rgb) * esc
+    oy = sep
+    for g, alto_g in zip(grupos, altos):
+        ox = sep
+        for datos, w, h in g:
+            for y in range(h * 16):
+                for x in range(w * 16):
+                    punto(ox + x * esc, oy + y * esc, caja)
+            for s in range(w * h):
+                qx, qy = s // h, s % h                # por columnas
+                a = patron_16(datos[64 * s:64 * s + 32])
+                b = patron_16(datos[64 * s + 32:64 * s + 64])
+                for j in range(16):
+                    for i in range(16):
+                        if a[j][i] or b[j][i]:
+                            col = c12 if a[j][i] and b[j][i] else c1 if a[j][i] else c2
+                            punto(ox + (qx * 16 + i) * esc, oy + (qy * 16 + j) * esc, col)
+            ox += w * 16 * esc + sep
+        oy += alto_g
+    H.png(ruta, ancho, alto, pix)
+    return len(tiras), sum(len(g) for g in grupos)
+
+
 def main(argv):
     if argv[1] == "objetos":
         v = H.hoja_de_la_fase(0, 0)
@@ -159,6 +229,9 @@ def main(argv):
                                 for x, y in zip(fa, fb)] for fa, fb in zip(a, b)])
         lamina(celdas, [], argv[2], 16, 16, esc=3)
         print("%d sprites de 16x16 a dos capas" % len(celdas))
+    elif argv[1] == "huerfanas":
+        n, f = lamina_huerfanas(argv[2])
+        print("%d tiras, %d dibujos en %d figuras" % (n, f, len(FIGURAS_HUERFANAS)))
     return 0
 
 

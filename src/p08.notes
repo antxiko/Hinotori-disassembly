@@ -36,8 +36,8 @@ F 0x9A30 8
 
 
 # --- A MANO: datos con su explicacion ---
-D 0x8000 0x824E rle_sin_puntero_cola  la cola de las tiras RLE sin puntero que empiezan en p07:7457 (ver alli)
+D 0x8000 0x82B3 rle_sin_puntero_cola  la cola de las 18 tiras RLE sin puntero que empiezan en p07:7457 (ver alli); la ultima, de 0x824E a 0x82B3
 
 # --- RESTO (seccion que reescribe tools/resto.py; no editar a mano) ---
-D 0x824E 0x85B3 sin_lector_824E  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (869 bytes)
+D 0x82B3 0x85B3 sin_lector_82B3  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (768 bytes)
 # --- fin del resto ---

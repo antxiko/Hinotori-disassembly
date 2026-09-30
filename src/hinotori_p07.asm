@@ -942,10 +942,10 @@ DATA_rle_73DA:
 
 ; ----------------------------------------------------------------------
 ; DATOS rle_sin_puntero (tramo): 18 tiras en el RLE de p00:4A8D (cada una
-;   acaba en su 0; 320, 256, 192 y 256 bytes al abrirlas) seguidas, de 0x7457
-;   a 0x81E2 en este banco y la cola en el 8: ninguna palabra del cartucho
-;   vale 0x7457 ni ninguno de los principios de las tiras, y la sonda de
-;   openMSX no las lee
+;   acaba en su 0; 128 a 320 bytes al abrirlas) seguidas, de 0x7457 a
+;   p08:82B3: el RLE solo lo abre p00:4AD5, que recorre las listas, y ninguna
+;   entrada las nombra; la sonda de openMSX no las lee. Abiertas son seis
+;   figuras de sprites a dos capas (tools/figuras.py huerfanas)
 ;   0x7457..0x8000  (2985 bytes)  de 0x7457..0x824e (3575 bytes)
 DATA_rle_sin_puntero:
 	defb 0c0h,000h,006h,00dh,018h,018h,031h,031h,033h,03fh,072h,05eh,0ffh,0feh,03fh,02fh	; 7457  ......113?r^..?/

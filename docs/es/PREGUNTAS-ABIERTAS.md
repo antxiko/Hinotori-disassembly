@@ -15,6 +15,8 @@ Lo que no está resuelto, dicho tal cual.
   se ha probado.
 - **El color de los bichos.** Los sprites de las cosas van en dos tonos: el
   color lo pone el código de cada tipo y no está sacado tipo a tipo.
-- **Las 18 tiras RLE sin puntero** de `p07:7457`: qué eran.
+- **Las seis figuras sin puntero** de `p07:7457`: qué eran, y sus colores.
+  Y los 768 bytes que las siguen (`p08:82B3`), sin lector: parecen patrones
+  de sprite, pero leídos en columnas de 32 × 32 no dan figuras limpias.
 - **Los objetos del 18 al 32** se pintan con iconos casi vacíos en la hoja
   de las fases volcadas; puede que sus iconos se suban en otro momento.

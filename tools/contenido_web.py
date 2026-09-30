@@ -154,10 +154,15 @@ HALLAZGOS = {
          "SASAKI&hellip; y METALSLAVE NAOKI, dise&ntilde;ador. METALSLAVE es "
          "tambi&eacute;n la contrase&ntilde;a de truco que llena la vida.</p>"
          "<p>Medido en la ROM; los cr&eacute;ditos, transcritos en Hallazgos.</p>"),
-        ("Dieciocho dibujos que no usa nadie",
-         "<p>De <code>p07:7457</code> a <code>p08:824E</code> hay 18 tiras en el "
-         "mismo RLE que los sprites (<code>p00:4A8D</code>), 3 KB, y ninguna "
-         "palabra del cartucho apunta a ellas.</p><p>Medido en la ROM.</p>"),
+        ("Seis figuras que no usa nadie",
+         "<p>De <code>p07:7457</code> a <code>p08:82B3</code> hay 18 tiras en el "
+         "mismo RLE que los sprites (<code>p00:4A8D</code>). Ese RLE solo lo "
+         "abre <code>p00:4AD5</code>, que recorre las listas de cada &aacute;rea, "
+         "y ninguna entrada las nombra. Abiertas son seis figuras que no se ven "
+         "en el juego: una bestia jorobada, un monstruo de un ojo en seis "
+         "posturas, una cara, algo que sale del suelo, un demonio de 32 &times; "
+         "48 y un guerrero peque&ntilde;o.</p><p>Medido en la ROM; ninguna "
+         "coincide con los 41 juegos de sprites que s&iacute; se cargan.</p>"),
     ],
     "en": [
         ("With King Kong 2 next to it, it boots King Kong 2 and saves its game",
@@ -219,11 +224,15 @@ HALLAZGOS = {
          "SASAKI&hellip; and METALSLAVE NAOKI, designer. METALSLAVE is also "
          "the cheat password that fills up the energy.</p><p>Measured in the "
          "ROM; the credits are transcribed in Findings.</p>"),
-        ("Eighteen drawings nobody uses",
-         "<p>From <code>p07:7457</code> to <code>p08:824E</code> there are 18 "
-         "strips in the same RLE as the sprites (<code>p00:4A8D</code>), 3 KB, "
-         "and no word in the cartridge points at them.</p><p>Measured in the "
-         "ROM.</p>"),
+        ("Six figures nobody uses",
+         "<p>From <code>p07:7457</code> to <code>p08:82B3</code> there are 18 "
+         "strips in the same RLE as the sprites (<code>p00:4A8D</code>). That "
+         "RLE is only opened by <code>p00:4AD5</code>, which walks each area's "
+         "lists, and no entry names them. Opened, they are six figures never "
+         "seen in the game: a hunched beast, a one-eyed monster in six poses, "
+         "a face, something rising from the ground, a 32 &times; 48 demon and "
+         "a small warrior.</p><p>Measured in the ROM; none matches the 41 "
+         "sprite sets that are loaded.</p>"),
     ],
 }
 
@@ -265,6 +274,13 @@ GALERIA = [
      "The 132 sprites of the 41 sets the areas load (<code>p07:6173</code>): "
      "enemies, bosses in pieces and what they throw. In two tones: the colour "
      "is set by each enemy as it moves."),
+    ("huerfanas.png",
+     "Las 18 tiras que no nombra ninguna lista (<code>p07:7457</code>), "
+     "abiertas: seis figuras que no salen en el juego. Dos capas por sprite, "
+     "en dos tonos: no tienen c&oacute;digo que les ponga color.",
+     "The 18 strips no list names (<code>p07:7457</code>), opened: six "
+     "figures that never appear in the game. Two layers per sprite, in two "
+     "tones: they have no code to colour them."),
     ("objetos.png",
      "Los 41 objetos como los pinta la ventana ITEM INFORMATION "
      "(<code>p01:7B60</code>): del 16 en adelante, un icono encima de un "

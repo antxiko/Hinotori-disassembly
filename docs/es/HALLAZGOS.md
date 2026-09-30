@@ -102,12 +102,33 @@ F5 abre un mapa de las seis fases (`p02:8555`). Si se lleva el objeto 14
 uno (`p02:859F`); se llega por la columna 1 (`p01:65CF`). **Sale del
 código.**
 
-## Dieciocho dibujos que no usa nadie
+## Seis figuras que no usa nadie
 
-De `p07:7457` a `p08:824E` hay 18 tiras seguidas en el RLE de los sprites
-(`p00:4A8D`), 3.063 bytes; abiertas dan 320, 256, 192 y 256 bytes, tamaños
-de juegos de patrones. Ninguna palabra del cartucho apunta a ninguna, y la
-sonda de lecturas de openMSX no las lee. **Medido en la ROM.**
+De `p07:7457` a `p08:82B3` hay 18 tiras seguidas en el RLE de los sprites
+(`p00:4A8D`), 3.676 bytes; abiertas dan de 128 a 320 bytes cada una, tamaños
+de juegos de patrones. Ese RLE solo lo abre `p00:4AD5`, que recorre las
+listas de cada área, y ninguna entrada nombra ninguna; la sonda de lecturas
+de openMSX tampoco las lee.
+
+Abiertas y leídas como los sprites que sí se usan (dos patrones seguidos son
+las dos capas de un sprite de 16 × 16, y los sprites de una figura van por
+columnas), son seis figuras que no salen en el juego, y ninguna coincide con
+ninguno de los 41 juegos de sprites que se cargan:
+
+| tiras | figura |
+|---|---|
+| 0-2, leídas seguidas | una bestia jorobada, 32 × 32, tres fotogramas |
+| 3-7 y 12 | un monstruo de un ojo con brazos enormes, 32 × 32, seis posturas |
+| 8-9 | una cara, 32 × 32, dos fotogramas |
+| 10-11 | algo que sale del suelo con dos garras, 32 × 32 |
+| 13-15, leídas seguidas | un demonio, 32 × 48, dos fotogramas: el dibujo más grande del cartucho |
+| 16-17 | un guerrero pequeño con cinta en la cabeza, 16 × 32, dos fotogramas |
+
+![Las seis figuras](../imagenes/huerfanas.png)
+
+En dos tonos, como los bichos: el color lo pone el código de cada bicho, y
+estas no tienen. Qué eran no se sabe. **Medido en la ROM**
+(`tools/figuras.py huerfanas`).
 
 ## La cabecera para otros cartuchos
 

@@ -17,6 +17,9 @@ What is not solved, said as it is.
 - **The enemies' colour.** The sprites of the sets are in two tones: the
   colour is set by the code of each type and has not been worked out type by
   type.
-- **The 18 RLE strips without a pointer** at `p07:7457`: what they were.
+- **The six figures without a pointer** at `p07:7457`: what they were, and
+  their colours. And the 768 bytes that follow them (`p08:82B3`), with no
+  reader: they look like sprite patterns, but read in columns of 32 × 32 they
+  do not give clean figures.
 - **Items 18 to 32** are drawn with nearly empty icons from the sheet of the
   dumped stages; their icons may be uploaded at another moment.

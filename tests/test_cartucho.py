@@ -138,6 +138,25 @@ class Tablas(unittest.TestCase):
         self.assertEqual(destinos[14:18], [0x18] * 4)
 
 
+class Huerfanas(unittest.TestCase):
+    """Las 18 tiras RLE de p07:7457 que no nombra ninguna lista."""
+
+    def test_dieciocho_tiras_hasta_82B3(self):
+        import figuras as F
+        tiras, fin = F.huerfanas()
+        self.assertEqual(fin, 0x82B3)
+        # 68 sprites a dos capas: los 17 dibujos de las seis figuras
+        self.assertEqual(sum(len(t) for t in tiras), 68 * 64)
+        self.assertTrue(all(len(t) % 64 == 0 for t in tiras))
+
+    def test_ninguna_es_de_las_que_se_cargan(self):
+        import figuras as F
+        tiras, _ = F.huerfanas()
+        usadas = F.cosas()
+        for t in tiras:
+            self.assertNotIn(t, usadas)
+
+
 class Cifras(unittest.TestCase):
     """Las cifras de la web son las que miden las herramientas."""
 

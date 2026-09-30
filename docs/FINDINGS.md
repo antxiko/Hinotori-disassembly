@@ -98,12 +98,33 @@ F5 opens a map of the six stages (`p02:8555`). Carrying item 14 (`0xC884`),
 the cursor keys choose one (`0xC887`) and SPACE jumps there, using one up
 (`p02:859F`); you arrive through column 1 (`p01:65CF`). **From the code.**
 
-## Eighteen drawings nobody uses
+## Six figures nobody uses
 
-From `p07:7457` to `p08:824E` there are 18 strips in a row in the sprite RLE
-(`p00:4A8D`), 3,063 bytes; opened up they give 320, 256, 192 and 256 bytes,
-the sizes of pattern sets. No word in the cartridge points at any of them, and
-the openMSX read probe does not read them. **Measured in the ROM.**
+From `p07:7457` to `p08:82B3` there are 18 strips in a row in the sprite RLE
+(`p00:4A8D`), 3,676 bytes; opened up they give 128 to 320 bytes each, the
+sizes of pattern sets. That RLE is only opened by `p00:4AD5`, which walks the
+lists of each area, and no entry names any of them; the openMSX read probe
+does not read them either.
+
+Opened and read like the sprites that are used (two patterns in a row are the
+two layers of a 16 × 16 sprite, and a figure's sprites go by columns), they
+are six figures that never appear in the game, and none matches any of the 41
+sprite sets that are loaded:
+
+| strips | figure |
+|---|---|
+| 0-2, read in a row | a hunched beast, 32 × 32, three frames |
+| 3-7 and 12 | a one-eyed monster with huge arms, 32 × 32, six poses |
+| 8-9 | a face, 32 × 32, two frames |
+| 10-11 | something rising from the ground with two claws, 32 × 32 |
+| 13-15, read in a row | a demon, 32 × 48, two frames: the largest drawing in the cartridge |
+| 16-17 | a small warrior with a headband, 16 × 32, two frames |
+
+![The six figures](imagenes/huerfanas.png)
+
+In two tones, like the enemies: the colour is set by each enemy's code, and
+these have none. What they were is not known. **Measured in the ROM**
+(`tools/figuras.py huerfanas`).
 
 ## The header for other cartridges
 
