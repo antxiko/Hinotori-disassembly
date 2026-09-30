@@ -1,0 +1,41 @@
+# Puntos de entrada del banco 6 (se ejecuta en 0xa000).
+#
+# Cada uno lleva la instruccion que lo justifica. Los que ponen "pNN:XXXX"
+# vienen de OTRO banco: el trazador de una sola pagina no puede seguirlos,
+# porque en esa direccion -segun lo que haya en el registro del mapper- puede
+# estar cualquiera de seis bancos. Los que ponen "tabla" salen de una tabla
+# del despachador 0x40AE, que va pegada detras de su `call` y esta declarada
+# como datos en el .nocode: el trazador tampoco puede seguirla.
+#
+# Los saltos y llamadas DENTRO del propio banco no se ponen aqui: los
+# encuentra tools/z80trace.py solo, siguiendo el flujo.
+#
+# Este fichero lo regenera `make semillas` (tools/bancos.py escribe).
+0xAD00   # p00:4616 call
+0xAD2E   # p06:AD07 entrada 0 de la tabla de 0xAD0A (call 0x40AE en 0xAD07)
+0xAD63   # p06:AD07 entrada 1 de la tabla de 0xAD0A (call 0x40AE en 0xAD07)
+0xAD76   # p06:AD07 entrada 2 de la tabla de 0xAD0A (call 0x40AE en 0xAD07)
+0xAD86   # p06:AD07 entrada 3 de la tabla de 0xAD0A (call 0x40AE en 0xAD07)
+0xAD8C   # p06:AD07 entrada 4 de la tabla de 0xAD0A (call 0x40AE en 0xAD07)
+0xADB6   # p06:AD07 entrada 5 de la tabla de 0xAD0A (call 0x40AE en 0xAD07)
+0xADBD   # p06:AD07 entrada 6 de la tabla de 0xAD0A (call 0x40AE en 0xAD07)
+0xADD4   # p06:AD07 entrada 7 de la tabla de 0xAD0A (call 0x40AE en 0xAD07)
+0xAE27   # p06:AD07 entrada 8 de la tabla de 0xAD0A (call 0x40AE en 0xAD07)
+0xAE5B   # p06:AD07 entrada 9 de la tabla de 0xAD0A (call 0x40AE en 0xAD07)
+0xAE7F   # p06:AD07 entrada 11 de la tabla de 0xAD0A (call 0x40AE en 0xAD07)
+0xAE91   # p06:AD07 entrada 12 de la tabla de 0xAD0A (call 0x40AE en 0xAD07)
+0xAEAA   # p06:AD07 entrada 13 de la tabla de 0xAD0A (call 0x40AE en 0xAD07)
+0xAEDE   # p06:AED1 entrada 0 de la tabla de 0xAED4 (call 0x40AE en 0xAED1)
+0xAEE8   # p06:AED1 entrada 1 de la tabla de 0xAED4 (call 0x40AE en 0xAED1)
+0xAF07   # p06:AED1 entrada 2 de la tabla de 0xAED4 (call 0x40AE en 0xAED1)
+0xAF12   # p06:AED1 entrada 3 de la tabla de 0xAED4 (call 0x40AE en 0xAED1)
+0xAF1E   # p06:AED1 entrada 4 de la tabla de 0xAED4 (call 0x40AE en 0xAED1)
+0xAF28   # p06:AD07 entrada 15 de la tabla de 0xAD0A (call 0x40AE en 0xAD07)
+0xAF32   # p06:AD07 entrada 14 de la tabla de 0xAD0A (call 0x40AE en 0xAD07)
+0xAFEB   # p06:AFDC entrada 2 de la tabla de 0xAFDF (call 0x40AE en 0xAFDC)
+0xAFF0   # p06:AFDC entrada 3 de la tabla de 0xAFDF (call 0x40AE en 0xAFDC)
+0xB256   # p06:AFDC entrada 0 de la tabla de 0xAFDF (call 0x40AE en 0xAFDC)
+0xB25C   # p06:AFDC entrada 1 de la tabla de 0xAFDF (call 0x40AE en 0xAFDC)
+0xB3A8   # p00:45A7 call
+0xBA4B   # p00:4662 call
+0xBB69   # p00:4675 call

@@ -1,0 +1,19 @@
+# Zonas que el trazador NO puede entrar a desensamblar como codigo.
+#
+# La tabla de destinos del despachador de Konami (0x40AE) va pegada JUSTO
+# DETRAS de su `call`: sin declararla, el trazador sigue de largo y se la come
+# como instrucciones, y ademas sigue desde ahi. Es la contaminacion mas facil
+# de este cartucho.
+#
+# Este fichero lo regenera `make semillas` (tools/bancos.py escribe).
+0xA143 0xA151   tabla de 7 palabras del despachador (call 0x40AE en 0xA140)
+0xA49C 0xA4B0   tabla de 10 palabras del despachador (call 0x40AE en 0xA499)
+0xA6FC 0xA702   tabla de 3 palabras del despachador (call 0x40AE en 0xA6F9)
+0xA78A 0xA79A   tabla de 8 palabras del despachador (call 0x40AE en 0xA787)
+0xAA07 0xAA15   tabla de 7 palabras del despachador (call 0x40AE en 0xAA04)
+0xAB0C 0xAB12   tabla de 3 palabras del despachador (call 0x40AE en 0xAB09)
+0xAB61 0xAB69   tabla de 4 palabras del despachador (call 0x40AE en 0xAB5E)
+0xADF0 0xADFC   tabla de 6 palabras del despachador (call 0x40AE en 0xADED)
+0xB108 0xB112   tabla de 5 palabras del despachador (call 0x40AE en 0xB105)
+0xB728 0xB732   tabla de 5 palabras del despachador (call 0x40AE en 0xB725)
+0xB91E 0xB92C   tabla de 7 palabras del despachador (call 0x40AE en 0xB91B)
