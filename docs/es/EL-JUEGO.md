@@ -76,9 +76,15 @@ lo hemos recorrido jugando. Una lámina por fase, a tamaño real:
 
 Cotejo: la hoja de dibujos y la paleta de las áreas 0 y 1, volcadas en
 openMSX al acabar de montarlas (`p00:5D6E`), son **idénticas**: 189 y 225
-dibujos, 0 distintos, y los 16 colores. En pantalla, las filas del mapa
-están en la tabla de dibujos de la RAM (31 de 32; la otra la pisa lo que se
-mueve).
+dibujos, 0 distintos, y los 16 colores. En pantalla, en tres volcados de
+tres áreas, cada fila de la página 0 se ha buscado por sus puntos en el mapa
+dibujado: bajando por la pantalla, el mapa baja de una en una (25 de 25, 31
+de 31 y 31 de 31 filas seguidas).
+
+**Corregido el 30 de septiembre de 2026**: la primera versión de estos
+mapas tenía las cuatro filas de cada bloque de 32 puntos del revés. El
+cotejo de entonces solo miraba que cada fila estuviera en la pantalla, no en
+qué orden; ahora mira el orden.
 
 ## Gao
 

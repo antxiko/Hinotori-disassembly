@@ -18,8 +18,9 @@ Lo que lee el cartucho (p00:5900, con los bancos 10-11-12 de p00:542A):
   0xC306  las SUPERFILAS: palabra de p00:594B + 2*area, 8 bytes cada una, un
           bloque por cada 32 puntos de ancho.
   0xC304  los BLOQUES: palabra de p00:593B + 2*juego (0xC482), 16 bytes
-          cada uno, 4x4 dibujos; la fila de dibujos de arriba es la ULTIMA
-          (p00:5A03: (0xC302 & 3) xor 3).
+          cada uno, 4x4 dibujos; los 4 primeros bytes son la fila de
+          ARRIBA: como 0xC302 sube, p00:5A03 toma la (0xC302 & 3) xor 3.
+          Comprobado contra la pantalla de openMSX con el orden (coteja).
 
 El dibujo t de la hoja (tools/hoja.py) se copia tal cual (p00:5024: HMMM de
 la pagina 1 a la 0).
@@ -89,7 +90,7 @@ def dibujos_del_area(area):
     filas = []
     for sf in reversed(sfs):
         for sub in range(4):
-            filas.append(fila_de_dibujos(area, sf, 3 - sub))
+            filas.append(fila_de_dibujos(area, sf, sub))
     return filas
 
 
@@ -151,7 +152,28 @@ def coteja(ram, vram):
                    for j in range(8)):
                 igual += 1
     print("  casillas de la pagina 0 identicas al dibujo de la hoja: %d de 1024" % igual)
-    return mal
+    # el ORDEN: cada fila de 8 puntos de la pantalla, buscada por sus puntos en
+    # el mapa dibujado; bajando por la pantalla, el mapa tiene que bajar de uno
+    # en uno (dar las filas en otro orden tambien las encuentra todas). La
+    # pagina 0 es un anillo de 32 filas bajo el scroll vertical: en la costura
+    # el mapa salta 31 hacia atras
+    filas = dibujos_del_area(area)
+
+    def puntos(fila):
+        return b"".join(bytes(v.m[0x8000 + ((t >> 5) * 8 + y) * 128 + (t & 31) * 4:
+                                  0x8000 + ((t >> 5) * 8 + y) * 128 + (t & 31) * 4 + 4])
+                        for y in range(8) for t in fila)
+    donde = {}
+    for m, fila in enumerate(filas):
+        donde.setdefault(puntos(fila), m)
+    pos = [donde.get(b"".join(d[(8 * s + y) * 128:(8 * s + y) * 128 + 128] for y in range(8)))
+           for s in range(32)]
+    seguidas = sum(1 for a, b in zip(pos, pos[1:])
+                   if a is not None and b is not None
+                   and b in ((a + 1) % len(filas), (a - 31) % len(filas)))
+    pares = sum(1 for a, b in zip(pos, pos[1:]) if a is not None and b is not None)
+    print("  orden: %d de %d pares de filas seguidas en el mapa" % (seguidas, pares))
+    return mal + (pares - seguidas)
 
 
 def coteja_hoja(ram, vram, pal):

@@ -74,8 +74,15 @@ we have not walked it. One plate per stage, full size:
 
 Checking: the tile sheet and the palette of areas 0 and 1, dumped in openMSX
 when they have just been built (`p00:5D6E`), are **identical**: 189 and 225
-tiles, 0 different, and the 16 colours. On screen, the rows of the map are in
-the RAM tile table (31 of 32; the other is trodden on by what moves).
+tiles, 0 different, and the 16 colours. On screen, in three dumps of three
+areas, each row of page 0 has been looked for by its pixels in the drawn
+map: going down the screen, the map goes down one row at a time (25 of 25,
+31 of 31 and 31 of 31 rows in a row).
+
+**Corrected on 30 September 2026**: the first version of these maps had the
+four rows of each 32-pixel block upside down. The check back then only
+looked at whether each row was on the screen, not in what order; now it
+looks at the order.
 
 ## Gao
 

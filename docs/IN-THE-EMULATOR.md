@@ -23,7 +23,7 @@ another cartridge goes into slot B (`-cartb kingkong2.rom -romtype Konami`).
 | the title | `lanza_vuelca.sh work/v4 "23"` | 0 bytes and the 16 colours |
 | the menu with Q*bert | `lanza_bp.sh work/menu_qbert 0x4735 120 "…" 120 -cartb qbert.rom` | 0 bytes |
 | the sheet and the palette | `lanza_bp.sh work/area_1 0x5D6E 1` and `2` | areas 0 and 1: 0 tiles and 0 colours different |
-| the map on screen | a dump of the demo | 31 of 32 rows in the RAM table |
+| the map on screen | a dump of the demo and `work/area_1`, `area_2` | the screen rows, consecutive and in order in the map (25/25, 31/31, 31/31) |
 | the passwords | `lanza_guion.sh` with F1, HOME, HOME, the text and RETURN | 15 with their change in RAM |
 | King Kong 2 next to it | `lanza_guion.sh … -cartb kingkong2.rom` | King Kong 2 boots; F4 → SAVE MODE |
 

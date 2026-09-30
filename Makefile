@@ -179,6 +179,8 @@ coteja: $(ROM)
 	python3 tools/titulo.py titulo $(WORK)/c_titulo.png $(WORK)/v4/t023.vram
 	python3 tools/titulo.py menu $(WORK)/c_menu.png $(WORK)/menu_qbert/bp.vram
 	-python3 tools/mapa.py coteja $(WORK)/v3/t045.ram $(WORK)/v3/t045.vram
+	python3 tools/mapa.py coteja $(WORK)/area_1/bp.ram $(WORK)/area_1/bp.vram
+	python3 tools/mapa.py coteja $(WORK)/area_2/bp.ram $(WORK)/area_2/bp.vram
 	python3 tools/mapa.py coteja_hoja $(WORK)/area_1/bp.ram $(WORK)/area_1/bp.vram $(WORK)/area_1/bp.pal
 	python3 tools/mapa.py coteja_hoja $(WORK)/area_2/bp.ram $(WORK)/area_2/bp.vram $(WORK)/area_2/bp.pal
 

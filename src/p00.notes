@@ -364,7 +364,7 @@ C 0x59D9 una orden del mapa: 3 filas mas
 C 0x59E5 fila/4: el byte del mapa
 C 0x59F4 0xE0 en adelante: orden
 C 0x59F8 la superfila: 8 bytes cada una
-C 0x5A03 (fila & 3) xor 3: la fila de dibujos del bloque, la de arriba es la ultima
+C 0x5A03 (fila & 3) xor 3: la fila de dibujos del bloque; la fila sube, asi que los 4 primeros bytes son la de arriba
 C 0x5A1E los 8 bloques de la superfila
 C 0x5A20 el bloque...
 C 0x5A26 ...16 bytes cada uno...

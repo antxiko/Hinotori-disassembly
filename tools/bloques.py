@@ -217,7 +217,7 @@ def mapas(t, bl):
     for bp, bs in usados.items():
         n = max(bs) + 1
         bl.anota(B101112, bp, bp + 16 * n, "bloques_%04X" % bp,
-                 "%d bloques de 4x4 dibujos; la fila de arriba es la ultima (p00:5A03)" % n,
+                 "%d bloques de 4x4 dibujos; los 4 primeros bytes son la fila de arriba (p00:5A03)" % n,
                  "p00:5A2F", ancho=16)
 
 

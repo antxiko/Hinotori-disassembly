@@ -1,18 +1,18 @@
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
-D 0x6000 0x67B0 bloques_6000  123 bloques de 4x4 dibujos; la fila de arriba es la ultima (p00:5A03); lo leen p00:5A2F (1968 bytes)
+D 0x6000 0x67B0 bloques_6000  123 bloques de 4x4 dibujos; los 4 primeros bytes son la fila de arriba (p00:5A03); lo leen p00:5A2F (1968 bytes)
 F 0x6000 16
-D 0x67B0 0x6CE0 bloques_67B0  83 bloques de 4x4 dibujos; la fila de arriba es la ultima (p00:5A03); lo leen p00:5A2F (1328 bytes)
+D 0x67B0 0x6CE0 bloques_67B0  83 bloques de 4x4 dibujos; los 4 primeros bytes son la fila de arriba (p00:5A03); lo leen p00:5A2F (1328 bytes)
 F 0x67B0 16
-D 0x6CE0 0x70B0 bloques_6CE0  61 bloques de 4x4 dibujos; la fila de arriba es la ultima (p00:5A03); lo leen p00:5A2F (976 bytes)
+D 0x6CE0 0x70B0 bloques_6CE0  61 bloques de 4x4 dibujos; los 4 primeros bytes son la fila de arriba (p00:5A03); lo leen p00:5A2F (976 bytes)
 F 0x6CE0 16
-D 0x70B0 0x7560 bloques_70B0  75 bloques de 4x4 dibujos; la fila de arriba es la ultima (p00:5A03); lo leen p00:5A2F (1200 bytes)
+D 0x70B0 0x7560 bloques_70B0  75 bloques de 4x4 dibujos; los 4 primeros bytes son la fila de arriba (p00:5A03); lo leen p00:5A2F (1200 bytes)
 F 0x70B0 16
-D 0x7560 0x7BC0 bloques_7560  102 bloques de 4x4 dibujos; la fila de arriba es la ultima (p00:5A03); lo leen p00:5A2F (1632 bytes)
+D 0x7560 0x7BC0 bloques_7560  102 bloques de 4x4 dibujos; los 4 primeros bytes son la fila de arriba (p00:5A03); lo leen p00:5A2F (1632 bytes)
 F 0x7560 16
-D 0x7BC0 0x7EB0 bloques_7BC0  47 bloques de 4x4 dibujos; la fila de arriba es la ultima (p00:5A03); lo leen p00:5A2F (752 bytes)
+D 0x7BC0 0x7EB0 bloques_7BC0  47 bloques de 4x4 dibujos; los 4 primeros bytes son la fila de arriba (p00:5A03); lo leen p00:5A2F (752 bytes)
 F 0x7BC0 16
-D 0x7EB0 0x7FC0 bloques_7EB0  17 bloques de 4x4 dibujos; la fila de arriba es la ultima (p00:5A03); lo leen p00:5A2F (272 bytes)
+D 0x7EB0 0x7FC0 bloques_7EB0  17 bloques de 4x4 dibujos; los 4 primeros bytes son la fila de arriba (p00:5A03); lo leen p00:5A2F (272 bytes)
 F 0x7EB0 16
 D 0x7FC0 0x8000 superfilas_7FC0  48 superfilas de 8 bloques de 32x32 puntos (p00:5A1D); lo leen p00:5A20 (64 bytes)
 F 0x7FC0 8

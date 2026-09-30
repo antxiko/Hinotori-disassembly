@@ -10,8 +10,8 @@
 
 
 ; ----------------------------------------------------------------------
-; DATOS bloques_6000: 123 bloques de 4x4 dibujos; la fila de arriba es la
-;   ultima (p00:5A03); lo leen p00:5A2F (1968 bytes)
+; DATOS bloques_6000: 123 bloques de 4x4 dibujos; los 4 primeros bytes son la
+;   fila de arriba (p00:5A03); lo leen p00:5A2F (1968 bytes)
 ;   0x6000..0x67b0  (1968 bytes)
 DATA_bloques_6000:
 	defb 017h,018h,016h,019h,019h,015h,01ah,015h,015h,01ah,016h,019h,016h,017h,018h,015h	; 6000  ................
@@ -139,8 +139,8 @@ DATA_bloques_6000:
 	defb 0e8h,056h,055h,03ch,0f3h,058h,03dh,03eh,055h,056h,037h,03fh,057h,03bh,040h,041h	; 67a0  .VU<.X=>UV7?W;@A
 
 ; ----------------------------------------------------------------------
-; DATOS bloques_67B0: 83 bloques de 4x4 dibujos; la fila de arriba es la
-;   ultima (p00:5A03); lo leen p00:5A2F (1328 bytes)
+; DATOS bloques_67B0: 83 bloques de 4x4 dibujos; los 4 primeros bytes son la
+;   fila de arriba (p00:5A03); lo leen p00:5A2F (1328 bytes)
 ;   0x67b0..0x6ce0  (1328 bytes)
 DATA_bloques_67B0:
 	defb 050h,051h,052h,06fh,053h,054h,055h,070h,056h,057h,058h,071h,059h,05ah,05bh,072h	; 67b0  PQRoSTUpVWXqYZ[r
@@ -228,8 +228,8 @@ DATA_bloques_67B0:
 	defb 0c1h,0c1h,0c1h,0c1h,0c2h,0c2h,0c2h,0c2h,0c8h,0c3h,0c4h,0cbh,0c9h,0c5h,0c5h,0cch	; 6cd0  ................
 
 ; ----------------------------------------------------------------------
-; DATOS bloques_6CE0: 61 bloques de 4x4 dibujos; la fila de arriba es la
-;   ultima (p00:5A03); lo leen p00:5A2F (976 bytes)
+; DATOS bloques_6CE0: 61 bloques de 4x4 dibujos; los 4 primeros bytes son la
+;   fila de arriba (p00:5A03); lo leen p00:5A2F (976 bytes)
 ;   0x6ce0..0x70b0  (976 bytes)
 DATA_bloques_6CE0:
 	defb 084h,085h,0b9h,084h,0b9h,084h,09dh,085h,09bh,0b9h,0b9h,0bah,0bah,09dh,085h,084h	; 6ce0  ................
@@ -295,8 +295,8 @@ DATA_bloques_6CE0:
 	defb 0e8h,03ah,039h,038h,0f3h,03eh,03dh,03ch,022h,023h,024h,025h,026h,027h,028h,029h	; 70a0  .:98.>=<"#$%&'()
 
 ; ----------------------------------------------------------------------
-; DATOS bloques_70B0: 75 bloques de 4x4 dibujos; la fila de arriba es la
-;   ultima (p00:5A03); lo leen p00:5A2F (1200 bytes)
+; DATOS bloques_70B0: 75 bloques de 4x4 dibujos; los 4 primeros bytes son la
+;   fila de arriba (p00:5A03); lo leen p00:5A2F (1200 bytes)
 ;   0x70b0..0x7560  (1200 bytes)
 DATA_bloques_70B0:
 	defb 010h,001h,003h,002h,010h,002h,002h,010h,001h,003h,010h,002h,010h,010h,002h,003h	; 70b0  ................
@@ -376,8 +376,8 @@ DATA_bloques_70B0:
 	defb 002h,003h,010h,00bh,006h,008h,009h,00ah,010h,001h,002h,014h,010h,002h,003h,00dh	; 7550  ................
 
 ; ----------------------------------------------------------------------
-; DATOS bloques_7560: 102 bloques de 4x4 dibujos; la fila de arriba es la
-;   ultima (p00:5A03); lo leen p00:5A2F (1632 bytes)
+; DATOS bloques_7560: 102 bloques de 4x4 dibujos; los 4 primeros bytes son la
+;   fila de arriba (p00:5A03); lo leen p00:5A2F (1632 bytes)
 ;   0x7560..0x7bc0  (1632 bytes)
 DATA_bloques_7560:
 	defb 002h,001h,001h,001h,001h,001h,002h,001h,001h,001h,001h,001h,001h,002h,001h,001h	; 7560  ................
@@ -484,8 +484,8 @@ DATA_bloques_7560:
 	defb 0e1h,07bh,06ch,06eh,0f3h,07dh,07eh,06ch,049h,07fh,079h,066h,06fh,081h,06dh,06ah	; 7bb0  .{ln.}~lI.yfo.mj
 
 ; ----------------------------------------------------------------------
-; DATOS bloques_7BC0: 47 bloques de 4x4 dibujos; la fila de arriba es la
-;   ultima (p00:5A03); lo leen p00:5A2F (752 bytes)
+; DATOS bloques_7BC0: 47 bloques de 4x4 dibujos; los 4 primeros bytes son la
+;   fila de arriba (p00:5A03); lo leen p00:5A2F (752 bytes)
 ;   0x7bc0..0x7eb0  (752 bytes)
 DATA_bloques_7BC0:
 	defb 003h,004h,005h,006h,007h,008h,009h,00ah,00bh,00ch,00dh,00eh,00fh,01dh,01eh,01fh	; 7bc0  ................
@@ -537,8 +537,8 @@ DATA_bloques_7BC0:
 	defb 0cah,0c6h,0c7h,0c0h,09dh,09eh,09dh,000h,092h,096h,0a1h,07ch,097h,092h,09fh,073h	; 7ea0  ...........|...s
 
 ; ----------------------------------------------------------------------
-; DATOS bloques_7EB0: 17 bloques de 4x4 dibujos; la fila de arriba es la
-;   ultima (p00:5A03); lo leen p00:5A2F (272 bytes)
+; DATOS bloques_7EB0: 17 bloques de 4x4 dibujos; los 4 primeros bytes son la
+;   fila de arriba (p00:5A03); lo leen p00:5A2F (272 bytes)
 ;   0x7eb0..0x7fc0  (272 bytes)
 DATA_bloques_7EB0:
 	defb 001h,002h,009h,00ah,003h,004h,00bh,00ch,005h,006h,00dh,00eh,007h,008h,00fh,010h	; 7eb0  ................

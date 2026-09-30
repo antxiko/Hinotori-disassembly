@@ -4048,7 +4048,7 @@ pon_fila_de_bloque_2:
 	add hl,hl			;59fd
 	ld de,(0c306h)		;59fe   ; 0xC306: las superfilas del area (p00:5915)
 	add hl,de			;5a02
-	ld a,c			;5a03   ; (fila & 3) xor 3: la fila de dibujos del bloque, la de arriba es la ultima
+	ld a,c			;5a03   ; (fila & 3) xor 3: la fila de dibujos del bloque; la fila sube, asi que los 4 primeros bytes son la de arriba
 	and 003h		;5a04
 	xor 003h		;5a06
 	add a,a			;5a08
