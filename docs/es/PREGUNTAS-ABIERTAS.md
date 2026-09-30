@@ -6,7 +6,9 @@ Lo que no está resuelto, dicho tal cual.
   `p09:A269` y de las listas de cosas; no hemos cruzado un torii en openMSX.
 - **El área `0x18`.** Las puertas 14-17 llevan a ella, que no está en
   ninguna tabla de 24 áreas. Ninguna lista de cosas pone esas puertas.
-- **Cómo se acaba el juego.** Las salas 3, 5 y 6 devuelven a fases ya
+- **Cómo se acaba el juego.** La sala de la fase 6 pide cinco joyas del
+  corazón (ver Hallazgos): dónde están y qué pasa al llevarlas no se ha
+  medido. Las salas 3, 5 y 6 devuelven a fases ya
   pasadas; lo que decide el final no está leído todavía (el estado 12 lo
   pone `0xC4DA`, que escribe ENDDEMOGAMITAINA y alguien más).
 - **METALSLAVE**: se tecleó con Gao muriendo y no se pudo medir; el código

@@ -7,7 +7,9 @@ What is not solved, said as it is.
   in openMSX.
 - **Area `0x18`.** Gates 14-17 lead to it, and it is in none of the 24-area
   tables. No list of things places those gates.
-- **How the game ends.** Rooms 3, 5 and 6 send you back to stages already
+- **How the game ends.** The stage-6 room asks for five heart jewels (see
+  Findings): where they are and what happens when you carry them has not
+  been measured. Rooms 3, 5 and 6 send you back to stages already
   crossed; what decides the ending has not been read yet (state 12 is set by
   `0xC4DA`, written by ENDDEMOGAMITAINA and by someone else).
 - **METALSLAVE**: it was typed while Gao was dying and could not be measured;

@@ -129,6 +129,25 @@ On each row, the unused version and, after a gap, the one the game loads. In
 two tones, like the enemies: the colour is set by each enemy's code.
 **Measured in the ROM** (`tools/figuras.py huerfanas`).
 
+**And measured in openMSX**: going into each room (the gate written to
+`0xC486` and bit 7 of `0xC485`, the same as `p01:607C` does when you cross a
+torii), the VRAM holds the whole sprite set of its boss —room 1, set 25;
+room 2, 26; room 3, 27; room 5, 28; room 6, 29— and not one sprite of these
+figures. The stage-4 room has no boss: it only loads set 35 and the flame
+(`tools/figuras.py coteja_salas`).
+
+## The phoenix in the last room asks for five jewels
+
+In the stage-6 room, a few seconds after going in, the game goes to state 18
+(`0xC100` = `0x12`) and the phoenix appears in a window with this message,
+transcribed from the screen:
+
+> ガおうよ、悪鬼とたたかうためには、こころのたまが いつつひつようです。
+> さあ、おゆきなさい。
+
+"Gaou, to fight the demon you need five *kokoro no tama* (heart jewels).
+Now, go." **Measured in openMSX**, going in with none.
+
 **Corrected on 30 September 2026**: the first version of this finding said
 these were figures nobody uses. The data is not used, but five of them are
 bosses that do appear, in another drawing.

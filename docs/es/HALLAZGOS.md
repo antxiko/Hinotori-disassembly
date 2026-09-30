@@ -133,6 +133,26 @@ En cada fila, la versión que no se usa y, tras un hueco, la que carga el
 juego. En dos tonos, como los bichos: el color lo pone el código de cada
 bicho. **Medido en la ROM** (`tools/figuras.py huerfanas`).
 
+**Y medido en openMSX**: entrando en cada sala (la puerta escrita en
+`0xC486` y el bit 7 de `0xC485`, lo mismo que hace `p01:607C` al cruzar un
+torii), la VRAM lleva entero el juego de sprites de su jefe —sala 1, cosa
+25; sala 2, la 26; sala 3, la 27; sala 5, la 28; sala 6, la 29— y ni un
+solo sprite de estas figuras. La sala de la fase 4 no tiene jefe: solo carga
+la cosa 35 y la llama (`tools/figuras.py coteja_salas`).
+
+## El fénix de la última sala pide cinco joyas
+
+En la sala de la fase 6, a los pocos segundos de entrar, el juego pasa al
+estado 18 (`0xC100` = `0x12`) y sale el fénix en una ventana con este
+mensaje, transcrito de la pantalla:
+
+> ガおうよ、悪鬼とたたかうためには、こころのたまが いつつひつようです。
+> さあ、おゆきなさい。
+
+«Gaou, para luchar contra el demonio hacen falta cinco *kokoro no tama*
+(joyas del corazón). Ahora, ve.» **Medido en openMSX**, entrando sin
+ninguna.
+
 **Corregido el 30 de septiembre de 2026**: la primera versión de este
 hallazgo decía que eran figuras que no usa nadie. Los datos no se usan, pero
 cinco son jefes que sí salen, con otro dibujo.

@@ -220,6 +220,31 @@ def lamina_huerfanas(ruta, esc=4):
     return len(tiras), sum(len(trozos(f[0], f[1], f[2])) for f in filas)
 
 
+def coteja_salas(dirv):
+    """Los volcados de tools/lanza_guion.sh con tools/guion_salas.txt (se entra
+    en cada sala escribiendo la puerta en 0xC486 y el bit 7 de 0xC485, como
+    p01:607C): en la VRAM tiene que estar entero el juego de cada cosa de la
+    lista de la sala (p07:6000) y ningun sprite de las figuras sin cargar."""
+    usadas = cosas()
+    tiras, _ = huerfanas()
+    sin = b"".join(tiras) + crudo_huerfano()
+    mal = 0
+    for area in range(18, 24):
+        r = open(os.path.join(dirv, "s%d_15.ram" % area), "rb").read()
+        v = open(os.path.join(dirv, "s%d_15.vram" % area), "rb").read()
+        a = H.palabra(0x6000 + 2 * area, (7, 8, 9))
+        lista = []
+        while H.lee(a, (7, 8, 9)) != 0xFF:
+            lista.append(H.lee(a, (7, 8, 9)))
+            a += 2
+        faltan = [k for k in lista if usadas[k] and usadas[k] not in v]
+        huer = sum(1 for i in range(0, len(sin), 64) if sin[i:i + 64] in v)
+        print("sala %d (area %d en la RAM): cosas %s en la VRAM, faltan %s; "
+              "sprites de las figuras sin cargar: %d" % (area, r[0x480], lista, faltan, huer))
+        mal += len(faltan) + huer + (r[0x480] != area)
+    return mal
+
+
 def main(argv):
     if argv[1] == "objetos":
         v = H.hoja_de_la_fase(0, 0)
@@ -255,6 +280,8 @@ def main(argv):
                                 for x, y in zip(fa, fb)] for fa, fb in zip(a, b)])
         lamina(celdas, [], argv[2], 16, 16, esc=3)
         print("%d sprites de 16x16 a dos capas" % len(celdas))
+    elif argv[1] == "coteja_salas":
+        return 1 if coteja_salas(argv[2]) else 0
     elif argv[1] == "huerfanas":
         n, f = lamina_huerfanas(argv[2])
         print("%d tiras y un trozo sin comprimir, %d dibujos en %d figuras"

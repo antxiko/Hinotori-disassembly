@@ -182,6 +182,7 @@ coteja: $(ROM)
 	-python3 tools/mapa.py coteja $(WORK)/v3/t045.ram $(WORK)/v3/t045.vram
 	python3 tools/mapa.py coteja $(WORK)/area_1/bp.ram $(WORK)/area_1/bp.vram
 	python3 tools/mapa.py coteja $(WORK)/area_2/bp.ram $(WORK)/area_2/bp.vram
+	python3 tools/figuras.py coteja_salas $(WORK)/salas
 	python3 tools/mapa.py coteja_hoja $(WORK)/area_1/bp.ram $(WORK)/area_1/bp.vram $(WORK)/area_1/bp.pal
 	python3 tools/mapa.py coteja_hoja $(WORK)/area_2/bp.ram $(WORK)/area_2/bp.vram $(WORK)/area_2/bp.pal
 
