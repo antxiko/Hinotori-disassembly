@@ -1,0 +1,216 @@
+# Notas del banco 0: comentarios (C), etiquetas (L) y datos (D) anclados a direccion.
+
+# --- La biblioteca del VDP y del armazon, identica byte a byte (operandos
+# aparte) a la de King Kong 2 (tools/porta_nombres.py, tramos de 24 bytes o
+# mas); cada linea se ha leido contra el codigo de aqui. ---
+L 0x40A4 hl_mas_a
+L 0x40A9 de_mas_a
+L 0x40AE despacha
+B 0x40AE Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
+L 0x40AF despacha_hl
+L 0x49EB cuenta_para_otir
+L 0x49F3 copia_a_la_vram
+C 0x49F3 BC bytes de HL a la VRAM de DE
+L 0x4A06 rellena_la_vram
+C 0x4A06 BC bytes con A desde la VRAM de HL
+L 0x4A39 vram_para_escribir
+C 0x4A39 prepara el V9938 para escribir en la direccion de VRAM HL (R#14 y el puerto 1)
+L 0x4A58 vram_para_leer
+L 0x49D8 lee_de_la_vram
+L 0x4A87 rle_con_destino
+C 0x4A87 la palabra de DE es la direccion de VRAM; detras, el RLE
+L 0x4A8D rle_a_la_vram
+C 0x4A8D el RLE de DE a la VRAM de HL (n con el bit 7: n bytes tal cual; sin el, repetir; 0 acaba)
+L 0x4D03 pon_un_color
+C 0x4D03 color A de la paleta = D (RB) y E (G)
+L 0x4D2D paleta_inicial
+L 0x4D3F pon_paleta
+C 0x4D3F lista [color][RB][G] ... 0xFF
+L 0x4D4D espera_al_vdp
+C 0x4D4D espera a que el V9938 acabe la orden (bit 0 de S#2)
+L 0x4D56 lee_estado_del_vdp
+C 0x4D56 lee el registro de estado A del V9938
+L 0x4DDD marco
+C 0x4DDD cuatro rayas: un marco de E por D en HL
+L 0x4E0B hmmv
+L 0x4E47 hmmm
+C 0x4E47 orden HMMM del V9938: copia BxC puntos de (H, L) a (D, E); A lleva las paginas
+L 0x4E8B lmmm
+C 0x4E8B orden LMMM del V9938: lo mismo con operacion logica (A: paginas y operacion; 8 = TIMP)
+L 0x4ED7 sube_letras
+C 0x4ED7 B letras de 1 bit de HL, en color C, a la hoja de la pagina 1 desde (D, E)
+L 0x4EE0 sube_una_letra
+L 0x4F01 sube_un_dibujo
+C 0x4F01 un dibujo de 8x8 a 4 bits (32 bytes) de HL a la VRAM de DE
+L 0x4F16 sube_dibujos
+C 0x4F16 B dibujos de 8x8 a 4 bits de HL a la VRAM de DE
+L 0x5037 pon_dibujo_transparente
+C 0x5037 lo mismo con LMMM + TIMP: el color 0 no pinta
+L 0x5049 copia_dibujo_en_la_hoja
+L 0x505B copia_8x8_en_la_hoja
+L 0x4D76 raya_horizontal
+C 0x4D76 orden LINE del V9938 (MAJ = 0): de (H, L), B-1 puntos
+L 0x4DA9 raya_vertical
+C 0x4DA9 orden LINE con MAJ = 1: la raya va hacia abajo
+L 0x4DF7 raya_vertical_guardando
+L 0x4E01 raya_horizontal_guardando
+L 0x4CED apaga_los_sprites
+L 0x4CF8 enciende_los_sprites
+C 0x4091 0xC105: el juego no se mete dos veces (si el cuadro anterior no acabo)
+C 0x409B p00:4200: el juego entero, un cuadro
+C 0x40B8 INIT: el cartucho arranca aqui (cabecera AB)
+C 0x40B9 la pila, debajo de las copias del mapper
+C 0x40BC la ranura primaria de la pagina 1 (la del cartucho)...
+C 0x40C6 ...y si esta expandida, la secundaria (0xFCC1 + ranura)...
+C 0x40D7 ...para poner el cartucho tambien en la pagina 2 (0x8000-0xBFFF)
+C 0x40DC 0x30EF ceros desde 0xC000: toda la RAM del juego
+C 0x49D8 LEE BC bytes de la VRAM de HL a DE
+C 0x49DB B y A: las vueltas de 256 de inir
+C 0x49DF el puerto de datos del VDP (0x0006 de la BIOS)
+C 0x49E4 una tanda de B bytes...
+C 0x49E6 ...y otra, hasta A
+C 0x49EB DE <-> HL; B = C (lo que sobra) y A = B, +1 si sobra algo: las vueltas de 256
+C 0x49F4 el sitio de la VRAM
+C 0x49FB el puerto de datos del VDP (0x0007 de la BIOS)
+C 0x4A00 una tanda de B bytes...
+C 0x4A02 ...y otra, hasta A
+C 0x4A08 el sitio de la VRAM
+C 0x4A0B D: lo que sobra de 256...
+C 0x4A10 ...y B, las vueltas enteras
+C 0x4A11 el puerto de datos
+C 0x4A16 A, BC veces
+C 0x4A3A el puerto de registros del VDP (el de datos + 1)
+C 0x4A3E los dos bits altos de la direccion...
+C 0x4A45 ...en R#14
+C 0x4A4B el byte bajo...
+C 0x4A4E ...y los seis siguientes, con el bit 6: para escribir
+C 0x4A6D ...sin el bit 6: para leer
+C 0x4A88 la direccion de VRAM de la palabra de DE
+C 0x4A90 el puerto de datos
+C 0x4A94 n
+C 0x4A95 0: se acabo
+C 0x4A98 con el bit 7...
+C 0x4A9B ...sin el: repetir
+C 0x4A9E 0x80: otra direccion de VRAM (p00:4A87)
+C 0x4AA1 n & 0x7F bytes tal cual
+C 0x4AA8 el byte que se repite, B veces
+C 0x4CED la copia de R#8 (0xFFE7)...
+C 0x4CF8 la copia de R#8 sin el bit 1: se ven los sprites
+C 0x4D05 el numero de color
+C 0x4D06 el puerto de registros
+C 0x4D0C R#16 = el color...
+C 0x4D12 ...y el puerto de la paleta: RB y G
+C 0x4D1A y tambien en la copia de la paleta en la VRAM (0xF680 + 2*color)
+C 0x4D25 RB y G a la VRAM
+C 0x4D41 0xFF acaba
+C 0x4D44 RB y G
+C 0x4D52 el bit 0 de S#2 (CE): la orden sigue en marcha
+C 0x4D5F R#15 = A...
+C 0x4D65 ...se lee el registro de estado...
+C 0x4D69 ...y R#15 vuelve a 0 (la BIOS lo espera asi)
+C 0x4D7F desde R#36...
+C 0x4D88 ...el puerto de los registros seguidos (R#17 auto)
+C 0x4D8A DX = H
+C 0x4D8F DY = L
+C 0x4D93 lo largo: B - 1 puntos
+C 0x4DA3 LINE con IMP
+C 0x4DD4 ARG con MAJ = 1: el lado largo es el vertical
+C 0x4DDE la raya de la izquierda (E puntos)
+C 0x4DE2 la de arriba (D puntos)
+C 0x4DE5 la de abajo: L + E - 1
+C 0x4DEF la de la derecha: H + D - 1
+C 0x4E0B el color, a un lado
+C 0x4E15 desde R#36
+C 0x4E20 DX = H
+C 0x4E25 DY = L y la pagina D
+C 0x4E29 NX = B (0 = 256)
+C 0x4E33 NY = C (0 = 256)
+C 0x4E3B CLR = el color
+C 0x4E41 HMMV
+C 0x4E4B desde R#32 (SX)
+C 0x4E5C SX = H
+C 0x4E61 SY = L...
+C 0x4E64 ...y la pagina de origen: bits 0-1 de A
+C 0x4E69 DX = D
+C 0x4E6E DY = E...
+C 0x4E70 ...y la pagina de destino: bits 2-3 de A
+C 0x4E78 NX = B
+C 0x4E7D NY = C
+C 0x4E85 HMMM
+C 0x4E8F desde R#32
+C 0x4EA0 SX = H
+C 0x4EA5 SY = L...
+C 0x4EA8 ...y la pagina de origen: bits 6-7 de A
+C 0x4EAF DX = D
+C 0x4EB4 DY = E...
+C 0x4EB6 ...y la pagina de destino: bits 4-5
+C 0x4EBF NX = B
+C 0x4EC4 NY = C
+C 0x4ECC LMMM con la operacion de los bits 0-3 (8 = TIMP)
+C 0x4EDD la siguiente letra
+C 0x4EE3 1 bit a 4 bits, en 0xE800
+C 0x4EE8 D y E cambiados...
+C 0x4EEB ...y (y*256 + x)/2: el byte de la VRAM...
+C 0x4EEF ...en la pagina 1 (0x8000)
+C 0x4EF3 los 32 bytes de 0xE800
+C 0x4EFA 8 bytes de fuente por letra
+C 0x4F02 8 filas
+C 0x4F05 de 4 bytes (8 puntos)
+C 0x4F0C la fila de abajo: 128 bytes de VRAM
+C 0x4F1A el siguiente, 4 bytes (8 puntos) a la derecha...
+C 0x4F1D ...y al llegar al borde (0x80), 8 lineas mas abajo
+C 0x4F28 el siguiente dibujo
+C 0x503D 8x8 con LMMM y TIMP, de la pagina 1 a la 0
+C 0x504F 8x8, dentro de la pagina 1
+C 0x4D7A C = el puerto de control del VDP (0x0007 + 1)
+C 0x4D8C DX alto = 0
+C 0x4D91 DY alto = 0 (pagina 0)
+C 0x4D95 NX (el lado largo) = B - 1...
+C 0x4D98 ...su byte alto 0...
+C 0x4D9A ...NY (el corto) = 0...
+C 0x4D9F CLR = C, el color
+C 0x4DA1 ARG = 0: MAJ 0, hacia la derecha
+C 0x4DAD C = el puerto de control del VDP
+C 0x4DBD DX = H
+C 0x4DC2 DY = L
+C 0x4DC7 NX (el lado largo) = B - 1
+C 0x4DD2 CLR = C, el color
+C 0x4DD7 LINE con IMP
+C 0x4E10 C = el puerto de control del VDP
+C 0x4E23 DX alto = 0
+C 0x4E2C NX alto: 1 si NX es 0 (256 puntos)
+C 0x4E35 NY alto: 1 si NY es 0
+C 0x4E3E ARG = 0
+C 0x4E4C C = el puerto de control del VDP
+C 0x4E5E SX alto = 0
+C 0x4E6B DX alto = 0
+C 0x4E7A NX alto = 0
+C 0x4E7F NY alto = 0, y R#44 (CLR) y R#45 (ARG) = 0
+C 0x4E90 C = el puerto de control del VDP
+C 0x4EA2 SX alto = 0
+C 0x4EB1 DX alto = 0
+C 0x4EC1 NX alto = 0
+C 0x4EC6 NY alto = 0, CLR y ARG = 0
+C 0x4D58 H = el puerto de control (0x0007), L = el de lectura (0x0006 + 1)
+C 0x40AF SALTA A LA ENTRADA A de la tabla de palabras de HL
+C 0x40B3 la palabra, y alli
+C 0x498B bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
+C 0x49F7 cuenta_para_otir: DE <-> HL; B = C (lo que sobra) y A = B, +1 si sobra algo: las vueltas de 256
+C 0x4D21 vram_para_escribir: prepara el V9938 para escribir en la direccion de VRAM HL (R#14 y el puerto 1)
+C 0x4D48 pon_un_color: color A de la paleta = D (RB) y E (G)
+C 0x4D4F lee_estado_del_vdp: lee el registro de estado A del V9938
+C 0x4DFA raya_vertical: orden LINE con MAJ = 1: la raya va hacia abajo
+C 0x4E04 raya_horizontal: orden LINE del V9938 (MAJ = 0): de (H, L), B-1 puntos
+C 0x4E0C espera_al_vdp: espera a que el V9938 acabe la orden (bit 0 de S#2)
+C 0x4E48 espera_al_vdp: espera a que el V9938 acabe la orden (bit 0 de S#2)
+C 0x4E8C espera_al_vdp: espera a que el V9938 acabe la orden (bit 0 de S#2)
+C 0x4EDA siguiente_sitio: D + 8; al dar la vuelta, E + 8
+C 0x4EE4 expande_letra: una letra de 1 bit a 4 bits, en 0xE800, con el color C
+C 0x4EF6 sube_un_dibujo: un dibujo de 8x8 a 4 bits (32 bytes) de HL a la VRAM de DE
+C 0x4F08 copia_a_la_vram: BC bytes de HL a la VRAM de DE
+C 0x4F17 sube_un_dibujo: un dibujo de 8x8 a 4 bits (32 bytes) de HL a la VRAM de DE
+C 0x5030 hmmm: orden HMMM del V9938: copia BxC puntos de (H, L) a (D, E); A lleva las paginas
+C 0x503A sitio_del_dibujo: H = (A & 31)*8, L = (A >> 5)*8: donde esta el dibujo A en la hoja
+C 0x5042 lmmm: orden LMMM del V9938: lo mismo con operacion logica (A: paginas y operacion; 8 = TIMP)
+C 0x504C sitio_del_dibujo: H = (A & 31)*8, L = (A >> 5)*8: donde esta el dibujo A en la hoja
+C 0x5054 hmmm: orden HMMM del V9938: copia BxC puntos de (H, L) a (D, E); A lleva las paginas
