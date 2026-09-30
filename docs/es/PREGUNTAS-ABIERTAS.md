@@ -15,7 +15,7 @@ Lo que no está resuelto, dicho tal cual.
   se ha probado.
 - **El color de los bichos.** Los sprites de las cosas van en dos tonos: el
   color lo pone el código de cada tipo y no está sacado tipo a tipo.
-- **Las siete figuras sin puntero** de `p07:7457` y `p08:82B3`: qué eran, y
-  sus colores.
+- **La versión que no se usa de cinco jefes** (`p07:7457`, `p08:82B3`): si
+  es un dibujo anterior, y qué eran las otras dos figuras.
 - **Los objetos del 18 al 32** se pintan con iconos casi vacíos en la hoja
   de las fases volcadas; puede que sus iconos se suban en otro momento.

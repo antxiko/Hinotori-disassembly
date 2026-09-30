@@ -134,12 +134,14 @@ def cosas():
     return fuera
 
 
-# (tiras que se leen seguidas, ancho y alto en sprites de 16x16) por figura
-FIGURAS_HUERFANAS = [((0, 1, 2), 2, 2), ((3, 4, 5, 6, 7, 12), 2, 2),
-                     ((8, 9), 2, 2), ((10, 11), 2, 2),
-                     ((13, 14, 15), 2, 3), ((16, 17), 1, 2)]
+# (tiras que se leen seguidas, ancho y alto en sprites de 16x16, y la cosa
+# de p07:6173 que es el mismo jefe dibujado de otra manera, la que cargan las
+# salas; None si no hay) por figura
+FIGURAS_HUERFANAS = [((0, 1, 2), 2, 2, 25), ((3, 4, 5, 6, 7, 12), 2, 2, 26),
+                     ((8, 9), 2, 2, 27), ((10, 11), 2, 2, None),
+                     ((13, 14, 15), 2, 3, 28), ((16, 17), 1, 2, None)]
 TIRAS_HUERFANAS = (0x7457, 18)
-CRUDO_HUERFANO = (0x82B3, 768, 2, 3)      # direccion, bytes, ancho y alto
+CRUDO_HUERFANO = (0x82B3, 768, 2, 3, 29)  # direccion, bytes, ancho, alto, cosa
 
 
 def huerfanas():
@@ -158,24 +160,33 @@ def huerfanas():
 
 
 def crudo_huerfano():
-    a, n, _, _ = CRUDO_HUERFANO
+    a, n = CRUDO_HUERFANO[:2]
     return bytes(H.lee(a + i, (7, 8, 9)) for i in range(n))
 
 
 def lamina_huerfanas(ruta, esc=4):
     c1, c2, c12 = (225, 215, 190), (200, 70, 40), (60, 25, 20)
     tiras, _ = huerfanas()
+    # una fila por figura: la version que no se usa y, tras un hueco, la del
+    # mismo jefe que cargan las salas (sus fotogramas enteros)
+    usadas = cosas()
+
+    def trozos(datos, w, h):
+        n = 64 * w * h
+        return [(datos[i:i + n], w, h) for i in range(0, len(datos) - n + 1, n)]
+    filas = [(b"".join(tiras[k] for k in ks), w, h, c) for ks, w, h, c in FIGURAS_HUERFANAS]
+    filas.append((crudo_huerfano(),) + CRUDO_HUERFANO[2:])
     grupos = []
-    for ks, w, h in FIGURAS_HUERFANAS:
-        datos = b"".join(tiras[k] for k in ks)
-        grupos.append([(datos[i:i + 64 * w * h], w, h)
-                       for i in range(0, len(datos), 64 * w * h)])
-    a, n, w, h = CRUDO_HUERFANO
-    datos = crudo_huerfano()
-    grupos.append([(datos[i:i + 64 * w * h], w, h) for i in range(0, n, 64 * w * h)])
+    for datos, w, h, c in filas:
+        g = trozos(datos, w, h)
+        if c is not None:
+            g += [None] + trozos(usadas[c], w, h)
+        grupos.append(g)
     sep, fondo, caja = 12, (24, 24, 32), (36, 36, 48)
-    ancho = max(sum(w * 16 * esc + sep for _, w, _ in g) for g in grupos) + sep
-    altos = [max(h for _, _, h in g) * 16 * esc + sep for g in grupos]
+    hueco = 6 * esc
+    ancho = max(sum(hueco if t is None else t[1] * 16 * esc + sep for t in g)
+                for g in grupos) + sep
+    altos = [max(t[2] for t in g if t) * 16 * esc + sep for g in grupos]
     alto = sum(altos) + sep
     pix = bytearray(bytes(fondo) * ancho * alto)
 
@@ -186,7 +197,11 @@ def lamina_huerfanas(ruta, esc=4):
     oy = sep
     for g, alto_g in zip(grupos, altos):
         ox = sep
-        for datos, w, h in g:
+        for t in g:
+            if t is None:
+                ox += hueco
+                continue
+            datos, w, h = t
             for y in range(h * 16):
                 for x in range(w * 16):
                     punto(ox + x * esc, oy + y * esc, caja)
@@ -202,7 +217,7 @@ def lamina_huerfanas(ruta, esc=4):
             ox += w * 16 * esc + sep
         oy += alto_g
     H.png(ruta, ancho, alto, pix)
-    return len(tiras), sum(len(g) for g in grupos)
+    return len(tiras), sum(len(trozos(f[0], f[1], f[2])) for f in filas)
 
 
 def main(argv):

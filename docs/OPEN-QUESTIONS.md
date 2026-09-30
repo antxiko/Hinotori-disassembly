@@ -17,7 +17,7 @@ What is not solved, said as it is.
 - **The enemies' colour.** The sprites of the sets are in two tones: the
   colour is set by the code of each type and has not been worked out type by
   type.
-- **The seven figures without a pointer** at `p07:7457` and `p08:82B3`:
-  what they were, and their colours.
+- **The unused version of five bosses** (`p07:7457`, `p08:82B3`): whether
+  it is an earlier drawing, and what the other two figures were.
 - **Items 18 to 32** are drawn with nearly empty icons from the sheet of the
   dumped stages; their icons may be uploaded at another moment.

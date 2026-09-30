@@ -61,9 +61,10 @@ DATA_rle_sin_puntero_cola:
 
 ; ----------------------------------------------------------------------
 ; DATOS sprites_sin_lector_82B3: 12 sprites de 16x16 a dos capas SIN comprimir
-;   (dos columnas de tres: un guerrero de 32x48 en dos fotogramas) que no lee
-;   nadie: ninguna lista ni instruccion trazada los apunta y la sonda de
-;   openMSX no los lee (tools/figuras.py huerfanas)
+;   (dos columnas de tres: el guerrero de varios brazos de 32x48, otra version
+;   del jefe de la cosa 29) que no lee nadie: ninguna lista ni instruccion
+;   trazada los apunta y la sonda de openMSX no los lee (tools/figuras.py
+;   huerfanas)
 ;   0x82b3..0x85b3  (768 bytes)
 DATA_sprites_sin_lector_82B3:
 	defb 000h,000h,00eh,019h,023h,02fh,07fh,05eh,04eh,0c6h,087h,09eh,0a3h,087h,08ch,04bh	; 82b3  ....#/.^N......K

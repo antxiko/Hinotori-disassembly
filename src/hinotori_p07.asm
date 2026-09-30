@@ -945,7 +945,8 @@ DATA_rle_73DA:
 ;   acaba en su 0; 128 a 320 bytes al abrirlas) seguidas, de 0x7457 a
 ;   p08:82B3: el RLE solo lo abre p00:4AD5, que recorre las listas, y ninguna
 ;   entrada las nombra; la sonda de openMSX no las lee. Abiertas son seis
-;   figuras de sprites a dos capas (tools/figuras.py huerfanas)
+;   figuras de sprites a dos capas; cuatro son otra version de los jefes de
+;   las cosas 25-28 (tools/figuras.py huerfanas)
 ;   0x7457..0x8000  (2985 bytes)  de 0x7457..0x824e (3575 bytes)
 DATA_rle_sin_puntero:
 	defb 0c0h,000h,006h,00dh,018h,018h,031h,031h,033h,03fh,072h,05eh,0ffh,0feh,03fh,02fh	; 7457  ......113?r^..?/

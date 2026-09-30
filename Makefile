@@ -170,7 +170,7 @@ imagenes: $(ROM)
 	python3 tools/figuras.py objetos docs/imagenes/objetos.png
 	python3 tools/figuras.py gao docs/imagenes/gao.png
 	python3 tools/figuras.py cosas docs/imagenes/cosas.png
-	python3 tools/figuras.py huerfanas docs/imagenes/huerfanas.png
+	python3 tools/figuras.py huerfanas docs/imagenes/jefes.png
 
 # El cotejo contra los volcados de openMSX (work/, no viajan: se rehacen con
 # tools/lanza_bp.sh y lanza_vuelca.sh, ver docs/IN-THE-EMULATOR.md). Los tres

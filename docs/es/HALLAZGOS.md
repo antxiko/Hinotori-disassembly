@@ -102,37 +102,40 @@ F5 abre un mapa de las seis fases (`p02:8555`). Si se lleva el objeto 14
 uno (`p02:859F`); se llega por la columna 1 (`p01:65CF`). **Sale del
 código.**
 
-## Siete figuras que no usa nadie
+## Otra versión de cinco jefes, que no se usa
 
 De `p07:7457` a `p08:82B3` hay 18 tiras seguidas en el RLE de los sprites
-(`p00:4A8D`), 3.676 bytes; abiertas dan de 128 a 320 bytes cada una, tamaños
-de juegos de patrones. Ese RLE solo lo abre `p00:4AD5`, que recorre las
-listas de cada área, y ninguna entrada nombra ninguna; la sonda de lecturas
-de openMSX tampoco las lee.
+(`p00:4A8D`), y justo detrás, hasta `0x85B3`, 768 bytes de sprites sin
+comprimir. No los carga nadie: el RLE solo lo abren las listas de cada área
+(`p00:4AD5`) y el cargador de las 41 cosas (`p00:56C7`), y ninguna entrada
+los nombra; la sonda de lecturas de openMSX tampoco los lee.
 
-Abiertas y leídas como los sprites que sí se usan (dos patrones seguidos son
-las dos capas de un sprite de 16 × 16, y los sprites de una figura van por
-columnas), son seis figuras que no salen en el juego. Justo detrás, de
-`p08:82B3` a `0x85B3`, hay 768 bytes que tampoco lee nadie: doce sprites a
-dos capas sin comprimir, en dos columnas de tres. Es una séptima figura.
-Ninguna de las siete coincide con ninguno de los 41 juegos de sprites que se
-cargan:
+Leídos como los sprites que sí se usan (dos patrones seguidos son las dos
+capas de un sprite de 16 × 16, y los sprites de una figura van por columnas),
+son siete figuras, y **cinco son jefes del juego dibujados de otra manera**:
+las mismas criaturas que las cosas que cargan las salas (`p07:6000`, áreas
+18 a 23), sin un solo sprite en común, ni cambiando las capas ni comparando
+solo el contorno.
 
-| tiras | figura |
-|---|---|
-| 0-2, leídas seguidas | una bestia jorobada, 32 × 32, tres fotogramas |
-| 3-7 y 12 | un monstruo de un ojo con brazos enormes, 32 × 32, seis posturas |
-| 8-9 | una cara, 32 × 32, dos fotogramas |
-| 10-11 | algo que sale del suelo con dos garras, 32 × 32 |
-| 13-15, leídas seguidas | un demonio, 32 × 48, dos fotogramas: el dibujo más grande del cartucho |
-| 16-17 | un guerrero pequeño con cinta en la cabeza, 16 × 32, dos fotogramas |
-| `p08:82B3`, sin comprimir | un guerrero de varios brazos y varias caras, 32 × 48, dos fotogramas |
+| tiras | figura | el jefe que carga el juego |
+|---|---|---|
+| 0-2, leídas seguidas | una bestia jorobada, 32 × 32, tres fotogramas | cosa 25 |
+| 3-7 y 12 | el monstruo de un ojo, 32 × 32, seis posturas (una hundiéndose) | cosa 26, cuatro posturas |
+| 8-9 | la cara, 32 × 32, dos fotogramas | cosa 27 |
+| 13-15, leídas seguidas | el demonio, 32 × 48, dos fotogramas | cosa 28 |
+| `p08:82B3`, sin comprimir | el guerrero de varios brazos, 32 × 48, dos fotogramas | cosa 29 |
+| 10-11 | algo que sale del suelo con dos garras, 32 × 32 | ninguno |
+| 16-17 | un guerrero pequeño con cinta en la cabeza, 16 × 32, dos fotogramas | ninguno |
 
-![Las seis figuras](../imagenes/huerfanas.png)
+![La versión que no se usa de cada jefe, y la que carga el juego](../imagenes/jefes.png)
 
-En dos tonos, como los bichos: el color lo pone el código de cada bicho, y
-estas no tienen. Qué eran no se sabe. **Medido en la ROM**
-(`tools/figuras.py huerfanas`).
+En cada fila, la versión que no se usa y, tras un hueco, la que carga el
+juego. En dos tonos, como los bichos: el color lo pone el código de cada
+bicho. **Medido en la ROM** (`tools/figuras.py huerfanas`).
+
+**Corregido el 30 de septiembre de 2026**: la primera versión de este
+hallazgo decía que eran figuras que no usa nadie. Los datos no se usan, pero
+cinco son jefes que sí salen, con otro dibujo.
 
 ## La cabecera para otros cartuchos
 

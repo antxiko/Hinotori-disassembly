@@ -39,5 +39,5 @@ F 0x9A30 8
 D 0x8000 0x82B3 rle_sin_puntero_cola  la cola de las 18 tiras RLE sin puntero que empiezan en p07:7457 (ver alli); la ultima, de 0x824E a 0x82B3
 
 # --- RESTO (seccion que reescribe tools/resto.py; no editar a mano) ---
-D 0x82B3 0x85B3 sprites_sin_lector_82B3  12 sprites de 16x16 a dos capas SIN comprimir (dos columnas de tres: un guerrero de 32x48 en dos fotogramas) que no lee nadie: ninguna lista ni instruccion trazada los apunta y la sonda de openMSX no los lee (tools/figuras.py huerfanas)
+D 0x82B3 0x85B3 sprites_sin_lector_82B3  12 sprites de 16x16 a dos capas SIN comprimir (dos columnas de tres: el guerrero de varios brazos de 32x48, otra version del jefe de la cosa 29) que no lee nadie: ninguna lista ni instruccion trazada los apunta y la sonda de openMSX no los lee (tools/figuras.py huerfanas)
 # --- fin del resto ---

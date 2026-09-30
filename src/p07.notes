@@ -128,7 +128,7 @@ F 0x73DA 16
 
 
 # --- A MANO: datos con su explicacion ---
-D 0x7457 0x824E rle_sin_puntero  18 tiras en el RLE de p00:4A8D (cada una acaba en su 0; 128 a 320 bytes al abrirlas) seguidas, de 0x7457 a p08:82B3: el RLE solo lo abre p00:4AD5, que recorre las listas, y ninguna entrada las nombra; la sonda de openMSX no las lee. Abiertas son seis figuras de sprites a dos capas (tools/figuras.py huerfanas)
+D 0x7457 0x824E rle_sin_puntero  18 tiras en el RLE de p00:4A8D (cada una acaba en su 0; 128 a 320 bytes al abrirlas) seguidas, de 0x7457 a p08:82B3: el RLE solo lo abre p00:4AD5, que recorre las listas, y ninguna entrada las nombra; la sonda de openMSX no las lee. Abiertas son seis figuras de sprites a dos capas; cuatro son otra version de los jefes de las cosas 25-28 (tools/figuras.py huerfanas)
 
 # --- RESTO (seccion que reescribe tools/resto.py; no editar a mano) ---
 D 0x6172 0x6173 relleno_6172  relleno de 0xFF: nadie lo lee (1 bytes)

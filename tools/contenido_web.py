@@ -154,17 +154,16 @@ HALLAZGOS = {
          "SASAKI&hellip; y METALSLAVE NAOKI, dise&ntilde;ador. METALSLAVE es "
          "tambi&eacute;n la contrase&ntilde;a de truco que llena la vida.</p>"
          "<p>Medido en la ROM; los cr&eacute;ditos, transcritos en Hallazgos.</p>"),
-        ("Siete figuras que no usa nadie",
+        ("Otra versi&oacute;n de cinco jefes, que no se usa",
          "<p>De <code>p07:7457</code> a <code>p08:82B3</code> hay 18 tiras en el "
-         "mismo RLE que los sprites (<code>p00:4A8D</code>). Ese RLE solo lo "
-         "abre <code>p00:4AD5</code>, que recorre las listas de cada &aacute;rea, "
-         "y ninguna entrada las nombra. Abiertas son seis figuras que no se ven "
-         "en el juego: una bestia jorobada, un monstruo de un ojo en seis "
-         "posturas, una cara, algo que sale del suelo, un demonio de 32 &times; "
-         "48, un guerrero peque&ntilde;o y, justo detr&aacute;s y sin comprimir "
-         "(<code>p08:82B3</code>), un guerrero de varios brazos y varias "
-         "caras.</p><p>Medido en la ROM; ninguna "
-         "coincide con los 41 juegos de sprites que s&iacute; se cargan.</p>"),
+         "RLE de los sprites y, detr&aacute;s, 768 bytes sin comprimir que no "
+         "carga nadie: ninguna lista ni el cargador de las cosas los nombran. "
+         "Abiertos son siete figuras, y <b>cinco son jefes del juego dibujados "
+         "de otra manera</b>: la bestia, el monstruo de un ojo, la cara, el "
+         "demonio y el guerrero de varios brazos, sin un sprite en com&uacute;n "
+         "con los que cargan las salas.</p><p>Medido en la ROM. La primera "
+         "versi&oacute;n de esto dec&iacute;a que no eran de nadie: "
+         "corregido.</p>"),
     ],
     "en": [
         ("With King Kong 2 next to it, it boots King Kong 2 and saves its game",
@@ -226,17 +225,16 @@ HALLAZGOS = {
          "SASAKI&hellip; and METALSLAVE NAOKI, designer. METALSLAVE is also "
          "the cheat password that fills up the energy.</p><p>Measured in the "
          "ROM; the credits are transcribed in Findings.</p>"),
-        ("Seven figures nobody uses",
+        ("Another version of five bosses, never used",
          "<p>From <code>p07:7457</code> to <code>p08:82B3</code> there are 18 "
-         "strips in the same RLE as the sprites (<code>p00:4A8D</code>). That "
-         "RLE is only opened by <code>p00:4AD5</code>, which walks each area's "
-         "lists, and no entry names them. Opened, they are six figures never "
-         "seen in the game: a hunched beast, a one-eyed monster in six poses, "
-         "a face, something rising from the ground, a 32 &times; 48 demon and "
-         "a small warrior, and right behind, not compressed "
-         "(<code>p08:82B3</code>), a warrior with several arms and faces."
-         "</p><p>Measured in the ROM; none matches the 41 "
-         "sprite sets that are loaded.</p>"),
+         "strips in the sprite RLE and, behind them, 768 uncompressed bytes "
+         "that nothing loads: no list and not the loader of the sets names "
+         "them. Opened, they are seven figures, and <b>five are bosses of the "
+         "game drawn another way</b>: the beast, the one-eyed monster, the "
+         "face, the demon and the warrior with several arms, with not a sprite "
+         "in common with the ones the rooms load.</p><p>Measured in the ROM. "
+         "The first version of this said they belonged to nobody: "
+         "corrected.</p>"),
     ],
 }
 
@@ -278,15 +276,15 @@ GALERIA = [
      "The 132 sprites of the 41 sets the areas load (<code>p07:6173</code>): "
      "enemies, bosses in pieces and what they throw. In two tones: the colour "
      "is set by each enemy as it moves."),
-    ("huerfanas.png",
-     "Las 18 tiras que no nombra ninguna lista (<code>p07:7457</code>), "
-     "abiertas, y los 768 bytes sin comprimir de <code>p08:82B3</code>: "
-     "siete figuras que no salen en el juego. Dos capas por sprite, "
-     "en dos tonos: no tienen c&oacute;digo que les ponga color.",
-     "The 18 strips no list names (<code>p07:7457</code>), opened: six "
-     "figures and the 768 uncompressed bytes at <code>p08:82B3</code>: seven "
-     "figures that never appear in the game. Two layers per sprite, in two "
-     "tones: they have no code to colour them."),
+    ("jefes.png",
+     "En cada fila, una figura que no carga nadie (<code>p07:7457</code>, "
+     "<code>p08:82B3</code>) y, tras un hueco, el jefe que s&iacute; cargan "
+     "las salas: cinco son el mismo jefe dibujado de otra manera; las dos sin "
+     "pareja no salen en el juego.",
+     "On each row, a figure nothing loads (<code>p07:7457</code>, "
+     "<code>p08:82B3</code>) and, after a gap, the boss the rooms do load: "
+     "five are the same boss drawn another way; the two without a pair never "
+     "appear in the game."),
     ("objetos.png",
      "Los 41 objetos como los pinta la ventana ITEM INFORMATION "
      "(<code>p01:7B60</code>): del 16 en adelante, un icono encima de un "

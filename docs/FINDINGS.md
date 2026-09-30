@@ -98,36 +98,40 @@ F5 opens a map of the six stages (`p02:8555`). Carrying item 14 (`0xC884`),
 the cursor keys choose one (`0xC887`) and SPACE jumps there, using one up
 (`p02:859F`); you arrive through column 1 (`p01:65CF`). **From the code.**
 
-## Seven figures nobody uses
+## Another version of five bosses, never used
 
 From `p07:7457` to `p08:82B3` there are 18 strips in a row in the sprite RLE
-(`p00:4A8D`), 3,676 bytes; opened up they give 128 to 320 bytes each, the
-sizes of pattern sets. That RLE is only opened by `p00:4AD5`, which walks the
-lists of each area, and no entry names any of them; the openMSX read probe
-does not read them either.
+(`p00:4A8D`), and right behind them, up to `0x85B3`, 768 bytes of sprites that
+are not compressed. Nothing loads them: the RLE is only opened by the lists of
+each area (`p00:4AD5`) and by the loader of the 41 sets (`p00:56C7`), and no
+entry names them; the openMSX read probe does not read them either.
 
-Opened and read like the sprites that are used (two patterns in a row are the
-two layers of a 16 × 16 sprite, and a figure's sprites go by columns), they
-are six figures that never appear in the game. Right behind them, from
-`p08:82B3` to `0x85B3`, there are 768 bytes that nothing reads either: twelve
-two-layer sprites, not compressed, in two columns of three. That is a seventh
-figure. None of the seven matches any of the 41 sprite sets that are loaded:
+Read like the sprites that are used (two patterns in a row are the two layers
+of a 16 × 16 sprite, and a figure's sprites go by columns), they are seven
+figures, and **five of them are bosses of the game drawn another way**: the
+same creatures as the sets the rooms load (`p07:6000`, areas 18 to 23), with
+not a single sprite in common, not even swapping the layers or comparing only
+the outline.
 
-| strips | figure |
-|---|---|
-| 0-2, read in a row | a hunched beast, 32 × 32, three frames |
-| 3-7 and 12 | a one-eyed monster with huge arms, 32 × 32, six poses |
-| 8-9 | a face, 32 × 32, two frames |
-| 10-11 | something rising from the ground with two claws, 32 × 32 |
-| 13-15, read in a row | a demon, 32 × 48, two frames: the largest drawing in the cartridge |
-| 16-17 | a small warrior with a headband, 16 × 32, two frames |
-| `p08:82B3`, not compressed | a warrior with several arms and faces, 32 × 48, two frames |
+| strips | figure | the boss the game loads |
+|---|---|---|
+| 0-2, read in a row | a hunched beast, 32 × 32, three frames | set 25 |
+| 3-7 and 12 | the one-eyed monster, 32 × 32, six poses (one sinking) | set 26, four poses |
+| 8-9 | the face, 32 × 32, two frames | set 27 |
+| 13-15, read in a row | the demon, 32 × 48, two frames | set 28 |
+| `p08:82B3`, not compressed | the warrior with several arms, 32 × 48, two frames | set 29 |
+| 10-11 | something rising from the ground with two claws, 32 × 32 | none |
+| 16-17 | a small warrior with a headband, 16 × 32, two frames | none |
 
-![The six figures](imagenes/huerfanas.png)
+![The unused version of each boss, and the one the game loads](imagenes/jefes.png)
 
-In two tones, like the enemies: the colour is set by each enemy's code, and
-these have none. What they were is not known. **Measured in the ROM**
-(`tools/figuras.py huerfanas`).
+On each row, the unused version and, after a gap, the one the game loads. In
+two tones, like the enemies: the colour is set by each enemy's code.
+**Measured in the ROM** (`tools/figuras.py huerfanas`).
+
+**Corrected on 30 September 2026**: the first version of this finding said
+these were figures nobody uses. The data is not used, but five of them are
+bosses that do appear, in another drawing.
 
 ## The header for other cartridges
 
