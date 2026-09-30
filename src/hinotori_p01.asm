@@ -15,22 +15,22 @@
 
 
 L_6000:
-	rra			;6000
+	rra			;6000   ; MENU: RETURN en la linea de las vidas...
 	ret nc			;6001
-	ld a,(0c117h)		;6002   ; 0xC117: las vidas con que empieza la partida (MENU)
+	ld a,(0c117h)		;6002   ; ...las del menu pasan a la partida
 	ld (0c160h),a		;6005   ; 0xC160: las VIDAS, en BCD (p00:4417; GAOOOOOOOOOOH suma 10)
 	ret			;6008
 rutina:
-	rra			;6009
+	rra			;6009   ; MENU: el cursor arriba (bit 0) o abajo
 	ld a,001h		;600a
 	jr nc,L_6010		;600c
 	ld a,0ffh		;600e
 L_6010:
-	ld b,a			;6010
-	ld hl,0c11bh		;6011
+	ld b,a			;6010   ; la linea nueva del cursor...
+	ld hl,0c11bh		;6011   ; la linea del cursor, 0-2, dando la vuelta
 	add a,(hl)			;6014
 	and 003h		;6015
-	cp 003h		;6017
+	cp 003h		;6017   ; ...la 3 no existe: se da la vuelta
 	jr nz,L_6022		;6019
 	ld a,b			;601b
 	add a,a			;601c
@@ -38,21 +38,21 @@ L_6010:
 	jr c,L_6022		;601f
 	xor a			;6021
 L_6022:
-	push af			;6022
+	push af			;6022   ; se borra la flecha de donde estaba...
 	push hl			;6023
 	ld a,(hl)			;6024
-	call con_hl_mas_a		;6025
+	call con_hl_mas_a		;6025   ; L_602E: la flecha: la letra 0 (hueco)...
 	pop hl			;6028
 	pop af			;6029
-	ld (hl),a			;602a
-	jp L_6032		;602b
+	ld (hl),a			;602a   ; ...y se pinta en la nueva
+	jp L_6032		;602b   ; L_6032: ...o la 0x3E
 con_hl_mas_a:
-	ld b,000h		;602e
+	ld b,000h		;602e   ; la flecha: la letra 0 (hueco)...
 	jr L_6034		;6030
 L_6032:
-	ld b,03eh		;6032
+	ld b,03eh		;6032   ; ...o la 0x3E
 L_6034:
-	ld hl,06041h		;6034   ; p01:6041 tabla_6041: tabla que lee p01:6034, p06:AD68, p06:AE74 (56 bytes)
+	ld hl,06041h		;6034   ; en (0x28, la y de la linea de p01:6041)
 	call 040a4h		;6037   ; p00:40A4 hl_mas_a
 	ld e,(hl)			;603a
 	ld d,028h		;603b
@@ -179,14 +179,14 @@ DATA_sin_lector_6101:
 
 ficha_x:
 	ld a,(0c820h)		;610e   ; 0xC820: la ficha de Gao
-	sub (ix+005h)		;6111   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
+	sub (ix+005h)		;6111   ; la x de Gao menos la de la ficha y menos D...
 	sub d			;6114
-	cp (ix+016h)		;6115
+	cp (ix+016h)		;6115   ; ...dentro del ancho ix+0x16?
 	ret nc			;6118
-	ld a,(0c821h)		;6119   ; 0xC821: la ficha de Gao
+	ld a,(0c821h)		;6119   ; la y de Gao menos la de la ficha y menos E...
 	sub (ix+003h)		;611c   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 	sub e			;611f
-	cp (ix+015h)		;6120
+	cp (ix+015h)		;6120   ; ...dentro del alto ix+0x15? (acarreo: Gao esta dentro)
 	ret			;6123
 
 ; ----------------------------------------------------------------------
@@ -202,21 +202,21 @@ DATA_sin_lector_6124:
 ; ======================================================================
 
 
-mira_cosas:
+limpia_la_ficha:
 	push ix		;6136   ; HL = la ficha
 	pop hl			;6138
-	ld a,(0cb04h)		;6139   ; 0xCB04: las cosas del camino que se van poniendo (p01:72ED)
+	ld a,(0cb04h)		;6139   ; el tipo, de la cosa que se pone (0xCB04)
 	ld (hl),a			;613c
-	xor a			;613d
+	xor a			;613d   ; paso 0...
 	inc l			;613e
 	ld (hl),a			;613f
 	inc l			;6140
 	ld (hl),a			;6141
 	inc l			;6142
-	ld (hl),0f8h		;6143
-	ld b,01fh		;6145   ; 31 vueltas
+	ld (hl),0f8h		;6143   ; ...y fuera de la pantalla (y = 0xF8)
+	ld b,01fh		;6145   ; el resto de los 0x80 bytes a cero
 L_6147:
-	inc l			;6147
+	inc l			;6147   ; cuatro ceros por vuelta
 	ld (hl),a			;6148
 	inc l			;6149
 	ld (hl),a			;614a
@@ -227,7 +227,7 @@ L_6147:
 	djnz L_6147		;614f
 	ret			;6151
 bucle:
-	xor a			;6152
+	xor a			;6152   ; B bytes a 0 cada DE
 L_6153:
 	ld (hl),a			;6153
 	add hl,de			;6154
@@ -247,18 +247,18 @@ DATA_sin_lector_6158:
 
 
 copia_bytes:
-	push ix		;6162   ; HL = la ficha
+	push ix		;6162   ; 7 bytes de DE a ix+0x20 (las piezas del sprite) y un 0 detras
 	pop hl			;6164
-	set 5,l		;6165
+	set 5,l		;6165   ; ix+0x20: las piezas...
 	ex de,hl			;6167
-	ldi		;6168
+	ldi		;6168   ; ...7 bytes...
 	ldi		;616a
 	ldi		;616c
 	ldi		;616e
 	ldi		;6170
 	ldi		;6172
 	ldi		;6174
-	xor a			;6176
+	xor a			;6176   ; ...y un cero
 	ld (de),a			;6177
 	inc hl			;6178
 	inc e			;6179
@@ -278,19 +278,19 @@ DATA_sin_lector_617C:
 
 
 copia_bytes_2:
-	push ix		;6186   ; HL = la ficha
+	push ix		;6186   ; 5 bytes de DE a ix+0x50, uno se salta, otro, y dos ceros
 	pop hl			;6188
-	set 6,l		;6189
+	set 6,l		;6189   ; ix+0x50...
 	set 4,l		;618b
 	ex de,hl			;618d
-	ldi		;618e
+	ldi		;618e   ; ...5 bytes...
 	ldi		;6190
 	ldi		;6192
 	ldi		;6194
 	ldi		;6196
 	inc de			;6198
-	ldi		;6199
-	xor a			;619b
+	ldi		;6199   ; ...uno mas tras un hueco...
+	xor a			;619b   ; ...y dos ceros
 	ld (de),a			;619c
 	inc e			;619d
 	ld (de),a			;619e
@@ -301,8 +301,8 @@ copia_bytes_2:
 	ex de,hl			;61a3
 	ret			;61a4
 copia_bytes_3:
-	ex de,hl			;61a5
-	ldi		;61a6
+	ex de,hl			;61a5   ; 8 bytes de DE a HL, seguidos
+	ldi		;61a6   ; los 8 bytes
 	ldi		;61a8
 	ldi		;61aa
 	ldi		;61ac
@@ -327,7 +327,7 @@ DATA_sin_lector_61B8:
 
 
 rutina_2:
-	xor a			;61cf
+	xor a			;61cf   ; un 0 en HL
 	ld (hl),a			;61d0
 	ret			;61d1
 
@@ -348,39 +348,39 @@ DATA_tabla_61D2:
 ; ======================================================================
 
 
-rutina_3:
-	ld c,(ix+046h)		;623e
+piezas_fuera_de_pantalla:
+	ld c,(ix+046h)		;623e   ; ix+0x46: que piezas del sprite hay que mirar (bits 7-4)
 	ld a,c			;6241
 	or a			;6242
 	ret z			;6243
-	bit 7,c		;6244
-	call nz,ficha_y		;6246
-	bit 6,c		;6249
-	call nz,ficha_y_2		;624b
-	bit 5,c		;624e
-	call nz,ficha_y_3		;6250
-	bit 4,c		;6253
-	call nz,ficha_y_4		;6255
+	bit 7,c		;6244   ; la primera...
+	call nz,ficha_y		;6246   ; L_625A: la y de la pieza (la de la ficha + ix+0x21 + ix+0x23)...
+	bit 6,c		;6249   ; ...la segunda...
+	call nz,ficha_y_2		;624b   ; L_6279: la segunda pieza, igual (ix+0x29, ix+0x2B)
+	bit 5,c		;624e   ; ...la tercera...
+	call nz,ficha_y_3		;6250   ; L_6298: la tercera (ix+0x31, ix+0x33)
+	bit 4,c		;6253   ; ...y la cuarta
+	call nz,ficha_y_4		;6255   ; L_62B7: la cuarta (ix+0x39, ix+0x3B)
 	scf			;6258
 	ret			;6259
 ficha_y:
-	ld a,(ix+003h)		;625a   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
+	ld a,(ix+003h)		;625a   ; la y de la pieza (la de la ficha + ix+0x21 + ix+0x23)...
 	add a,(ix+021h)		;625d
 	add a,(ix+023h)		;6260
-	cp 0d0h		;6263
+	cp 0d0h		;6263   ; ...pasada la linea 0xD0: fuera
 	ccf			;6265
 	ret c			;6266
-	sub (ix+023h)		;6267
+	sub (ix+023h)		;6267   ; ...o por encima de la pantalla
 	add a,020h		;626a
 	cp 0e8h		;626c
 	ccf			;626e
 	ret c			;626f
-	set 7,(ix+020h)		;6270
-	res 7,(ix+046h)		;6274
+	set 7,(ix+020h)		;6270   ; fuera: la pieza se apaga (bit 7)...
+	res 7,(ix+046h)		;6274   ; ...y ya no se mira
 	ret			;6278
 ficha_y_2:
-	ld a,(ix+003h)		;6279   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
-	add a,(ix+029h)		;627c
+	ld a,(ix+003h)		;6279   ; la segunda pieza, igual (ix+0x29, ix+0x2B)
+	add a,(ix+029h)		;627c   ; la segunda pieza (ix+0x29, ix+0x2B)
 	add a,(ix+02bh)		;627f
 	cp 0d0h		;6282
 	ccf			;6284
@@ -390,12 +390,12 @@ ficha_y_2:
 	cp 0e8h		;628b
 	ccf			;628d
 	ret c			;628e
-	set 7,(ix+028h)		;628f
+	set 7,(ix+028h)		;628f   ; fuera: se apaga
 	res 6,(ix+046h)		;6293
 	ret			;6297
 ficha_y_3:
-	ld a,(ix+003h)		;6298   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
-	add a,(ix+031h)		;629b
+	ld a,(ix+003h)		;6298   ; la tercera (ix+0x31, ix+0x33)
+	add a,(ix+031h)		;629b   ; la tercera (ix+0x31, ix+0x33)
 	add a,(ix+033h)		;629e
 	cp 0d0h		;62a1
 	ccf			;62a3
@@ -405,12 +405,12 @@ ficha_y_3:
 	cp 0e8h		;62aa
 	ccf			;62ac
 	ret c			;62ad
-	set 7,(ix+030h)		;62ae
+	set 7,(ix+030h)		;62ae   ; fuera: se apaga
 	res 5,(ix+046h)		;62b2
 	ret			;62b6
 ficha_y_4:
-	ld a,(ix+003h)		;62b7   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
-	add a,(ix+039h)		;62ba
+	ld a,(ix+003h)		;62b7   ; la cuarta (ix+0x39, ix+0x3B)
+	add a,(ix+039h)		;62ba   ; la cuarta (ix+0x39, ix+0x3B)
 	add a,(ix+03bh)		;62bd
 	cp 0d0h		;62c0
 	ccf			;62c2
@@ -420,26 +420,26 @@ ficha_y_4:
 	cp 0e8h		;62c9
 	ccf			;62cb
 	ret c			;62cc
-	set 7,(ix+038h)		;62cd
+	set 7,(ix+038h)		;62cd   ; fuera: se apaga
 	res 4,(ix+046h)		;62d1
 	ret			;62d5
 mira_invulnerable:
-	ld l,a			;62d6
-	call rutina_4		;62d7
-	bit 2,l		;62da
+	ld l,a			;62d6   ; un golpe a Gao...
+	call rutina_3		;62d7   ; L_62E2: que caja de choque le dio: se ponen a cero las marcas...
+	bit 2,l		;62da   ; ...si le han dado (bit 2), un cuadro menos de invulnerabilidad
 	ret z			;62dc
 	ld hl,0c834h		;62dd   ; 0xC834: cuadros de invulnerabilidad de Gao (p02:860C)
 	dec (hl)			;62e0
 	ret			;62e1
-rutina_4:
-	or a			;62e2
+rutina_3:
+	or a			;62e2   ; que caja de choque le dio: se ponen a cero las marcas...
 	ret z			;62e3
 	ld (ix+055h),000h		;62e4
 	ld (ix+05dh),000h		;62e8
 	ld (ix+065h),000h		;62ec
 	ld (ix+06dh),000h		;62f0
 	ld (ix+075h),000h		;62f4
-	rrca			;62f8
+	rrca			;62f8   ; ...y se devuelve la coordenada de la caja que toco
 	jr c,L_6305		;62f9
 	rrca			;62fb
 	jr c,L_6307		;62fc
@@ -461,7 +461,7 @@ L_630B:
 	ld a,l			;630b
 	ret			;630c
 con_mira_scroll:
-	ex af,af'			;630d   ; tramo: llama a mira_scroll
+	ex af,af'			;630d   ; pon A en la casilla de la pantalla (0xE000) del punto (D, E + scroll)
 	call 048bfh		;630e   ; p00:48BF mira_scroll
 	ex af,af'			;6311
 	ld (hl),a			;6312
@@ -480,7 +480,7 @@ DATA_sin_lector_6314:
 
 
 con_mira_scroll_2:
-	ex af,af'			;631c   ; tramo: llama a mira_scroll
+	ex af,af'			;631c   ; rellena un trozo de BxC casillas de la pantalla con A...
 	call 048bfh		;631d   ; p00:48BF mira_scroll
 	ld a,b			;6320
 	ex af,af'			;6321
@@ -490,11 +490,11 @@ L_6322:
 	ex af,af'			;6324
 	push hl			;6325
 L_6326:
-	ld (hl),a			;6326
+	ld (hl),a			;6326   ; ...fila a fila...
 	inc hl			;6327
 	djnz L_6326		;6328
 	pop hl			;632a
-	ld de,00020h		;632b   ; la siguiente, 0x20 bytes mas alla
+	ld de,00020h		;632b   ; ...32 casillas mas abajo, dando la vuelta
 	add hl,de			;632e
 	res 2,h		;632f
 	dec c			;6331
@@ -523,7 +523,7 @@ L_634C:
 	ld (0c486h),a		;6357   ; 0xC486: el area a la que se va (p01:6549)
 	ld (0c480h),a		;635a   ; 0xC480: el AREA (0-23): 3*(fase-1) + columna, o 18 + fase - 1 (p01:64D5)
 	push hl			;635d
-	call rutina_6		;635e
+	call rutina_5		;635e   ; L_65BF: el area A: su fase (D), su juego de dibujos (E) y su columna (A) de p01:660B
 	call pon_columna_3		;6361
 	pop hl			;6364
 	inc hl			;6365
@@ -532,7 +532,7 @@ L_634C:
 	ld (0c487h),de		;6369   ; 0xC487: la fila del mapa con que se entra (p00:5924)
 	inc hl			;636d
 	ld a,(hl)			;636e
-	ld (0c840h),a		;636f   ; 0xC840: elige los 32 bytes de p07:70AE que van a los patrones de 0xF8A0 (p00:5671) y el sumando de la dificultad (p01:704D); 6 es especial (p02:8F4F)
+	ld (0c840h),a		;636f   ; 0xC840: el nivel de POWER UP (la ventana de F2, p09:BD31): elige el patron del disparo de p07:70AE (p00:566E) y suma a la dificultad (p01:704D)
 	ld a,(0c10bh)		;6372
 	and a			;6375
 	jr z,L_6384		;6376
@@ -615,12 +615,12 @@ pon_f1_f3_nuevas_2:
 	jr nz,L_640C		;6403
 	dec hl			;6405
 	inc (hl)			;6406
-	call rutina_5		;6407
+	call rutina_4		;6407
 	inc hl			;640a
 	ld (hl),d			;640b
 L_640C:
 	dec hl			;640c   ; tramo: sigue en mira_teclas
-	call rutina_5		;640d
+	call rutina_4		;640d
 	ld a,e			;6410
 	bit 7,a		;6411
 	jp z,0533bh		;6413   ; p00:533B mira_teclas
@@ -649,7 +649,7 @@ DATA_tabla_642E:
 ; ======================================================================
 
 
-rutina_5:
+rutina_4:
 	ld b,(hl)			;6434   ; tramo: llama a rutina_4
 	push hl			;6435
 	ld a,(0c10bh)		;6436
@@ -743,7 +743,7 @@ pon_area:
 	res 7,(hl)		;64d0
 	ld a,(0c486h)		;64d2   ; 0xC486: el area a la que se va (p01:6549)
 	ld (0c480h),a		;64d5   ; 0xC480: el AREA (0-23): 3*(fase-1) + columna, o 18 + fase - 1 (p01:64D5)
-	call rutina_6		;64d8
+	call rutina_5		;64d8   ; L_65BF: el area A: su fase (D), su juego de dibujos (E) y su columna (A) de p01:660B
 	ex af,af'			;64db
 	ld a,(0c481h)		;64dc   ; 0xC481: la FASE, 1-6 (p01:65B4)
 	cp d			;64df
@@ -865,15 +865,15 @@ pon_columna_3:
 	ld a,e			;65ba
 	ld (0c482h),a		;65bb   ; 0xC482: el juego de dibujos, 0-7 (p01:65BB)
 	ret			;65be
-rutina_6:
-	ld de,0660bh		;65bf   ; p01:660B fase_juego_columna: por area (0xC480): la fase (0xC481), el juego de dibujos (0xC482) y la columna (0xC483)
-	ld l,a			;65c2
+rutina_5:
+	ld de,0660bh		;65bf   ; el area A: su fase (D), su juego de dibujos (E) y su columna (A) de p01:660B
+	ld l,a			;65c2   ; 3 bytes por area
 	add a,a			;65c3
 	add a,l			;65c4
 	ld l,a			;65c5
 	ld h,000h		;65c6
 	add hl,de			;65c8
-	ld d,(hl)			;65c9
+	ld d,(hl)			;65c9   ; la fase, el juego y la columna
 	inc hl			;65ca
 	ld e,(hl)			;65cb
 	inc hl			;65cc
@@ -958,14 +958,14 @@ pon_objeto_2:
 	ld hl,0c4d0h		;6656   ; 0xC4D0: variables de la partida
 	ld a,(hl)			;6659
 	or a			;665a
-	call nz,rutina_7		;665b
+	call nz,rutina_6		;665b
 	xor a			;665e   ; tramo: pone objeto_2, pone logotipo
 	ld (0c857h),a		;665f   ; 0xC857: el OBJETO 2 (byte 3 de 4; p06:BAC2)
 	ld (0c204h),a		;6662   ; 0xC204: el logotipo y el titulo (p01:66D4)
 	call pon_objeto_2_2		;6665
 	call pon_avance_del_cuadro		;6668
 	ret			;666b
-rutina_7:
+rutina_6:
 	cp 001h		;666c
 	dec (hl)			;666e
 	ret			;666f
@@ -1058,19 +1058,19 @@ L_66FF:
 con_copia_dibujo_en_la_hoja:
 	push de			;6710
 L_6711:
-	ld a,(hl)			;6711
+	ld a,(hl)			;6711   ; la lista del logotipo: un dibujo...
 	inc hl			;6712
 	ld c,a			;6713
-	inc a			;6714
+	inc a			;6714   ; ...0xFF acaba...
 	jr z,L_672E		;6715
-	inc a			;6717
+	inc a			;6717   ; ...0xFE otra fila
 	jr nz,L_6725		;6718
 	pop de			;671a
-	ld a,(hl)			;671b
+	ld a,(hl)			;671b   ; dx...
 	inc hl			;671c
 	add a,d			;671d
 	ld d,a			;671e
-	ld a,008h		;671f
+	ld a,008h		;671f   ; ...y 8 lineas mas abajo
 	add a,e			;6721
 	ld e,a			;6722
 	jr con_copia_dibujo_en_la_hoja		;6723
@@ -1156,7 +1156,7 @@ L_6824:
 	call nz,ficha_campo_07		;683d
 	bit 0,(ix+006h)		;6840   ; ix+0x06: cuenta atras (p01:6124)
 	call nz,ficha_campo_07_2		;6844
-	call rutina_9		;6847
+	call rutina_8		;6847
 	bit 0,(ix+068h)		;684a
 	call nz,ficha_y_5		;684e
 	ld a,(ix+013h)		;6851
@@ -1293,7 +1293,7 @@ ficha_x_2:
 	ld (ix+005h),h		;6943   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	ret			;6946
 ficha_tipo_5:
-	call rutina_8		;6947
+	call rutina_7		;6947   ; L_69F5: el golpe que le han dado...
 	ret nc			;694a
 	ld a,(ix+000h)		;694b   ; ix+0x00: el TIPO de la ficha (0 = libre; p01:6D12)
 	cp 01bh		;694e
@@ -1339,7 +1339,7 @@ L_698F:
 L_6996:
 	ld d,(ix+005h)		;6996   ; ix+0x05: la X (p01:70BD la compara con la de Gao)
 	ld e,(ix+003h)		;6999   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
-	call rutina_13		;699c
+	call golpe_al_decorado		;699c   ; golpe_al_decorado: el dibujo que ha tocado el disparo...
 ficha_tipo_6:
 	call mira_atributos_de_sprites		;699f
 	ld (ix+000h),02ch		;69a2   ; ix+0x00: el TIPO de la ficha (0 = libre; p01:6D12)
@@ -1381,10 +1381,10 @@ L_69EC:
 	ld a,b			;69f0
 	call z,041c1h		;69f1   ; p00:41C1 pon_banco_8000_guardado
 	ret			;69f4
-rutina_8:
-	ld a,(ix+013h)		;69f5
+rutina_7:
+	ld a,(ix+013h)		;69f5   ; el golpe que le han dado...
 	ld (ix+013h),000h		;69f8
-	ld b,(ix+012h)		;69fc
+	ld b,(ix+012h)		;69fc   ; ...le quita vida
 	bit 0,a		;69ff
 	jr z,L_6A04		;6a01
 	dec b			;6a03
@@ -1400,7 +1400,7 @@ L_6A0A:
 	dec b			;6a0f
 	dec b			;6a10
 L_6A11:
-	ld (ix+012h),b		;6a11
+	ld (ix+012h),b		;6a11   ; la vida que le queda
 	ld a,b			;6a14
 	inc a			;6a15
 	inc a			;6a16
@@ -1451,12 +1451,12 @@ mira_atributos_de_sprites:
 	push ix		;6a85   ; HL = la ficha
 	pop hl			;6a87
 mira_atributos_de_sprites_2:
-	ld (hl),000h		;6a88
+	ld (hl),000h		;6a88   ; la ficha libre: sus piezas...
 	set 5,l		;6a8a
 	ld a,(hl)			;6a8c
 	and a			;6a8d
 	ret z			;6a8e
-	ld b,a			;6a8f
+	ld b,a			;6a8f   ; ...cuantas
 	inc l			;6a90
 L_6A91:
 	ld a,(hl)			;6a91   ; tramo: mira atributos_de_sprites
@@ -1470,7 +1470,7 @@ L_6A91:
 	ld l,a			;6a9d
 	djnz L_6A91		;6a9e
 	ret			;6aa0
-rutina_9:
+rutina_8:
 	ld a,(ix+014h)		;6aa1
 	and a			;6aa4
 	ld de,06ab7h		;6aa5   ; p01:6AB7 tabla_6AB7: tabla que lee p01:6AA5 (12 bytes)
@@ -1525,10 +1525,10 @@ L_6AE3:
 	ld (ix+011h),00ah		;6af9   ; ix+0x11: cuenta atras de lo que hace
 	ld a,0f0h		;6afd
 	call pon_buffer_12		;6aff
-	call cambia_de_signo		;6b02
-	call rutina_20		;6b05
+	call cambia_de_signo		;6b02   ; L_79EB: DE = -DE
+	call rutina_18		;6b05
 	ex de,hl			;6b08
-	call cambia_de_signo		;6b09
+	call cambia_de_signo		;6b09   ; L_79EB: DE = -DE
 	jp ficha_campo_07_3		;6b0c
 tipo_57:
 	dec (ix+011h)		;6b0f   ; tipo 57
@@ -1996,7 +1996,7 @@ L_6DAB:
 L_6DC7:
 	ld (hl),0e1h		;6dc7   ; ...los dos
 	call mira_buffer		;6dc9
-	inc e			;6dcc
+	inc e			;6dcc   ; ...el sitio siguiente...
 	inc d			;6dcd
 	inc d			;6dce
 	inc d			;6dcf
@@ -2007,7 +2007,7 @@ L_6DC7:
 	inc l			;6dd4
 	djnz L_6DC7		;6dd5
 	pop bc			;6dd7
-	dec c			;6dd8
+	dec c			;6dd8   ; ...dos menos que buscar
 	dec c			;6dd9
 	jr z,L_6E27		;6dda
 	jr L_6DE6		;6ddc
@@ -2047,10 +2047,10 @@ L_6E08:
 	ld a,(0c4a8h)		;6e0e   ; 0xC4A8: variables de la partida
 	ld b,a			;6e11
 L_6E12:
-	ld a,(hl)			;6e12
+	ld a,(hl)			;6e12   ; busca un sprite libre (0xE0) de los B de HL...
 	cp 0e0h		;6e13
 	jr z,L_6E22		;6e15
-	inc d			;6e17
+	inc d			;6e17   ; ...el siguiente, 4 mas alla
 	inc d			;6e18
 	inc d			;6e19
 	inc d			;6e1a
@@ -2191,7 +2191,7 @@ bucle_2:
 	add a,025h		;6f05
 	ld l,a			;6f07
 L_6F08:
-	ld a,(de)			;6f08
+	ld a,(de)			;6f08   ; B bytes de DE a HL, uno cada 5
 	ld (hl),a			;6f09
 	inc de			;6f0a
 	ld a,l			;6f0b
@@ -2245,7 +2245,7 @@ DATA_tabla_6F22:
 pon_dificultad:
 	ld a,(0c172h)		;7049   ; 0xC172: sube al cambiar de fase, hasta 10 (p01:64FA); entra en la dificultad (p01:7049)
 	ld c,a			;704c
-	ld a,(0c840h)		;704d   ; 0xC840: elige los 32 bytes de p07:70AE que van a los patrones de 0xF8A0 (p00:5671) y el sumando de la dificultad (p01:704D); 6 es especial (p02:8F4F)
+	ld a,(0c840h)		;704d   ; 0xC840: el nivel de POWER UP (la ventana de F2, p09:BD31): elige el patron del disparo de p07:70AE (p00:566E) y suma a la dificultad (p01:704D)
 	ld hl,07062h		;7050   ; p01:7062 tabla_7062: tabla que lee p01:7050 (8 bytes)
 	call 040a4h		;7053   ; p00:40A4 hl_mas_a
 	ld a,(hl)			;7056
@@ -2275,7 +2275,7 @@ copia_bytes_4:
 	ldir		;7070
 	ret			;7072
 copia_bytes_5:
-	ld bc,0000bh		;7073
+	ld bc,0000bh		;7073   ; 11 bytes de HL a ix+7
 	push ix		;7076
 	pop de			;7078
 	ld a,e			;7079
@@ -2289,7 +2289,7 @@ copia_bytes_6:
 copia_bytes_7:
 	xor a			;7084
 L_7085:
-	ex af,af'			;7085
+	ex af,af'			;7085   ; 4 bytes de HL a ix+0x70 (la caja de choque)...
 	push ix		;7086
 	pop de			;7088
 	ld a,070h		;7089
@@ -2298,7 +2298,7 @@ L_7085:
 	ld bc,00004h		;708d
 	ldir		;7090
 	ex af,af'			;7092
-	ld (de),a			;7093
+	ld (de),a			;7093   ; ...y A a ix+0x74
 	ret			;7094
 con_hl_mas_a_2:
 	ld a,008h		;7095
@@ -2318,7 +2318,7 @@ L_70A3:
 	ld d,(hl)			;70a9
 	dec hl			;70aa
 	ld e,(hl)			;70ab
-	call cambia_de_signo		;70ac
+	call cambia_de_signo		;70ac   ; L_79EB: DE = -DE
 	ld (hl),e			;70af
 	inc hl			;70b0
 	ld (hl),d			;70b1
@@ -2397,11 +2397,11 @@ mira_partida_2:
 	cp 020h		;711d
 	ret nc			;711f
 	ld bc,04020h		;7120
-rutina_10:
-	call mira_y_de_gao		;7123
+rutina_9:
+	call mira_y_de_gao		;7123   ; Gao a menos de B en y...
 	cp b			;7126
 	ret nc			;7127
-	call mira_x_de_gao		;7128
+	call mira_x_de_gao		;7128   ; ...y de C en x: le toca
 	cp c			;712b
 	ret nc			;712c
 	jp mira_atributos_de_sprites		;712d
@@ -2449,12 +2449,12 @@ pon_buffer_5:
 	ld e,(ix+003h)		;7179   ; ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 	call pon_buffer_14		;717c
 	call pon_buffer_13		;717f
-	call rutina_20		;7182
+	call rutina_18		;7182
 	ex de,hl			;7185
 	jp ficha_campo_07_3		;7186
-rutina_11:
+rutina_10:
 	call pon_buffer_12		;7189
-	call rutina_20		;718c
+	call rutina_18		;718c
 	ex de,hl			;718f
 	jp ficha_campo_07_3		;7190
 ficha_x_3:
@@ -2463,11 +2463,11 @@ ficha_x_3:
 	jr nc,L_719E		;7197
 	cp c			;7199
 	ret nc			;719a
-	jp rutina_20		;719b
+	jp rutina_18		;719b
 L_719E:
-	call cambia_de_signo		;719e
-	jp rutina_20		;71a1
-rutina_12:
+	call cambia_de_signo		;719e   ; L_79EB: DE = -DE
+	jp rutina_18		;71a1
+rutina_11:
 	ld a,(ix+013h)		;71a4   ; tramo: sigue en mira_banderas_juego
 	and 00bh		;71a7
 	ld a,010h		;71a9
@@ -2477,26 +2477,26 @@ mira_control_de_bichos_2:
 	ld hl,0d43bh		;71af   ; 0xD43B: lo que controla la salida de bichos
 	ld a,(hl)			;71b2
 	and a			;71b3
-	jr z,L_71B8		;71b4
+	jr z,salen_bichos_sueltos		;71b4
 	dec (hl)			;71b6
 	ret			;71b7
-L_71B8:
-	ld hl,0d43ch		;71b8   ; 0xD43C: lo que controla la salida de bichos
+salen_bichos_sueltos:
+	ld hl,0d43ch		;71b8   ; cuenta atras de 0xD43C
 	ld a,(hl)			;71bb
 	and a			;71bc
 	jr z,L_71C0		;71bd
 	dec (hl)			;71bf
 L_71C0:
-	ld a,(0c480h)		;71c0   ; 0xC480: el AREA (0-23): 3*(fase-1) + columna, o 18 + fase - 1 (p01:64D5)
+	ld a,(0c480h)		;71c0   ; solo en las 18 areas de camino
 	cp 012h		;71c3   ; ¿area = 0x12?
 	ret nc			;71c5
-	call mira_avanza_2		;71c6   ; tramo: llama a pon_banco_a000_5, mira area, llama a rutina_4, mira fila ...
-	ld a,009h		;71c9   ; el banco 9 en 0xA000
+	call mira_avanza_2		;71c6   ; al llegar a una fila multiplo de 32...
+	ld a,009h		;71c9   ; ...con el banco 9: el byte del tramo en p09:A186 + 6*area...
 	call 05434h		;71cb   ; p00:5434 pon_banco_a000_5
 	ld a,(0c480h)		;71ce   ; 0xC480: el AREA (0-23): 3*(fase-1) + columna, o 18 + fase - 1 (p01:64D5)
 	ld de,0a186h		;71d1
 	call 0486fh		;71d4   ; p00:486F rutina_4
-	ld a,(0c302h)		;71d7   ; 0xC302: la FILA de 8 puntos del mapa que se esta pintando; sube al avanzar (p00:57B8)
+	ld a,(0c302h)		;71d7   ; ...el tramo es la fila / 32
 	rlca			;71da
 	rlca			;71db
 	rlca			;71dc
@@ -2506,66 +2506,66 @@ L_71C0:
 	ld c,a			;71e3
 	ld a,003h		;71e4   ; el banco 3 en 0xA000
 	call 05434h		;71e6   ; p00:5434 pon_banco_a000_5
-	ld a,c			;71e9
+	ld a,c			;71e9   ; cada bit, una clase de bicho que sale en este tramo:
 	rra			;71ea
 	push af			;71eb
-	call c,pon_buffer_6		;71ec
+	call c,pon_buffer_6		;71ec   ; bit 0
 	pop af			;71ef
 	rra			;71f0
 	push af			;71f1
-	call c,mira_control_de_bichos_3		;71f2
+	call c,mira_control_de_bichos_3		;71f2   ; bit 1
 	pop af			;71f5
 	rra			;71f6
 	push af			;71f7
-	call c,mira_control_de_bichos_4		;71f8
+	call c,mira_control_de_bichos_4		;71f8   ; bit 2
 	pop af			;71fb
 	rra			;71fc
 	push af			;71fd
-	call c,mira_control_de_bichos_5		;71fe
+	call c,mira_control_de_bichos_5		;71fe   ; bit 3
 	pop af			;7201
 	rra			;7202
 	push af			;7203
-	call c,mira_control_de_bichos_6		;7204
+	call c,mira_control_de_bichos_6		;7204   ; bit 4
 	pop af			;7207
 	rra			;7208
-	jr c,L_727E		;7209
+	jr c,L_727E		;7209   ; bit 5: un sonido
 	ret			;720b
 pon_buffer_6:
-	ld hl,0d430h		;720c   ; 0xD430: lo que controla la salida de bichos
+	ld hl,0d430h		;720c   ; la clase 0: su cuenta en 0xD430, su ficha en p01:72BF
 	ld de,072bfh		;720f   ; p01:72BF tabla_72BF: tabla que lee p01:720F, p01:7241, p01:7251, p01:725D, p01:7265, p01:726F (46 bytes)
 L_7212:
 	ld (0e800h),de		;7212   ; 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
-	ld c,064h		;7216
-	call mira_dificultad_3		;7218
+	ld c,064h		;7216   ; cada 100 - 2*dificultad cuadros
+	call mira_dificultad_3		;7218   ; L_728F: la cuenta atras: al llegar a 0...
 	ret nz			;721b
-	ld a,(0c809h)		;721c   ; 0xC809: la X de Gao (p01:70BD)
+	ld a,(0c809h)		;721c   ; por el lado contrario a Gao: x = 0x30 o 0xD0
 	cp 080h		;721f   ; ¿x_de_gao = 0x80?
 	ld a,030h		;7221
 	jr nc,L_7227		;7223
 	ld a,0d0h		;7225
 L_7227:
 	ld (de),a			;7227   ; tramo: mira control_de_bichos, llama a hl_mas_a, mira buffer
-	ld hl,0d439h		;7228   ; 0xD439: lo que controla la salida de bichos
+	ld hl,0d439h		;7228   ; y la variante, una de cuatro seguidas
 	ld a,(hl)			;722b
 	inc (hl)			;722c
 	and 003h		;722d
 	inc de			;722f
 	ld (de),a			;7230
-	ld hl,0d450h		;7231   ; 0xD450: lo que controla la salida de bichos
+	ld hl,0d450h		;7231   ; el dato de 0xD450
 	call 040a4h		;7234   ; p00:40A4 hl_mas_a
 	ld de,(0e800h)		;7237   ; 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
 	ld a,(de)			;723b
 	ld (hl),a			;723c
 	ret			;723d
 mira_control_de_bichos_3:
-	ld hl,0d431h		;723e   ; 0xD431: lo que controla la salida de bichos
+	ld hl,0d431h		;723e   ; la clase 1: cada 240 - 2*dificultad
 	ld de,072c6h		;7241
 	ld c,0f0h		;7244
-	call mira_dificultad_3		;7246
+	call mira_dificultad_3		;7246   ; L_728F: la cuenta atras: al llegar a 0...
 	ret nz			;7249
 	ld hl,0d436h		;724a   ; 0xD436: lo que controla la salida de bichos
 L_724D:
-	inc (hl)			;724d   ; tramo: llama a hl_mas_a
+	inc (hl)			;724d   ; la variante, de p01:72E9
 	ld a,(hl)			;724e
 	and 003h		;724f
 	ld hl,072e9h		;7251
@@ -2574,43 +2574,43 @@ L_724D:
 	ld (de),a			;7258
 	ret			;7259
 mira_control_de_bichos_4:
-	ld hl,0d432h		;725a   ; 0xD432: lo que controla la salida de bichos
+	ld hl,0d432h		;725a   ; la clase 2
 	ld de,072cdh		;725d
 	jr L_7212		;7260
 mira_control_de_bichos_5:
-	ld hl,0d433h		;7262   ; 0xD433: lo que controla la salida de bichos
+	ld hl,0d433h		;7262   ; la clase 3: cada 64 - 2*dificultad
 	ld de,072d4h		;7265
 	ld c,040h		;7268
 	jr mira_dificultad_3		;726a
 mira_control_de_bichos_6:
-	ld hl,0d434h		;726c   ; 0xD434: lo que controla la salida de bichos
+	ld hl,0d434h		;726c   ; la clase 4, con variante
 	ld de,072dbh		;726f
 	ld c,040h		;7272
-	call mira_dificultad_3		;7274
+	call mira_dificultad_3		;7274   ; L_728F: la cuenta atras: al llegar a 0...
 	ret nz			;7277
 	ld hl,0d437h		;7278   ; 0xD437: lo que controla la salida de bichos
-	jp L_724D		;727b
+	jp L_724D		;727b   ; L_724D: la variante, de p01:72E9
 L_727E:
-	ld hl,0d435h		;727e   ; 0xD435: lo que controla la salida de bichos
+	ld hl,0d435h		;727e   ; la clase 5: el sonido 0x19
 	ld de,072e2h		;7281
 	ld c,040h		;7284
-	call mira_dificultad_3		;7286
+	call mira_dificultad_3		;7286   ; L_728F: la cuenta atras: al llegar a 0...
 	ret nz			;7289
 	ld a,019h		;728a   ; el sonido 0x19 (p14:9C47 + 2*0x19)
 	jp 041ach		;728c   ; p00:41AC mira_banderas_juego
 mira_dificultad_3:
-	dec (hl)			;728f
+	dec (hl)			;728f   ; la cuenta atras: al llegar a 0...
 	ret nz			;7290
-	ld a,(0c4aah)		;7291   ; 0xC4AA: la dificultad: 0xC172 + lo de la tabla p01:7062 segun 0xC840, hasta 15 (p01:7049)
+	ld a,(0c4aah)		;7291   ; ...vuelve a C - 2*dificultad...
 	add a,a			;7294
 	sub c			;7295
 	neg		;7296
 	ld (hl),a			;7298
-	push de			;7299
+	push de			;7299   ; ...y si hay una ficha libre de las de 0xD500...
 	call mira_bichos_del_mapa		;729a
 	pop de			;729d
 	ret nz			;729e
-	ex de,hl			;729f
+	ex de,hl			;729f   ; ...se le copian los 7 bytes de la clase
 	ld bc,00007h		;72a0
 	ldir		;72a3
 	dec de			;72a5
@@ -2618,10 +2618,10 @@ mira_dificultad_3:
 	xor a			;72a7
 	ret			;72a8
 mira_avanza_2:
-	ld a,(0c389h)		;72a9   ; 0xC389: 1: el mapa avanza (p01:6CA2); p00:57CE lo pone a 0 con la orden 0xFC
+	ld a,(0c389h)		;72a9   ; solo mientras el mapa avanza...
 	dec a			;72ac
 	ret nz			;72ad
-	ld a,(0c302h)		;72ae   ; 0xC302: la FILA de 8 puntos del mapa que se esta pintando; sube al avanzar (p00:57B8)
+	ld a,(0c302h)		;72ae   ; ...y en las filas multiplo de 32
 	and 01fh		;72b1
 	ret nz			;72b3
 mira_control_de_bichos_7:
@@ -2685,7 +2685,7 @@ pon_cosas_2:
 	inc hl			;7330
 	ld a,003h		;7331   ; el banco 3 en 0xA000
 	call 05434h		;7333   ; p00:5434 pon_banco_a000_5
-	call rutina_16		;7336
+	call rutina_14		;7336   ; L_7531: la fila de la cosa (9 bits) es la de ahora?
 	jr c,L_7343		;7339
 	ret nz			;733b
 	push bc			;733c
@@ -2717,7 +2717,7 @@ L_7361:
 	cp 020h		;7361
 	jp nc,L_73BF		;7363
 	cp 006h		;7366
-	jp c,L_7452		;7368
+	jp c,L_7452		;7368   ; L_7452: una ficha libre de las dos grandes (0xD300)...
 	call mira_bicho_0		;736b
 	ret nz			;736e
 	push hl			;736f   ; la ficha es la de HL
@@ -2777,8 +2777,8 @@ DATA_tabla_7380:
 cosa_tipo_07:
 	ret			;73be   ; cosa tipo 07
 L_73BF:
-	call mira_bicho_0		;73bf
-	jp mira_cosas		;73c2
+	call mira_bicho_0		;73bf   ; tramo: sigue en limpia_la_ficha
+	jp limpia_la_ficha		;73c2   ; limpia_la_ficha: HL = la ficha
 
 ; ----------------------------------------------------------------------
 ; DATOS sin_lector_73C5: bytes sin lector conocido: ninguna instruccion
@@ -2793,51 +2793,51 @@ DATA_sin_lector_73C5:
 ; ======================================================================
 
 
-rutina_13:
-	ld c,a			;73e3
+golpe_al_decorado:
+	ld c,a			;73e3   ; el dibujo que ha tocado el disparo...
 	push de			;73e4
 	push bc			;73e5
-	call mira_objeto_1		;73e6
+	call mira_objeto_1		;73e6   ; ...si se rompe (objeto 1)...
 	pop bc			;73e9
 	pop de			;73ea
 	ld a,c			;73eb
-	jr nc,rutina_14		;73ec
+	jr nc,rutina_12		;73ec
 	push ix		;73ee
-	call rutina_15		;73f0
+	call rutina_13		;73f0   ; ...que pasa segun cual
 	pop ix		;73f3
 	ret			;73f5
-rutina_14:
-	ld c,02fh		;73f6
+rutina_12:
+	ld c,02fh		;73f6   ; si no, una chispa (el tipo 0x2F)
 	push ix		;73f8
 	call pon_buffer_3		;73fa
 	pop ix		;73fd
 	ret			;73ff
-rutina_15:
-	cp 006h		;7400
+rutina_13:
+	cp 006h		;7400   ; el 6: el tipo 0x2D
 	jr nz,L_7409		;7402
 	ld c,02dh		;7404
 	jp pon_buffer_3		;7406
 L_7409:
-	cp 008h		;7409
+	cp 008h		;7409   ; el 8: el tipo 0x2E
 	ld c,02eh		;740b
 	jp z,pon_buffer_3		;740d
-	push de			;7410
+	push de			;7410   ; los demas: si la casilla es de las que se rompen...
 	push af			;7411
-	call con_mira_scroll_3		;7412
+	call casilla_que_se_rompe		;7412   ; casilla_que_se_rompe: el dibujo tiene que ser 0xD0-0xD3...
 	pop bc			;7415
 	pop de			;7416
 	ret z			;7417
-	push bc			;7418
+	push bc			;7418   ; ...y el disparo no esta ya en otra...
 	push de			;7419
 	call mira_disparos		;741a
 	pop de			;741d
 	pop bc			;741e
 	ret nz			;741f
-	ld (hl),001h		;7420   ; tramo: mira scroll
+	ld (hl),001h		;7420   ; ...se apunta en la lista de lo que se rompe: el dibujo...
 	inc l			;7422
 	ld (hl),b			;7423
 	inc l			;7424
-	ld a,(0c385h)		;7425   ; 0xC385: el SCROLL vertical: R#23 del VDP (p00:4C65)
+	ld a,(0c385h)		;7425   ; ...y la casilla ajustada al scroll
 	and 00fh		;7428
 	ld c,a			;742a
 	add a,e			;742b
@@ -2849,14 +2849,14 @@ L_7409:
 	and 0f8h		;7432
 	ld (hl),a			;7434
 	ret			;7435
-con_mira_scroll_3:
-	push ix		;7436
+casilla_que_se_rompe:
+	push ix		;7436   ; el dibujo tiene que ser 0xD0-0xD3...
 	pop af			;7438
 	sub 0d0h		;7439
 	cp 004h		;743b
 	ret c			;743d
-	call 048bfh		;743e   ; p00:48BF mira_scroll
-	xor a			;7441
+	call 048bfh		;743e   ; ...y la casilla de la pantalla...
+	xor a			;7441   ; ...y las de al lado, no vacias
 	cp (hl)			;7442
 	ret z			;7443
 	inc hl			;7444
@@ -2871,11 +2871,11 @@ con_mira_scroll_3:
 	cp (hl)			;7450
 	ret			;7451
 L_7452:
-	call mira_bichos_grandes		;7452
+	call mira_bichos_grandes		;7452   ; una ficha libre de las dos grandes (0xD300)...
 	ret nz			;7455
 	push hl			;7456   ; la ficha es la de HL
 	pop ix		;7457
-	ld (ix+040h),b		;7459   ; ix+0x40: dato del tipo (p01:7372)
+	ld (ix+040h),b		;7459   ; ...con el dato
 	jp L_7375		;745c
 
 ; ----------------------------------------------------------------------
@@ -2900,7 +2900,7 @@ mira_fila:
 	ld c,l			;747c
 	ld a,022h		;747d
 L_747F:
-	or a			;747f
+	or a			;747f   ; la fila, dentro de 0 a 0xBF (el mapa da la vuelta)
 	ld hl,000bfh		;7480
 	sbc hl,bc		;7483
 	jr nc,L_748D		;7485
@@ -2947,7 +2947,7 @@ L_74BE:
 	add hl,de			;74c0
 	djnz L_74BE		;74c1
 	ret			;74c3
-mira_cosas_2:
+mira_cosas:
 	call mira_area		;74c4   ; tramo: mira cosas
 	call pon_cosas_3		;74c7
 	call mira_fila		;74ca
@@ -2969,11 +2969,11 @@ pon_cosas_3:
 	ld hl,0d000h		;74ed   ; 0xD000: la ficha del bicho 0, byte 0x00 (p01:74B7)
 	ld de,00080h		;74f0
 	ld b,008h		;74f3
-	call bucle		;74f5
+	call bucle		;74f5   ; L_6152: B bytes a 0 cada DE
 	ld hl,0cc00h		;74f8   ; 0xCC00: 16 fichas de 0x10 (p01:749F)
 	ld de,00010h		;74fb
 	ld b,010h		;74fe
-	call bucle		;7500
+	call bucle		;7500   ; L_6152: B bytes a 0 cada DE
 	ld hl,0cb80h		;7503
 	ld bc,00017h		;7506
 	jp 05de9h		;7509   ; p00:5DE9 copia_bytes_2
@@ -2992,8 +2992,8 @@ DATA_sin_lector_750C:
 ; ======================================================================
 
 
-rutina_16:
-	ld a,d			;7531
+rutina_14:
+	ld a,d			;7531   ; la fila de la cosa (9 bits) es la de ahora?
 	and 001h		;7532
 	cp b			;7534
 	ret nz			;7535
@@ -3004,7 +3004,7 @@ mira_bicho_0_2:
 	ld hl,0d000h		;7539   ; 0xD000: la ficha del bicho 0, byte 0x00 (p01:74B7)
 	ld b,008h		;753c   ; 8 vueltas
 L_753E:
-	ld a,(hl)			;753e
+	ld a,(hl)			;753e   ; las cosas de la lista...
 	or a			;753f
 	jr z,L_7549		;7540
 	push bc			;7542
@@ -3084,12 +3084,12 @@ mira_bicho_0_3:
 	ld hl,0d000h		;75a9   ; 0xD000: la ficha del bicho 0, byte 0x00 (p01:74B7)
 	ld b,008h		;75ac   ; 8 vueltas
 L_75AE:
-	ld a,(hl)			;75ae
+	ld a,(hl)			;75ae   ; lo roto de la lista...
 	or a			;75af
 	jr z,L_75B9		;75b0
 	push hl			;75b2
 	push bc			;75b3
-	call rutina_17		;75b4
+	call rutina_15		;75b4   ; L_75C0: lo roto cae 8 puntos...
 	pop bc			;75b7
 	pop hl			;75b8
 L_75B9:
@@ -3097,14 +3097,14 @@ L_75B9:
 	add hl,de			;75bc
 	djnz L_75AE		;75bd
 	ret			;75bf
-rutina_17:
-	ld a,008h		;75c0
+rutina_15:
+	ld a,008h		;75c0   ; lo roto cae 8 puntos...
 	inc l			;75c2
 	inc l			;75c3
 	inc l			;75c4
 	add a,(hl)			;75c5
 	ld (hl),a			;75c6
-	sub 0f0h		;75c7
+	sub 0f0h		;75c7   ; ...y pasado el borde de abajo se borra
 	cp 009h		;75c9
 	jr c,L_75D3		;75cb
 	ret			;75cd
@@ -3128,7 +3128,7 @@ L_75DF:
 	jr z,L_75EF		;75e3
 	push bc			;75e5
 	push hl			;75e6
-	call rutina_18		;75e7
+	call rutina_16		;75e7
 	pop hl			;75ea
 	pop bc			;75eb
 	ld de,00004h		;75ec   ; la siguiente, 0x4 bytes mas alla
@@ -3149,7 +3149,7 @@ DATA_sin_lector_75F3:
 ; ======================================================================
 
 
-rutina_18:
+rutina_16:
 	xor 047h		;75fb
 	and 00fh		;75fd
 	ret nz			;75ff
@@ -3158,7 +3158,7 @@ mira_bicho_0_4:
 	ld hl,0d000h		;7603   ; 0xD000: la ficha del bicho 0, byte 0x00 (p01:74B7)
 	ld b,008h		;7606   ; 8 vueltas
 L_7608:
-	ld a,(hl)			;7608
+	ld a,(hl)			;7608   ; las fichas de la lista...
 	or a			;7609
 	jr z,L_7613		;760a
 	push hl			;760c
@@ -3185,11 +3185,11 @@ pon_contrasena:
 	ld de,0001bh		;7628
 	ld b,004h		;762b
 L_762D:
-	add hl,de			;762d
+	add hl,de			;762d   ; la cosa siguiente de la lista...
 	ld a,(hl)			;762e
 	or a			;762f
 	ret z			;7630
-	jp p,L_763B		;7631
+	jp p,L_763B		;7631   ; ...las de bit 7 hacen su paso
 	push hl			;7634
 	push bc			;7635
 	call con_despacha		;7636
@@ -3235,7 +3235,7 @@ DATA_tabla_764B:
 L_7663:
 	ret			;7663   ; entrada 0 de la tabla de p01:7648 (L_7641)
 L_7664:
-	exx			;7664   ; entrada 1 de la tabla de p01:7648 (L_7641)
+	exx			;7664   ; un trozo de pantalla que se guarda antes de pintar encima...
 	push hl			;7665
 	exx			;7666
 	call ficha_campo_40_4		;7667
@@ -3246,57 +3246,57 @@ L_7664:
 	push hl			;766e
 	push de			;766f
 	exx			;7670
-	call mira_scroll_3		;7671
+	call mira_scroll_3		;7671   ; ...su sitio...
 	ld a,004h		;7674
 	ex de,hl			;7676
 	pop de			;7677
 	push de			;7678
 	push hl			;7679
-	call 05252h		;767a   ; p00:5252 con_hmmm_2
+	call 05252h		;767a   ; ...con HMMM a la pagina 1 (p00:5252)
 	pop bc			;767d
 	pop de			;767e
 	pop hl			;767f
-	ld a,l			;7680
+	ld a,l			;7680   ; y la lista de lo que hay que devolver: la orden 0x47...
 	pop hl			;7681
 	dec l			;7682
 	ld (hl),047h		;7683
 	inc l			;7685
-	ld (hl),c			;7686
+	ld (hl),c			;7686   ; ...el tamano...
 	inc l			;7687
 	ld (hl),b			;7688
 	inc l			;7689
 	inc l			;768a
 	inc l			;768b
-	ld (hl),e			;768c
+	ld (hl),e			;768c   ; ...el sitio...
 	inc l			;768d
 	ld (hl),d			;768e
 	inc l			;768f
-	ld (hl),a			;7690
+	ld (hl),a			;7690   ; ...y el destino
 	ret			;7691
 L_7692:
-	exx			;7692   ; entrada 2 de la tabla de p01:7648 (L_7641)
+	exx			;7692   ; un trozo con HMMM de la pagina 1 a la 0
 	call mira_scroll_3		;7693
 	ld a,001h		;7696
 	jp 05226h		;7698   ; p00:5226 con_hmmm
 L_769B:
-	exx			;769b   ; entrada 3 de la tabla de p01:7648 (L_7641)
+	exx			;769b   ; un trozo con LMMM y el color 0 transparente
 	call mira_scroll_3		;769c
 	ld a,048h		;769f
 	jp 051f2h		;76a1   ; p00:51F2 con_lmmm
 L_76A4:
 	jr $+86		;76a4   ; entrada 4 de la tabla de p01:7648 (L_7641)
 L_76A6:
-	exx			;76a6   ; entrada 6 de la tabla de p01:7648 (L_7641)
+	exx			;76a6   ; devolver lo guardado: el sitio...
 	ld e,(hl)			;76a7
 	inc l			;76a8
 	ld d,(hl)			;76a9
 	inc l			;76aa
-	ld c,(hl)			;76ab
+	ld c,(hl)			;76ab   ; ...el tamano...
 	inc l			;76ac
 	ld b,(hl)			;76ad
 	inc l			;76ae
 	push de			;76af
-	ld e,(hl)			;76b0
+	ld e,(hl)			;76b0   ; ...y de donde
 	inc l			;76b1
 	ld d,(hl)			;76b2
 	inc l			;76b3
@@ -3305,9 +3305,9 @@ L_76A6:
 	pop de			;76b6
 	push af			;76b7
 	ld a,001h		;76b8
-	call 05226h		;76ba   ; p00:5226 con_hmmm
+	call 05226h		;76ba   ; HMMM
 	pop af			;76bd
-	or 080h		;76be
+	or 080h		;76be   ; y se borra la marca de la lista (0xCB80+)
 	ld l,a			;76c0
 	ld h,0cbh		;76c1
 	ld (hl),000h		;76c3
@@ -3330,20 +3330,20 @@ DATA_sin_lector_76C8:
 
 
 L_76D2:
-	exx			;76d2   ; entrada 10 de la tabla de p01:7648 (L_7641)
+	exx			;76d2   ; un rectangulo de un color (HMMV)
 	call mira_scroll_3		;76d3
 	ex de,hl			;76d6
 	ld a,d			;76d7
 	ld d,000h		;76d8
 	jp 0527eh		;76da   ; p00:527E con_hmmv
 L_76DD:
-	exx			;76dd   ; entrada 11 de la tabla de p01:7648 (L_7641)
+	exx			;76dd   ; un trozo de la tabla de la pantalla (0xE000): el sitio en casillas...
 	call mira_scroll_3		;76de
 	ld a,(0c385h)		;76e1   ; 0xC385: el SCROLL vertical: R#23 del VDP (p00:4C65)
 	neg		;76e4
 	add a,e			;76e6
 	ld e,a			;76e7
-	ld a,b			;76e8
+	ld a,b			;76e8   ; ...el tamano en casillas...
 	rrca			;76e9
 	rrca			;76ea
 	rrca			;76eb
@@ -3355,8 +3355,8 @@ L_76DD:
 	rrca			;76f2
 	and 01fh		;76f3
 	ld c,a			;76f5
-	ld a,l			;76f6
-	jp con_mira_scroll_2		;76f7
+	ld a,l			;76f6   ; ...y se rellena con A
+	jp con_mira_scroll_2		;76f7   ; L_631C: rellena un trozo de BxC casillas de la pantalla con A...
 L_76FA:
 	ld de,00004h		;76fa
 L_76FD:
@@ -3373,14 +3373,14 @@ ficha_campo_40_4:
 	ld a,(ix+040h)		;7709   ; ix+0x40: dato del tipo (p01:7372)
 	ld l,a			;770c
 L_770D:
-	ld a,l			;770d
+	ld a,l			;770d   ; el trozo n de 16x16 de la hoja: fila (n*8 & 0xF0)...
 	add a,a			;770e
 	add a,a			;770f
 	add a,a			;7710
 	ld c,a			;7711
 	and 0f0h		;7712
 	ld d,a			;7714
-	ld a,c			;7715
+	ld a,c			;7715   ; ...y columna, desde (0xC0, 0)
 	and 008h		;7716
 	add a,a			;7718
 	add a,0c0h		;7719
@@ -3586,10 +3586,10 @@ L_7868:
 	ld a,(0c4a9h)		;7874   ; 0xC4A9: variables de la partida
 	ld b,a			;7877
 L_7878:
-	ld a,(hl)			;7878
+	ld a,(hl)			;7878   ; lo mismo hacia atras
 	cp 0e0h		;7879
 	jr z,L_7888		;787b
-	dec d			;787d
+	dec d			;787d   ; el sprite anterior
 	dec d			;787e
 	dec d			;787f
 	dec d			;7880
@@ -3657,7 +3657,7 @@ L_78D7:
 	ret			;78d7   ; entrada 0 de la tabla de p01:78CC (L_7888)
 L_78D8:
 	call pon_buffer_11		;78d8   ; entrada 1 de la tabla de p01:78CC (L_7888)
-	call rutina_20		;78db
+	call rutina_18		;78db
 	ex de,hl			;78de
 	jp ficha_campo_07_3		;78df
 L_78E2:
@@ -3666,9 +3666,9 @@ L_78E2:
 	ret nz			;78e7
 	ld (ix+011h),001h		;78e8   ; ix+0x11: cuenta atras de lo que hace
 	ret			;78ec
-rutina_19:
+rutina_17:
 	ld hl,07907h		;78ed   ; entrada 3 de la tabla de p01:78CC (L_7888)
-	call copia_bytes_5		;78f0
+	call copia_bytes_5		;78f0   ; L_7073: 11 bytes de HL a ix+7
 	call mira_x_de_gao_2		;78f3
 	jr nc,L_78FF		;78f6
 	neg		;78f8
@@ -3705,7 +3705,7 @@ ficha_campo_07_3:
 	ld (ix+007h),e		;792c   ; ix+0x07: el paso de la animacion (p01:6124)
 	ld (ix+008h),d		;792f
 	ret			;7932
-rutina_20:
+rutina_18:
 	ld (ix+009h),e		;7933
 	ld (ix+00ah),d		;7936
 	ret			;7939
@@ -3751,17 +3751,17 @@ pon_buffer_13:
 	ld a,(hl)			;7972
 	ld (0e807h),a		;7973   ; 0xE807: buffer de trabajo
 	ld e,c			;7976
-	call mira_buffer_2		;7977
+	call mira_buffer_2		;7977   ; L_79F3: A * 0xE800 / 32 (con p01:7A05, que multiplica)
 	ld a,(0e801h)		;797a   ; 0xE801: buffer de trabajo
 	and a			;797d
-	call nz,cambia_de_signo		;797e
+	call nz,cambia_de_signo		;797e   ; L_79EB: DE = -DE
 	ld (0e803h),de		;7981   ; 0xE803: buffer de trabajo
 	ld a,(0e807h)		;7985   ; 0xE807: buffer de trabajo
 	ld e,a			;7988
-	call mira_buffer_2		;7989
+	call mira_buffer_2		;7989   ; L_79F3: A * 0xE800 / 32 (con p01:7A05, que multiplica)
 	ld a,(0e802h)		;798c   ; 0xE802: buffer de trabajo
 	and a			;798f
-	call nz,cambia_de_signo		;7990
+	call nz,cambia_de_signo		;7990   ; L_79EB: DE = -DE
 	ld hl,(0e803h)		;7993   ; 0xE803: buffer de trabajo
 	ret			;7996
 mira_y_de_gao_3:
@@ -3818,7 +3818,7 @@ L_79E6:
 	ld (0e809h),a		;79e7   ; 0xE809: buffer de trabajo
 	ret			;79ea
 cambia_de_signo:
-	ld a,d			;79eb
+	ld a,d			;79eb   ; DE = -DE
 	cpl			;79ec
 	ld d,a			;79ed
 	ld a,e			;79ee
@@ -3827,17 +3827,17 @@ cambia_de_signo:
 	inc de			;79f1
 	ret			;79f2
 mira_buffer_2:
-	ld a,(0e800h)		;79f3   ; 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
+	ld a,(0e800h)		;79f3   ; A * 0xE800 / 32 (con p01:7A05, que multiplica)
 	ld h,a			;79f6
 	call bucle_5		;79f7
-	xor a			;79fa
+	xor a			;79fa   ; HL * 8, con el acarreo en A...
 	add hl,hl			;79fb
 	adc a,a			;79fc
 	add hl,hl			;79fd
 	adc a,a			;79fe
 	add hl,hl			;79ff
 	adc a,a			;7a00
-	ld l,h			;7a01
+	ld l,h			;7a01   ; ...y el byte alto
 	ld h,a			;7a02
 	ex de,hl			;7a03
 	ret			;7a04
@@ -3938,7 +3938,7 @@ L_7B1D:
 	ld c,a			;7b21
 	push hl			;7b22
 	push bc			;7b23
-	call mira_avance_del_cuadro_3		;7b24
+	call mira_avance_del_cuadro_3		;7b24   ; L_7BDE: lo roto baja con el mapa: si este cuadro no avanza, nada...
 	call c,mira_scroll_4		;7b27
 	pop bc			;7b2a
 	pop hl			;7b2b
@@ -3954,7 +3954,7 @@ mira_scroll_4:
 	jr z,mira_scroll_5		;7b36
 	dec a			;7b38
 	jp z,L_7BB3		;7b39
-	jp p,L_7BB4		;7b3c
+	jp p,L_7BB4		;7b3c   ; L_7BB4: la cosa rota se borra: fuera de la lista...
 	push hl			;7b3f
 	call ficha_campo_40_3		;7b40
 	jp nz,L_7BDC		;7b43
@@ -3997,12 +3997,12 @@ L_7B6A:
 	ld a,048h		;7b7a
 	jp 051f2h		;7b7c   ; p00:51F2 con_lmmm
 L_7B7F:
-	push hl			;7b7f
+	push hl			;7b7f   ; el fondo del icono: el 0x2B desde el objeto 0x24...
 	push af			;7b80
 	cp 024h		;7b81
 	ld a,00ch		;7b83
 	jr nc,L_7B89		;7b85
-	ld a,006h		;7b87
+	ld a,006h		;7b87   ; ...si no, el 0x25
 L_7B89:
 	call mira_scroll_6		;7b89   ; tramo: llama a de_mas_a
 	pop af			;7b8c
@@ -4028,19 +4028,19 @@ DATA_tabla_7B99:
 L_7BB3:
 	ret			;7bb3
 L_7BB4:
-	ld (hl),000h		;7bb4   ; tramo: mira scroll, sigue en con_hmmm
+	ld (hl),000h		;7bb4   ; la cosa rota se borra: fuera de la lista...
 	inc l			;7bb6
 	inc l			;7bb7
-	ld a,(0c385h)		;7bb8   ; 0xC385: el SCROLL vertical: R#23 del VDP (p00:4C65)
+	ld a,(0c385h)		;7bb8   ; ...su sitio en la pantalla...
 	add a,(hl)			;7bbb
 	ld e,a			;7bbc
 	inc l			;7bbd
 	ld d,(hl)			;7bbe
 	inc l			;7bbf
 	ld l,(hl)			;7bc0
-	ld h,0cbh		;7bc1
+	ld h,0cbh		;7bc1   ; ...su marca en 0xCB00+ a 0...
 	ld (hl),000h		;7bc3
-	ld a,l			;7bc5
+	ld a,l			;7bc5   ; ...y el trozo que se pinta: fila y columna de 16 en la hoja desde (0xC0, ...)
 	add a,a			;7bc6
 	add a,a			;7bc7
 	add a,a			;7bc8
@@ -4054,21 +4054,21 @@ L_7BB4:
 	ld l,a			;7bd3
 	ld a,001h		;7bd4
 	ld bc,01010h		;7bd6
-	jp 05226h		;7bd9   ; p00:5226 con_hmmm
+	jp 05226h		;7bd9   ; HMMM a la pantalla
 L_7BDC:
 	pop hl			;7bdc
 	ret			;7bdd
 mira_avance_del_cuadro_3:
-	ld a,(0c388h)		;7bde   ; 0xC388: lo que se ha movido el mapa este cuadro (p00:56E8)
+	ld a,(0c388h)		;7bde   ; lo roto baja con el mapa: si este cuadro no avanza, nada...
 	or a			;7be1   ; ¿es 0 avance_del_cuadro?
 	scf			;7be2
 	ret z			;7be3
 	inc l			;7be4
 	inc l			;7be5
-	ld a,(hl)			;7be6
+	ld a,(hl)			;7be6   ; ...la y sube...
 	inc a			;7be7
 	ld (hl),a			;7be8
-	sub 0d0h		;7be9
+	sub 0d0h		;7be9   ; ...y pasada la linea 0xD0 se borra
 	cp 008h		;7beb
 	dec l			;7bed
 	dec l			;7bee
@@ -4085,23 +4085,23 @@ L_7BFB:
 	ld a,003h		;7bfb
 	ret			;7bfd
 mira_x_de_gao_3:
-	ld hl,0ea00h		;7bfe   ; 0xEA00: buffers de pantallas y dibujos
+	ld hl,0ea00h		;7bfe   ; los disparos de Gao: la lista de 0xEA00 corre un sitio...
 	ld de,0ea01h		;7c01   ; 0xEA01: buffers de pantallas y dibujos
 	ld bc,0001bh		;7c04
 	ldir		;7c07
-	ld a,(0c809h)		;7c09   ; 0xC809: la X de Gao (p01:70BD)
+	ld a,(0c809h)		;7c09   ; ...y los tres primeros son las cajas de Gao:
 	ld d,a			;7c0c
 	ld a,(0c80bh)		;7c0d   ; 0xC80B: la Y de Gao (p01:70B3)
 	ld e,a			;7c10
 	ld hl,0ea00h		;7c11   ; 0xEA00: buffers de pantallas y dibujos
-	ld (hl),000h		;7c14
+	ld (hl),000h		;7c14   ; el cuerpo (y - 4, x)...
 	inc l			;7c16
 	add a,0fch		;7c17
 	ld (hl),a			;7c19
 	inc l			;7c1a
 	ld (hl),d			;7c1b
 	inc l			;7c1c
-	ld a,0f9h		;7c1d
+	ld a,0f9h		;7c1d   ; ...a la derecha (y - 7, x + 2)...
 	add a,e			;7c1f
 	ld e,a			;7c20
 	ld a,002h		;7c21
@@ -4112,7 +4112,7 @@ mira_x_de_gao_3:
 	inc l			;7c28
 	ld (hl),a			;7c29
 	inc l			;7c2a
-	ld a,0feh		;7c2b
+	ld a,0feh		;7c2b   ; ...y a la izquierda (y - 7, x - 2)
 	add a,d			;7c2d
 	ld (hl),000h		;7c2e
 	inc l			;7c30
@@ -4197,7 +4197,7 @@ choques_de_una_ficha:
 	pop hl			;7c9b
 	ret z			;7c9c
 	push hl			;7c9d
-	call rutina_21		;7c9e   ; ...si le han dado, se apunta
+	call rutina_19		;7c9e   ; ...si le han dado, se apunta
 	pop hl			;7ca1
 	ld de,00008h		;7ca2   ; y las demas, 8 bytes cada una
 	ld b,004h		;7ca5
@@ -4216,7 +4216,7 @@ L_7CA8:
 	or a			;7cb3
 	pop bc			;7cb4
 	pop hl			;7cb5
-	call nz,rutina_21		;7cb6   ; L_7D66: lo que le ha dado, a la ficha
+	call nz,rutina_19		;7cb6   ; L_7D66: lo que le ha dado, a la ficha
 	ld de,00008h		;7cb9
 	djnz L_7CA7		;7cbc
 	ret			;7cbe
@@ -4232,7 +4232,7 @@ L_7CC3:
 	exx			;7cca
 	or a			;7ccb
 	ret z			;7ccc
-	jp rutina_21		;7ccd   ; L_7D66: lo que le ha dado, a la ficha
+	jp rutina_19		;7ccd   ; L_7D66: lo que le ha dado, a la ficha
 una_caja_contra_los_disparos:
 	exx			;7cd0   ; C: lo que le ha dado
 	ld c,000h		;7cd1
@@ -4308,7 +4308,7 @@ una_caja_contra_un_disparo:
 	ld a,l			;7d37   ; los 2 primeros son de Gao:
 	cp 00ah		;7d38
 	jr c,L_7D4C		;7d3a
-	exx			;7d3c   ; tramo: mira nivel_c840
+	exx			;7d3c   ; tramo: mira power_up
 	ld a,(0c840h)		;7d3d   ; lo que hace depende del nivel 0xC840 (p01:7D70)
 	ld e,a			;7d40
 	ld d,000h		;7d41
@@ -4339,7 +4339,7 @@ mira_invulnerable_2:
 	dec (hl)			;7d63
 	exx			;7d64
 	ret			;7d65
-rutina_21:
+rutina_19:
 	set 2,l		;7d66   ; lo que le ha dado, a la ficha
 	inc l			;7d68
 	cp 004h		;7d69
@@ -4366,7 +4366,7 @@ mira_buffers:
 	ld hl,0ca00h		;7d7b   ; 0xCA00: 6 fichas de 0x20 (p02:9368)
 	ld b,006h		;7d7e
 L_7D80:
-	ld a,(hl)			;7d80
+	ld a,(hl)			;7d80   ; las fichas especiales ocupadas...
 	or a			;7d81
 	jr z,L_7D8F		;7d82
 	exx			;7d84
@@ -4374,10 +4374,10 @@ L_7D80:
 	inc l			;7d86
 	inc l			;7d87
 	inc l			;7d88
-	dec a			;7d89
+	dec a			;7d89   ; ...de tipo 1...
 	exx			;7d8a
 	jr nz,L_7D8F		;7d8b
-	ld (hl),0ffh		;7d8d
+	ld (hl),0ffh		;7d8d   ; ...se borran
 L_7D8F:
 	ld de,00020h		;7d8f   ; la siguiente, 0x20 bytes mas alla
 	add hl,de			;7d92
@@ -4532,7 +4532,7 @@ L_7E89:
 	jr nz,L_7E96		;7e8c
 	push hl			;7e8e
 	push bc			;7e8f
-	call con_pon_vidas		;7e90
+	call con_pon_vidas		;7e90   ; L_7E9D: un disparo de tipo 3: su y...
 	exx			;7e93
 	pop bc			;7e94
 	pop hl			;7e95
@@ -4542,18 +4542,18 @@ L_7E96:
 	djnz L_7E89		;7e9a
 	ret			;7e9c
 con_pon_vidas:
-	inc l			;7e9d
+	inc l			;7e9d   ; un disparo de tipo 3: su y...
 	inc l			;7e9e
 	ld a,(hl)			;7e9f
 	ex af,af'			;7ea0
-	inc l			;7ea1
+	inc l			;7ea1   ; ...y su x
 	ld a,(hl)			;7ea2
 	exx			;7ea3
-	sub d			;7ea4
+	sub d			;7ea4   ; a menos de 20 de Gao en x...
 	add a,014h		;7ea5
 	ret nc			;7ea7
 	ex af,af'			;7ea8
-	sub e			;7ea9
+	sub e			;7ea9   ; ...y en y...
 	add a,014h		;7eaa
 	ret nc			;7eac
 	exx			;7ead   ; tramo: llama a pon_vidas
@@ -4561,8 +4561,8 @@ con_pon_vidas:
 	push hl			;7eaf
 	push de			;7eb0
 	push bc			;7eb1
-	call con_pon_vidas_2		;7eb2
-	ld hl,00001h		;7eb5
+	call con_pon_vidas_2		;7eb2   ; ...le da a Gao...
+	ld hl,00001h		;7eb5   ; ...y le quita 1 de vida (p00:4818)
 	call 04818h		;7eb8   ; p00:4818 pon_vidas
 	pop bc			;7ebb
 	pop de			;7ebc
@@ -4614,7 +4614,7 @@ DATA_tabla_7ED7:
 L_7EF3:
 	cp 02ah		;7ef3
 	jp nc,L_7BFB		;7ef5
-	call rutina_22		;7ef8   ; tramo: llama a mira_banderas_juego, sigue en pon_vidas
+	call rutina_20		;7ef8   ; tramo: llama a mira_banderas_juego, sigue en pon_vidas
 	ld a,028h		;7efb   ; el sonido 0x28 (p14:9C47 + 2*0x28)
 	call 041ach		;7efd   ; p00:41AC mira_banderas_juego
 	ld hl,0000ah		;7f00
@@ -4624,7 +4624,7 @@ L_7F06:
 	ld (0c580h),a		;7f08   ; 0xC580: variables del avance del mapa
 	ret			;7f0b
 L_7F0C:
-	call rutina_22		;7f0c   ; entrada 12 de la tabla de p01:7ED4 (L_7EC0)
+	call rutina_20		;7f0c   ; entrada 12 de la tabla de p01:7ED4 (L_7EC0)
 	ld (hl),05ah		;7f0f
 	ld a,(0c0f2h)		;7f11   ; 0xC0F2: la musica de la pausa esta sonando (p14:9411)
 	or a			;7f14   ; ¿es 0 musica_de_pausa?
@@ -4639,17 +4639,17 @@ L_7F21:
 	xor a			;7f21   ; entrada 4 de la tabla de p01:7ED4 (L_7EC0)
 	ld (0c858h),a		;7f22   ; 0xC858: el OBJETO 3 (byte 0 de 4; p06:BAC2)
 L_7F25:
-	call rutina_22		;7f25   ; entrada 6 de la tabla de p01:7ED4 (L_7EC0)
+	call rutina_20		;7f25   ; entrada 6 de la tabla de p01:7ED4 (L_7EC0)
 	ld (hl),00dh		;7f28
 	ld a,018h		;7f2a   ; el sonido 0x18 (p14:9C47 + 2*0x18)
 	jp 041ach		;7f2c   ; p00:41AC mira_banderas_juego
 L_7F2F:
-	call rutina_22		;7f2f   ; entrada 0 de la tabla de p01:7ED4 (L_7EC0)
+	call rutina_20		;7f2f   ; entrada 0 de la tabla de p01:7ED4 (L_7EC0)
 	call c,pon_arma_dato		;7f32
 	ld a,018h		;7f35   ; el sonido 0x18 (p14:9C47 + 2*0x18)
 	jp 041ach		;7f37   ; p00:41AC mira_banderas_juego
 L_7F3A:
-	call rutina_22		;7f3a   ; entrada 9 de la tabla de p01:7ED4 (L_7EC0)
+	call rutina_20		;7f3a   ; entrada 9 de la tabla de p01:7ED4 (L_7EC0)
 	ret nc			;7f3d
 	inc hl			;7f3e   ; tramo: mira fase, sigue en mira_banderas_juego
 	ld a,(0c481h)		;7f3f   ; 0xC481: la FASE, 1-6 (p01:65B4)
@@ -4660,14 +4660,14 @@ L_7F3A:
 	ld a,018h		;7f48   ; el sonido 0x18 (p14:9C47 + 2*0x18)
 	jp 041ach		;7f4a   ; p00:41AC mira_banderas_juego
 L_7F4D:
-	call rutina_22		;7f4d   ; entrada 13 de la tabla de p01:7ED4 (L_7EC0)
+	call rutina_20		;7f4d   ; entrada 13 de la tabla de p01:7ED4 (L_7EC0)
 	ld a,018h		;7f50   ; el sonido 0x18 (p14:9C47 + 2*0x18)
 	jp 041ach		;7f52   ; p00:41AC mira_banderas_juego
 L_7F55:
-	call rutina_22		;7f55   ; entrada 5 de la tabla de p01:7ED4 (L_7EC0)
+	call rutina_20		;7f55   ; entrada 5 de la tabla de p01:7ED4 (L_7EC0)
 	ld a,018h		;7f58   ; el sonido 0x18 (p14:9C47 + 2*0x18)
 	jp 041ach		;7f5a   ; p00:41AC mira_banderas_juego
-rutina_22:
+rutina_20:
 	call mira_objeto_1		;7f5d
 	ret nc			;7f60
 	inc (hl)			;7f61
@@ -4707,7 +4707,7 @@ DATA_tabla_7F7B:
 
 
 L_7FA3:
-	call rutina_22		;7fa3   ; entrada 3 de la tabla de p01:7ED4 (L_7EC0)
+	call rutina_20		;7fa3   ; entrada 3 de la tabla de p01:7ED4 (L_7EC0)
 	ld a,018h		;7fa6   ; el sonido 0x18 (p14:9C47 + 2*0x18)
 	call 041ach		;7fa8   ; p00:41AC mira_banderas_juego
 pon_arma_dato_2:

@@ -18,5 +18,3 @@ Lo que no está resuelto, dicho tal cual.
 - **Las 18 tiras RLE sin puntero** de `p07:7457`: qué eran.
 - **Los objetos del 18 al 32** se pintan con iconos casi vacíos en la hoja
   de las fases volcadas; puede que sus iconos se suban en otro momento.
-- **La densidad del listado** está por debajo del 40 % de los últimos de la
-  serie.

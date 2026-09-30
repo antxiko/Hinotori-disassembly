@@ -1,4 +1,37 @@
 
+
+
+# --- A MANO, POR TANDAS (seccion que reescribe tools/mete_notas.py desde work/notas_pNN.txt) ---
+L 0xA4FB persigue_a_gao
+L 0xA59D puede_ir_hacia
+L 0xA5BF paso_hacia
+C 0xA4FB la distancia en y a Gao...
+C 0xA508 ...y en x
+C 0xA513 mas lejos en x que en y: primero en x, luego en y
+C 0xA520 si no, primero en y
+C 0xA52A Gao a la derecha o a la izquierda...
+C 0xA532 ...derecha (3) si se puede...
+C 0xA53C ...izquierda (2)
+C 0xA546 Gao abajo o arriba...
+C 0xA54E ...abajo (1)...
+C 0xA558 ...arriba (0)
+C 0xA55F el paso de moverse en esa direccion
+C 0xA566 no puede ninguno: prueba cuatro al azar (p03:A58D)
+C 0xA57F ninguna: se queda quieto 8 cuadros
+C 0xA59D la direccion A: el suelo a 0x60 puntos...
+C 0xA5A8 ...y a 0x10: 4 si solo el cercano, 0 si los dos
+C 0xA5B3 el punto a C puntos en esa direccion...
+C 0xA5B7 ...su propiedad: 0x28 es pasillo (acarreo si no se puede)
+C 0xA5BF desde la y, x de la ficha:
+C 0xA5C5 0 arriba: y - C
+C 0xA5D2 1 abajo: y + C (fuera de la pantalla, no)
+C 0xA5D9 2 izquierda: x - C
+C 0xA5DD 3 derecha: x + C
+C 0xA0CB B palabras DE a HL
+C 0xAEF7 una ficha libre...
+C 0xAEFE ...del tipo 0x2C
+# --- fin de las notas por tandas ---
+
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0xA04F 0xA05A ficha_A04F  11 bytes de la ficha del bicho desde ix+7 (p01:7073); lo leen p03:A000 (11 bytes)
 F 0xA04F 11
@@ -120,6 +153,10 @@ F 0xBE43 16
 
 
 
+
+
+
+
 # --- RESTO (seccion que reescribe tools/resto.py; no editar a mano) ---
 D 0xA112 0xA118 tabla_A112  tabla que lee p03:A10C (6 bytes)
 D 0xA12B 0xA136 tabla_A12B  tabla que lee p03:A125 (11 bytes)
@@ -151,6 +188,7 @@ D 0xB015 0xB02D tabla_B015  tabla que lee p03:AFE6 (24 bytes)
 D 0xB0BF 0xB0CB tabla_B0BF  tabla que lee p03:B0B7 (12 bytes)
 D 0xB24D 0xB259 tabla_B24D  tabla que lee p03:B224, p03:B22B, p03:B232, p03:B237 (12 bytes)
 D 0xB2EC 0xB2F8 tabla_B2EC  tabla que lee p03:B2E3 (12 bytes)
+D 0xB390 0xB39E tabla_B390  tabla que lee p03:B347, p03:B34D (14 bytes)
 D 0xB484 0xB490 tabla_B484  tabla que lee p03:B479 (12 bytes)
 D 0xB670 0xB690 tabla_B670  tabla que lee p03:B643 (32 bytes)
 D 0xB6D7 0xB6E7 tabla_B6D7  tabla que lee p03:B6C4, p03:B8DE (16 bytes)
@@ -189,9 +227,7 @@ L 0xA4CC ficha_paso_3
 L 0xA4DB ficha_paso_4
 L 0xA52A mira_x_de_gao_2
 L 0xA546 mira_y_de_gao
-L 0xA59D pon_buffer
-L 0xA5B3 rutina_2
-L 0xA5BF ficha_y_3
+L 0xA5B3 con_paso_hacia
 L 0xA5F9 nace_tipo_07
 L 0xA5FA tipo_07
 L 0xA5FB nace_tipo_15
@@ -200,15 +236,15 @@ L 0xA62B tipo_15
 L 0xA696 ficha_patron_2
 L 0xA6B8 nace_tipo_16
 L 0xA6DF tipo_16
-L 0xA72A rutina_3
+L 0xA72A rutina_2
 L 0xA734 ficha_cuenta_atras
-L 0xA74B rutina_4
-L 0xA75E rutina_5
-L 0xA770 rutina_6
-L 0xA79A rutina_7
-L 0xA79F rutina_8
-L 0xA7A4 rutina_9
-L 0xA7A9 rutina_10
+L 0xA74B rutina_3
+L 0xA75E rutina_4
+L 0xA770 rutina_5
+L 0xA79A rutina_6
+L 0xA79F rutina_7
+L 0xA7A4 rutina_8
+L 0xA7A9 rutina_9
 L 0xA7CB ficha_campo_06
 L 0xA802 nace_tipo_17
 L 0xA813 tipo_17
@@ -236,10 +272,10 @@ L 0xAAB1 mira_dificultad_5
 L 0xAAE6 nace_tipo_25
 L 0xAB03 tipo_23
 L 0xAB58 tipo_25
-L 0xABBF rutina_11
+L 0xABBF rutina_10
 L 0xABCE ficha_paso_5
 L 0xABD5 ficha_x_4
-L 0xABF6 rutina_12
+L 0xABF6 rutina_11
 L 0xAC0B ficha_x_5
 L 0xAC2C ficha_x_6
 L 0xAC41 ficha_x_7
@@ -271,7 +307,7 @@ L 0xAF2C nace_tipo_54
 L 0xAF31 nace_tipo_55
 L 0xAF36 nace_tipo_56
 L 0xAF7A mira_fichas
-L 0xAF9A rutina_13
+L 0xAF9A rutina_12
 L 0xAFA8 nace_tipo_32
 L 0xAFCF tipo_32
 L 0xB02D mira_area
@@ -283,12 +319,11 @@ L 0xB272 nace_tipo_35
 L 0xB2AA tipo_35
 L 0xB2F8 nace_tipo_27
 L 0xB325 tipo_27
-L 0xB39F tipo_50
 L 0xB3DA nace_tipo_40
 L 0xB416 tipo_40
 L 0xB490 nace_tipo_28
 L 0xB4C3 tipo_28
-L 0xB534 rutina_14
+L 0xB534 rutina_13
 L 0xB58E ficha_x_10
 L 0xB5A0 ficha_patron_3
 L 0xB5AC nace_tipo_33
@@ -433,15 +468,15 @@ C 0xA284 entrada 5 de la tabla de p03:A499 (L_A499)
 C 0xA289 entrada 5 de la tabla de p03:AA04 (L_A9FE)
 C 0xA312 p03:A318 tabla_A318: tabla que lee p03:A312 (6 bytes)
 C 0xA315 p02:9DEC ficha_campo_06
-C 0xA31E tramo: llama a rutina_10, llama a copia_bytes_7, llama a ficha_campo_07_3, sigue en rutina_20
-C 0xA321 p01:7123 rutina_10
+C 0xA31E tramo: llama a rutina_9, llama a copia_bytes_7, llama a ficha_campo_07_3, sigue en rutina_18
+C 0xA321 p01:7123 rutina_9
 C 0xA324 p03:A33E ficha_A33E: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
 C 0xA327 p01:7084 copia_bytes_7
 C 0xA32A ix+0x10: el PATRON del sprite (p01:70FB)
 C 0xA32E ix+0x11: cuenta atras de lo que hace
 C 0xA335 ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0xA338 p01:792C ficha_campo_07_3
-C 0xA33B p01:7933 rutina_20
+C 0xA33B p01:7933 rutina_18
 C 0xA342 ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 C 0xA349 ix+0x74: el tipo de choque (p01:7093)
 C 0xA34D p01:710F mira_avance_del_cuadro
@@ -455,7 +490,7 @@ C 0xA36F ix+0x74: el tipo de choque (p01:7093)
 C 0xA373 p01:710F mira_avance_del_cuadro
 C 0xA376 cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 C 0xA37A la ficha pasa al paso siguiente
-C 0xA37F p01:7189 rutina_11
+C 0xA37F p01:7189 rutina_10
 C 0xA382 p03:A3AA ficha_A3AA: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
 C 0xA385 p01:7084 copia_bytes_7
 C 0xA388 ix+0x05: la X (p01:70BD la compara con la de Gao)
@@ -482,7 +517,7 @@ C 0xA3ED 0xC4B0: cuenta los cuadros; el bit 0 alterna los colores de los sprites
 C 0xA3F3 cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 C 0xA3F7 la ficha pasa al paso siguiente
 C 0xA3FA ix+0x06: cuenta atras (p01:6124)
-C 0xA401 p01:7933 rutina_20
+C 0xA401 p01:7933 rutina_18
 C 0xA407 p01:792C ficha_campo_07_3
 C 0xA40C ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0xA40F ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
@@ -516,26 +551,27 @@ C 0xA4DB ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 C 0xA4DF cuenta atras en ix+0x1F: hasta que llegue a 0, nada mas
 C 0xA4E3 tramo: llama a pon_buffer_7
 C 0xA4E5 p01:7805 pon_buffer_7
-C 0xA4FB entrada 1 de la tabla de p03:A499 (L_A499)
 C 0xA4FE 0xC80B: la Y de Gao (p01:70B3)
 C 0xA501 ix+0x03: la Y (p01:70B3 la compara con la de Gao)
-C 0xA508 tramo: mira x_de_gao
 C 0xA509 0xC809: la X de Gao (p01:70BD)
 C 0xA50C ix+0x05: la X (p01:70BD la compara con la de Gao)
-C 0xA52A 0xC809: la X de Gao (p01:70BD)
+C 0xA516 L_A52A: Gao a la derecha o a la izquierda...
+C 0xA51A L_A546: Gao abajo o arriba...
+C 0xA524 L_A52A: Gao a la derecha o a la izquierda...
 C 0xA52D ix+0x03: la Y (p01:70B3 la compara con la de Gao)
-C 0xA546 0xC80B: la Y de Gao (p01:70B3)
+C 0xA534 puede_ir_hacia: la direccion A: el suelo a 0x60 puntos...
+C 0xA53E puede_ir_hacia: la direccion A: el suelo a 0x60 puntos...
 C 0xA549 ix+0x03: la Y (p01:70B3 la compara con la de Gao)
-C 0xA566 tramo: llama a hl_mas_a
+C 0xA550 puede_ir_hacia: la direccion A: el suelo a 0x60 puntos...
+C 0xA559 puede_ir_hacia: la direccion A: el suelo a 0x60 puntos...
 C 0xA56A p03:A58D tabla_A58D: tabla que lee p03:A56A (16 bytes)
 C 0xA56D p00:40A4 hl_mas_a
 C 0xA570 4 vueltas
-C 0xA57F la ficha pasa al paso 0
+C 0xA572 tramo: llama a puede_ir_hacia
+C 0xA575 puede_ir_hacia: la direccion A: el suelo a 0x60 puntos...
 C 0xA583 ix+0x11: cuenta atras de lo que hace
-C 0xA59D 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
-C 0xA5A8 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
-C 0xA5B7 p00:4913 rutina_13
-C 0xA5BF ix+0x03: la Y (p01:70B3 la compara con la de Gao)
+C 0xA5A2 L_A5B3: el punto a C puntos en esa direccion...
+C 0xA5AD L_A5B3: el punto a C puntos en esa direccion...
 C 0xA5C2 ix+0x05: la X (p01:70BD la compara con la de Gao)
 C 0xA5E1 ix+0x06: cuenta atras (p01:6124)
 C 0xA5E7 4 vueltas
@@ -619,8 +655,8 @@ C 0xA79A entrada 5 de la tabla de p03:A787 (L_A782)
 C 0xA79F entrada 4 de la tabla de p03:A787 (L_A782)
 C 0xA7A4 entrada 0 de la tabla de p03:A787 (L_A782)
 C 0xA7A9 entrada 2 de la tabla de p03:A787 (L_A782)
-C 0xA7AC tramo: llama a rutina_20, sigue en ficha_campo_07_3
-C 0xA7B1 p01:7933 rutina_20
+C 0xA7AC tramo: llama a rutina_18, sigue en ficha_campo_07_3
+C 0xA7B1 p01:7933 rutina_18
 C 0xA7B8 p01:792C ficha_campo_07_3
 C 0xA7CB ix+0x06: cuenta atras (p01:6124)
 C 0xA7DB ix+0x03: la Y (p01:70B3 la compara con la de Gao)
@@ -629,24 +665,24 @@ C 0xA7E4 p00:48FB rutina_11
 C 0xA7EA tramo: llama a rutina_11
 C 0xA7F8 p00:48FB rutina_11
 C 0xA7FD ix+0x06: cuenta atras (p01:6124)
-C 0xA802 tramo: llama a rutina_11
-C 0xA807 p01:7189 rutina_11
+C 0xA802 tramo: llama a rutina_10
+C 0xA807 p01:7189 rutina_10
 C 0xA80E ix+0x10: el PATRON del sprite (p01:70FB)
 C 0xA813 tramo: llama a ficha_cuenta
 C 0xA816 p01:70F1 ficha_cuenta
 C 0xA81C p03:A837 tabla_A837: tabla que lee p03:A81C (11 bytes)
 C 0xA822 ix+0x05: la X (p01:70BD la compara con la de Gao)
 C 0xA827 ix+0x05: la X (p01:70BD la compara con la de Gao)
-C 0xA834 p01:7933 rutina_20
+C 0xA834 p01:7933 rutina_18
 C 0xA842 0xC012: el sonido del primer canal (p14:9420)
 C 0xA845 ¿es 0 sonido_1?
 C 0xA848 0xC072: el sonido que lleva el ruido del PSG (p14:9439)
 C 0xA84F p00:41AC mira_banderas_juego
 C 0xA852 tramo: llama a ficha_cuenta
 C 0xA855 p01:70F1 ficha_cuenta
-C 0xA85F tramo: llama a cambia_de_signo, sigue en rutina_20
+C 0xA85F tramo: llama a cambia_de_signo, sigue en rutina_18
 C 0xA865 p01:79EB cambia_de_signo
-C 0xA868 p01:7933 rutina_20
+C 0xA868 p01:7933 rutina_18
 C 0xA86B ix+0x05: la X (p01:70BD la compara con la de Gao)
 C 0xA87B 0xC4AA: la dificultad: 0xC172 + lo de la tabla p01:7062 segun 0xC840, hasta 15 (p01:7049)
 C 0xA87E ¿dificultad = 0x0C?
@@ -677,7 +713,7 @@ C 0xA8F5 p01:716B pon_buffer_5
 C 0xA908 ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 C 0xA90D cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 C 0xA911 la ficha pasa al paso siguiente
-C 0xA916 p01:7189 rutina_11
+C 0xA916 p01:7189 rutina_10
 C 0xA919 p03:A91F tabla_A91F: tabla que lee p03:A919 (6 bytes)
 C 0xA91C p02:9DEC ficha_campo_06
 C 0xA925 p03:A940 ficha_A940: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
@@ -685,7 +721,7 @@ C 0xA928 p01:7084 copia_bytes_7
 C 0xA92B ix+0x06: cuenta atras (p01:6124)
 C 0xA92F p03:A935 tabla_A935: tabla que lee p03:A92F (11 bytes)
 C 0xA932 p01:7073 copia_bytes_5
-C 0xA944 p01:71A4 rutina_12
+C 0xA944 p01:71A4 rutina_11
 C 0xA947 p01:710F mira_avance_del_cuadro
 C 0xA94A ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 C 0xA954 p01:70B3 mira_y_de_gao
@@ -709,7 +745,7 @@ C 0xA99D ix+0x05: la X (p01:70BD la compara con la de Gao)
 C 0xA9CB p03:A9DA ficha_A9DA: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
 C 0xA9CE p01:7084 copia_bytes_7
 C 0xA9D1 ix+0x10: el PATRON del sprite (p01:70FB)
-C 0xA9D7 p01:7189 rutina_11
+C 0xA9D7 p01:7189 rutina_10
 C 0xA9DE tramo: sigue en ficha_cuenta
 C 0xA9E1 p01:70F1 ficha_cuenta
 C 0xA9E7 ix+0x03: la Y (p01:70B3 la compara con la de Gao)
@@ -798,11 +834,11 @@ C 0xAB8F ix+0x06: cuenta atras (p01:6124)
 C 0xAB95 entrada 2 de la tabla de p03:AB5E (L_AB58)
 C 0xAB98 p01:70F1 ficha_cuenta
 C 0xAB9F p01:70CF mira_y_de_gao_2
-C 0xABA4 tramo: llama a rutina_20, llama a ficha_campo_07_3
-C 0xABA7 p01:7933 rutina_20
+C 0xABA4 tramo: llama a rutina_18, llama a ficha_campo_07_3
+C 0xABA7 p01:7933 rutina_18
 C 0xABAD p01:792C ficha_campo_07_3
-C 0xABB2 tramo: llama a rutina_11
-C 0xABB4 p01:7189 rutina_11
+C 0xABB2 tramo: llama a rutina_10
+C 0xABB4 p01:7189 rutina_10
 C 0xABB9 entrada 3 de la tabla de p03:AB5E (L_AB58)
 C 0xABBC p01:70F1 ficha_cuenta
 C 0xABBF ix+0x1A: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
@@ -822,7 +858,7 @@ C 0xABF6 ix+0x1A: campo propio de este tipo de ficha (el codigo comun de p01 no 
 C 0xABFB p01:70CF mira_y_de_gao_2
 C 0xAC02 p01:70D6 mira_x_de_gao_2
 C 0xAC05 p01:79EB cambia_de_signo
-C 0xAC08 p01:7933 rutina_20
+C 0xAC08 p01:7933 rutina_18
 C 0xAC0B tramo: llama a con_hl_mas_a_3
 C 0xAC0E p01:7099 con_hl_mas_a_3
 C 0xAC11 ix+0x1A: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
@@ -895,19 +931,19 @@ C 0xAD9C p01:710F mira_avance_del_cuadro
 C 0xAD9F cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 C 0xADA3 la ficha pasa al paso siguiente
 C 0xADA6 ix+0x06: cuenta atras (p01:6124)
-C 0xADAB p01:7189 rutina_11
+C 0xADAB p01:7189 rutina_10
 C 0xADAE p03:ADBD ficha_ADBD: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
 C 0xADB1 p01:7084 copia_bytes_7
 C 0xADB4 ix+0x10: el PATRON del sprite (p01:70FB)
-C 0xADBA p01:7189 rutina_11
-C 0xADC4 tramo: llama a rutina_10, llama a copia_bytes_7, mira fase
-C 0xADC7 p01:7123 rutina_10
+C 0xADBA p01:7189 rutina_10
+C 0xADC4 tramo: llama a rutina_9, llama a copia_bytes_7, mira fase
+C 0xADC7 p01:7123 rutina_9
 C 0xADCA p03:ADDE ficha_ADDE: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
 C 0xADCD p01:7084 copia_bytes_7
 C 0xADD0 0xC481: la FASE, 1-6 (p01:65B4)
 C 0xADD3 ¿fase = 0x05?
 C 0xADD7 ix+0x25: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
-C 0xADDB p01:78ED rutina_19
+C 0xADDB p01:78ED rutina_17
 C 0xADE5 tramo: mira control_de_bichos
 C 0xADE8 0xD400: lo que controla la salida de bichos
 C 0xADED p00:40AE despacha
@@ -923,7 +959,7 @@ C 0xAE21 el sonido 0x31 (p14:9C47 + 2*0x31)
 C 0xAE23 p00:41AC mira_banderas_juego
 C 0xAE26 p03:AE49 tabla_AE49: tabla que lee p03:AE26 (12 bytes)
 C 0xAE29 p01:6EFB bucle_2
-C 0xAE2C p01:69F5 rutina_8
+C 0xAE2C p01:69F5 rutina_7
 C 0xAE30 ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 C 0xAE33 ix+0x05: la X (p01:70BD la compara con la de Gao)
 C 0xAE36 0xD405: lo que controla la salida de bichos
@@ -932,7 +968,7 @@ C 0xAE3E 0xD402: lo que controla la salida de bichos
 C 0xAE41 0xC4AB: variables de la partida
 C 0xAE45 0xC4AB: variables de la partida
 C 0xAE55 ix+0x13: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
-C 0xAE5A p01:69F5 rutina_8
+C 0xAE5A p01:69F5 rutina_7
 C 0xAE5E el sonido 0x11 (p14:9C47 + 2*0x11)
 C 0xAE60 p00:41AC mira_banderas_juego
 C 0xAE63 p01:6A85 mira_atributos_de_sprites
@@ -948,9 +984,9 @@ C 0xAE7F 0xC481: la FASE, 1-6 (p01:65B4)
 C 0xAE85 p00:40A4 hl_mas_a
 C 0xAE8C 0xC8B8: el OBJETO 27 (byte 0 de 4; p06:BAC2)
 C 0xAE8F p00:40A4 hl_mas_a
-C 0xAE95 tramo: mira control_de_bichos, sigue en rutina_13
+C 0xAE95 tramo: mira control_de_bichos, sigue en golpe_al_decorado
 C 0xAE98 0xD405: lo que controla la salida de bichos
-C 0xAE9C p01:73E3 rutina_13
+C 0xAE9C p01:73E3 golpe_al_decorado
 C 0xAEA4 ix+0x06: cuenta atras (p01:6124)
 C 0xAEA8 ix+0x11: cuenta atras de lo que hace
 C 0xAEAD ix+0x11: cuenta atras de lo que hace
@@ -1042,6 +1078,7 @@ C 0xB0AD p00:4818 pon_vidas
 C 0xB0B0 el sonido 0x4F (p14:9C47 + 2*0x4F)
 C 0xB0B2 p00:41AC mira_banderas_juego
 C 0xB0B7 p03:B0BF tabla_B0BF: tabla que lee p03:B0B7 (12 bytes)
+C 0xB0BA L_AEF7: una ficha libre...
 C 0xB0CB p03:B0F3 ficha_B0F3: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 3) (p01:7080)
 C 0xB0CE p01:7080 copia_bytes_6
 C 0xB0D1 p03:B0E8 ficha_B0E8: 11 bytes de la ficha del bicho desde ix+7 (p01:7073)
@@ -1126,6 +1163,7 @@ C 0xB2D9 p00:4818 pon_vidas
 C 0xB2DC el sonido 0x4F (p14:9C47 + 2*0x4F)
 C 0xB2DE p00:41AC mira_banderas_juego
 C 0xB2E3 p03:B2EC tabla_B2EC: tabla que lee p03:B2E3 (12 bytes)
+C 0xB2E6 L_AEF7: una ficha libre...
 C 0xB2F8 p03:B321 ficha_B321: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 3) (p01:7080)
 C 0xB2FB p01:7080 copia_bytes_6
 C 0xB2FE p03:B316 ficha_B316: 11 bytes de la ficha del bicho desde ix+7 (p01:7073)
@@ -1139,6 +1177,7 @@ C 0xB330 ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 C 0xB335 ix+0x16: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0xB33A ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0xB33F ix+0x11: cuenta atras de lo que hace
+C 0xB347 p03:B390 tabla_B390: tabla que lee p03:B347, p03:B34D (14 bytes)
 C 0xB355 ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 C 0xB358 ix+0x05: la X (p01:70BD la compara con la de Gao)
 C 0xB361 ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
@@ -1197,6 +1236,7 @@ C 0xB471 p00:4818 pon_vidas
 C 0xB474 el sonido 0x4F (p14:9C47 + 2*0x4F)
 C 0xB476 p00:41AC mira_banderas_juego
 C 0xB479 p03:B484 tabla_B484: tabla que lee p03:B479 (12 bytes)
+C 0xB47E L_AEF7: una ficha libre...
 C 0xB490 p03:B4BF ficha_B4BF: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 3) (p01:7080)
 C 0xB493 p01:7080 copia_bytes_6
 C 0xB499 ix+0x11: cuenta atras de lo que hace
@@ -1204,7 +1244,7 @@ C 0xB49D ix+0x10: el PATRON del sprite (p01:70FB)
 C 0xB4A1 ix+0x68: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0xB4A5 0xC809: la X de Gao (p01:70BD)
 C 0xB4A8 ix+0x05: la X (p01:70BD la compara con la de Gao)
-C 0xB4B3 p01:7933 rutina_20
+C 0xB4B3 p01:7933 rutina_18
 C 0xB4B9 p01:792C ficha_campo_07_3
 C 0xB4C3 tramo: mira control_de_bichos
 C 0xB4C6 0xD402: lo que controla la salida de bichos
@@ -1258,7 +1298,7 @@ C 0xB5AC p03:B5C2 ficha_B5C2: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) 
 C 0xB5AF p01:7084 copia_bytes_7
 C 0xB5B2 ix+0x10: el PATRON del sprite (p01:70FB)
 C 0xB5B9 p01:792C ficha_campo_07_3
-C 0xB5BF p01:7933 rutina_20
+C 0xB5BF p01:7933 rutina_18
 C 0xB5C6 p03:B5F6 ficha_B5F6: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
 C 0xB5C9 p01:7084 copia_bytes_7
 C 0xB5CC p03:B5EB ficha_B5EB: 11 bytes de la ficha del bicho desde ix+7 (p01:7073)
@@ -1303,6 +1343,7 @@ C 0xB6BC p00:4818 pon_vidas
 C 0xB6BF el sonido 0x4F (p14:9C47 + 2*0x4F)
 C 0xB6C1 p00:41AC mira_banderas_juego
 C 0xB6C4 p03:B6D7 tabla_B6D7: tabla que lee p03:B6C4, p03:B8DE (16 bytes)
+C 0xB6C9 L_AEF7: una ficha libre...
 C 0xB6D1 p00:4D03 pon_un_color
 C 0xB6E7 p03:B70C ficha_B70C: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 3) (p01:7080)
 C 0xB6EA p01:7080 copia_bytes_6
@@ -1376,7 +1417,7 @@ C 0xB860 p01:7084 copia_bytes_7
 C 0xB863 ix+0x10: el PATRON del sprite (p01:70FB)
 C 0xB86A 0xD408: lo que controla la salida de bichos
 C 0xB86F p00:40A4 hl_mas_a
-C 0xB875 p01:7933 rutina_20
+C 0xB875 p01:7933 rutina_18
 C 0xB87C p01:70CF mira_y_de_gao_2
 C 0xB87F p01:79EB cambia_de_signo
 C 0xB882 p01:792C ficha_campo_07_3
@@ -1391,6 +1432,7 @@ C 0xB8D4 p00:4818 pon_vidas
 C 0xB8D7 el sonido 0x4F (p14:9C47 + 2*0x4F)
 C 0xB8D9 p00:41AC mira_banderas_juego
 C 0xB8DE p03:B6D7 tabla_B6D7: tabla que lee p03:B6C4, p03:B8DE (16 bytes)
+C 0xB8E1 L_AEF7: una ficha libre...
 C 0xB8E7 p03:B903 ficha_B903: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 3) (p01:7080)
 C 0xB8EA p01:7080 copia_bytes_6
 C 0xB8F0 ix+0x10: el PATRON del sprite (p01:70FB)
@@ -1448,11 +1490,11 @@ C 0xBA37 ix+0x16: campo propio de este tipo de ficha (el codigo comun de p01 no 
 C 0xBA3A ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 C 0xBA3D cuenta atras en ix+0x17: hasta que llegue a 0, nada mas
 C 0xBA41 ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
-C 0xBA48 tramo: llama a hl_mas_a, llama a rutina_20, sigue en ficha_campo_07_3
+C 0xBA48 tramo: llama a hl_mas_a, llama a rutina_18, sigue en ficha_campo_07_3
 C 0xBA4C p00:40A4 hl_mas_a
 C 0xBA50 ix+0x16: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0xBA5A p00:40A4 hl_mas_a
-C 0xBA60 p01:7933 rutina_20
+C 0xBA60 p01:7933 rutina_18
 C 0xBA67 p01:792C ficha_campo_07_3
 C 0xBAAD ix+0x05: la X (p01:70BD la compara con la de Gao)
 C 0xBAB0 ix+0x03: la Y (p01:70B3 la compara con la de Gao)
@@ -1468,7 +1510,7 @@ C 0xBACD p01:7084 copia_bytes_7
 C 0xBAD0 ix+0x10: el PATRON del sprite (p01:70FB)
 C 0xBAD4 0xD408: lo que controla la salida de bichos
 C 0xBADA p00:486F rutina_4
-C 0xBADD p01:7933 rutina_20
+C 0xBADD p01:7933 rutina_18
 C 0xBAE3 p01:792C ficha_campo_07_3
 C 0xBAF4 tramo: llama a ficha_cuenta
 C 0xBAFA p01:70F1 ficha_cuenta
@@ -1480,7 +1522,7 @@ C 0xBB11 p00:41AC mira_banderas_juego
 C 0xBB14 ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 C 0xBB19 ix+0x03: la Y (p01:70B3 la compara con la de Gao)
 C 0xBB1F la ficha pasa al paso siguiente
-C 0xBB25 p01:7933 rutina_20
+C 0xBB25 p01:7933 rutina_18
 C 0xBB2B p01:792C ficha_campo_07_3
 C 0xBB2E entrada 5 de la tabla de p03:ADED (L_ADE5)
 C 0xBB37 tramo: llama a pon_buffer_3
@@ -1492,6 +1534,7 @@ C 0xBB52 p00:4818 pon_vidas
 C 0xBB55 el sonido 0x52 (p14:9C47 + 2*0x52)
 C 0xBB57 p00:41AC mira_banderas_juego
 C 0xBB5A p03:BB65 tabla_BB65: tabla que lee p03:BB5A (20 bytes)
+C 0xBB5F L_AEF7: una ficha libre...
 C 0xBB79 0xD403: lo que controla la salida de bichos
 C 0xBB7E tramo: pone control_de_bichos, sigue en pon_estado
 C 0xBB7F 0xD400: lo que controla la salida de bichos
@@ -1520,7 +1563,7 @@ C 0xBBFE p01:7099 con_hl_mas_a_3
 C 0xBC01 cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 C 0xBC05 la ficha pasa al paso siguiente
 C 0xBC08 ix+0x11: cuenta atras de lo que hace
-C 0xBC0F p01:7933 rutina_20
+C 0xBC0F p01:7933 rutina_18
 C 0xBC15 p01:792C ficha_campo_07_3
 C 0xBC18 tramo: llama a ficha_cuenta
 C 0xBC1B p01:70F1 ficha_cuenta
@@ -1535,7 +1578,7 @@ C 0xBC3F la ficha pasa al paso 1
 C 0xBC43 p02:987F pon_partida
 C 0xBC4A ix+0x11: cuenta atras de lo que hace
 C 0xBC4D ix+0x16: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
-C 0xBC54 p01:7933 rutina_20
+C 0xBC54 p01:7933 rutina_18
 C 0xBC5A p01:792C ficha_campo_07_3
 C 0xBC5D cuenta atras en ix+0x17: hasta que llegue a 0, nada mas
 C 0xBC61 ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
@@ -1552,7 +1595,7 @@ C 0xBC89 p00:41AC mira_banderas_juego
 C 0xBC8C p03:BCA2 ficha_BCA2: 4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084)
 C 0xBC8F p01:7084 copia_bytes_7
 C 0xBC92 ix+0x10: el PATRON del sprite (p01:70FB)
-C 0xBC99 p01:7933 rutina_20
+C 0xBC99 p01:7933 rutina_18
 C 0xBC9F p01:792C ficha_campo_07_3
 C 0xBCA6 tramo: sigue en ficha_cuenta
 C 0xBCAC p01:70F1 ficha_cuenta
@@ -1572,12 +1615,12 @@ C 0xBCF4 p01:70F1 ficha_cuenta
 C 0xBCF7 ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
 C 0xBCFC cuenta atras en ix+0x11: hasta que llegue a 0, nada mas
 C 0xBD00 la ficha pasa al paso siguiente
-C 0xBD05 p01:7189 rutina_11
-C 0xBD08 p01:623E rutina_3
+C 0xBD05 p01:7189 rutina_10
+C 0xBD08 p01:623E piezas_fuera_de_pantalla
 C 0xBD0B ix+0x01: el PASO: la entrada de la tabla del tipo (dd7e01 + p00:40AE)
-C 0xBD14 tramo: llama a rutina_4
+C 0xBD14 tramo: llama a rutina_3
 C 0xBD1A ix+0x55: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
-C 0xBD1D p01:62E2 rutina_4
+C 0xBD1D p01:62E2 rutina_3
 C 0xBD22 ix+0x43: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0xBD25 ix+0x43: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0xBD29 ix+0x46: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
@@ -1608,7 +1651,7 @@ C 0xBDAA 0xC860: el OBJETO 5 (byte 0 de 4; p06:BAC2)
 C 0xBDAD el sonido 0x27 (p14:9C47 + 2*0x27)
 C 0xBDAF p00:41AC mira_banderas_juego
 C 0xBDB2 p01:75CE bucle_3
-C 0xBDB5 p01:6136 mira_cosas
+C 0xBDB5 p01:6136 limpia_la_ficha
 C 0xBDB8 ix+0x43: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0xBDBC p03:BE36 tabla_BE36: tabla que lee p03:BDBC, p03:BDC2, p03:BDC8, p03:BDCE, p03:BDE7 (13 bytes)
 C 0xBDBF p01:6162 copia_bytes

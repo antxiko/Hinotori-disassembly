@@ -2,6 +2,8 @@
 
 
 
+
+
 # --- A MANO, POR TANDAS (seccion que reescribe tools/mete_notas.py desde work/notas_pNN.txt) ---
 L 0x9400 pide_un_sonido
 L 0x9497 el_sonido_de_un_cuadro
@@ -116,6 +118,9 @@ C 0x9920 la llamada: se guarda la vuelta
 C 0x993D el mezclador del canal: el tono...
 C 0x9958 ...y el ruido
 C 0x9966 al registro 7 del PSG
+C 0x994E bit 1: el tono de este canal...
+C 0x9958 ...y el ruido, tres bits mas arriba
+C 0x995C bit 0
 # --- fin de las notas por tandas ---
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
@@ -188,6 +193,10 @@ F 0x9FC1 16
 D 0x9FE6 0xA000 pista_9FE6  pista de los sonidos 0x14 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (26 bytes)
 F 0x9FE6 16
 # --- fin de los bloques de bloques.py ---
+
+
+
+
 
 
 

@@ -20,5 +20,3 @@ What is not solved, said as it is.
 - **The 18 RLE strips without a pointer** at `p07:7457`: what they were.
 - **Items 18 to 32** are drawn with nearly empty icons from the sheet of the
   dumped stages; their icons may be uploaded at another moment.
-- **The density of the listing** is below the 40 % of the latest in the
-  series.

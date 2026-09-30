@@ -161,7 +161,10 @@ CON_A000_FIJO = {1: 3, 2: 3}
 # tipo de cosa (0xCB04, de 0 a 0x1F) con el banco 3 puesto (p01:7331), y la
 # entrada 8 es 0xB315, que en el banco 3 cae en medio del `jp 0xAF91` de
 # p03:B313: ese tipo no lo pone ninguna lista de cosas del banco 9.
-NO_SE_SIGUEN = {(3, 0xB315): "entrada 8 de la tabla de p01:7380: cae en medio de p03:B313"}
+NO_SE_SIGUEN = {(3, 0xB315): "entrada 8 de la tabla de p01:7380: cae en medio de p03:B313",
+                # la entrada 50 de p01:6E80 (nacer del tipo 50) cae en medio del
+                # `ld (ix+6),a` de p03:B388: ese tipo no nace nunca
+                (3, 0xB38A): "entrada 50 de la tabla de p01:6E83: cae en medio de p03:B388"}
 
 
 CAMBIA_BANCOS = set(PONE_BANCOS) | PONE_TRIO_A | set(PONE_A_EN) | PUENTES

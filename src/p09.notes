@@ -1,4 +1,7 @@
 
+
+
+
 # --- A MANO, POR TANDAS (seccion que reescribe tools/mete_notas.py desde work/notas_pNN.txt) ---
 L 0xB880 arranca_king_kong_2
 L 0xB8BD ranura_de_la_pagina_1
@@ -76,6 +79,43 @@ C 0xBC0D la letra al nombre, hasta 6
 C 0xBC20 BS: la de antes fuera
 C 0xBC34 el nombre a la pantalla, 6 letras
 C 0xBC49 0x0E bytes de 0xF109 a cero
+L 0xBD31 ventana_power_up
+C 0xBD31 hay un cuadro pendiente de otra cosa: a jugar
+C 0xBD3A el paso de la ventana
+C 0xBD42 el sonido 0x2F
+C 0xBD4A la ventana: un marco...
+C 0xBD5A ...y el fondo
+C 0xBD63 POWER UP
+C 0xBD69 los niveles de POWER UP...
+C 0xBD6C ...y la vida
+C 0xBD6F el icono de Gao...
+C 0xBD7D ...y su cuenta
+C 0xBDA3 un cuadro gris de 0x14 x 0x14
+C 0xBDB1 la vida: tres cifras en blanco...
+C 0xBDCB ...0xC845 a BCD...
+C 0xBDE0 ...y pintada
+C 0xBDF6 el nivel de POWER UP (0 cuenta como 1)
+C 0xBE08 el marco del nivel elegido
+C 0xBE0B su sitio: 0x3C + 26*(nivel - 1)
+C 0xBE26 los seis iconos de los niveles, uno cada 26 puntos
+C 0xBE32 el icono...
+C 0xBE38 ...el siguiente
+C 0xBE42 y los textos de abajo
+C 0xBE68 un icono de 16x16 con LMMM
+C 0xBE73 su precio, de p09:BE89...
+C 0xBE80 ...pintado debajo
+C 0xB8C0 la ranura primaria...
+C 0xB8C7 ...si esta expandida...
+C 0xB8D1 ...la secundaria
+C 0xBB23 un byte de la cinta...
+C 0xBB2C ...a su sitio
+C 0xBB2E los BC del trozo
+C 0xBA3E [desde]...
+C 0xBA43 ...0: se acabo...
+C 0xBA46 ...[cuantos]
+C 0xBB16 [desde]...
+C 0xBB1B ...0: se acabo...
+C 0xBB1E ...[cuantos]
 # --- fin de las notas por tandas ---
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
@@ -247,6 +287,10 @@ D 0xB925 0xB9CF codigo_para_f220  0xAA bytes de CODIGO que p09:B919 copia a 0xF2
 
 
 
+
+
+
+
 # --- RESTO (seccion que reescribe tools/resto.py; no editar a mano) ---
 D 0xB018 0xB0F0 sin_lector_B018  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (216 bytes)
 D 0xB658 0xB880 tabla_B658  tabla que lee p09:BD7D, p09:BD88, p09:BDD1, p09:BEF3, p09:BEFE (552 bytes)
@@ -269,10 +313,9 @@ L 0xBBD9 mira_king_kong_2
 L 0xBC34 mira_king_kong_3
 L 0xBC49 mira_king_kong_4
 L 0xBC4E bucle
-L 0xBD31 mira_logotipo
 L 0xBDA3 mira_pantalla_2
 L 0xBDB1 pon_buffer
-L 0xBDF6 mira_nivel_c840
+L 0xBDF6 mira_power_up
 L 0xBE08 mira_pantalla_3
 L 0xBE26 con_mira_scroll_8
 L 0xBE68 con_mira_scroll_10
@@ -357,32 +400,26 @@ C 0xBC3A 6 vueltas
 C 0xBC3C tramo: llama a con_sitio_del_dibujo_3
 C 0xBC3E p00:4FA3 con_sitio_del_dibujo_3
 C 0xBC4C 14 vueltas
-C 0xBD31 0xC205: el logotipo y el titulo (p01:66D4)
 C 0xBD37 p00:432E pon_estado
-C 0xBD42 el sonido 0x2F (p14:9C47 + 2*0x2F)
 C 0xBD44 p00:41C1 pon_banco_8000_guardado
+C 0xBD47 L_BDA3: un cuadro gris de 0x14 x 0x14
 C 0xBD4F 0xD040: la ficha del bicho 0, byte 0x40 (p01:74B7)
 C 0xBD52 p00:4941 mira_scroll_3
 C 0xBD55 p00:4CED apaga_los_sprites
 C 0xBD5D 0xCA3A: 6 fichas de 0x20 (p02:9368)
 C 0xBD60 p00:4961 mira_scroll_5
-C 0xBD63 p09:BD96 tabla_BD96: tabla que lee p09:BD63, p09:BD80, p09:BD8B, p09:BEF6, p09:BF01 (13 bytes)
 C 0xBD66 p00:4FBE con_sitio_del_dibujo_4
-C 0xBD6F 0xD0C0: la ficha del bicho 1, byte 0x40 (p01:74B7)
 C 0xBD7A p00:51EA mira_scroll_10
 C 0xBD85 p00:4FC8 mira_scroll_8
 C 0xBD90 p00:4FC8 mira_scroll_8
 C 0xBD93 p00:4348 mira_paso
-C 0xBDA3 0xE000: la tabla de 32x32 dibujos de la pantalla (p00:58A4)
 C 0xBDAD p00:527E con_hmmv
-C 0xBDB1 tramo: pone buffer, mira buffer, llama a con_sitio_del_dibujo_5, mira vida ...
 C 0xBDB4 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
 C 0xBDB8 0xE802: buffer de trabajo
 C 0xBDBC 0xE804: buffer de trabajo
 C 0xBDC2 0xE806: buffer de trabajo
 C 0xBDC5 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
 C 0xBDC8 p00:4FC2 con_sitio_del_dibujo_5
-C 0xBDCB 0xC845: la VIDA de Gao, hasta 200 (p03:AD1C; METALSLAVE la llena)
 C 0xBDD5 p00:4893 rutina_8
 C 0xBDD8 0xE802: buffer de trabajo
 C 0xBDDC 0xE803: buffer de trabajo
@@ -392,18 +429,15 @@ C 0xBDE6 p00:4893 rutina_8
 C 0xBDE9 0xE802: buffer de trabajo
 C 0xBDED 0xE802: buffer de trabajo
 C 0xBDF3 p00:4853 pinta_cifras
-C 0xBDF6 0xC840: elige los 32 bytes de p07:70AE que van a los patrones de 0xF8A0 (p00:5671) y el sumando de la dificultad (p01:704D); 6 es especial (p02:8F4F)
-C 0xBDF9 ¿es 0 nivel_c840?
+C 0xBDF9 ¿es 0 power_up?
 C 0xBDFD 0xC4D2: variables de la partida
-C 0xBE08 tramo: mira partida, mira pantalla, sigue en mira_scroll_10
-C 0xBE0B 0xC4D2: variables de la partida
+C 0xBE02 L_BE26: los seis iconos de los niveles, uno cada 26 puntos
+C 0xBE05 L_BE08: el marco del nivel elegido
 C 0xBE1C 0xE000: la tabla de 32x32 dibujos de la pantalla (p00:58A4)
 C 0xBE23 p00:51EA mira_scroll_10
-C 0xBE42 tramo: llama a mira_scroll_8
 C 0xBE47 p09:BE63 tabla_BE63: tabla que lee p09:BE47, p09:BE55 (5 bytes)
 C 0xBE4C p00:4FC8 mira_scroll_8
 C 0xBE5A p00:4FC8 mira_scroll_8
-C 0xBE68 tramo: llama a mira_scroll_10, llama a hl_mas_a
 C 0xBE6F p00:51EA mira_scroll_10
 C 0xBE76 p09:BE89 tabla_BE89: tabla que lee p09:BE76, p09:BEBB (8 bytes)
 C 0xBE79 p00:40A4 hl_mas_a
@@ -413,7 +447,7 @@ C 0xBE96 0xC106: cursores, ESPACIO y los disparos pulsados en este cuadro (p00:5
 C 0xBEA8 0xC108: F1, F2 y F3 pulsadas en este cuadro, bits 0-2 (p00:5318)
 C 0xBEAE p00:4348 mira_paso
 C 0xBEB1 0xC4D2: variables de la partida
-C 0xBEB4 0xC840: elige los 32 bytes de p07:70AE que van a los patrones de 0xF8A0 (p00:5671) y el sumando de la dificultad (p01:704D); 6 es especial (p02:8F4F)
+C 0xBEB4 0xC840: el nivel de POWER UP (la ventana de F2, p09:BD31): elige el patron del disparo de p07:70AE (p00:566E) y suma a la dificultad (p01:704D)
 C 0xBEB8 p00:4348 mira_paso
 C 0xBEBB p09:BE89 tabla_BE89: tabla que lee p09:BE76, p09:BEBB (8 bytes)
 C 0xBEBE p00:40A4 hl_mas_a
@@ -424,11 +458,12 @@ C 0xBED1 0xC160: las VIDAS, en BCD (p00:4417; GAOOOOOOOOOOH suma 10)
 C 0xBED9 0xC160: las VIDAS, en BCD (p00:4417; GAOOOOOOOOOOH suma 10)
 C 0xBEDC el sonido 0x36 (p14:9C47 + 2*0x36)
 C 0xBEDE p00:41C1 pon_banco_8000_guardado
-C 0xBEE3 0xC840: elige los 32 bytes de p07:70AE que van a los patrones de 0xF8A0 (p00:5671) y el sumando de la dificultad (p01:704D); 6 es especial (p02:8F4F)
+C 0xBEE3 0xC840: el nivel de POWER UP (la ventana de F2, p09:BD31): elige el patron del disparo de p07:70AE (p00:566E) y suma a la dificultad (p01:704D)
 C 0xBEE6 el sonido 0x33 (p14:9C47 + 2*0x33)
 C 0xBEE8 p00:41C1 pon_banco_8000_guardado
 C 0xBEEB tramo: pone espera, llama a mira_scroll_8, sigue en mira_paso
 C 0xBEED 0xC104: cuenta atras del paso del estado (p00:4345)
+C 0xBEF0 L_BDB1: la vida: tres cifras en blanco...
 C 0xBEFB p00:4FC8 mira_scroll_8
 C 0xBF06 p00:4FC8 mira_scroll_8
 C 0xBF09 p00:4348 mira_paso
@@ -438,9 +473,12 @@ C 0xBF11 p00:4348 mira_paso
 C 0xBF14 0xC4D2: variables de la partida
 C 0xBF1D 0xC4D2: variables de la partida
 C 0xBF24 tramo: pone partida, sigue en pon_banco_8000_guardado
+C 0xBF25 L_BE08: el marco del nivel elegido
 C 0xBF29 0xC4D2: variables de la partida
+C 0xBF2C L_BE08: el marco del nivel elegido
 C 0xBF31 p00:41C1 pon_banco_8000_guardado
 C 0xBF34 0xC103: cuenta los cuadros (p00:4238)
+C 0xBF39 L_BE08: el marco del nivel elegido
 C 0xBF3C 0xC104: cuenta atras del paso del estado (p00:4345)
 C 0xBF41 tramo: mira bicho_0, llama a rutina_16, llama a enciende_los_sprites, llama a rutina_7 ...
 C 0xBF44 0xD040: la ficha del bicho 0, byte 0x40 (p01:74B7)
@@ -448,5 +486,5 @@ C 0xBF47 p00:496D rutina_16
 C 0xBF4A p00:4CF8 enciende_los_sprites
 C 0xBF4D p00:488D rutina_7
 C 0xBF52 p00:43ED rutina
-C 0xBF55 p00:566E mira_nivel_c840
+C 0xBF55 p00:566E mira_power_up
 # --- fin de anota ---

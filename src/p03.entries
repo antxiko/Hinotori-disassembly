@@ -121,7 +121,6 @@
 0xB2AD   # p03:ADED entrada 2 de la tabla de 0xADF0 (call 0x40AE en 0xADED)
 0xB2F8   # p01:6E80 entrada 27 de la tabla de 0x6E83 (call 0x40AE en 0x6E80)
 0xB325   # p01:6875 entrada 27 de la tabla de 0x6878 (call 0x40AE en 0x6875)
-0xB38A   # p01:6E80 entrada 50 de la tabla de 0x6E83 (call 0x40AE en 0x6E80)
 0xB39F   # p01:6875 entrada 50 de la tabla de 0x6878 (call 0x40AE en 0x6875)
 0xB3DA   # p01:6E80 entrada 40 de la tabla de 0x6E83 (call 0x40AE en 0x6E80)
 0xB416   # p01:6875 entrada 40 de la tabla de 0x6878 (call 0x40AE en 0x6875)

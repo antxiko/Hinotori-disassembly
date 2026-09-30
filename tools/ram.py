@@ -87,7 +87,7 @@ VARS = {
     0xC80B: ("y_de_gao", "la Y de Gao (p01:70B3)"),
     0xC81C: ("pose_de_gao", "la pose de Gao: sus dos sprites de p06:A0BB (p02:93D6)"),
     0xC834: ("invulnerable", "cuadros de invulnerabilidad de Gao (p02:860C)"),
-    0xC840: ("nivel_c840", "elige los 32 bytes de p07:70AE que van a los patrones de 0xF8A0 (p00:5671) y el sumando de la dificultad (p01:704D); 6 es especial (p02:8F4F)"),
+    0xC840: ("power_up", "el nivel de POWER UP (la ventana de F2, p09:BD31): elige el patron del disparo de p07:70AE (p00:566E) y suma a la dificultad (p01:704D)"),
     0xC842: ("arma_velocidad", "lo que sale de p01:7FBD para el arma (p01:7FB9)"),
     0xC845: ("vida", "la VIDA de Gao, hasta 200 (p03:AD1C; METALSLAVE la llena)"),
     0xC84A: ("arma_dato", "lo que sale de p01:7FBD para el arma (p01:7FB5)"),

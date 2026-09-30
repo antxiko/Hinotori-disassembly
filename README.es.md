@@ -10,9 +10,9 @@ MegaROM de 128 KB con el mapper Konami sin SCC, dieciséis bancos de 8 KB.
 
 | | |
 |---|---|
-| explicado | 100 % (32.243 bytes de código, 98.829 de datos) |
-| comentado | 23,4 % de las instrucciones |
-| rutinas | 1.945, todas con nombre |
+| explicado | 100 % (32.229 bytes de código, 98.843 de datos) |
+| comentado | 40,4 % de las instrucciones |
+| rutinas | 1.944, ninguna por debajo del 10 % |
 | reensamblado | la ROM, byte a byte |
 | imágenes | dibujadas desde la ROM y cotejadas contra openMSX |
 

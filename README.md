@@ -11,9 +11,9 @@ banks.
 
 | | |
 |---|---|
-| explained | 100% (32,243 bytes of code, 98,829 of data) |
-| commented | 23.4% of the instructions |
-| routines | 1,945, all named |
+| explained | 100% (32,229 bytes of code, 98,843 of data) |
+| commented | 40.4% of the instructions |
+| routines | 1,944, none below 10% |
 | reassembly | the ROM, byte for byte |
 | pictures | drawn from the ROM and checked against openMSX |
 

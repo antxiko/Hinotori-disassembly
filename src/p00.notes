@@ -218,6 +218,10 @@ C 0x5054 hmmm: orden HMMM del V9938: copia BxC puntos de (H, L) a (D, E); A llev
 
 
 
+
+
+
+
 # --- A MANO, POR TANDAS (seccion que reescribe tools/mete_notas.py desde work/notas_pNN.txt) ---
 L 0x50CB dibujo_de_1_bit
 L 0x50D7 fila_de_1_bit
@@ -411,7 +415,7 @@ C 0x4742 ESPACIO: segun la linea del cursor (0xC11B)
 C 0x4749 en START: se borra el menu y al estado 3, a empezar
 C 0x4756 en la linea 2: teclear las vidas...
 C 0x4761 ...en la 1: teclear la fase
-C 0x476F STOP?
+C 0x476F RETURN: se acepta la cifra
 C 0x4777 lo tecleado...
 C 0x4786 ...la cifra nueva
 C 0x478D en la fase...
@@ -425,7 +429,7 @@ C 0x5F87 se pinta
 C 0x5F93 las filas 0 y 1 del teclado, solo lo recien pulsado
 C 0x5FB4 las dos cifras BCD de 0xC11F a binario...
 C 0x5FC9 ...en 0xC11E
-C 0x5FCD STOP recien pulsada (fila 7, bit 7)
+C 0x5FCD RETURN recien pulsada (fila 7, bit 7)
 L 0x5345 lee_el_mando
 C 0x5345 el puerto de mandos 1 (R#15 del PSG = 0x8F)...
 C 0x534C ...y se lee (R#14): arriba, abajo, izquierda, derecha y los dos botones
@@ -523,6 +527,93 @@ C 0x52DC la franja de abajo (0xD8, 0x28 lineas) a 0
 C 0x52E7 la pagina 1 entera a 0
 C 0x52F4 4 registros del VDP de la tabla de 0x530C
 C 0x52FA [registro][valor]
+C 0x4F55 una letra de 1 bit (8 bytes de HL) a 4 bits en 0xE800, con el color C
+C 0x4F5A una fila...
+C 0x4F5D ...sus 8 puntos
+C 0x4F5F 4 bytes de salida
+C 0x4F61 el punto de la izquierda: el color si esta, 0 si no...
+C 0x4F6D ...entra por la derecha del byte (rld)
+C 0x4F6F el de la derecha, igual
+C 0x4F7B ...y el byte, hecho
+C 0x4F7D el siguiente byte de salida
+C 0x4F80 la fila siguiente
+C 0x4ADA 1: n dibujos de la VRAM, al reves y de vuelta: [vram][n][vram]
+C 0x4AE1 n * 32 bytes...
+C 0x4AEE ...a 0xE800...
+C 0x4AF5 ...se les da la vuelta de arriba abajo en 0xEC10...
+C 0x4AFA ...y de vuelta a la VRAM
+C 0x4B07 2+: [fuente][n][vram] n bytes tal cual
+C 0x4B1B C dibujos de 16x16 de 0xE800, volteados, a 0xEC10
+C 0x4B22 la mitad izquierda...
+C 0x4B25 ...16 bytes atras...
+C 0x4B2C ...y la derecha
+C 0x4B2F el siguiente
+C 0x4B39 16 bytes con los bits al reves (el patron de un sprite al reves)
+C 0x4B3B el byte...
+C 0x4B3F ...bit a bit, de derecha a izquierda...
+C 0x4B48 ...al destino
+C 0x4906 la casilla de la pantalla del punto (D, E)...
+C 0x4909 ...su dibujo...
+C 0x490A ...y la propiedad del dibujo (0xC900)
+C 0x490E bit 3 de la propiedad al acarreo (se choca)
+C 0x4913 la propiedad del dibujo del punto (D, E)
+C 0x491B Z si HL = BC
+C 0x4921 Z si HL = DE
+C 0x5226 HMMM a la pagina 0 que da la vuelta por abajo:
+C 0x5227 si se pasa de la linea 255...
+C 0x5231 ...se parte en dos: lo que cabe...
+C 0x5243 ...y el resto desde la linea 0
+C 0x5252 lo mismo con el origen que da la vuelta
+C 0x527E y HMMV
+L 0x4124 stop_congela
+C 0x4124 con otro cartucho al lado: STOP (fila 7, bit 4)...
+C 0x412D ...y ';' (fila 1, bit 7)
+C 0x4136 lo recien pulsado
+C 0x413E congelado?
+C 0x4145 no: sin STOP, el cuadro normal
+C 0x414A STOP: se congela...
+C 0x414B ...callando el PSG
+C 0x4150 congelado: ';' deja pasar un cuadro con sonido
+C 0x4155 STOP otra vez: se descongela
+C 0x4161 si no, sigue callado y sin cuadro
+C 0x4166 guarda los volumenes de los tres canales...
+C 0x417E ...y los pone a 0
+C 0x4191 devuelve los volumenes
+C 0x41AC pide un sonido: sin partida, y en la demostracion sin sonido (0xC13A)...
+C 0x41C6 ...con los bancos 14 y 15 puestos...
+C 0x41E4 ...p14:9400...
+C 0x41E8 ...y los de antes
+C 0x5405 los bancos 4-5-6
+C 0x5408 los bancos A, A+1 y A+2: el primero...
+C 0x5410 ...y su copia en RAM...
+C 0x5413 ...el segundo...
+C 0x5419 ...el tercero
+C 0x5F93 las filas 0 y 1 del teclado...
+C 0x5FA2 ...solo lo recien pulsado de la 0...
+C 0x5FAB ...y de la 1
+C 0x4AB0 la lista de p00:4AB0: el tipo de la entrada...
+C 0x4AB2 ...0xFF acaba
+C 0x4AB6 0: RLE
+C 0x4AB9 1: dibujos volteados
+C 0x4ABE y la siguiente
+C 0x4BB3 la y de la segunda tanda de sprites...
+C 0x4BB6 ...x, patron y color
+C 0x4BBD el siguiente sprite de la vuelta (se alternan de 9 en 9)
+C 0x4BC2 los 16
+C 0x4BD1 los colores del sprite: 16 lineas de 0xE400 + 16*n...
+C 0x4BD7 ...a la VRAM
+C 0x4BD9 el siguiente de la vuelta
+C 0x5AC0 el rotulo del titulo con los bancos 13-14-15...
+C 0x5AC4 ...12x4 dibujos de p13:7D00...
+C 0x5ACD ...y 9x3 de p13:7D30
+C 0x5AD7 y se enciende la pantalla
+C 0x47A2 el MENU: la ventana...
+C 0x47A5 ...y sus variables a 0
+C 0x58E7 un dibujo de 0xEA00...
+C 0x58E9 ...el 0 no se pinta...
+C 0x58ED ...con LMMM y el color 0 transparente
+C 0x429D espera a que acabe el fundido (tres pasos por cuadro)
+C 0x5DE9 BC bytes de HL a 0
 # --- fin de las notas por tandas ---
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
@@ -543,6 +634,10 @@ F 0x594B 2
 D 0x597B 0x59AB mapa_de_cada_area  el mapa de cada area (0xC480): una superfila por cada 32 puntos; lo leen p00:5900 (48 bytes)
 F 0x597B 2
 # --- fin de los bloques de bloques.py ---
+
+
+
+
 
 
 
@@ -709,7 +804,7 @@ L 0x562B con_sube_letras
 L 0x563D rutina_26
 L 0x563E rutina_27
 L 0x5647 mira_area
-L 0x566E mira_nivel_c840
+L 0x566E mira_power_up
 L 0x56EE pon_sonido_0f1
 L 0x570F pon_avance_6
 L 0x57B8 pon_fila
@@ -768,9 +863,10 @@ L 0x5F48 rutina_35
 L 0x5F8D bucle_7
 L 0x5F93 lee_teclado
 L 0x5FCD lee_teclado_2
-C 0x4048 tramo: mira otro_cartucho
+C 0x4048 tramo: mira otro_cartucho, sigue en stop_congela
 C 0x4049 0xC110: 1: hay un Game Master o Q*bert al lado; 2: King Kong 2 (p00:5DFF)
 C 0x404C ¿es 0 otro_cartucho?
+C 0x404D stop_congela: con otro cartucho al lado: STOP (fila 7, bit 4)...
 C 0x4050 tramo: mira en_la_interrupcion
 C 0x4051 0xC139: semaforo de la interrupcion (p00:4051)
 C 0x4058 tramo: llama a el_sonido_de_un_cuadro, mira banco_a000, mira banco_8000, mira banco_6000 ...
@@ -792,17 +888,12 @@ C 0x4111 0xF0FF: 1: se esta arrancando King Kong 2 (p00:4117)
 C 0x4117 tramo: pone modo_king_kong, sigue en arranca_king_kong_2
 C 0x4119 0xF0FF: 1: se esta arrancando King Kong 2 (p00:4117)
 C 0x4121 p09:B880 arranca_king_kong_2
-C 0x4124 tramo: mira teclas_stop, mira congelado
-C 0x4136 0xC120: STOP y la del bit 7 de la fila 1 (p00:4136)
-C 0x413E 0xC111: juego congelado con STOP (p00:413E)
-C 0x4166 tramo: pone estado_del_juego
+C 0x415B L_4191: devuelve los volumenes
 C 0x416B 0xC121: variables del juego
 C 0x4173 0xC122: variables del juego
 C 0x417B 0xC123: variables del juego
-C 0x4191 0xC121: variables del juego
 C 0x419A 0xC122: variables del juego
 C 0x41A3 0xC123: variables del juego
-C 0x41AC tramo: mira banderas_juego
 C 0x41AE 0xC102: bit 0: es la demostracion; bit 6: hay partida (p00:46A5)
 C 0x41B6 0xC13A: variables del juego
 C 0x41C3 tramo: mira banco_8000, pone banco_8000_guardado, mira banco_a000, pone banco_a000_guardado ...
@@ -812,8 +903,6 @@ C 0x41CD 0xF0F3: copia de lo que hay en 0xA000
 C 0x41D0 0xF0F5: 0xF0F3 mientras suena el sonido
 C 0x41D8 0xF0F2: copia de lo que hay en 0x8000
 C 0x41E0 0xF0F3: copia de lo que hay en 0xA000
-C 0x41E4 p14:9400 pide_un_sonido
-C 0x41E8 0xF0F4: 0xF0F2 mientras suena el sonido (p00:41CA)
 C 0x41EE 0xF0F2: copia de lo que hay en 0x8000
 C 0x41F1 0xF0F5: 0xF0F3 mientras suena el sonido
 C 0x41F7 0xF0F3: copia de lo que hay en 0xA000
@@ -872,6 +961,7 @@ C 0x435D L_4F8B: texto en blanco (C = 0)
 C 0x4362 tramo: llama a espera_al_vdp
 C 0x4365 espera_al_vdp: espera a que el V9938 acabe la orden (bit 0 de S#2)
 C 0x4371 el sonido 0x74 (p14:9C47 + 2*0x74)
+C 0x4373 L_41AC: pide un sonido: sin partida, y en la demostracion sin sonido (0xC13A)...
 C 0x4376 espera_al_vdp: espera a que el V9938 acabe la orden (bit 0 de S#2)
 C 0x4379 el sonido 0x64 (p14:9C47 + 2*0x64)
 C 0x4383 estado 04
@@ -902,6 +992,7 @@ C 0x4417 0xC160: las VIDAS, en BCD (p00:4417; GAOOOOOOOOOOH suma 10)
 C 0x441A 0xC4E0: NANDANANDANANDA: al perder una vida se devuelve (p00:441A)
 C 0x441D ¿es 0 truco_vidas?
 C 0x4431 el sonido 0x6D (p14:9C47 + 2*0x6D)
+C 0x4433 L_41AC: pide un sonido: sin partida, y en la demostracion sin sonido (0xC13A)...
 C 0x4439 estado 07
 C 0x443B 0xC124: F4 y F5 pulsadas en este cuadro (p00:5330)
 C 0x4442 0xC012: el sonido del primer canal (p14:9420)
@@ -922,6 +1013,7 @@ C 0x44A0 estado 08
 C 0x44AD estado 10
 C 0x44C2 apaga_los_sprites: la copia de R#8 (0xFFE7)...
 C 0x44D3 0xC385: el SCROLL vertical: R#23 del VDP (p00:4C65)
+C 0x44DF L_527E: y HMMV
 C 0x44E2 p00:4525 tabla_4525: tabla que lee p00:44E2, p00:4511 (45 bytes)
 C 0x44E5 L_4FBE: lo mismo con LMMM y el color 0 transparente
 C 0x44E8 0xC158: variables del juego
@@ -933,6 +1025,7 @@ C 0x450A pinta_cifras: B pares de cifras BCD de HL hacia atras
 C 0x450D 0xC481: la FASE, 1-6 (p01:65B4)
 C 0x451A p02:818F con_mira_scroll_10
 C 0x4520 el sonido 0x70 (p14:9C47 + 2*0x70)
+C 0x4522 L_41AC: pide un sonido: sin partida, y en la demostracion sin sonido (0xC13A)...
 C 0x455B 0xC106: cursores, ESPACIO y los disparos pulsados en este cuadro (p00:533B)
 C 0x455E ¿es 0 teclas_nuevas?
 C 0x4563 tramo: pone paso_de_la_pausa, mira paso
@@ -941,6 +1034,7 @@ C 0x4573 0xC101: el paso dentro del estado (p00:4348)
 C 0x4579 0xC0F2: la musica de la pausa esta sonando (p14:9411)
 C 0x457C ¿es 0 musica_de_pausa?
 C 0x4582 el sonido 0x4C (p14:9C47 + 2*0x4C)
+C 0x4584 L_41AC: pide un sonido: sin partida, y en la demostracion sin sonido (0xC13A)...
 C 0x4588 0xC0F1: lo pone p00:4588 al volver de la pausa: 1 si no sonaba la musica de pausa
 C 0x4594 enciende_los_sprites: la copia de R#8 sin el bit 1: se ven los sprites
 C 0x459F tramo: pone banco_de_a000, llama a mira_paso_de_la_pausa, mira paso_de_la_pausa
@@ -953,6 +1047,7 @@ C 0x45B8 0xC4DA: el final: lo pone ENDDEMOGAMITAINA (p06:B98A)
 C 0x45C5 0xC0F2: la musica de la pausa esta sonando (p14:9411)
 C 0x45C8 ¿es 0 musica_de_pausa?
 C 0x45CE el sonido 0x4C (p14:9C47 + 2*0x4C)
+C 0x45D0 L_41AC: pide un sonido: sin partida, y en la demostracion sin sonido (0xC13A)...
 C 0x45D4 0xC0F1: lo pone p00:4588 al volver de la pausa: 1 si no sonaba la musica de pausa
 C 0x45D7 enciende_los_sprites: la copia de R#8 sin el bit 1: se ven los sprites
 C 0x45DA 0xC4DA: el final: lo pone ENDDEMOGAMITAINA (p06:B98A)
@@ -972,13 +1067,15 @@ C 0x4616 p06:AD00 pon_paginas_hmmm
 C 0x461B 0xC10C: el banco que p00:53E9 pone en 0xA000 con el 1 y el 2
 C 0x4621 tramo: mira escena, pone partida, pone avance_del_cuadro
 C 0x462A 0xCD00: la escena del final y las pantallas de p06
+C 0x4630 L_5DE9: BC bytes de HL a 0
 C 0x4635 0xC4A8: variables de la partida
 C 0x4639 0xC4A9: variables de la partida
 C 0x463C 0xC388: lo que se ha movido el mapa este cuadro (p00:56E8)
 C 0x463F el sonido 0x46 (p14:9C47 + 2*0x46)
+C 0x4641 L_41AC: pide un sonido: sin partida, y en la demostracion sin sonido (0xC13A)...
 C 0x4647 estado 13
 C 0x4649 0xC10C: el banco que p00:53E9 pone en 0xA000 con el 1 y el 2
-C 0x464F p09:BD31 mira_logotipo
+C 0x464F p09:BD31 ventana_power_up
 C 0x4654 0xC10C: el banco que p00:53E9 pone en 0xA000 con el 1 y el 2
 C 0x465A estado 17
 C 0x465C 0xC10C: el banco que p00:53E9 pone en 0xA000 con el 1 y el 2
@@ -1003,6 +1100,7 @@ C 0x46C1 tramo: pone sonido_pedido
 C 0x46C3 0xC0F4: el sonido que se pide para el cuadro siguiente (p14:94C1)
 C 0x46C6 tramo: mira banderas_juego
 C 0x46CE 0xC102: bit 0: es la demostracion; bit 6: hay partida (p00:46A5)
+C 0x46D5 L_41AC: pide un sonido: sin partida, y en la demostracion sin sonido (0xC13A)...
 C 0x46DB tramo: pone estado_del_juego, mira sonido_1
 C 0x46DD 0xC13A: variables del juego
 C 0x46E0 0xC012: el sonido del primer canal (p14:9420)
@@ -1036,7 +1134,7 @@ C 0x47B6 0xC155: variables del juego
 C 0x47C3 p00:4815 tabla_4815: tabla que lee p00:47C3 (3 bytes)
 C 0x47C6 0xC160: las VIDAS, en BCD (p00:4417; GAOOOOOOOOOOH suma 10)
 C 0x47CF 0xC0F2: la musica de la pausa esta sonando (p14:9411)
-C 0x47D2 0xC840: elige los 32 bytes de p07:70AE que van a los patrones de 0xF8A0 (p00:5671) y el sumando de la dificultad (p01:704D); 6 es especial (p02:8F4F)
+C 0x47D2 0xC840: el nivel de POWER UP (la ventana de F2, p09:BD31): elige el patron del disparo de p07:70AE (p00:566E) y suma a la dificultad (p01:704D)
 C 0x47D5 0xC845: la VIDA de Gao, hasta 200 (p03:AD1C; METALSLAVE la llena)
 C 0x47DA 0xC843: la ficha de Gao
 C 0x47DF 0xC842: lo que sale de p01:7FBD para el arma (p01:7FB9)
@@ -1044,7 +1142,7 @@ C 0x47E5 0xD43B: lo que controla la salida de bichos
 C 0x47EA 0xC84A: lo que sale de p01:7FBD para el arma (p01:7FB5)
 C 0x47ED 0xC480: el AREA (0-23): 3*(fase-1) + columna, o 18 + fase - 1 (p01:64D5)
 C 0x47F0 0xC486: el area a la que se va (p01:6549)
-C 0x47F3 p01:65BF rutina_6
+C 0x47F3 p01:65BF rutina_5
 C 0x47F6 p01:65B0 pon_columna_3
 C 0x47FB 0xC48A: la x de Gao al entrar (p01:6553)
 C 0x47FE 0xC489: la y de Gao al entrar (p01:6571)
@@ -1059,6 +1157,7 @@ C 0x4829 0xC15B: variables del juego
 C 0x482C 0xC160: las VIDAS, en BCD (p00:4417; GAOOOOOOOOOOH suma 10)
 C 0x4836 0xC160: las VIDAS, en BCD (p00:4417; GAOOOOOOOOOOH suma 10)
 C 0x4839 el sonido 0x36 (p14:9C47 + 2*0x36)
+C 0x483B L_41AC: pide un sonido: sin partida, y en la demostracion sin sonido (0xC13A)...
 C 0x483E tramo: mira estado_del_juego, pone estado_del_juego
 C 0x4840 0xC158: variables del juego
 C 0x4846 0xC158: variables del juego
@@ -1069,8 +1168,6 @@ C 0x4879 tramo: llama a hl_mas_a
 C 0x48B5 L_48C3: fila = y / 8...
 C 0x48D4 0xE000: la tabla de 32x32 dibujos de la pantalla (p00:58A4)
 C 0x48FB L_48BF: la casilla de la pantalla 0xE000 del punto (D, E + scroll)
-C 0x4906 L_48BF: la casilla de la pantalla 0xE000 del punto (D, E + scroll)
-C 0x4913 L_48BF: la casilla de la pantalla 0xE000 del punto (D, E + scroll)
 C 0x4937 tramo: mira scroll, sigue en pon_dibujo_transparente
 C 0x4938 0xC385: el SCROLL vertical: R#23 del VDP (p00:4C65)
 C 0x493E pon_dibujo_transparente: lo mismo con LMMM + TIMP: el color 0 no pinta
@@ -1078,10 +1175,14 @@ C 0x4944 tramo: mira logotipo, pone logotipo, mira scroll
 C 0x4945 0xC204: el logotipo y el titulo (p01:66D4)
 C 0x494A 0xC204: el logotipo y el titulo (p01:66D4)
 C 0x494D 0xC385: el SCROLL vertical: R#23 del VDP (p00:4C65)
+C 0x4956 L_5252: lo mismo con el origen que da la vuelta
+C 0x495E L_527E: y HMMV
 C 0x4961 tramo: mira scroll
 C 0x4962 0xC385: el SCROLL vertical: R#23 del VDP (p00:4C65)
+C 0x496A L_527E: y HMMV
 C 0x497B tramo: mira scroll, mira avance, sigue en espera_al_vdp
 C 0x497C 0xC385: el SCROLL vertical: R#23 del VDP (p00:4C65)
+C 0x4983 L_5226: HMMM a la pagina 0 que da la vuelta por abajo:
 C 0x4986 0xC581: variables del avance del mapa
 C 0x4A49 al VDP
 C 0x4A4C al VDP
@@ -1093,18 +1194,16 @@ C 0x4A70 al VDP
 C 0x4A7E al VDP
 C 0x4A84 al VDP
 C 0x4AAA al VDP
+C 0x4ABB L_4B07: 2+: [fuente][n][vram] n bytes tal cual
+C 0x4AC5 L_4ADA: 1: n dibujos de la VRAM, al reves y de vuelta: [vram][n][vram]
 C 0x4ACA tramo: llama a rle_a_la_vram
 C 0x4AD5 rle_a_la_vram: el RLE de DE a la VRAM de HL (n con el bit 7: n bytes tal cual; sin el, repetir; 0 acaba)
-C 0x4ADA tramo: mira buffer, llama a lee_de_la_vram, mira buffers, llama a copia_a_la_vram
-C 0x4AEE 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
 C 0x4AF1 lee_de_la_vram: LEE BC bytes de la VRAM de HL a DE
 C 0x4AFF 0xEC00: buffers de pantallas y dibujos
 C 0x4B02 copia_a_la_vram: BC bytes de HL a la VRAM de DE
-C 0x4B07 tramo: llama a copia_a_la_vram
 C 0x4B15 copia_a_la_vram: BC bytes de HL a la VRAM de DE
-C 0x4B1B 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
 C 0x4B1E 0xEC10: buffers de pantallas y dibujos
-C 0x4B2C tramo: llama a de_mas_a
+C 0x4B35 L_4B22: la mitad izquierda...
 C 0x4B4D 0xC134: donde van los colores de los sprites este cuadro
 C 0x4B54 0xF200: el INIT de King Kong 2 y el gancho de Hinotori, copiados (p09:B8EA, p09:B919)
 C 0x4B57 0xC132: donde van los atributos de los sprites este cuadro (p00:4B4D)
@@ -1118,7 +1217,6 @@ C 0x4B8D vram_para_escribir: prepara el V9938 para escribir en la direccion de V
 C 0x4B97 tramo: mira scroll
 C 0x4B99 0xC385: el SCROLL vertical: R#23 del VDP (p00:4C65)
 C 0x4BA3 al VDP
-C 0x4BB3 al VDP
 C 0x4BC5 0xC134: donde van los colores de los sprites este cuadro
 C 0x4BC8 vram_para_escribir: prepara el V9938 para escribir en la direccion de VRAM HL (R#14 y el puerto 1)
 C 0x4BF3 tramo: llama a vram_para_escribir
@@ -1193,13 +1291,13 @@ C 0x4ECA al VDP
 C 0x4ED3 al VDP
 C 0x4EE0 tramo: mira buffer, llama a sube_un_dibujo
 C 0x4F04 tramo: llama a copia_a_la_vram
-C 0x4F55 tramo: mira buffer
 C 0x4F57 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
 C 0x4FAA tramo: llama a sitio_del_dibujo
 C 0x4FB1 tramo: llama a hmmm
 C 0x4FB7 hmmm: orden HMMM del V9938: copia BxC puntos de (H, L) a (D, E); A lleva las paginas
 C 0x4FD4 L_4FE7: la letra...
 C 0x4FEE tramo: llama a sitio_del_dibujo, mira scroll
+C 0x5012 L_527E: y HMMV
 C 0x5024 tramo: llama a sitio_del_dibujo, mira paginas_hmmm, llama a hmmm
 C 0x502D 0xC138: las paginas de origen y destino de las copias de dibujos (p00:502D)
 C 0x5049 tramo: llama a sitio_del_dibujo, llama a hmmm
@@ -1254,7 +1352,6 @@ C 0x5208 lmmm: orden LMMM del V9938: lo mismo con operacion logica (A: paginas y
 C 0x521B lmmm: orden LMMM del V9938: lo mismo con operacion logica (A: paginas y operacion; 8 = TIMP)
 C 0x522D tramo: sigue en hmmm
 C 0x522E hmmm: orden HMMM del V9938: copia BxC puntos de (H, L) a (D, E); A lleva las paginas
-C 0x5231 tramo: llama a hmmm, sigue en hmmm
 C 0x523C hmmm: orden HMMM del V9938: copia BxC puntos de (H, L) a (D, E); A lleva las paginas
 C 0x524F hmmm: orden HMMM del V9938: copia BxC puntos de (H, L) a (D, E); A lleva las paginas
 C 0x5259 tramo: sigue en hmmm
@@ -1283,7 +1380,6 @@ C 0x533B 0xC107: cursores, ESPACIO y los disparos que se tienen pulsados (p00:53
 C 0x53E9 tramo: mira banco_6000, mira banco_de_a000
 C 0x53EB 0xF0F1: copia de lo que hay en 0x6000 (p00:5408)
 C 0x53FA 0xC10C: el banco que p00:53E9 pone en 0xA000 con el 1 y el 2
-C 0x5408 tramo: mira banco_6000
 C 0x540A 0xF0F1: copia de lo que hay en 0x6000 (p00:5408)
 C 0x5434 tramo: pone banco_a000
 C 0x5435 0xF0F3: copia de lo que hay en 0xA000
@@ -1306,12 +1402,13 @@ C 0x54AC 0xC4B2: el byte alto de la VRAM donde las listas suben los dibujos (p00
 C 0x54B2 0xC482: el juego de dibujos, 0-7 (p01:65BB)
 C 0x54B5 ¿juego_de_dibujos = 0x06?
 C 0x54B7 L_54C6: la lista, y los bancos 1-2-y el de 0xC10C al acabar
-C 0x54BA tramo: mira juego_de_dibujos
+C 0x54BA L_5405: los bancos 4-5-6
 C 0x54BD 0xC482: el juego de dibujos, 0-7 (p01:65BB)
 C 0x54C0 p04:6000 listas_de_cada_juego: las listas de dibujos de cada juego (0xC482 = 0..7), una palabra cada una
 C 0x54C3 L_4878: HL = la palabra A de la tabla de HL
 C 0x54D7 colores_de_la_lista: 0xFD, 0xFE o 0xFF: los colores de los dibujos de 3, 2 o 1 bits, en 0xC500
 C 0x54E5 tramo: mira base_de_la_hoja, llama a sube_con_formato
+C 0x5511 L_5408: los bancos A, A+1 y A+2: el primero...
 C 0x5537 sube_dibujos: B dibujos de 8x8 a 4 bits de HL a la VRAM de DE
 C 0x553B L_4C12: al reves: se empieza por el ultimo byte de la primera fila
 C 0x553F L_5579: como mucho 0x40 dibujos: el buffer de 0xE800 es de 2 KB
@@ -1324,7 +1421,7 @@ C 0x5587 L_546C: base de la hoja = 4*A
 C 0x558F L_5469: base de la hoja = 32*A (0xC4B2)
 C 0x5597 L_5469: base de la hoja = 32*A (0xC4B2)
 C 0x559F L_5469: base de la hoja = 32*A (0xC4B2)
-C 0x55A2 tramo: llama a pon_paleta, mira juego_de_dibujos, mira area
+C 0x55A2 L_5405: los bancos 4-5-6
 C 0x55A5 p05:9D58 paleta_comun: la paleta comun a todas las fases: [color][RB][G] ... 0xFF (p00:4D3F)
 C 0x55A8 pon_paleta: lista [color][RB][G] ... 0xFF
 C 0x55AB 0xC482: el juego de dibujos, 0-7 (p01:65BB)
@@ -1336,6 +1433,7 @@ C 0x55BA p05:9E2C paletas_de_cada_area: la paleta de cada area (0xC480), una pal
 C 0x55BD L_4878: HL = la palabra A de la tabla de HL
 C 0x55C0 pon_paleta: lista [color][RB][G] ... 0xFF
 C 0x55C6 tramo: llama a pon_paleta
+C 0x55C7 L_5405: los bancos 4-5-6
 C 0x55CB pon_paleta: lista [color][RB][G] ... 0xFF
 C 0x55D1 tramo: llama a hmmv
 C 0x55D9 hmmv: el color, a un lado
@@ -1351,15 +1449,18 @@ C 0x561C copia_a_la_vram: BC bytes de HL a la VRAM de DE
 C 0x562B tramo: llama a sube_letras
 C 0x5631 p13:61B8 letras_61B8: 54 letras de 8x8 a 1 bit (8 bytes cada una) que p00:5637 sube a la hoja (p00:4ED7)
 C 0x5637 sube_letras: B letras de 1 bit de HL, en color C, a la hoja de la pagina 1 desde (D, E)
+C 0x5641 L_4AB0: la lista de p00:4AB0: el tipo de la entrada...
 C 0x5647 tramo: mira sitios_de_sprite, mira area, llama a sprites_del_area
 C 0x564A p07:6030 lista_vram_6030: lista de p00:4AB0: 0 [rle][vram]; 1 [vram][n][vram]: n dibujos de la VRAM girados; 2+ [fuente][n][vram]: n byt
+C 0x564D L_4AB0: la lista de p00:4AB0: el tipo de la entrada...
 C 0x5653 0xCF00: que cosa hay en cada sitio de los patrones (p00:56A2)
+C 0x5659 L_5DE9: BC bytes de HL a 0
 C 0x565F 0xC480: el AREA (0-23): 3*(fase-1) + columna, o 18 + fase - 1 (p01:64D5)
 C 0x5662 p07:6000 sprites_de_cada_area: la lista de patrones de sprite de cada area (0xC480), una palabra
 C 0x5665 L_4878: HL = la palabra A de la tabla de HL
 C 0x5668 sprites_del_area: pares [cosa][sitio] hasta 0xFF
-C 0x566E tramo: mira nivel_c840, llama a copia_a_la_vram
-C 0x5671 0xC840: elige los 32 bytes de p07:70AE que van a los patrones de 0xF8A0 (p00:5671) y el sumando de la dificultad (p01:704D); 6 es especial (p02:8F4F)
+C 0x566E tramo: mira power_up, llama a copia_a_la_vram
+C 0x5671 0xC840: el nivel de POWER UP (la ventana de F2, p09:BD31): elige el patron del disparo de p07:70AE (p00:566E) y suma a la dificultad (p01:704D)
 C 0x5674 p07:70AE patrones_f8a0: 7 palabras, por 0xC840: los 32 bytes que p00:566E sube a la VRAM 0xF8A0 (un patron de sprite de 16x16)
 C 0x5677 L_4878: HL = la palabra A de la tabla de HL
 C 0x5680 copia_a_la_vram: BC bytes de HL a la VRAM de DE
@@ -1574,9 +1675,10 @@ C 0x5D5B 0xC4D8: variables de la partida
 C 0x5D5F p02:8E36 pon_pose_de_gao_2
 C 0x5D62 p02:8E67 pon_y_de_gao_5
 C 0x5D65 p01:7AD5 pon_control_de_bichos
-C 0x5D68 p01:74C4 mira_cosas_2
+C 0x5D68 p01:74C4 mira_cosas
 C 0x5D76 0xC4D0: variables de la partida
 C 0x5D79 el sonido 0x24 (p14:9C47 + 2*0x24)
+C 0x5D7B L_41AC: pide un sonido: sin partida, y en la demostracion sin sonido (0xC13A)...
 C 0x5D94 tramo: pone objeto_13, pone objeto_3, pone objeto_5
 C 0x5D95 0xC880: el OBJETO 13 (byte 0 de 4; p06:BAC2)
 C 0x5D98 0xC858: el OBJETO 3 (byte 0 de 4; p06:BAC2)

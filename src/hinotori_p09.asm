@@ -1731,12 +1731,12 @@ pon_grabando:
 	jp 00024h		;b8ba   ; BIOS ENASLT - Switches to specified slot and page definitively
 ranura_de_la_pagina_1:
 	call 00138h		;b8bd   ; BIOS RSLREG - Reads the primary slot register | la ranura de la pagina 1 (con la secundaria si esta expandida)
-	rrca			;b8c0
+	rrca			;b8c0   ; la ranura primaria...
 	rrca			;b8c1
 	and 003h		;b8c2
 	ld c,a			;b8c4
 	ld b,000h		;b8c5
-	ld hl,0fcc1h		;b8c7
+	ld hl,0fcc1h		;b8c7   ; ...si esta expandida...
 	add hl,bc			;b8ca
 	or (hl)			;b8cb
 	ld c,a			;b8cc
@@ -1744,7 +1744,7 @@ ranura_de_la_pagina_1:
 	inc hl			;b8ce
 	inc hl			;b8cf
 	inc hl			;b8d0
-	ld a,(hl)			;b8d1
+	ld a,(hl)			;b8d1   ; ...la secundaria
 	and 00ch		;b8d2
 	or c			;b8d4
 	ret			;b8d5
@@ -1898,14 +1898,14 @@ L_BA34:
 	jp c,L_BA84		;ba38   ; L_BA84: error de cinta: se para y se avisa
 	ld hl,0bcfbh		;ba3b   ; los trozos de RAM de la lista de p09:BCFB: [desde][cuantos]...
 L_BA3E:
-	ld e,(hl)			;ba3e
+	ld e,(hl)			;ba3e   ; [desde]...
 	inc hl			;ba3f
 	ld d,(hl)			;ba40
 	ld a,e			;ba41
 	or d			;ba42
-	jr z,L_BA5E		;ba43
+	jr z,L_BA5E		;ba43   ; ...0: se acabo...
 	inc hl			;ba45
-	ld c,(hl)			;ba46
+	ld c,(hl)			;ba46   ; ...[cuantos]
 	inc hl			;ba47
 	ld b,(hl)			;ba48
 	inc hl			;ba49
@@ -2031,28 +2031,28 @@ L_BAFC:
 	jr c,L_BB91		;bb11
 	ld hl,0bcfbh		;bb13   ; los trozos de RAM de p09:BCFB, de la cinta a su sitio
 L_BB16:
-	ld e,(hl)			;bb16
+	ld e,(hl)			;bb16   ; [desde]...
 	inc hl			;bb17
 	ld d,(hl)			;bb18
 	ld a,e			;bb19
 	or d			;bb1a
-	jr z,L_BB36		;bb1b
+	jr z,L_BB36		;bb1b   ; ...0: se acabo...
 	inc hl			;bb1d
-	ld c,(hl)			;bb1e
+	ld c,(hl)			;bb1e   ; ...[cuantos]
 	inc hl			;bb1f
 	ld b,(hl)			;bb20
 	inc hl			;bb21
 	push hl			;bb22
 L_BB23:
-	push de			;bb23
+	push de			;bb23   ; un byte de la cinta...
 	push bc			;bb24
 	call 000e4h		;bb25   ; BIOS TAPIN - Reads data from the tape
 	pop bc			;bb28
 	pop de			;bb29
 	jr c,L_BB90		;bb2a
-	ld (de),a			;bb2c
+	ld (de),a			;bb2c   ; ...a su sitio
 	inc de			;bb2d
-	dec bc			;bb2e
+	dec bc			;bb2e   ; los BC del trozo
 	ld a,b			;bb2f
 	or c			;bb30
 	jr nz,L_BB23		;bb31
@@ -2255,37 +2255,37 @@ DATA_tabla_BC67:
 ; ======================================================================
 
 
-mira_logotipo:
-	ld a,(0c205h)		;bd31   ; 0xC205: el logotipo y el titulo (p01:66D4)
+ventana_power_up:
+	ld a,(0c205h)		;bd31   ; hay un cuadro pendiente de otra cosa: a jugar
 	or a			;bd34
 	ld a,005h		;bd35
 	jp nz,0432eh		;bd37   ; p00:432E pon_estado
-	ld a,b			;bd3a
+	ld a,b			;bd3a   ; el paso de la ventana
 	dec a			;bd3b
 	jp z,L_BE91		;bd3c
 	jp p,L_BF34		;bd3f
-	ld a,02fh		;bd42   ; el sonido 0x2F (p14:9C47 + 2*0x2F)
+	ld a,02fh		;bd42   ; el sonido 0x2F
 	call 041c1h		;bd44   ; p00:41C1 pon_banco_8000_guardado
-	call mira_pantalla_2		;bd47
-	ld hl,01720h		;bd4a
+	call mira_pantalla_2		;bd47   ; L_BDA3: un cuadro gris de 0x14 x 0x14
+	ld hl,01720h		;bd4a   ; la ventana: un marco...
 	ld a,0cch		;bd4d
 	ld bc,0d040h		;bd4f   ; 0xD040: la ficha del bicho 0, byte 0x40 (p01:74B7)
 	call 04941h		;bd52   ; p00:4941 mira_scroll_3
 	call 04cedh		;bd55   ; p00:4CED apaga_los_sprites
 	ld a,0ffh		;bd58
-	ld hl,01923h		;bd5a
+	ld hl,01923h		;bd5a   ; ...y el fondo
 	ld bc,0ca3ah		;bd5d   ; 0xCA3A: 6 fichas de 0x20 (p02:9368)
 	call 04961h		;bd60   ; p00:4961 mira_scroll_5
-	ld hl,0bd96h		;bd63   ; p09:BD96 tabla_BD96: tabla que lee p09:BD63, p09:BD80, p09:BD8B, p09:BEF6, p09:BF01 (13 bytes)
+	ld hl,0bd96h		;bd63   ; POWER UP
 	call 04fbeh		;bd66   ; p00:4FBE con_sitio_del_dibujo_4
-	call mira_nivel_c840		;bd69
-	call pon_buffer		;bd6c
-	ld hl,0d0c0h		;bd6f   ; 0xD0C0: la ficha del bicho 1, byte 0x40 (p01:74B7)
+	call mira_power_up		;bd69   ; los niveles de POWER UP...
+	call pon_buffer		;bd6c   ; ...y la vida
+	ld hl,0d0c0h		;bd6f   ; el icono de Gao...
 	ld de,0a828h		;bd72
 	ld a,048h		;bd75
 	ld bc,01010h		;bd77
 	call 051eah		;bd7a   ; p00:51EA mira_scroll_10
-	ld de,0b82ch		;bd7d
+	ld de,0b82ch		;bd7d   ; ...y su cuenta
 	ld hl,0bda1h		;bd80
 	ld c,000h		;bd83
 	call 04fc8h		;bd85   ; p00:4FC8 mira_scroll_8
@@ -2308,14 +2308,14 @@ DATA_tabla_BD96:
 
 
 mira_pantalla_2:
-	ld hl,0e000h		;bda3   ; 0xE000: la tabla de 32x32 dibujos de la pantalla (p00:58A4)
+	ld hl,0e000h		;bda3   ; un cuadro gris de 0x14 x 0x14
 	ld bc,01414h		;bda6
 	ld d,001h		;bda9
 	ld a,077h		;bdab
 	call 0527eh		;bdad   ; p00:527E con_hmmv
 	ret			;bdb0
 pon_buffer:
-	ld de,02cb8h		;bdb1   ; tramo: pone buffer, mira buffer, llama a con_sitio_del_dibujo_5, mira vida ...
+	ld de,02cb8h		;bdb1   ; la vida: tres cifras en blanco...
 	ld (0e800h),de		;bdb4   ; 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
 	ld (0e802h),de		;bdb8   ; 0xE802: buffer de trabajo
 	ld (0e804h),de		;bdbc   ; 0xE804: buffer de trabajo
@@ -2323,7 +2323,7 @@ pon_buffer:
 	ld (0e806h),a		;bdc2   ; 0xE806: buffer de trabajo
 	ld hl,0e800h		;bdc5   ; 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
 	call 04fc2h		;bdc8   ; p00:4FC2 con_sitio_del_dibujo_5
-	ld a,(0c845h)		;bdcb   ; 0xC845: la VIDA de Gao, hasta 200 (p03:AD1C; METALSLAVE la llena)
+	ld a,(0c845h)		;bdcb   ; ...0xC845 a BCD...
 	ld l,a			;bdce
 	ld h,000h		;bdcf
 	ld de,0b82ch		;bdd1
@@ -2332,7 +2332,7 @@ pon_buffer:
 	ld (0e802h),de		;bdd8   ; 0xE802: buffer de trabajo
 	ld hl,0e803h		;bddc   ; 0xE803: buffer de trabajo
 	pop de			;bddf
-	ld b,002h		;bde0
+	ld b,002h		;bde0   ; ...y pintada
 	jp 04853h		;bde2   ; p00:4853 pinta_cifras
 L_BDE5:
 	push de			;bde5   ; tramo: llama a rutina_8, pone buffer, mira buffer, sigue en pinta_cifras
@@ -2342,20 +2342,20 @@ L_BDE5:
 	pop de			;bdf0
 	ld b,001h		;bdf1
 	jp 04853h		;bdf3   ; p00:4853 pinta_cifras
-mira_nivel_c840:
-	ld a,(0c840h)		;bdf6   ; 0xC840: elige los 32 bytes de p07:70AE que van a los patrones de 0xF8A0 (p00:5671) y el sumando de la dificultad (p01:704D); 6 es especial (p02:8F4F)
-	or a			;bdf9   ; ¿es 0 nivel_c840?
+mira_power_up:
+	ld a,(0c840h)		;bdf6   ; el nivel de POWER UP (0 cuenta como 1)
+	or a			;bdf9   ; ¿es 0 power_up?
 	jr nz,L_BDFD		;bdfa
 	inc a			;bdfc
 L_BDFD:
 	ld (0c4d2h),a		;bdfd   ; 0xC4D2: variables de la partida
 	ld b,006h		;be00
-	call con_mira_scroll_8		;be02
-	jp mira_pantalla_3		;be05
+	call con_mira_scroll_8		;be02   ; L_BE26: los seis iconos de los niveles, uno cada 26 puntos
+	jp mira_pantalla_3		;be05   ; L_BE08: el marco del nivel elegido
 mira_pantalla_3:
-	ld a,043h		;be08   ; tramo: mira partida, mira pantalla, sigue en mira_scroll_10
+	ld a,043h		;be08   ; el marco del nivel elegido
 	ex af,af'			;be0a
-	ld a,(0c4d2h)		;be0b   ; 0xC4D2: variables de la partida
+	ld a,(0c4d2h)		;be0b   ; su sitio: 0x3C + 26*(nivel - 1)
 	dec a			;be0e
 	add a,a			;be0f
 	ld b,a			;be10
@@ -2373,7 +2373,7 @@ mira_pantalla_3:
 	ex af,af'			;be22
 	jp 051eah		;be23   ; p00:51EA mira_scroll_10
 con_mira_scroll_8:
-	ld hl,00090h		;be26
+	ld hl,00090h		;be26   ; los seis iconos de los niveles, uno cada 26 puntos
 	ld de,0273eh		;be29
 	ld a,b			;be2c
 	or a			;be2d
@@ -2382,18 +2382,18 @@ L_BE2F:
 	push bc			;be2f
 	push hl			;be30
 	push de			;be31
-	call con_mira_scroll_10		;be32
+	call con_mira_scroll_10		;be32   ; el icono...
 	pop de			;be35
 	pop hl			;be36
 	pop bc			;be37
-	ld a,h			;be38
+	ld a,h			;be38   ; ...el siguiente
 	add a,010h		;be39
 	ld h,a			;be3b
 	ld a,d			;be3c
 	add a,01ah		;be3d
 	ld d,a			;be3f
 	djnz L_BE2F		;be40
-	push de			;be42   ; tramo: llama a mira_scroll_8
+	push de			;be42   ; y los textos de abajo
 	ld a,d			;be43
 	add a,004h		;be44
 	ld d,a			;be46
@@ -2424,13 +2424,13 @@ DATA_tabla_BE63:
 
 
 con_mira_scroll_10:
-	push de			;be68   ; tramo: llama a mira_scroll_10, llama a hl_mas_a
+	push de			;be68   ; un icono de 16x16 con LMMM
 	push bc			;be69
 	ld a,048h		;be6a
 	ld bc,01010h		;be6c
 	call 051eah		;be6f   ; p00:51EA mira_scroll_10
 	pop bc			;be72
-	ld a,007h		;be73
+	ld a,007h		;be73   ; su precio, de p09:BE89...
 	sub b			;be75
 	ld hl,0be89h		;be76   ; p09:BE89 tabla_BE89: tabla que lee p09:BE76, p09:BEBB (8 bytes)
 	call 040a4h		;be79   ; p00:40A4 hl_mas_a
@@ -2438,7 +2438,7 @@ con_mira_scroll_10:
 	ld h,000h		;be7d
 	pop de			;be7f
 L_BE80:
-	ld a,e			;be80
+	ld a,e			;be80   ; ...pintado debajo
 	add a,012h		;be81
 	ld e,a			;be83
 	ld b,001h		;be84
@@ -2475,7 +2475,7 @@ L_BE91:
 	jp 04348h		;beae   ; p00:4348 mira_paso
 L_BEB1:
 	ld a,(0c4d2h)		;beb1   ; 0xC4D2: variables de la partida
-	ld hl,0c840h		;beb4   ; 0xC840: elige los 32 bytes de p07:70AE que van a los patrones de 0xF8A0 (p00:5671) y el sumando de la dificultad (p01:704D); 6 es especial (p02:8F4F)
+	ld hl,0c840h		;beb4   ; 0xC840: el nivel de POWER UP (la ventana de F2, p09:BD31): elige el patron del disparo de p07:70AE (p00:566E) y suma a la dificultad (p01:704D)
 	cp (hl)			;beb7
 	jp z,04348h		;beb8   ; p00:4348 mira_paso
 	ld hl,0be89h		;bebb   ; p09:BE89 tabla_BE89: tabla que lee p09:BE76, p09:BEBB (8 bytes)
@@ -2496,13 +2496,13 @@ L_BEB1:
 	call 041c1h		;bede   ; p00:41C1 pon_banco_8000_guardado
 	jr L_BEEB		;bee1
 L_BEE3:
-	ld (0c840h),a		;bee3   ; 0xC840: elige los 32 bytes de p07:70AE que van a los patrones de 0xF8A0 (p00:5671) y el sumando de la dificultad (p01:704D); 6 es especial (p02:8F4F)
+	ld (0c840h),a		;bee3   ; 0xC840: el nivel de POWER UP (la ventana de F2, p09:BD31): elige el patron del disparo de p07:70AE (p00:566E) y suma a la dificultad (p01:704D)
 	ld a,033h		;bee6   ; el sonido 0x33 (p14:9C47 + 2*0x33)
 	call 041c1h		;bee8   ; p00:41C1 pon_banco_8000_guardado
 L_BEEB:
 	ld a,01eh		;beeb   ; tramo: pone espera, llama a mira_scroll_8, sigue en mira_paso
 	ld (0c104h),a		;beed   ; 0xC104: cuenta atras del paso del estado (p00:4345)
-	call pon_buffer		;bef0
+	call pon_buffer		;bef0   ; L_BDB1: la vida: tres cifras en blanco...
 	ld de,0b82ch		;bef3
 	ld hl,0bda1h		;bef6
 	ld c,000h		;bef9
@@ -2529,16 +2529,16 @@ L_BF1D:
 	inc a			;bf23
 L_BF24:
 	push af			;bf24   ; tramo: pone partida, sigue en pon_banco_8000_guardado
-	call mira_pantalla_3		;bf25
+	call mira_pantalla_3		;bf25   ; L_BE08: el marco del nivel elegido
 	pop af			;bf28
 	ld (0c4d2h),a		;bf29   ; 0xC4D2: variables de la partida
-	call mira_pantalla_3		;bf2c
+	call mira_pantalla_3		;bf2c   ; L_BE08: el marco del nivel elegido
 	ld a,002h		;bf2f
 	jp nz,041c1h		;bf31   ; p00:41C1 pon_banco_8000_guardado
 L_BF34:
 	ld a,(0c103h)		;bf34   ; 0xC103: cuenta los cuadros (p00:4238)
 	and 001h		;bf37
-	call z,mira_pantalla_3		;bf39
+	call z,mira_pantalla_3		;bf39   ; L_BE08: el marco del nivel elegido
 	ld hl,0c104h		;bf3c   ; 0xC104: cuenta atras del paso del estado (p00:4345)
 	dec (hl)			;bf3f
 	ret nz			;bf40
@@ -2549,7 +2549,7 @@ L_BF34:
 	call 0488dh		;bf4d   ; p00:488D rutina_7
 	ld b,005h		;bf50
 	call 043edh		;bf52   ; p00:43ED rutina
-	jp 0566eh		;bf55   ; p00:566E mira_nivel_c840
+	jp 0566eh		;bf55   ; p00:566E mira_power_up
 
 ; ----------------------------------------------------------------------
 ; DATOS relleno_p09: 0xFF hasta el final del banco: nadie lo lee; lo leen

@@ -96,5 +96,67 @@ class Cartucho(unittest.TestCase):
             self.assertEqual(ORG[b], (0xA000, 0x6000, 0x8000)[b % 3])
 
 
+class Tablas(unittest.TestCase):
+    """Las tablas en que se apoya la web, leidas del binario."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.rom = carga_rom()
+
+    def pb(self, banco, addr, n):
+        o = banco * TAM_PAGINA + (addr - ORG[banco])
+        return self.rom[o:o + n]
+
+    def test_diecisiete_contrasenas(self):
+        """p06:B8A0: 17 punteros a cadenas; 'aaaaa' en minusculas."""
+        claves = []
+        for k in range(17):
+            w = self.pb(6, 0xB8A0 + 2 * k, 2)
+            a = w[0] | (w[1] << 8)
+            s = b""
+            while self.pb(6, a, 1) != b"\x00":
+                s += self.pb(6, a, 1)
+                a += 1
+            claves.append(s.decode())
+        self.assertIn("GAOOOOOOOOOOH", claves)
+        self.assertIn("ILOVEHINOTORI", claves)
+        self.assertIn("aaaaa", claves)
+        self.assertEqual(len(set(claves)), 17)
+
+    def test_mayusculas(self):
+        """p06:B5AB: cp 'a' / ret c / cp 'z'+1 / ret nc / sub 0x20."""
+        self.assertEqual(self.pb(6, 0xB5AB, 9), bytes.fromhex("fe61d8fe7bd0d620c9")[:9])
+
+    def test_firmas_de_otros_cartuchos(self):
+        """p00:5E78: Game Master (7FFA), King Kong 2 (4010), Q*bert (BFFA)."""
+        self.assertEqual(self.pb(0, 0x5E7E, 5), bytes.fromhex("43440745ff"))
+
+    def test_puertas(self):
+        """p09:A269: las puertas 0-5 van a las salas (areas 18-23)."""
+        destinos = [self.pb(9, 0xA269 + 6 * k, 1)[0] for k in range(18)]
+        self.assertEqual(sorted(destinos[:6]), [18, 19, 20, 21, 22, 23])
+        self.assertEqual(destinos[14:18], [0x18] * 4)
+
+
+class Cifras(unittest.TestCase):
+    """Las cifras de la web son las que miden las herramientas."""
+
+    def test_densidad(self):
+        import contenido_web as C
+        import re
+        n = c = 0
+        for p in range(N_PAGINAS):
+            asm = os.path.join(RAIZ, "src", "hinotori_p%02d.asm" % p)
+            out = subprocess.run([sys.executable, os.path.join(RAIZ, "tools", "densidad.py"), asm],
+                                 capture_output=True, text=True).stdout
+            m = re.search(r"en total: (\d+) instrucciones, (\d+) comentarios", out)
+            if not m:
+                continue
+            n += int(m.group(1))
+            c += int(m.group(2))
+        self.assertEqual((n, c), (C.INSTRUCCIONES, C.COMENTARIOS))
+        self.assertGreaterEqual(100.0 * c / n, 40.0)
+
+
 if __name__ == "__main__":
     unittest.main()

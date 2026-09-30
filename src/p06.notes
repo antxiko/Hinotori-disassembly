@@ -1,4 +1,151 @@
 
+
+
+
+
+
+# --- A MANO, POR TANDAS (seccion que reescribe tools/mete_notas.py desde work/notas_pNN.txt) ---
+L 0xB43E ensena_la_contrasena
+L 0xB457 prepara_la_entrada
+L 0xB46E cifra_la_contrasena
+L 0xB480 un_caracter
+L 0xB48B hace_la_contrasena
+L 0xB593 cambia_z_y_para_leer
+L 0xB59F cambia_0_o_para_ensenar
+L 0xB5AB a_mayusculas
+L 0xB5B4 junta_cinco_objetos
+L 0xB5D9 reparte_cinco_objetos
+L 0xB5FE lee_la_contrasena
+C 0xB43E la contrasena de ahora...
+C 0xB441 ...cifrada...
+C 0xB447 ...pasada a letras...
+C 0xB44D ...y a la ventana
+C 0xB453 y la entrada vacia
+C 0xB457 [x][y] de lo que se teclea
+C 0xB45D el cursor, al principio
+C 0xB466 0x80 bytes a 0xFF
+C 0xB46E el primer caracter es la llave: se deja tal cual...
+C 0xB471 ...y los demas se mezclan (xor) con los bytes de p00:5000 + llave: el propio codigo del cartucho
+C 0xB474 hasta el 0xFF
+C 0xB479 5 bits por caracter
+C 0xB480 un caracter de 5 bits (0-31, lo que pasa se queda en 31)...
+C 0xB486 ...a la contrasena...
+C 0xB488 ...y a la suma de comprobacion (xor, en D)
+C 0xB48B el estado de la partida, guardado
+C 0xB490 la ventana en (0x30, 0x38)
+C 0xB49A 1: al azar (el registro R): la llave
+C 0xB4A3 2: el area
+C 0xB4A9 3 y 4: la fila del mapa (en la sala, la 0x1F)
+C 0xB4C5 5: las vidas, de BCD a binario
+C 0xB4DA 6: la x de Gao / 8
+C 0xB4E5 7: la y de Gao / 8
+C 0xB4F0 8: sueltos de los objetos 21, 27, 10 y 1
+C 0xB511 9: el bit 0 de los objetos 16-20
+C 0xB51A 10: el de los 22-26
+C 0xB523 11: el objeto 14, el 11 y el arma
+C 0xB53E 12: el bit 0 de los objetos 28-32
+C 0xB547 13: la vida / 4
+C 0xB551 14: el objeto 9
+C 0xB557 15: el objeto 10
+C 0xB55F 16: el objeto 11
+C 0xB567 17: lo de 0xE907 + 0xE908
+C 0xB574 18: el bit 0 de los objetos 36-40
+C 0xB57D 19: 0xC840
+C 0xB583 20: la dificultad
+C 0xB589 21: la comprobacion: el xor de los 20 anteriores
+C 0xB58F y 0xFF acaba
+C 0xB593 al leer: la Z es el 0 y la Y es la O
+C 0xB59F al ensenar: el 0 se escribe Z y la O, Y (para no confundirlos)
+C 0xB5AB a-z pasan a A-Z: por eso 'aaaaa' no se puede teclear
+C 0xB5B4 el bit 0 de cinco objetos seguidos (4 bytes cada uno), en un numero de 5 bits
+C 0xB5D9 al reves: 5 bits a cinco objetos
+C 0xB5FE la contrasena tecleada, ya descifrada, a su sitio: el area...
+C 0xB606 ...la fila (dos caracteres)...
+C 0xB616 ...las vidas...
+C 0xB61B ...la x...
+C 0xB623 ...la y...
+C 0xB62B ...y los once siguientes, a 0xEC00
+L 0xB85E busca_un_truco
+L 0xB876 compara_con_un_truco
+C 0xB85E ninguno todavia
+C 0xB868 los 17, del ultimo al primero
+C 0xB871 NZ: habia uno
+C 0xB876 la cadena n de p06:B8A0
+C 0xB881 letra a letra...
+C 0xB886 ...acabada la cadena, lo tecleado tiene que acabar tambien
+C 0xB88A 0xC600 + n: ya usado en esta partida?
+C 0xB894 se apunta...
+C 0xB899 ...y a su codigo, detras del 0 de la cadena
+C 0xB89B una letra distinta: no es este
+L 0xB7EE comprobacion
+C 0xB7EE el xor de todos los caracteres: 0 si la contrasena es buena
+C 0xB7FA un truco?
+C 0xB7FF si no, se descifra...
+C 0xB805 ...se pasa a numeros...
+C 0xB80B ...la comprobacion...
+C 0xB811 ...y se carga
+C 0xB814 y la carga tiene que haber pedido cambio de area (0xC485 = 0x80)
+C 0xB822 CORRECT
+C 0xB827 WRONG
+C 0xB833 30 cuadros para leerlo
+C 0xB852 la ventana con CORRECT
+C 0xB02D uno de cada dos cuadros...
+C 0xB033 ...el color 12 baja un paso
+C 0xB03B cuenta de pasos
+C 0xB040 R y B bajan uno...
+C 0xB048 ...hasta 0...
+C 0xB052 ...y G tambien
+C 0xB05B al VDP
+C 0xB05E uno de cada dos cuadros el color 12 sube hacia (7, 7, 7)
+C 0xB077 R sube uno...
+C 0xB084 ...B tambien...
+C 0xB093 ...y G
+C 0xB004 el mapa del final sube solo...
+C 0xB009 ...0xCE87 por cuadro...
+C 0xB016 ...hasta la marca de 0xCE98
+C 0xB022 y un trozo de dos lineas a 0
+C 0xAFC6 cuenta atras de HL; al acabar, la entrada A de la tabla de DE: [a][b][palabra]
+C 0xAFA6 la pantalla de la RAM (0xE000) a 0
+C 0xAFAF el trozo de 32x3 casillas de p06:A96B...
+C 0xAFBA ...o el de 16x14 de p06:A88B, a la pantalla de la RAM
+C 0xAFF6 un cuadro de 32x32 de la pagina 1 a la 0
+C 0xB5B7 E: los bits, de uno en uno
+C 0xB5BC el bit 0 del primero...
+C 0xB5C1 ...del segundo...
+C 0xB5C6 ...del tercero...
+C 0xB5CB ...del cuarto...
+C 0xB5D0 ...y del quinto
+C 0xB5DC de 4 en 4 bytes
+C 0xB5DF los 5 bits arriba
+C 0xB5E2 cada bit al bit 0 de un objeto
+C 0xAFC7 cuenta atras
+C 0xAFCC la entrada A de la tabla de DE (4 bytes)
+C 0xAFD2 [a][b][palabra]
+C 0xAFDA Z: toca
+C 0xBCA7 un caracter del texto del final...
+C 0xBCA9 ...0x7E...
+C 0xBCAD ...0x7F...
+C 0xBCB1 ...0xFF acaba...
+C 0xBCB5 ...0x80 en adelante: ordenes
+C 0xBCB9 el espacio...
+C 0xBCBD ...solo en su linea
+C 0xB08B el color...
+C 0xB093 ...y G, hacia el destino
+C 0xBACA los 41 objetos: los que se tienen...
+C 0xBACF ...se pintan
+C 0xB260 la ficha: ix+6 = 1...
+C 0xB26D ...e ix+0x0B = 1
+C 0xB77E un caracter de la contrasena ('0'-'9', 'A'-'Z') a su valor 0-35
+C 0xBBDC copia un texto de HL a DE hasta 0xFF...
+C 0xBBE1 ...los 0xC0 en adelante son ordenes
+C 0xB1F9 la palabra DE en HL + 0x0C
+C 0xB7F2 el xor de toda la contrasena
+C 0xB8EC A en BC+1 bytes desde HL
+C 0xBCC8 un caracter normal: se pinta (p06:BCDF)...
+C 0xBCCD ...y A = 1
+C 0xBCD1 0xFF: fin del texto (acarreo)
+# --- fin de las notas por tandas ---
+
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0xA000 0xA02B dibujos_9F9B_cola  6 dibujos de 8x8 a 3 bits (24 bytes cada uno) que la lista de 0x61E9 sube a la hoja desde el 10 (sigue del banco anterior, 0x9F9B); lo leen p00:54CC (lista 0x61E9) (43 bytes)
 F 0xA000 8
@@ -78,6 +225,10 @@ F 0xBF8A 16
 
 
 
+
+
+
+
 # --- RESTO (seccion que reescribe tools/resto.py; no editar a mano) ---
 D 0xA7CB 0xAD00 tabla_A7CB  tabla que lee p06:AD4A, p06:ADCB, p06:AE10, p06:AE4C, p06:AEE8, p06:AF12 (1333 bytes)
 D 0xAFF5 0xAFF6 sin_lector_AFF5  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (1 bytes)
@@ -139,27 +290,13 @@ L 0xB21E ficha_campo_07
 L 0xB229 ficha_campo_07_2
 L 0xB35B bucle_2
 L 0xB3A8 mira_paso_de_la_pausa
-L 0xB43E mira_contrasena
-L 0xB457 pon_cursor_de_la_contrasena
-L 0xB46E rutina_6
-L 0xB480 rutina_7
-L 0xB48B mira_area_nueva
-L 0xB593 rutina_8
-L 0xB59F rutina_9
-L 0xB5AB rutina_10
-L 0xB5B4 rutina_11
-L 0xB5D9 rutina_12
-L 0xB5FE pon_buffers
-L 0xB625 pon_buffers_2
+L 0xB625 pon_buffers
 L 0xB74D bucle_3
-L 0xB758 rutina_13
-L 0xB766 rutina_14
-L 0xB770 rutina_15
-L 0xB77E rutina_16
-L 0xB7EE pon_espera
+L 0xB758 con_cambia_0_o_para_ensenar
+L 0xB766 rutina_6
+L 0xB770 con_cambia_z_y_para_leer
+L 0xB77E rutina_7
 L 0xB852 con_con_sitio_del_dibujo_5
-L 0xB85E pon_contrasena_buena
-L 0xB876 pon_contrasena_buena_2
 L 0xBA4B mira_bicho_0
 L 0xBAC2 mira_objeto_1
 L 0xBAD9 mira_buffer
@@ -171,7 +308,7 @@ L 0xBBFD pon_partida
 L 0xBC04 pon_partida_2
 L 0xBC7D con_mira_paso
 L 0xBCA7 mira_partida
-L 0xBCC8 rutina_17
+L 0xBCC8 rutina_8
 L 0xBCEF mira_partida_2
 C 0xAD00 0xC4B0: cuenta los cuadros; el bit 0 alterna los colores de los sprites (p02:93AA)
 C 0xAD04 0xCD00: la escena del final y las pantallas de p06
@@ -184,6 +321,8 @@ C 0xAD42 p00:5592 rutina_24
 C 0xAD47 0xC138: las paginas de origen y destino de las copias de dibujos (p00:502D)
 C 0xAD4A p06:A7CB tabla_A7CB: tabla que lee p06:AD4A, p06:ADCB, p06:AE10, p06:AE4C, p06:AEE8, p06:AF12 (1333 bytes)
 C 0xAD53 p00:58AD bucle_3
+C 0xAD56 L_AFA6: la pantalla de la RAM (0xE000) a 0
+C 0xAD59 L_AFAF: el trozo de 32x3 casillas de p06:A96B...
 C 0xAD5C p00:589F pon_paginas_hmmm
 C 0xAD63 entrada 1 de la tabla de p06:AD07 (L_AD00)
 C 0xAD68 tramo: llama a rutina_27
@@ -197,6 +336,8 @@ C 0xAD92 0xCD81: la escena del final y las pantallas de p06
 C 0xAD97 p00:5900 pon_mapa
 C 0xAD9A p00:4C8D pon_avance
 C 0xAD9D p00:559A rutina_25
+C 0xADA0 L_AFA6: la pantalla de la RAM (0xE000) a 0
+C 0xADA3 L_AFBA: ...o el de 16x14 de p06:A88B, a la pantalla de la RAM
 C 0xADA6 p00:589F pon_paginas_hmmm
 C 0xADAE 0xC10E: cuadros que quedan de la tecla de la demostracion (p01:63FF)
 C 0xADB1 entrada 5 de la tabla de p06:AFDC (L_AFDC)
@@ -212,11 +353,13 @@ C 0xADE7 0xC10E: cuadros que quedan de la tecla de la demostracion (p01:63FF)
 C 0xADEC 0xCD87: la escena del final y las pantallas de p06
 C 0xADF4 tramo: pone escena
 C 0xADF6 0xCD89: la escena del final y las pantallas de p06
+C 0xADFC L_B02D: uno de cada dos cuadros...
 C 0xAE00 tramo: llama a mira_scroll_5, mira escena, llama a con_hl_mas_a, llama a con_sitio_del_dibujo_4
 C 0xAE08 p00:4961 mira_scroll_5
 C 0xAE0B 0xCD85: la escena del final y las pantallas de p06
 C 0xAE13 p00:4878 con_hl_mas_a
 C 0xAE16 p00:4FBE con_sitio_del_dibujo_4
+C 0xAE1B L_B05E: uno de cada dos cuadros el color 12 sube hacia (7, 7, 7)
 C 0xAE1F tramo: pone demo_cuenta, pone escena
 C 0xAE20 0xC10E: cuadros que quedan de la tecla de la demostracion (p01:63FF)
 C 0xAE23 0xCD01: la escena del final y las pantallas de p06
@@ -237,6 +380,7 @@ C 0xAE6E p00:5469 pon_base_de_la_hoja
 C 0xAE77 p00:5AC0 rutina_30
 C 0xAE7F entrada 11 de la tabla de p06:AD07 (L_AD00)
 C 0xAE85 0xCD81: la escena del final y las pantallas de p06
+C 0xAE8A L_AFF6: un cuadro de 32x32 de la pagina 1 a la 0
 C 0xAE91 entrada 12 de la tabla de p06:AD07 (L_AD00)
 C 0xAE9B tramo: pone sonido_pedido
 C 0xAE9D 0xC0F4: el sonido que se pide para el cuadro siguiente (p14:94C1)
@@ -300,7 +444,6 @@ C 0xAF96 tramo: mira sitios_de_sprite, llama a hl_mas_a
 C 0xAF98 0xCF00: que cosa hay en cada sitio de los patrones (p00:56A2)
 C 0xAF9B p00:40A4 hl_mas_a
 C 0xAF9E 3 vueltas
-C 0xAFA6 0xE000: la tabla de 32x32 dibujos de la pantalla (p00:58A4)
 C 0xAFAC p00:5DE9 copia_bytes_2
 C 0xAFC0 p00:4010 cabecera_de_konami: 'C', 0, 'D', 0, 3, 0, 0x15, 0... y las direcciones de la RAM del juego (0xC161 la fase, 0xC160 las vidas, 0xC1
 C 0xAFC3 p00:51C2 mira_buffers
@@ -308,25 +451,17 @@ C 0xAFDC p00:40AE despacha
 C 0xAFEB entrada 2 de la tabla de p06:AFDC (L_AFDC)
 C 0xAFED p01:734B ficha_campo_40
 C 0xAFF0 entrada 3 de la tabla de p06:AFDC (L_AFDC)
-C 0xAFF6 tramo: mira pantalla, sigue en hmmm
 C 0xAFF9 0xE090: la tabla de 32x32 dibujos de la pantalla
 C 0xB001 p00:4E47 hmmm
-C 0xB004 0xCD84: la escena del final y las pantallas de p06
-C 0xB009 0xC384: lo que ha avanzado el mapa, 8.8 (p00:56D8)
 C 0xB00C 0xCE87: la escena del final y las pantallas de p06
 C 0xB013 0xC384: lo que ha avanzado el mapa, 8.8 (p00:56D8)
-C 0xB016 0xCE98: la escena del final y las pantallas de p06
 C 0xB01D tramo: pone escena
 C 0xB01F 0xCD84: la escena del final y las pantallas de p06
-C 0xB022 tramo: sigue en mira_scroll_5
 C 0xB02A p00:4961 mira_scroll_5
-C 0xB02D 0xC4B0: cuenta los cuadros; el bit 0 alterna los colores de los sprites (p02:93AA)
-C 0xB033 0xCD87: la escena del final y las pantallas de p06
-C 0xB03B 0xCD89: la escena del final y las pantallas de p06
+C 0xB038 L_B040: R y B bajan uno...
 C 0xB058 tramo: sigue en pon_un_color
-C 0xB05B p00:4D03 pon_un_color
-C 0xB05E 0xC4B0: cuenta los cuadros; el bit 0 alterna los colores de los sprites (p02:93AA)
 C 0xB064 0xCD87: la escena del final y las pantallas de p06
+C 0xB06F L_B077: R sube uno...
 C 0xB072 0xCD89: la escena del final y las pantallas de p06
 C 0xB09A tramo: sigue en pon_un_color
 C 0xB09D p00:4D03 pon_un_color
@@ -343,8 +478,10 @@ C 0xB1DE 0xCE80: la escena del final y las pantallas de p06
 C 0xB1E4 p01:7B03 mira_fichas_2
 C 0xB1E7 p01:74E9 pon_cosas_3
 C 0xB201 tramo: mira escena, pone escena
+C 0xB204 L_B004: el mapa del final sube solo...
 C 0xB207 0xCD10: la escena del final y las pantallas de p06
 C 0xB20A 0xCD12: la escena del final y las pantallas de p06
+C 0xB210 L_AFC6: cuenta atras de HL; al acabar, la entrada A de la tabla de DE: [a][b][palabra]
 C 0xB213 0xCD10: la escena del final y las pantallas de p06
 C 0xB217 0xCD12: la escena del final y las pantallas de p06
 C 0xB21E 0xCE00: la escena del final y las pantallas de p06
@@ -360,13 +497,13 @@ C 0xB244 ix+0x18: campo propio de este tipo de ficha (el codigo comun de p01 no 
 C 0xB247 ix+0x17: campo propio de este tipo de ficha (el codigo comun de p01 no lo usa)
 C 0xB256 entrada 0 de la tabla de p06:AFDC (L_AFDC)
 C 0xB25C entrada 1 de la tabla de p06:AFDC (L_AFDC)
-C 0xB260 HL = la ficha
 C 0xB35B p01:74E9 pon_cosas_3
 C 0xB35E p01:7B03 mira_fichas_2
 C 0xB365 p06:B376 tabla_B376: tabla que lee p06:B365 (50 bytes)
 C 0xB368 tramo: llama a pon_buffer_3
 C 0xB36E p01:6D64 pon_buffer_3
 C 0xB3A8 0xC137: la ventana de la pausa: contrasena, teclear, comprobar... (p06:B3A8)
+C 0xB3B3 L_B7FA: un truco?
 C 0xB3BD tramo: mira bicho_0, llama a mira_scroll_3, mira fichas_especiales, llama a mira_scroll_5 ...
 C 0xB3C2 0xD040: la ficha del bicho 0, byte 0x40 (p01:74B7)
 C 0xB3C5 p00:4941 mira_scroll_3
@@ -375,6 +512,7 @@ C 0xB3D0 p00:4961 mira_scroll_5
 C 0xB3D3 p06:B3EC tabla_B3EC: tabla que lee p06:B3D3, p06:B3D9, p06:B42B, p06:B436, p06:B827, p06:B852 (35 bytes)
 C 0xB3D6 p00:4FBE con_sitio_del_dibujo_4
 C 0xB3DC p00:4FBE con_sitio_del_dibujo_4
+C 0xB3DF ensena_la_contrasena: la contrasena de ahora...
 C 0xB3E2 el sonido 0x49 (p14:9C47 + 2*0x49)
 C 0xB3E4 p00:41AC mira_banderas_juego
 C 0xB3E7 0xC137: la ventana de la pausa: contrasena, teclear, comprobar... (p06:B3A8)
@@ -385,47 +523,47 @@ C 0xB425 0xC137: la ventana de la pausa: contrasena, teclear, comprobar... (p06:
 C 0xB42B tramo: llama a con_sitio_del_dibujo_5, llama a mira_scroll_8
 C 0xB42E p00:4FC2 con_sitio_del_dibujo_5
 C 0xB439 p00:4FC8 mira_scroll_8
-C 0xB43E tramo: mira contrasena, llama a con_sitio_del_dibujo_4
-C 0xB441 0xE902: la contrasena: la que se ensena y la tecleada (p06:B43E)
-C 0xB447 0xE902: la contrasena: la que se ensena y la tecleada (p06:B43E)
-C 0xB44D 0xE900: la contrasena: la que se ensena y la tecleada (p06:B43E)
+C 0xB444 cifra_la_contrasena: el primer caracter es la llave: se deja tal cual...
 C 0xB450 p00:4FBE con_sitio_del_dibujo_4
-C 0xB457 tramo: pone contrasena, mira contrasena, pone cursor_de_la_contrasena
 C 0xB45A 0xE980: la contrasena: la que se ensena y la tecleada (p06:B43E)
-C 0xB45D 0xE982: la contrasena tecleada (p06:B7EF)
 C 0xB460 0xC4B4: donde va la siguiente letra de la contrasena (p06:B7BC)
 C 0xB463 0xE983: la contrasena: la que se ensena y la tecleada (p06:B43E)
-C 0xB48B p02:882C pon_x_de_entrada
 C 0xB493 0xE900: la contrasena: la que se ensena y la tecleada (p06:B43E)
 C 0xB497 0xE902: la contrasena: la que se ensena y la tecleada (p06:B43E)
-C 0xB4A3 0xC486: el area a la que se va (p01:6549)
-C 0xB4A9 0xC483: la COLUMNA: 0-2 el camino, 3 la sala (p01:6543)
+C 0xB4A0 un_caracter: un caracter de 5 bits (0-31, lo que pasa se queda en 31)...
+C 0xB4A6 un_caracter: un caracter de 5 bits (0-31, lo que pasa se queda en 31)...
 C 0xB4AC ¿columna = 0x03?
 C 0xB4AE 0xC487: la fila del mapa con que se entra (p00:5924)
-C 0xB4B5 tramo: mira vidas, mira x_de_entrada, mira y_de_entrada, mira objeto_21 ...
-C 0xB4C5 0xC160: las VIDAS, en BCD (p00:4417; GAOOOOOOOOOOH suma 10)
-C 0xB4DA 0xC48A: la x de Gao al entrar (p01:6553)
-C 0xB4E5 0xC489: la y de Gao al entrar (p01:6571)
-C 0xB4F0 0xC8A0: el OBJETO 21 (byte 0 de 4; p06:BAC2)
+C 0xB4B5 tramo: llama a un_caracter, mira vidas, mira x_de_entrada, mira y_de_entrada ...
+C 0xB4B8 un_caracter: un caracter de 5 bits (0-31, lo que pasa se queda en 31)...
+C 0xB4C2 un_caracter: un caracter de 5 bits (0-31, lo que pasa se queda en 31)...
+C 0xB4D7 un_caracter: un caracter de 5 bits (0-31, lo que pasa se queda en 31)...
+C 0xB4E2 un_caracter: un caracter de 5 bits (0-31, lo que pasa se queda en 31)...
+C 0xB4ED un_caracter: un caracter de 5 bits (0-31, lo que pasa se queda en 31)...
 C 0xB4F7 0xC8B8: el OBJETO 27 (byte 0 de 4; p06:BAC2)
 C 0xB500 0xC875: el OBJETO 10 (byte 1 de 4; p06:BAC2)
 C 0xB508 0xC850: el OBJETO 1 (byte 0 de 4; p06:BAC2)
-C 0xB511 0xC88C: el OBJETO 16 (byte 0 de 4; p06:BAC2)
-C 0xB51A 0xC8A4: el OBJETO 22 (byte 0 de 4; p06:BAC2)
-C 0xB523 0xC884: el OBJETO 14 (byte 0 de 4; p06:BAC2)
+C 0xB50E un_caracter: un caracter de 5 bits (0-31, lo que pasa se queda en 31)...
+C 0xB514 junta_cinco_objetos: el bit 0 de cinco objetos seguidos (4 bytes cada uno), en un numero de 5 bits
+C 0xB517 un_caracter: un caracter de 5 bits (0-31, lo que pasa se queda en 31)...
+C 0xB51D junta_cinco_objetos: el bit 0 de cinco objetos seguidos (4 bytes cada uno), en un numero de 5 bits
+C 0xB520 un_caracter: un caracter de 5 bits (0-31, lo que pasa se queda en 31)...
 C 0xB52D 0xC879: el OBJETO 11 (byte 1 de 4; p06:BAC2)
 C 0xB535 0xC85C: el ARMA de Gao: su cuenta es la del objeto 4 (p01:7FAB)
-C 0xB53E 0xC8BC: el OBJETO 28 (byte 0 de 4; p06:BAC2)
-C 0xB547 0xC845: la VIDA de Gao, hasta 200 (p03:AD1C; METALSLAVE la llena)
-C 0xB551 0xC870: el OBJETO 9 (byte 0 de 4; p06:BAC2)
-C 0xB557 0xC874: el OBJETO 10 (byte 0 de 4; p06:BAC2)
-C 0xB55F 0xC879: el OBJETO 11 (byte 1 de 4; p06:BAC2)
-C 0xB567 0xE907: la contrasena: la que se ensena y la tecleada (p06:B43E)
+C 0xB53B un_caracter: un caracter de 5 bits (0-31, lo que pasa se queda en 31)...
+C 0xB541 junta_cinco_objetos: el bit 0 de cinco objetos seguidos (4 bytes cada uno), en un numero de 5 bits
+C 0xB544 un_caracter: un caracter de 5 bits (0-31, lo que pasa se queda en 31)...
+C 0xB54E un_caracter: un caracter de 5 bits (0-31, lo que pasa se queda en 31)...
+C 0xB554 un_caracter: un caracter de 5 bits (0-31, lo que pasa se queda en 31)...
+C 0xB55C un_caracter: un caracter de 5 bits (0-31, lo que pasa se queda en 31)...
+C 0xB564 un_caracter: un caracter de 5 bits (0-31, lo que pasa se queda en 31)...
 C 0xB56B 0xE908: la contrasena: la que se ensena y la tecleada (p06:B43E)
-C 0xB574 0xC8DC: el OBJETO 36 (byte 0 de 4; p06:BAC2)
-C 0xB57D 0xC840: elige los 32 bytes de p07:70AE que van a los patrones de 0xF8A0 (p00:5671) y el sumando de la dificultad (p01:704D); 6 es especial (p02:8F4F)
-C 0xB583 0xC4AA: la dificultad: 0xC172 + lo de la tabla p01:7062 segun 0xC840, hasta 15 (p01:7049)
-C 0xB5FE 0xE983: la contrasena: la que se ensena y la tecleada (p06:B43E)
+C 0xB571 un_caracter: un caracter de 5 bits (0-31, lo que pasa se queda en 31)...
+C 0xB577 junta_cinco_objetos: el bit 0 de cinco objetos seguidos (4 bytes cada uno), en un numero de 5 bits
+C 0xB57A un_caracter: un caracter de 5 bits (0-31, lo que pasa se queda en 31)...
+C 0xB580 un_caracter: un caracter de 5 bits (0-31, lo que pasa se queda en 31)...
+C 0xB586 un_caracter: un caracter de 5 bits (0-31, lo que pasa se queda en 31)...
+C 0xB58C un_caracter: un caracter de 5 bits (0-31, lo que pasa se queda en 31)...
 C 0xB603 0xEC0A: buffers de pantallas y dibujos
 C 0xB613 0xEC10: buffers de pantallas y dibujos
 C 0xB618 0xEC12: buffers de pantallas y dibujos
@@ -442,11 +580,11 @@ C 0xB650 0xEC07: buffers de pantallas y dibujos
 C 0xB655 0xEC08: buffers de pantallas y dibujos
 C 0xB658 0xE987: la contrasena: la que se ensena y la tecleada (p06:B43E)
 C 0xB65C 0xE988: la contrasena: la que se ensena y la tecleada (p06:B43E)
-C 0xB667 tramo: mira objeto_1, llama a copia_bytes_2, pone buffers, pone nivel_c840 ...
+C 0xB667 tramo: mira objeto_1, llama a copia_bytes_2, pone buffers, pone power_up ...
 C 0xB66A 0xC850: el OBJETO 1 (byte 0 de 4; p06:BAC2)
 C 0xB670 p00:5DE9 copia_bytes_2
 C 0xB678 0xEC09: buffers de pantallas y dibujos
-C 0xB67D 0xC840: elige los 32 bytes de p07:70AE que van a los patrones de 0xF8A0 (p00:5671) y el sumando de la dificultad (p01:704D); 6 es especial (p02:8F4F)
+C 0xB67D 0xC840: el nivel de POWER UP (la ventana de F2, p09:BD31): elige el patron del disparo de p07:70AE (p00:566E) y suma a la dificultad (p01:704D)
 C 0xB681 0xC4AA: la dificultad: 0xC172 + lo de la tabla p01:7062 segun 0xC840, hasta 15 (p01:7049)
 C 0xB684 0xEC0A: buffers de pantallas y dibujos
 C 0xB687 0xC486: el area a la que se va (p01:6549)
@@ -480,27 +618,36 @@ C 0xB6ED 0xEC00: buffers de pantallas y dibujos
 C 0xB6F4 0xC8B8: el OBJETO 27 (byte 0 de 4; p06:BAC2)
 C 0xB6F7 0xEC01: buffers de pantallas y dibujos
 C 0xB6FA 0xC88C: el OBJETO 16 (byte 0 de 4; p06:BAC2)
+C 0xB6FD reparte_cinco_objetos: al reves: 5 bits a cinco objetos
 C 0xB700 0xEC02: buffers de pantallas y dibujos
 C 0xB703 0xC8A4: el OBJETO 22 (byte 0 de 4; p06:BAC2)
+C 0xB706 reparte_cinco_objetos: al reves: 5 bits a cinco objetos
 C 0xB709 0xEC00: buffers de pantallas y dibujos
 C 0xB711 0xC8A0: el OBJETO 21 (byte 0 de 4; p06:BAC2)
 C 0xB714 0xEC04: buffers de pantallas y dibujos
 C 0xB717 0xC8BC: el OBJETO 28 (byte 0 de 4; p06:BAC2)
+C 0xB71A reparte_cinco_objetos: al reves: 5 bits a cinco objetos
 C 0xB71D 0xEC09: buffers de pantallas y dibujos
 C 0xB720 0xC8DC: el OBJETO 36 (byte 0 de 4; p06:BAC2)
+C 0xB723 reparte_cinco_objetos: al reves: 5 bits a cinco objetos
 C 0xB726 0xC158: variables del juego
 C 0xB72C p00:5DE9 copia_bytes_2
 C 0xB731 0xC481: la FASE, 1-6 (p01:65B4)
 C 0xB734 0xC485: bit 7: hay que cambiar de area (p01:64CD)
 C 0xB737 p01:7FAB pon_arma_dato_2
-C 0xB73A p00:566E mira_nivel_c840
+C 0xB73A p00:566E mira_power_up
 C 0xB73D p02:80D1 pon_musica_de_pausa
 C 0xB742 0xC4DA: el final: lo pone ENDDEMOGAMITAINA (p06:B98A)
 C 0xB745 el sonido 0x58 (p14:9C47 + 2*0x58)
 C 0xB747 p00:41AC mira_banderas_juego
 C 0xB74A p00:4CA3 pon_avance_3
+C 0xB75C tramo: llama a cambia_0_o_para_ensenar
+C 0xB75F cambia_0_o_para_ensenar: al ensenar: el 0 se escribe Z y la O, Y (para no confundirlos)
+C 0xB774 cambia_z_y_para_leer: al leer: la Z es el 0 y la Y es la O
+C 0xB777 L_B77E: un caracter de la contrasena ('0'-'9', 'A'-'Z') a su valor 0-35
 C 0xB78F 0xE980: la contrasena: la que se ensena y la tecleada (p06:B43E)
 C 0xB792 p00:4FBE con_sitio_del_dibujo_4
+C 0xB79F a_mayusculas: a-z pasan a A-Z: por eso 'aaaaa' no se puede teclear
 C 0xB7BC 0xC4B4: donde va la siguiente letra de la contrasena (p06:B7BC)
 C 0xB7C5 tramo: pone cursor_de_la_contrasena, llama a mira_banderas_juego
 C 0xB7C8 0xC4B4: donde va la siguiente letra de la contrasena (p06:B7BC)
@@ -509,36 +656,25 @@ C 0xB7CE p00:41AC mira_banderas_juego
 C 0xB7DC 0xC4B4: donde va la siguiente letra de la contrasena (p06:B7BC)
 C 0xB7E5 tramo: pone cursor_de_la_contrasena
 C 0xB7E8 0xC4B4: donde va la siguiente letra de la contrasena (p06:B7BC)
-C 0xB7EE tramo: mira contrasena
 C 0xB7EF 0xE982: la contrasena tecleada (p06:B7EF)
-C 0xB7FF 0xE982: la contrasena tecleada (p06:B7EF)
-C 0xB805 0xE982: la contrasena tecleada (p06:B7EF)
-C 0xB811 tramo: mira cambio_de_area
-C 0xB814 0xC485: bit 7: hay que cambiar de area (p01:64CD)
+C 0xB808 cifra_la_contrasena: el primer caracter es la llave: se deja tal cual...
 C 0xB817 ¿cambio_de_area = 0x80?
 C 0xB81B 0xE902: la contrasena: la que se ensena y la tecleada (p06:B43E)
-C 0xB827 p06:B3EC tabla_B3EC: tabla que lee p06:B3D3, p06:B3D9, p06:B42B, p06:B436, p06:B827, p06:B852 (35 bytes)
 C 0xB82A p00:4FC2 con_sitio_del_dibujo_5
 C 0xB830 p00:4FBE con_sitio_del_dibujo_4
-C 0xB833 tramo: pone espera, pone sonido_pedido
 C 0xB835 0xC104: cuenta atras del paso del estado (p00:4345)
 C 0xB83A 0xC0F4: el sonido que se pide para el cuadro siguiente (p14:94C1)
-C 0xB852 p06:B3EC tabla_B3EC: tabla que lee p06:B3D3, p06:B3D9, p06:B42B, p06:B436, p06:B827, p06:B852 (35 bytes)
 C 0xB855 p00:4FC2 con_sitio_del_dibujo_5
 C 0xB858 p06:B840 tabla_B840: tabla que lee p06:B82D, p06:B858 (18 bytes)
 C 0xB85B p00:4FBE con_sitio_del_dibujo_4
-C 0xB85E tramo: pone contrasena_buena, pone final
 C 0xB85F 0xC4DC: se ha aceptado una de las 17 (p06:B895)
 C 0xB865 0xC4DA: el final: lo pone ENDDEMOGAMITAINA (p06:B98A)
-C 0xB868 17 vueltas
-C 0xB871 0xC4DC: se ha aceptado una de las 17 (p06:B895)
+C 0xB86A tramo: llama a compara_con_un_truco
+C 0xB86B compara_con_un_truco: la cadena n de p06:B8A0
 C 0xB874 ¿es 0 contrasena_buena?
-C 0xB876 p06:B8A0 tabla_B8A0: tabla que lee p06:B876 (44 bytes)
 C 0xB87B p00:486F rutina_4
 C 0xB87E 0xE982: la contrasena tecleada (p06:B7EF)
-C 0xB88A 0xC600: una por contrasena: ya se ha usado en esta partida (p06:B88A)
 C 0xB88E p00:40A4 hl_mas_a
-C 0xB894 tramo: pone contrasena_buena
 C 0xB895 0xC4DC: se ha aceptado una de las 17 (p06:B895)
 C 0xB8CC 0xC8DC: el OBJETO 36 (byte 0 de 4; p06:BAC2)
 C 0xB8E4 0xC88C: el OBJETO 16 (byte 0 de 4; p06:BAC2)
@@ -566,6 +702,7 @@ C 0xB9A2 0xC4A8: variables de la partida
 C 0xB9AC tramo: pone truco_aaaaa, mira objeto_1
 C 0xB9AE 0xC4D1: lo pone la contrasena 'aaaaa', que no se puede teclear (p06:B9AC)
 C 0xB9B1 0xC850: el OBJETO 1 (byte 0 de 4; p06:BAC2)
+C 0xB9B9 L_B8EC: A en BC+1 bytes desde HL
 C 0xB9C7 tramo: pone objeto_10
 C 0xB9C9 0xC874: el OBJETO 10 (byte 0 de 4; p06:BAC2)
 C 0xB9CE 0xC875: el OBJETO 10 (byte 1 de 4; p06:BAC2)
@@ -646,8 +783,10 @@ C 0xBBC1 0xC104: cuenta atras del paso del estado (p00:4345)
 C 0xBBC4 0xC4BD: variables de la partida
 C 0xBBCA p00:4878 con_hl_mas_a
 C 0xBBD2 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
+C 0xBBD5 L_BBDC: copia un texto de HL a DE hasta 0xFF...
 C 0xBBEC tramo: llama a con_hl_mas_a
 C 0xBBF3 p00:4878 con_hl_mas_a
+C 0xBBF7 L_BBDC: copia un texto de HL a DE hasta 0xFF...
 C 0xBBFD tramo: pone partida
 C 0xBC00 0xC4BB: variables de la partida
 C 0xBC04 tramo: pone partida
@@ -657,6 +796,7 @@ C 0xBC13 tramo: mira partida, mira buffer
 C 0xBC19 0xC4B6: variables de la partida
 C 0xBC1E 0xC4B8: variables de la partida
 C 0xBC22 0xE800: buffer de trabajo (dibujos que se descomprimen, cuentas...)
+C 0xBC26 L_BCA7: un caracter del texto del final...
 C 0xBC2D tramo: mira partida
 C 0xBC30 0xC4BB: variables de la partida
 C 0xBC38 tramo: pone partida
@@ -675,7 +815,7 @@ C 0xBC8D 0xC4B8: variables de la partida
 C 0xBC94 0xC4B7: variables de la partida
 C 0xBC9B 0xC4B9: variables de la partida
 C 0xBCA4 p00:4E0B hmmv
-C 0xBCBD 0xC4B6: variables de la partida
+C 0xBCC5 L_BCC8: un caracter normal: se pinta (p06:BCDF)...
 C 0xBCD4 tramo: mira partida
 C 0xBCD5 0xC4B6: variables de la partida
 C 0xBCDF tramo: mira partida

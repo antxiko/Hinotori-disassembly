@@ -1276,15 +1276,15 @@ pon_mezclador_del_canal:
 	dec a			;994c
 L_994D:
 	ld b,a			;994d
-	bit 1,d		;994e
+	bit 1,d		;994e   ; bit 1: el tono de este canal...
 	call z,rutina_4		;9950
 	bit 1,d		;9953
 	call nz,rutina_3		;9955
-	ld a,b			;9958   ; ...y el ruido
+	ld a,b			;9958   ; ...y el ruido, tres bits mas arriba
 	rlca			;9959
 	rlca			;995a
 	rlca			;995b
-	bit 0,d		;995c
+	bit 0,d		;995c   ; bit 0
 	call z,rutina_4		;995e
 	bit 0,d		;9961
 	call nz,rutina_3		;9963
