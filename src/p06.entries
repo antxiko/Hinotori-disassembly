@@ -37,5 +37,22 @@
 0xB256   # p06:AFDC entrada 0 de la tabla de 0xAFDF (call 0x40AE en 0xAFDC)
 0xB25C   # p06:AFDC entrada 1 de la tabla de 0xAFDF (call 0x40AE en 0xAFDC)
 0xB3A8   # p00:45A7 call
+0xB8CC   # contrasena 16 "SUPERBALL" (p06:B876): tras el 0 de la cadena, p06:B89A salta aqui con jp (hl)
+0xB8E4   # contrasena 0 "KINOOOIHITODANE" (p06:B876): tras el 0 de la cadena, p06:B89A salta aqui con jp (hl)
+0xB902   # contrasena 1 "HANEYOKAGAYAKE" (p06:B876): tras el 0 de la cadena, p06:B89A salta aqui con jp (hl)
+0xB911   # contrasena 2 "ULTRABOX" (p06:B876): tras el 0 de la cadena, p06:B89A salta aqui con jp (hl)
+0xB91D   # contrasena 3 "TURBO" (p06:B876): tras el 0 de la cadena, p06:B89A salta aqui con jp (hl)
+0xB92E   # contrasena 4 "METALSLAVE" (p06:B876): tras el 0 de la cadena, p06:B89A salta aqui con jp (hl)
+0xB943   # contrasena 5 "HOIHOIHOINOHOI" (p06:B876): tras el 0 de la cadena, p06:B89A salta aqui con jp (hl)
+0xB958   # contrasena 6 "FULLITEMDAYOON" (p06:B876): tras el 0 de la cadena, p06:B89A salta aqui con jp (hl)
+0xB96E   # contrasena 7 "GAOOOOOOOOOOH" (p06:B876): tras el 0 de la cadena, p06:B89A salta aqui con jp (hl)
+0xB98A   # contrasena 8 "ENDDEMOGAMITAINA" (p06:B876): tras el 0 de la cadena, p06:B89A salta aqui con jp (hl)
+0xB9AC   # contrasena 9 "aaaaa" (p06:B876): tras el 0 de la cadena, p06:B89A salta aqui con jp (hl)
+0xB9C7   # contrasena 10 "KOKOWADOKO" (p06:B876): tras el 0 de la cadena, p06:B89A salta aqui con jp (hl)
+0xB9E2   # contrasena 11 "NANDANANDANANDA" (p06:B876): tras el 0 de la cadena, p06:B89A salta aqui con jp (hl)
+0xB9F1   # contrasena 12 "AUTOSHOT" (p06:B876): tras el 0 de la cadena, p06:B89A salta aqui con jp (hl)
+0xBA0A   # contrasena 13 "ILOVEHINOTORI" (p06:B876): tras el 0 de la cadena, p06:B89A salta aqui con jp (hl)
+0xBA1C   # contrasena 14 "DOKODEMOMAP" (p06:B876): tras el 0 de la cadena, p06:B89A salta aqui con jp (hl)
+0xBA2E   # contrasena 15 "HAYAME" (p06:B876): tras el 0 de la cadena, p06:B89A salta aqui con jp (hl)
 0xBA4B   # p00:4662 call
 0xBB69   # p00:4675 call

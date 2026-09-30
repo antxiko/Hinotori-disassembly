@@ -1,0 +1,117 @@
+
+# --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
+D 0x8000 0x8088 dibujos_7C28_cola  35 dibujos de 8x8 a 4 bits (32 bytes cada uno) que la lista de 0x6074 sube a la hoja desde el 01 (sigue del banco anterior, 0x7C28); lo leen p00:54CC (lista 0x6074) (136 bytes)
+F 0x8000 8
+D 0x8088 0x8130 dibujos_8088  21 dibujos de 8x8 a 1 bit (8 bytes cada uno) que la lista de 0x6074 sube a la hoja desde el 2F; lo leen p00:54CC (lista 0x6074) (168 bytes)
+F 0x8088 8
+D 0x8130 0x8190 dibujos_8130  12 dibujos de 8x8 a 1 bit (8 bytes cada uno) que la lista de 0x6074 sube a la hoja desde el 44; lo leen p00:54CC (lista 0x6074) (96 bytes)
+F 0x8130 8
+D 0x8190 0x8790 dibujos_8190  31 dibujos de 8x8 a 4 bits al reves (32 bytes cada uno) que la lista de 0x6074 sube a la hoja desde el A0; se solapan 2 bloques (0x8190-0x8570, 0x8190-0x8790); lo leen p00:54CC (lista 0x6074) (1536 bytes)
+F 0x8190 8
+D 0x8790 0x89F0 dibujos_8790  19 dibujos de 8x8 a 4 bits (32 bytes cada uno) que la lista de 0x6074 sube a la hoja desde el 80; lo leen p00:54CC (lista 0x6074) (608 bytes)
+F 0x8790 8
+D 0x89F0 0x8A30 dibujos_89F0  2 dibujos de 8x8 a 4 bits (32 bytes cada uno) que la lista de 0x6074 sube a la hoja desde el 93; lo leen p00:54CC (lista 0x6074) (64 bytes)
+F 0x89F0 8
+D 0x8A30 0x8AB0 dibujos_8A30  4 dibujos de 8x8 a 4 bits (32 bytes cada uno) que la lista de 0x6074 sube a la hoja desde el F0; lo leen p00:54CC (lista 0x6074) (128 bytes)
+F 0x8A30 8
+D 0x8AB0 0x8E88 dibujos_8AB0  31 dibujos de 8x8 a 3 bits al reves (24 bytes cada uno) que la lista de 0x60CA sube a la hoja desde el 30; se solapan 2 bloques (0x8AB0-0x8D98, 0x8AB0-0x8E88); lo leen p00:54CC (lista 0x60CA) (984 bytes)
+F 0x8AB0 8
+D 0x8E88 0x8FA8 dibujos_8E88  10 dibujos de 8x8 a 3 bits al reves (24 bytes cada uno) que la lista de 0x60CA sube a la hoja desde el 5C; se solapan 2 bloques (0x8E88-0x8F78, 0x8E88-0x8FA8); lo leen p00:54CC (lista 0x60CA) (288 bytes)
+F 0x8E88 8
+D 0x8FA8 0x92A8 dibujos_8FA8  32 dibujos de 8x8 a 3 bits (24 bytes cada uno) que la lista de 0x60CA sube a la hoja desde el 66; lo leen p00:54CC (lista 0x60CA) (768 bytes)
+F 0x8FA8 8
+D 0x92A8 0x94E8 dibujos_92A8  24 dibujos de 8x8 a 3 bits (24 bytes cada uno) que la lista de 0x60CA sube a la hoja desde el 88; lo leen p00:54CC (lista 0x60CA) (576 bytes)
+F 0x92A8 8
+D 0x94E8 0x95A8 dibujos_94E8  6 dibujos de 8x8 a 4 bits (32 bytes cada uno) que la lista de 0x60CA sube a la hoja desde el F0; lo leen p00:54CC (lista 0x60CA) (192 bytes)
+F 0x94E8 8
+D 0x95A8 0x9AB8 dibujos_95A8  54 dibujos de 8x8 a 3 bits (24 bytes cada uno) que la lista de 0x6169 sube a la hoja desde el 01; se solapan 4 bloques (0x95A8-0x9AB8, 0x95D8-0x9AB8, 0x98D8-0x98F0, 0x9920-0x9968); lo leen p00:54CC (lista 0x6169) (1296 bytes)
+F 0x95A8 8
+D 0x9AB8 0x9BF0 dibujos_9AB8  13 dibujos de 8x8 a 3 bits (24 bytes cada uno) que la lista de 0x6169 sube a la hoja desde el 70; se solapan 2 bloques (0x9AB8-0x9BF0, 0x9B00-0x9BF0); lo leen p00:54CC (lista 0x6169) (312 bytes)
+F 0x9AB8 8
+D 0x9BF0 0x9C98 dibujos_9BF0  21 dibujos de 8x8 a 1 bit (8 bytes cada uno) que la lista de 0x6169 sube a la hoja desde el 90; se solapan 2 bloques (0x9BF0-0x9C98, 0x9C68-0x9C98); lo leen p00:54CC (lista 0x6169) (168 bytes)
+F 0x9BF0 8
+D 0x9C98 0x9D58 dibujos_9C98  6 dibujos de 8x8 a 4 bits (32 bytes cada uno) que la lista de 0x6169 sube a la hoja desde el F0; lo leen p00:54CC (lista 0x6169) (192 bytes)
+F 0x9C98 8
+D 0x9D58 0x9D77 paleta_comun  la paleta comun a todas las fases: [color][RB][G] ... 0xFF (p00:4D3F); lo leen p00:55A5 (31 bytes)
+F 0x9D58 3
+D 0x9D77 0x9D87 paletas_de_cada_juego  la paleta de cada juego de dibujos (0xC482), una palabra; lo leen p00:55AE (16 bytes)
+F 0x9D77 2
+D 0x9D87 0x9D97 paleta_9D87  la paleta del juego 0 (y de los que la comparten): [color][RB][G] ... 0xFF; lo leen p00:55B4 (16 bytes)
+F 0x9D87 3
+D 0x9D97 0x9DAD paleta_9D97  la paleta del juego 1 (y de los que la comparten): [color][RB][G] ... 0xFF; lo leen p00:55B4 (22 bytes)
+F 0x9D97 3
+D 0x9DAD 0x9DBD paleta_9DAD  la paleta del juego 2 (y de los que la comparten): [color][RB][G] ... 0xFF; lo leen p00:55B4 (16 bytes)
+F 0x9DAD 3
+D 0x9DBD 0x9DCD paleta_9DBD  la paleta del juego 3 (y de los que la comparten): [color][RB][G] ... 0xFF; lo leen p00:55B4 (16 bytes)
+F 0x9DBD 3
+D 0x9DCD 0x9DEF paleta_9DCD  la paleta del juego 4 (y de los que la comparten): [color][RB][G] ... 0xFF; lo leen p00:55B4 (34 bytes)
+F 0x9DCD 3
+D 0x9DEF 0x9E05 paleta_9DEF  la paleta del juego 5 (y de los que la comparten): [color][RB][G] ... 0xFF; lo leen p00:55B4 (22 bytes)
+F 0x9DEF 3
+D 0x9E05 0x9E18 paleta_9E05  la paleta del juego 6 (y de los que la comparten): [color][RB][G] ... 0xFF; lo leen p00:55B4 (19 bytes)
+F 0x9E05 3
+D 0x9E2C 0x9E5C paletas_de_cada_area  la paleta de cada area (0xC480), una palabra; lo leen p00:55BA (48 bytes)
+F 0x9E2C 2
+D 0x9E5C 0x9E5D paleta_9E5C  la paleta del area 0 (y de los que la comparten): [color][RB][G] ... 0xFF; lo leen p00:55C0 (1 bytes)
+F 0x9E5C 3
+D 0x9E5D 0x9E5E paleta_9E5D  la paleta del area 1 (y de los que la comparten): [color][RB][G] ... 0xFF; lo leen p00:55C0 (1 bytes)
+F 0x9E5D 3
+D 0x9E5E 0x9E5F paleta_9E5E  la paleta del area 2 (y de los que la comparten): [color][RB][G] ... 0xFF; lo leen p00:55C0 (1 bytes)
+F 0x9E5E 3
+D 0x9E5F 0x9E60 paleta_9E5F  la paleta del area 3 (y de los que la comparten): [color][RB][G] ... 0xFF; lo leen p00:55C0 (1 bytes)
+F 0x9E5F 3
+D 0x9E60 0x9E61 paleta_9E60  la paleta del area 4 (y de los que la comparten): [color][RB][G] ... 0xFF; lo leen p00:55C0 (1 bytes)
+F 0x9E60 3
+D 0x9E61 0x9E62 paleta_9E61  la paleta del area 5 (y de los que la comparten): [color][RB][G] ... 0xFF; lo leen p00:55C0 (1 bytes)
+F 0x9E61 3
+D 0x9E62 0x9E63 paleta_9E62  la paleta del area 6 (y de los que la comparten): [color][RB][G] ... 0xFF; lo leen p00:55C0 (1 bytes)
+F 0x9E62 3
+D 0x9E63 0x9E64 paleta_9E63  la paleta del area 7 (y de los que la comparten): [color][RB][G] ... 0xFF; lo leen p00:55C0 (1 bytes)
+F 0x9E63 3
+D 0x9E64 0x9E65 paleta_9E64  la paleta del area 8 (y de los que la comparten): [color][RB][G] ... 0xFF; lo leen p00:55C0 (1 bytes)
+F 0x9E64 3
+D 0x9E65 0x9E66 paleta_9E65  la paleta del area 9 (y de los que la comparten): [color][RB][G] ... 0xFF; lo leen p00:55C0 (1 bytes)
+F 0x9E65 3
+D 0x9E66 0x9E67 paleta_9E66  la paleta del area 10 (y de los que la comparten): [color][RB][G] ... 0xFF; lo leen p00:55C0 (1 bytes)
+F 0x9E66 3
+D 0x9E67 0x9E68 paleta_9E67  la paleta del area 11 (y de los que la comparten): [color][RB][G] ... 0xFF; lo leen p00:55C0 (1 bytes)
+F 0x9E67 3
+D 0x9E68 0x9E69 paleta_9E68  la paleta del area 12 (y de los que la comparten): [color][RB][G] ... 0xFF; lo leen p00:55C0 (1 bytes)
+F 0x9E68 3
+D 0x9E69 0x9E6A paleta_9E69  la paleta del area 13 (y de los que la comparten): [color][RB][G] ... 0xFF; lo leen p00:55C0 (1 bytes)
+F 0x9E69 3
+D 0x9E6A 0x9E6B paleta_9E6A  la paleta del area 14 (y de los que la comparten): [color][RB][G] ... 0xFF; lo leen p00:55C0 (1 bytes)
+F 0x9E6A 3
+D 0x9E6B 0x9E6C paleta_9E6B  la paleta del area 15 (y de los que la comparten): [color][RB][G] ... 0xFF; lo leen p00:55C0 (1 bytes)
+F 0x9E6B 3
+D 0x9E6C 0x9E6D paleta_9E6C  la paleta del area 16 (y de los que la comparten): [color][RB][G] ... 0xFF; lo leen p00:55C0 (1 bytes)
+F 0x9E6C 3
+D 0x9E6D 0x9E6E paleta_9E6D  la paleta del area 17 (y de los que la comparten): [color][RB][G] ... 0xFF; lo leen p00:55C0 (1 bytes)
+F 0x9E6D 3
+D 0x9E6E 0x9E75 paleta_9E6E  la paleta del area 18 (y de los que la comparten): [color][RB][G] ... 0xFF; lo leen p00:55C0 (7 bytes)
+F 0x9E6E 3
+D 0x9E75 0x9E7C paleta_9E75  la paleta del area 19 (y de los que la comparten): [color][RB][G] ... 0xFF; lo leen p00:55C0 (7 bytes)
+F 0x9E75 3
+D 0x9E7C 0x9E83 paleta_9E7C  la paleta del area 20 (y de los que la comparten): [color][RB][G] ... 0xFF; lo leen p00:55C0 (7 bytes)
+F 0x9E7C 3
+D 0x9E83 0x9E8D paleta_9E83  la paleta del area 21 (y de los que la comparten): [color][RB][G] ... 0xFF; lo leen p00:55C0 (10 bytes)
+F 0x9E83 3
+D 0x9E8D 0x9E94 paleta_9E8D  la paleta del area 22 (y de los que la comparten): [color][RB][G] ... 0xFF; lo leen p00:55C0 (7 bytes)
+F 0x9E8D 3
+D 0x9E94 0x9E9B paleta_9E94  la paleta del area 23 (y de los que la comparten): [color][RB][G] ... 0xFF; lo leen p00:55C0 (7 bytes)
+F 0x9E94 3
+D 0x9E9B 0x9EDB dibujos_9E9B  2 dibujos de 8x8 a 4 bits (32 bytes cada uno) que la lista de 0x61E9 sube a la hoja desde el 08; lo leen p00:54CC (lista 0x61E9) (64 bytes)
+F 0x9E9B 8
+D 0x9EDB 0x9F1B dibujos_9EDB  2 dibujos de 8x8 a 4 bits (32 bytes cada uno) que la lista de 0x61E9 sube a la hoja desde el 28; lo leen p00:54CC (lista 0x61E9) (64 bytes)
+F 0x9EDB 8
+D 0x9F1B 0x9F5B dibujos_9F1B  2 dibujos de 8x8 a 4 bits (32 bytes cada uno) que la lista de 0x61E9 sube a la hoja desde el 48; lo leen p00:54CC (lista 0x61E9) (64 bytes)
+F 0x9F1B 8
+D 0x9F5B 0x9F9B dibujos_9F5B  2 dibujos de 8x8 a 4 bits (32 bytes cada uno) que la lista de 0x61E9 sube a la hoja desde el 68; lo leen p00:54CC (lista 0x61E9) (64 bytes)
+F 0x9F5B 8
+D 0x9F9B 0xA000 dibujos_9F9B  6 dibujos de 8x8 a 3 bits (24 bytes cada uno) que la lista de 0x61E9 sube a la hoja desde el 0A; lo leen p00:54CC (lista 0x61E9) (101 bytes)
+F 0x9F9B 8
+# --- fin de los bloques de bloques.py ---
+
+# --- RESTO (seccion que reescribe tools/resto.py; no editar a mano) ---
+D 0x9E18 0x9E2C leido_9E18  lo leen en la partida medida en openMSX p00:4D3F (4 bytes), p00:4D44 (3 bytes), p00:4D46 (3 bytes) (20 bytes)
+# --- fin del resto ---

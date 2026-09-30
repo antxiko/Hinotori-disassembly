@@ -1,0 +1,47 @@
+
+# --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
+D 0x8000 0x8140 superfilas_7FC0_cola  48 superfilas de 8 bloques de 32x32 puntos (p00:5A1D) (sigue del banco anterior, 0x7FC0); lo leen p00:5A20 (320 bytes)
+F 0x8000 8
+D 0x8140 0x82C0 superfilas_8140  48 superfilas de 8 bloques de 32x32 puntos (p00:5A1D); lo leen p00:5A20 (384 bytes)
+F 0x8140 8
+D 0x82C0 0x8440 superfilas_82C0  48 superfilas de 8 bloques de 32x32 puntos (p00:5A1D); lo leen p00:5A20 (384 bytes)
+F 0x82C0 8
+D 0x8440 0x85C0 superfilas_8440  48 superfilas de 8 bloques de 32x32 puntos (p00:5A1D); lo leen p00:5A20 (384 bytes)
+F 0x8440 8
+D 0x85C0 0x8740 superfilas_85C0  48 superfilas de 8 bloques de 32x32 puntos (p00:5A1D); lo leen p00:5A20 (384 bytes)
+F 0x85C0 8
+D 0x8740 0x88C0 superfilas_8740  48 superfilas de 8 bloques de 32x32 puntos (p00:5A1D); lo leen p00:5A20 (384 bytes)
+F 0x8740 8
+D 0x88C0 0x8A40 superfilas_88C0  48 superfilas de 8 bloques de 32x32 puntos (p00:5A1D); lo leen p00:5A20 (384 bytes)
+F 0x88C0 8
+D 0x8A40 0x8BC0 superfilas_8A40  48 superfilas de 8 bloques de 32x32 puntos (p00:5A1D); lo leen p00:5A20 (384 bytes)
+F 0x8A40 8
+D 0x8BC0 0x8D40 superfilas_8BC0  48 superfilas de 8 bloques de 32x32 puntos (p00:5A1D); lo leen p00:5A20 (384 bytes)
+F 0x8BC0 8
+D 0x8D40 0x8EC0 superfilas_8D40  48 superfilas de 8 bloques de 32x32 puntos (p00:5A1D); lo leen p00:5A20 (384 bytes)
+F 0x8D40 8
+D 0x8EC0 0x9040 superfilas_8EC0  48 superfilas de 8 bloques de 32x32 puntos (p00:5A1D); lo leen p00:5A20 (384 bytes)
+F 0x8EC0 8
+D 0x9040 0x91C0 superfilas_9040  48 superfilas de 8 bloques de 32x32 puntos (p00:5A1D); lo leen p00:5A20 (384 bytes)
+F 0x9040 8
+D 0x91C0 0x9340 superfilas_91C0  48 superfilas de 8 bloques de 32x32 puntos (p00:5A1D); lo leen p00:5A20 (384 bytes)
+F 0x91C0 8
+D 0x9340 0x94C0 superfilas_9340  48 superfilas de 8 bloques de 32x32 puntos (p00:5A1D); lo leen p00:5A20 (384 bytes)
+F 0x9340 8
+D 0x94C0 0x9640 superfilas_94C0  48 superfilas de 8 bloques de 32x32 puntos (p00:5A1D); lo leen p00:5A20 (384 bytes)
+F 0x94C0 8
+D 0x9640 0x97C0 superfilas_9640  48 superfilas de 8 bloques de 32x32 puntos (p00:5A1D); lo leen p00:5A20 (384 bytes)
+F 0x9640 8
+D 0x97C0 0x9940 superfilas_97C0  48 superfilas de 8 bloques de 32x32 puntos (p00:5A1D); lo leen p00:5A20 (384 bytes)
+F 0x97C0 8
+D 0x9940 0x9AC0 superfilas_9940  48 superfilas de 8 bloques de 32x32 puntos (p00:5A1D); lo leen p00:5A20 (384 bytes)
+F 0x9940 8
+D 0x9AC0 0x9B20 superfilas_9AC0  12 superfilas de 8 bloques de 32x32 puntos (p00:5A1D); lo leen p00:5A20 (96 bytes)
+F 0x9AC0 8
+D 0x9B20 0x9C70 dibujos_9B20  42 dibujos de 8x8 a 1 bit (8 bytes cada uno) que la lista de 0x632C sube a la hoja desde el 01; lo leen p00:54CC (lista 0x632C) (336 bytes)
+F 0x9B20 8
+D 0x9C70 0x9F70 dibujos_9C70  48 dibujos de 8x8 a 2 bits (16 bytes cada uno) que la lista de 0x632C sube a la hoja desde el 2B; lo leen p00:54CC (lista 0x632C) (768 bytes)
+F 0x9C70 16
+D 0x9F70 0xA000 dibujos_9F70  29 dibujos de 8x8 a 2 bits (16 bytes cada uno) que la lista de 0x632C sube a la hoja desde el 5B; lo leen p00:54CC (lista 0x632C) (144 bytes)
+F 0x9F70 16
+# --- fin de los bloques de bloques.py ---

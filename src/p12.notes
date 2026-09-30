@@ -1,0 +1,83 @@
+
+# --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
+D 0xA000 0xA140 dibujos_9F70_cola  29 dibujos de 8x8 a 2 bits (16 bytes cada uno) que la lista de 0x632C sube a la hoja desde el 5B (sigue del banco anterior, 0x9F70); lo leen p00:54CC (lista 0x632C) (320 bytes)
+F 0xA000 16
+D 0xA140 0xA2A0 dibujos_A140  22 dibujos de 8x8 a 2 bits (16 bytes cada uno) que la lista de 0x632C sube a la hoja desde el 78; lo leen p00:54CC (lista 0x632C) (352 bytes)
+F 0xA140 16
+D 0xA2A0 0xA380 dibujos_A2A0  14 dibujos de 8x8 a 2 bits (16 bytes cada uno) que la lista de 0x632C sube a la hoja desde el 8E; lo leen p00:54CC (lista 0x632C) (224 bytes)
+F 0xA2A0 16
+D 0xA380 0xA390 dibujos_A380  1 dibujos de 8x8 a 2 bits (16 bytes cada uno) que la lista de 0x632C sube a la hoja desde el 9C; lo leen p00:54CC (lista 0x632C) (16 bytes)
+F 0xA380 16
+D 0xA390 0xA3F0 dibujos_A390  6 dibujos de 8x8 a 2 bits (16 bytes cada uno) que la lista de 0x632C sube a la hoja desde el 9D; lo leen p00:54CC (lista 0x632C) (96 bytes)
+F 0xA390 16
+D 0xA3F0 0xA420 dibujos_A3F0  3 dibujos de 8x8 a 2 bits (16 bytes cada uno) que la lista de 0x632C sube a la hoja desde el A3; lo leen p00:54CC (lista 0x632C) (48 bytes)
+F 0xA3F0 16
+D 0xA42C 0xA45F mapa_A42C  el mapa de las areas que lo usan: 48 superfilas de abajo arriba y vuelve a la fila 0 (0xFF + palabra: vuelve; 0xFC: se para) (p00:57BF); lo leen p00:59F3 (51 bytes)
+F 0xA42C 16
+D 0xA45F 0xA46B mapa_A45F  el mapa de las areas que lo usan: 11 superfilas de abajo arriba y se para (0xFF + palabra: vuelve; 0xFC: se para) (p00:57BF); lo leen p00:59F3 (12 bytes)
+F 0xA45F 16
+D 0xA46B 0xA477 mapa_A46B  el mapa de las areas que lo usan: 11 superfilas de abajo arriba y se para (0xFF + palabra: vuelve; 0xFC: se para) (p00:57BF); lo leen p00:59F3 (12 bytes)
+F 0xA46B 16
+D 0xA477 0xA63F dibujos_A477  19 dibujos de 8x8 a 3 bits (24 bytes cada uno) que la lista de 0x6100 sube a la hoja desde el 01; lo leen p00:54CC (lista 0x6100) (456 bytes)
+F 0xA477 8
+D 0xA63F 0xA807 dibujos_A63F  19 dibujos de 8x8 a 3 bits (24 bytes cada uno) que la lista de 0x6100 sube a la hoja desde el 14; lo leen p00:54CC (lista 0x6100) (456 bytes)
+F 0xA63F 8
+D 0xA807 0xAB37 dibujos_A807  34 dibujos de 8x8 a 3 bits (24 bytes cada uno) que la lista de 0x6100 sube a la hoja desde el 27; lo leen p00:54CC (lista 0x6100) (816 bytes)
+F 0xA807 8
+D 0xAB37 0xAD77 dibujos_AB37  36 dibujos de 8x8 a 2 bits (16 bytes cada uno) que la lista de 0x6100 sube a la hoja desde el 49; lo leen p00:54CC (lista 0x6100) (576 bytes)
+F 0xAB37 16
+D 0xAD77 0xADD7 dibujos_AD77  4 dibujos de 8x8 a 3 bits (24 bytes cada uno) que la lista de 0x6100 sube a la hoja desde el 6D; lo leen p00:54CC (lista 0x6100) (96 bytes)
+F 0xAD77 8
+D 0xADD7 0xAFC7 dibujos_ADD7  31 dibujos de 8x8 a 2 bits (16 bytes cada uno) que la lista de 0x6100 sube a la hoja desde el 71; lo leen p00:54CC (lista 0x6100) (496 bytes)
+F 0xADD7 16
+D 0xAFC7 0xB087 dibujos_AFC7  6 dibujos de 8x8 a 4 bits (32 bytes cada uno) que la lista de 0x6100 sube a la hoja desde el F0; lo leen p00:54CC (lista 0x6100) (192 bytes)
+F 0xAFC7 8
+D 0xB087 0xB157 dibujos_B087  13 dibujos de 8x8 a 2 bits (16 bytes cada uno) que la lista de 0x6271 sube a la hoja desde el C0; lo leen p00:54CC (lista 0x6271) (208 bytes)
+F 0xB087 16
+D 0xB157 0xB1C7 dibujos_B157  7 dibujos de 8x8 a 2 bits (16 bytes cada uno) que la lista de 0x6271 sube a la hoja desde el CD; lo leen p00:54CC (lista 0x6074), p00:54CC (lista 0x6271) (112 bytes)
+F 0xB157 16
+D 0xB1C7 0xB1F7 dibujos_B1C7  3 dibujos de 8x8 a 2 bits (16 bytes cada uno) que la lista de 0x6271 sube a la hoja desde el D4; lo leen p00:54CC (lista 0x6074), p00:54CC (lista 0x6271) (48 bytes)
+F 0xB1C7 16
+D 0xB1F7 0xB2E7 dibujos_B1F7  15 dibujos de 8x8 a 2 bits (16 bytes cada uno) que la lista de 0x6271 sube a la hoja desde el DA; lo leen p00:54CC (lista 0x6271) (240 bytes)
+F 0xB1F7 16
+D 0xB2E7 0xB317 dibujos_B2E7  3 dibujos de 8x8 a 2 bits (16 bytes cada uno) que la lista de 0x6271 sube a la hoja desde el E9; lo leen p00:54CC (lista 0x6074), p00:54CC (lista 0x6271) (48 bytes)
+F 0xB2E7 16
+D 0xB317 0xB337 dibujos_B317  2 dibujos de 8x8 a 2 bits (16 bytes cada uno) que la lista de 0x6271 sube a la hoja desde el EC; lo leen p00:54CC (lista 0x6271) (32 bytes)
+F 0xB317 16
+D 0xB337 0xB58F dibujos_B337  25 dibujos de 8x8 a 3 bits (24 bytes cada uno) que la lista de 0x61B3 sube a la hoja desde el 01; lo leen p00:54CC (lista 0x61B3) (600 bytes)
+F 0xB337 8
+D 0xB58F 0xB67F dibujos_B58F  10 dibujos de 8x8 a 3 bits (24 bytes cada uno) que la lista de 0x61B3 sube a la hoja desde el 20; se solapan 2 bloques (0xB58F-0xB67F, 0xB61F-0xB67F); lo leen p00:54CC (lista 0x61B3) (240 bytes)
+F 0xB58F 8
+D 0xB67F 0xB80F dibujos_B67F  25 dibujos de 8x8 a 2 bits (16 bytes cada uno) que la lista de 0x61B3 sube a la hoja desde el 30; lo leen p00:54CC (lista 0x61B3) (400 bytes)
+F 0xB67F 16
+D 0xB80F 0xB8DF dibujos_B80F  13 dibujos de 8x8 a 2 bits (16 bytes cada uno) que la lista de 0x61B3 sube a la hoja desde el 51; lo leen p00:54CC (lista 0x61B3) (208 bytes)
+F 0xB80F 16
+D 0xB8DF 0xBB1F dibujos_B8DF  18 dibujos de 8x8 a 4 bits (32 bytes cada uno) que la lista de 0x61B3 sube a la hoja desde el 5E; se solapan 2 bloques (0xB8DF-0xBB1F, 0xBA3F-0xBA9F); lo leen p00:54CC (lista 0x61B3) (576 bytes)
+F 0xB8DF 8
+D 0xBB1F 0xBB7F dibujos_BB1F  4 dibujos de 8x8 a 3 bits (24 bytes cada uno) que la lista de 0x63F9 sube a la hoja desde el 1C; lo leen p00:54CC (lista 0x63F9) (96 bytes)
+F 0xBB1F 8
+D 0xBB7F 0xBBDF dibujos_BB7F  4 dibujos de 8x8 a 3 bits (24 bytes cada uno) que la lista de 0x63F9 sube a la hoja desde el 3C; lo leen p00:54CC (lista 0x63F9) (96 bytes)
+F 0xBB7F 8
+D 0xBBDF 0xBC3F dibujos_BBDF  4 dibujos de 8x8 a 3 bits (24 bytes cada uno) que la lista de 0x63F9 sube a la hoja desde el 5C; lo leen p00:54CC (lista 0x63F9) (96 bytes)
+F 0xBBDF 8
+D 0xBC3F 0xBC9F dibujos_BC3F  4 dibujos de 8x8 a 3 bits (24 bytes cada uno) que la lista de 0x63F9 sube a la hoja desde el 7C; lo leen p00:54CC (lista 0x63F9) (96 bytes)
+F 0xBC3F 8
+D 0xBC9F 0xBCFF dibujos_BC9F  4 dibujos de 8x8 a 3 bits (24 bytes cada uno) que la lista de 0x63F9 sube a la hoja desde el 9C; lo leen p00:54CC (lista 0x63F9) (96 bytes)
+F 0xBC9F 8
+D 0xBCFF 0xBD5F dibujos_BCFF  4 dibujos de 8x8 a 3 bits (24 bytes cada uno) que la lista de 0x63F9 sube a la hoja desde el BC; lo leen p00:54CC (lista 0x63F9) (96 bytes)
+F 0xBCFF 8
+D 0xBD5F 0xBD9F dibujos_BD5F  2 dibujos de 8x8 a 4 bits (32 bytes cada uno) que la lista de 0x6423 sube a la hoja desde el 1A; lo leen p00:54CC (lista 0x6423) (64 bytes)
+F 0xBD5F 8
+D 0xBD9F 0xBDDF dibujos_BD9F  2 dibujos de 8x8 a 4 bits (32 bytes cada uno) que la lista de 0x6423 sube a la hoja desde el 3A; lo leen p00:54CC (lista 0x6423) (64 bytes)
+F 0xBD9F 8
+D 0xBDDF 0xBE3F dibujos_BDDF  3 dibujos de 8x8 a 4 bits (32 bytes cada uno) que la lista de 0x6430 sube a la hoja desde el 1D; lo leen p00:54CC (lista 0x6430) (96 bytes)
+F 0xBDDF 8
+D 0xBE3F 0xBE9F dibujos_BE3F  3 dibujos de 8x8 a 4 bits (32 bytes cada uno) que la lista de 0x6430 sube a la hoja desde el 3D; lo leen p00:54CC (lista 0x6430) (96 bytes)
+F 0xBE3F 8
+D 0xBE9F 0xC000 dibujos_BE9F  3 dibujos de 8x8 a 4 bits (32 bytes cada uno) que la lista de 0x6430 sube a la hoja desde el 5D; se solapan 2 bloques (0xBE9F-0xBEFF, 0xBEFB-0xC000); lo leen nadie, p00:54CC (lista 0x6430) (353 bytes)
+F 0xBE9F 8
+# --- fin de los bloques de bloques.py ---
+
+# --- RESTO (seccion que reescribe tools/resto.py; no editar a mano) ---
+D 0xA420 0xA42C sin_lector_A420  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (12 bytes)
+# --- fin del resto ---

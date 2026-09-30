@@ -14,7 +14,6 @@
 0x4048   # gancho de interrupcion H.TIMI: INIT escribe 0xC3 en 0xFD9F y esta direccion en 0xFDA0 (p00:4102-p00:410A)
 0x40A9   # p01:7B93 call
 0x40B8   # cabecera AB: INIT
-0x41AC   # p06:BA84 jp
 0x41C1   # p06:BBBC jp
 0x427D   # p00:4254 entrada 16 de la tabla de 0x4257 (call 0x40AE en 0x4254)
 0x427E   # p00:4254 entrada 0 de la tabla de 0x4257 (call 0x40AE en 0x4254)
@@ -34,10 +33,11 @@
 0x4647   # p00:4254 entrada 13 de la tabla de 0x4257 (call 0x40AE en 0x4254)
 0x465A   # p00:4254 entrada 17 de la tabla de 0x4257 (call 0x40AE en 0x4254)
 0x466D   # p00:4254 entrada 18 de la tabla de 0x4257 (call 0x40AE en 0x4254)
+0x4680   # vuelta empujada: p00:4250 hace ld hl,0x4680 / push hl y el estado de la partida vuelve aqui con ret
 0x4735   # p00:4254 entrada 9 de la tabla de 0x4257 (call 0x40AE en 0x4254)
 0x4818   # p03:AC5D jp
 0x4853   # p06:BAFF call
-0x486F   # p06:BAE6 call
+0x486F   # p01:7FB1 call
 0x4881   # p02:85C2 call
 0x4884   # p06:BD30 call
 0x488D   # p06:BABA call
@@ -56,9 +56,6 @@
 0x4B4D   # p06:AEB7 call
 0x4B7A   # p06:AEBA call
 0x4C8D   # p06:AE66 call
-0x4CA3   # p02:85AD call
-0x4CED   # p06:BB93 call
-0x4CF8   # p06:BD2D call
 0x4FBE   # p06:BA73 call
 0x4FC2   # p09:BDC8 call
 0x4FE7   # p06:BC62 jp
@@ -96,8 +93,6 @@
 0x5AC0   # p06:AE77 call
 0x5B25   # p06:AF74 call
 0x5B31   # p06:AF64 call
-0x5B5E   # p06:AF48 call
-0x5B70   # p06:AF52 call
 0x5D05   # p01:64EC jp
 0x5D0E   # p01:64F3 jp
 0x5DE9   # p06:BB9C call

@@ -1,0 +1,66 @@
+
+# --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
+D 0x660B 0x6653 fase_juego_columna  por area (0xC480): la fase (0xC481), el juego de dibujos (0xC482) y la columna (0xC483); lo leen p01:65BF (72 bytes)
+F 0x660B 3
+D 0x6878 0x68EC tabla_6878  58 destinos del despachador de 0x40AE (call en p01:6875): 0x99F2, 0x9B17, 0x9BD2, 0x9C55, 0x9D25, 0x9D6E, 0x9E3B, 0xA5FA ...; lo leen p01:6875 (116 bytes)
+F 0x6878 2
+D 0x6D28 0x6D48 tabla_6D28  16 destinos del despachador de 0x40AE (call en p01:6D25): 0x9AB7, 0x9B73, 0x9C20, 0x9D44, 0x9DE9, 0x9FEB, 0xA10C, 0xA312 ...; lo leen p01:6D25 (32 bytes)
+F 0x6D28 2
+D 0x6E83 0x6EF5 tabla_6E83  57 destinos del despachador de 0x40AE (call en p01:6E80): 0x999B, 0x9AF6, 0x9B9C, 0x9C33, 0x9D0A, 0x9D50, 0x9E07, 0xA5F9 ...; lo leen p01:6E80 (114 bytes)
+F 0x6E83 2
+D 0x7380 0x73BE tabla_7380  31 destinos del despachador de 0x40AE (call en p01:737D): 0x8231, 0x8247, 0x8247, 0x81E8, 0x81AA, 0xBDB5, 0x73BE, 0x98D4 ...; lo leen p01:737D (62 bytes)
+F 0x7380 2
+D 0x756A 0x75A8 tabla_756A  31 destinos del despachador de 0x40AE (call en p01:7567): 0x801D, 0x8039, 0x8027, 0x80A9, 0x80F3, 0xBD08, 0x75A8, 0x97AA ...; lo leen p01:7567 (62 bytes)
+F 0x756A 2
+D 0x764B 0x7663 tabla_764B  12 destinos del despachador de 0x40AE (call en p01:7648): 0x7663, 0x7664, 0x7692, 0x769B, 0x76A4, 0x76A4, 0x76A6, 0x7692 ...; lo leen p01:7648 (24 bytes)
+F 0x764B 2
+D 0x78CF 0x78D7 tabla_78CF  4 destinos del despachador de 0x40AE (call en p01:78CC): 0x78D7, 0x78D8, 0x78E2, 0x78ED; lo leen p01:78CC (8 bytes)
+F 0x78CF 2
+D 0x7907 0x7912 ficha_7907  11 bytes de la ficha del bicho desde ix+7 (p01:7073); lo leen p01:78ED (11 bytes)
+F 0x7907 11
+D 0x7ED7 0x7EF3 tabla_7ED7  14 destinos del despachador de 0x40AE (call en p01:7ED4): 0x7F2F, 0x7F06, 0x7F1B, 0x7FA3, 0x7F21, 0x7F55, 0x7F25, 0x7F55 ...; lo leen p01:7ED4 (28 bytes)
+F 0x7ED7 2
+# --- fin de los bloques de bloques.py ---
+
+# --- RESTO (seccion que reescribe tools/resto.py; no editar a mano) ---
+D 0x6041 0x6079 tabla_6041  tabla que lee p01:6034, p06:AD68, p06:AE74 (56 bytes)
+D 0x60A8 0x60B0 sin_lector_60A8  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (8 bytes)
+D 0x60C8 0x60D1 tabla_60C8  tabla que lee p01:60BD (9 bytes)
+D 0x6101 0x610E sin_lector_6101  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (13 bytes)
+D 0x6124 0x6136 sin_llamar_6124  codigo que no llama nadie (ninguna palabra del cartucho vale 0x6124): dec (ix+006h) / ret nz / ld e,(ix+007h) / call 049cbh ... (18 bytes)
+D 0x6158 0x6162 sin_lector_6158  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (10 bytes)
+D 0x617C 0x6186 sin_llamar_617C  codigo que no llama nadie (ninguna palabra del cartucho vale 0x617C): push ix / pop hl / set 6,l / set 4,l ... (10 bytes)
+D 0x61B8 0x61CF sin_lector_61B8  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (23 bytes)
+D 0x61D2 0x623E tabla_61D2  tabla que lee p00:54A2 (108 bytes)
+D 0x6314 0x631C sin_lector_6314  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (8 bytes)
+D 0x63B0 0x63BD tabla_63B0  tabla que lee p01:6350 (13 bytes)
+D 0x642E 0x6434 tabla_642E  tabla que lee p00:5495, p01:6439 (6 bytes)
+D 0x6594 0x65B0 sin_llamar_6594  codigo que no llama nadie (ninguna palabra del cartucho vale 0x6594): ld hl,0c4c8h / ld a,(hl) / dec a / cp 00fh ... (28 bytes)
+D 0x6653 0x6656 relleno_6653  relleno de 0x00: nadie lo lee (3 bytes)
+D 0x66E0 0x66F0 tabla_66E0  tabla que lee p01:669A (16 bytes)
+D 0x675E 0x679F tabla_675E  tabla que lee p01:6757 (65 bytes)
+D 0x67A0 0x681B tabla_67A0  tabla que lee p06:BA79 (123 bytes)
+D 0x6A1A 0x6A50 tabla_6A1A  tabla que lee p01:6953 (54 bytes)
+D 0x6AB7 0x6AC3 tabla_6AB7  tabla que lee p01:6AA5 (12 bytes)
+D 0x6B9F 0x6BD3 tabla_6B9F  tabla que lee p01:6B74, p01:6B7A, p01:6B80, p01:6B86 (52 bytes)
+D 0x6F22 0x7049 tabla_6F22  tabla que lee p01:673F, p01:6AB1, p01:6E4B, p01:6E6C, p01:6E76, p01:7109 (295 bytes)
+D 0x7062 0x706A tabla_7062  tabla que lee p01:7050 (8 bytes)
+D 0x70C7 0x70CF sin_llamar_70C7  codigo que no llama nadie (ninguna palabra del cartucho vale 0x70C7): ld a,h / cpl / ld h,a / ld a,l ... (8 bytes)
+D 0x70DD 0x70F1 sin_lector_70DD  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (20 bytes)
+D 0x72BF 0x72ED tabla_72BF  tabla que lee p01:720F, p01:7241, p01:7251, p01:725D, p01:7265, p01:726F (46 bytes)
+D 0x73C5 0x73E3 sin_llamar_73C5  codigo que no llama nadie (ninguna palabra del cartucho vale 0x73C5): call 0749fh / ret nz / ld (hl),001h / inc l ... (30 bytes)
+D 0x745F 0x7470 sin_lector_745F  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (17 bytes)
+D 0x750C 0x7531 sin_llamar_750C  codigo que no llama nadie (ninguna palabra del cartucho vale 0x750C): ld hl,0c48ch / call 0751eh / call 0751eh / ld hl,0c48ch ... (37 bytes)
+D 0x75F3 0x75FB sin_llamar_75F3  codigo que no llama nadie (ninguna palabra del cartucho vale 0x75F3): ld a,(0cb44h) / dec a / ld (0cb44h),a / ret (8 bytes)
+D 0x76C8 0x76D2 sin_llamar_76C8  codigo que no llama nadie (ninguna palabra del cartucho vale 0x76C8): ld a,l / add a,007h / ld l,a / ld l,(hl) ... (10 bytes)
+D 0x772E 0x773B sin_lector_772E  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (13 bytes)
+D 0x7912 0x792C sin_lector_7912  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (26 bytes)
+D 0x793A 0x7948 sin_lector_793A  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (14 bytes)
+D 0x7A11 0x7A91 tabla_7A11  tabla que lee p01:7969, p01:79CA, p03:A43A (128 bytes)
+D 0x7AA5 0x7AD5 tabla_7AA5  tabla que lee p01:7A95 (48 bytes)
+D 0x7B99 0x7BB3 tabla_7B99  tabla que lee p01:7B90 (26 bytes)
+D 0x7D70 0x7D77 tabla_7D70  tabla que lee p01:7D43 (7 bytes)
+D 0x7F7B 0x7FA3 tabla_7F7B  tabla que lee p01:7F73 (40 bytes)
+D 0x7FBD 0x7FCC tabla_7FBD  tabla que lee p01:7FAE (15 bytes)
+D 0x7FFF 0x8000 sin_lector_7FFF  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (1 bytes)
+# --- fin del resto ---

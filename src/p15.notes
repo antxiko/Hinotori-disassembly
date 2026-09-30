@@ -1,0 +1,157 @@
+
+# --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
+D 0xA000 0xA05A pista_9FE6_cola  pista de los sonidos 0x14 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente (sigue del banco anterior, 0x9FE6); lo leen p14:9500 (90 bytes)
+F 0xA000 16
+D 0xA05A 0xA08B pista_A05A  pista de los sonidos 0x15 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (49 bytes)
+F 0xA05A 16
+D 0xA08B 0xA08C pista_A08B  pista de los sonidos 0x16 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (1 bytes)
+F 0xA08B 16
+D 0xA08C 0xA0C5 pista_A08C  pista de los sonidos 0x17 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (57 bytes)
+F 0xA08C 16
+D 0xA0C5 0xA0F4 pista_A0C5  pista de los sonidos 0x18 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (47 bytes)
+F 0xA0C5 16
+D 0xA0F4 0xA135 pista_A0F4  pista de los sonidos 0x19 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (65 bytes)
+F 0xA0F4 16
+D 0xA135 0xA1A2 pista_A135  pista de los sonidos 0x1A (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (109 bytes)
+F 0xA135 16
+D 0xA1A2 0xA1A3 pista_A1A2  pista de los sonidos 0x1B (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (1 bytes)
+F 0xA1A2 16
+D 0xA1A3 0xA1B6 pista_A1A3  pista de los sonidos 0x1C (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (19 bytes)
+F 0xA1A3 16
+D 0xA1B6 0xA1EB pista_A1B6  pista de los sonidos 0x1D (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (53 bytes)
+F 0xA1B6 16
+D 0xA1EB 0xA23B pista_A1EB  pista de los sonidos 0x1E (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (80 bytes)
+F 0xA1EB 16
+D 0xA23B 0xA258 pista_A23B  pista de los sonidos 0x1F (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (29 bytes)
+F 0xA23B 16
+D 0xA258 0xA287 pista_A258  pista de los sonidos 0x20 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (47 bytes)
+F 0xA258 16
+D 0xA287 0xA2B8 pista_A287  pista de los sonidos 0x21 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (49 bytes)
+F 0xA287 16
+D 0xA2B8 0xA33C pista_A2B8  pista de los sonidos 0x23 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (132 bytes)
+F 0xA2B8 16
+D 0xA33C 0xA349 pista_A33C  pista de los sonidos 0x25 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (13 bytes)
+F 0xA33C 16
+D 0xA349 0xA34A pista_A349  pista de los sonidos 0x26 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (1 bytes)
+F 0xA349 16
+D 0xA34A 0xA3D9 pista_A34A  pista de los sonidos 0x27 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (143 bytes)
+F 0xA34A 16
+D 0xA3D9 0xA464 pista_A3D9  pista de los sonidos 0x28 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (139 bytes)
+F 0xA3D9 16
+D 0xA464 0xA491 pista_A464  pista de los sonidos 0x29 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (45 bytes)
+F 0xA464 16
+D 0xA491 0xA500 pista_A491  pista de los sonidos 0x2A (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (111 bytes)
+F 0xA491 16
+D 0xA500 0xA519 pista_A500  pista de los sonidos 0x2B (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (25 bytes)
+F 0xA500 16
+D 0xA519 0xA51A pista_A519  pista de los sonidos 0x2C (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (1 bytes)
+F 0xA519 16
+D 0xA51A 0xA51B pista_A51A  pista de los sonidos 0x2D (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (1 bytes)
+F 0xA51A 16
+D 0xA51B 0xA547 pista_A51B  pista de los sonidos 0x30 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (44 bytes)
+F 0xA51B 16
+D 0xA547 0xA5B1 pista_A547  pista de los sonidos 0x31 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (106 bytes)
+F 0xA547 16
+D 0xA5B1 0xA5B2 pista_A5B1  pista de los sonidos 0x32 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (1 bytes)
+F 0xA5B1 16
+D 0xA5B2 0xA621 pista_A5B2  pista de los sonidos 0x33 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (111 bytes)
+F 0xA5B2 16
+D 0xA621 0xA65A pista_A621  pista de los sonidos 0x34 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (57 bytes)
+F 0xA621 16
+D 0xA65A 0xA65B pista_A65A  pista de los sonidos 0x35 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (1 bytes)
+F 0xA65A 16
+D 0xA65B 0xA68A pista_A65B  pista de los sonidos 0x36 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (47 bytes)
+F 0xA65B 16
+D 0xA68A 0xA833 pista_A68A  pista de los sonidos 0x37 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (425 bytes)
+F 0xA68A 16
+D 0xA833 0xAA4B pista_A833  pista de los sonidos 0x38 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (536 bytes)
+F 0xA833 16
+D 0xAA4B 0xAC35 pista_AA4B  pista de los sonidos 0x39 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (490 bytes)
+F 0xAA4B 16
+D 0xAC35 0xAD88 pista_AC35  pista de los sonidos 0x3A (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (339 bytes)
+F 0xAC35 16
+D 0xAD88 0xAE12 pista_AD88  pista de los sonidos 0x3B (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (138 bytes)
+F 0xAD88 16
+D 0xAE12 0xAF4E pista_AE12  pista de los sonidos 0x3C (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (316 bytes)
+F 0xAE12 16
+D 0xAF4E 0xAFBB pista_AF4E  pista de los sonidos 0x3D (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (109 bytes)
+F 0xAF4E 16
+D 0xAFBB 0xB054 pista_AFBB  pista de los sonidos 0x3E (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (153 bytes)
+F 0xAFBB 16
+D 0xB054 0xB103 pista_B054  pista de los sonidos 0x3F (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (175 bytes)
+F 0xB054 16
+D 0xB103 0xB1D6 pista_B103  pista de los sonidos 0x40 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (211 bytes)
+F 0xB103 16
+D 0xB1D6 0xB237 pista_B1D6  pista de los sonidos 0x41 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (97 bytes)
+F 0xB1D6 16
+D 0xB237 0xB2C4 pista_B237  pista de los sonidos 0x42 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (141 bytes)
+F 0xB237 16
+D 0xB2C4 0xB33E pista_B2C4  pista de los sonidos 0x43 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (122 bytes)
+F 0xB2C4 16
+D 0xB33E 0xB3B6 pista_B33E  pista de los sonidos 0x44 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (120 bytes)
+F 0xB33E 16
+D 0xB3B6 0xB421 pista_B3B6  pista de los sonidos 0x45 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (107 bytes)
+F 0xB3B6 16
+D 0xB421 0xB48F pista_B421  pista de los sonidos 0x46 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (110 bytes)
+F 0xB421 16
+D 0xB48F 0xB4CC pista_B48F  pista de los sonidos 0x49 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (61 bytes)
+F 0xB48F 16
+D 0xB4CC 0xB55B pista_B4CC  pista de los sonidos 0x47 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (143 bytes)
+F 0xB4CC 16
+D 0xB55B 0xB5AB pista_B55B  pista de los sonidos 0x4A (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (80 bytes)
+F 0xB55B 16
+D 0xB5AB 0xB619 pista_B5AB  pista de los sonidos 0x48 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (110 bytes)
+F 0xB5AB 16
+D 0xB619 0xB6A2 pista_B619  pista de los sonidos 0x4B (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (137 bytes)
+F 0xB619 16
+D 0xB6A2 0xB6AE pista_B6A2  pista de los sonidos 0x4C (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (12 bytes)
+F 0xB6A2 16
+D 0xB6AE 0xB71D pista_B6AE  pista de los sonidos 0x4F, 0x52 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (111 bytes)
+F 0xB6AE 16
+D 0xB71D 0xB790 pista_B71D  pista de los sonidos 0x50 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (115 bytes)
+F 0xB71D 16
+D 0xB790 0xB807 pista_B790  pista de los sonidos 0x51, 0x53 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (119 bytes)
+F 0xB790 16
+D 0xB807 0xB884 pista_B807  pista de los sonidos 0x54 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (125 bytes)
+F 0xB807 16
+D 0xB884 0xB8BF pista_B884  pista de los sonidos 0x55, 0x57 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (59 bytes)
+F 0xB884 16
+D 0xB8BF 0xB8F0 pista_B8BF  pista de los sonidos 0x56 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (49 bytes)
+F 0xB8BF 16
+D 0xB8F0 0xB936 pista_B8F0  pista de los sonidos 0x59, 0x5A (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (70 bytes)
+F 0xB8F0 16
+D 0xB936 0xB977 pista_B936  pista de los sonidos 0x61 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (65 bytes)
+F 0xB936 16
+D 0xB977 0xB998 pista_B977  pista de los sonidos 0x62 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (33 bytes)
+F 0xB977 16
+D 0xB998 0xB9BC pista_B998  pista de los sonidos 0x63 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (36 bytes)
+F 0xB998 16
+D 0xB9BC 0xBA4B pista_B9BC  pista de los sonidos 0x58, 0x64 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (143 bytes)
+F 0xB9BC 16
+D 0xBA4B 0xBAA2 pista_BA4B  pista de los sonidos 0x65 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (87 bytes)
+F 0xBA4B 16
+D 0xBAA2 0xBACF pista_BAA2  pista de los sonidos 0x66 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (45 bytes)
+F 0xBAA2 16
+D 0xBACF 0xBBD6 pista_BACF  pista de los sonidos 0x67 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (263 bytes)
+F 0xBACF 16
+D 0xBBD6 0xBCCD pista_BBD6  pista de los sonidos 0x68 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (247 bytes)
+F 0xBBD6 16
+D 0xBCCD 0xBE12 pista_BCCD  pista de los sonidos 0x69 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (325 bytes)
+F 0xBCCD 16
+D 0xBE12 0xBE37 pista_BE12  pista de los sonidos 0x6A (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (37 bytes)
+F 0xBE12 16
+D 0xBE37 0xBE65 pista_BE37  pista de los sonidos 0x6B (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (46 bytes)
+F 0xBE37 16
+D 0xBE65 0xBE8D pista_BE65  pista de los sonidos 0x6C (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (40 bytes)
+F 0xBE65 16
+D 0xBE8D 0xBECC pista_BE8D  pista de los sonidos 0x6D (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (63 bytes)
+F 0xBE8D 16
+D 0xBECC 0xBF02 pista_BECC  pista de los sonidos 0x6E (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (54 bytes)
+F 0xBECC 16
+D 0xBF02 0xBF2D pista_BF02  pista de los sonidos 0x6F (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (43 bytes)
+F 0xBF02 16
+D 0xBF2D 0xBF3B pista_BF2D  pista de los sonidos 0x70 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (14 bytes)
+F 0xBF2D 16
+D 0xBF3B 0xC000 pista_BF3B  pista de los sonidos 0x71 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; se solapan 3 bloques (0xBF3B-0xBF49, 0xBF48-0xC000, 0xBF49-0xBF58); lo leen nadie, p14:9500 (197 bytes)
+F 0xBF3B 16
+# --- fin de los bloques de bloques.py ---

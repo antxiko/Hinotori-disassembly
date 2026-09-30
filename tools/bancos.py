@@ -157,6 +157,12 @@ PUENTES = {VUELTA}
 # puesto y el trazador acabaria leyendo como codigo los graficos del 6.
 CON_A000_FIJO = {1: 3, 2: 3}
 
+# Destinos de tabla que NO se siguen, con su porque. p01:737D reparte por el
+# tipo de cosa (0xCB04, de 0 a 0x1F) con el banco 3 puesto (p01:7331), y la
+# entrada 8 es 0xB315, que en el banco 3 cae en medio del `jp 0xAF91` de
+# p03:B313: ese tipo no lo pone ninguna lista de cosas del banco 9.
+NO_SE_SIGUEN = {(3, 0xB315): "entrada 8 de la tabla de p01:7380: cae en medio de p03:B313"}
+
 
 CAMBIA_BANCOS = set(PONE_BANCOS) | PONE_TRIO_A | set(PONE_A_EN) | PUENTES
 
@@ -563,6 +569,8 @@ class TrazadorDeBancos:
             return
         if b in CON_A000_FIJO and 0xA000 <= destino < 0xC000:
             s = s[:2] + (CON_A000_FIJO[b],)
+        if (self.c.banco(destino, s), destino) in NO_SE_SIGUEN:
+            return
         d = self.c.banco(destino, s)
         if d is None or d >= N_PAGINAS:
             self.externos[destino].add((b, pc))

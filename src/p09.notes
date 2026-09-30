@@ -1,0 +1,165 @@
+
+# --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
+D 0xA000 0xA1D3 dibujos_9DB0_cola  32 dibujos de 8x8 a 4 bits (32 bytes cada uno) que la lista de 0x63A3 sube a la hoja desde el A0 (sigue del banco anterior, 0x9DB0); se solapan 5 bloques (0xA000-0xA1B0, 0xA130-0xA162, 0xA162-0xA186, 0xA186-0xA1AA, 0xA1AA-0xA1D3); lo leen p00:54CC (lista 0x63A3), p01:6CB7, p01:71D4, p01:7328, p01:74DE (467 bytes)
+F 0xA000 8
+D 0xA1D3 0xA20B cosas_A1D3  cosas puestas en el camino: [fila de 8 puntos (9 bits) y tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328 (56 bytes)
+F 0xA1D3 3
+D 0xA20B 0xA243 cosas_A20B  cosas puestas en el camino: [fila de 8 puntos (9 bits) y tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328 (56 bytes)
+F 0xA20B 3
+D 0xA243 0xA248 cosas_A243  cosas puestas en el camino: [fila de 8 puntos (9 bits) y tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328 (5 bytes)
+F 0xA243 3
+D 0xA248 0xA24D cosas_A248  cosas puestas en el camino: [fila de 8 puntos (9 bits) y tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328 (5 bytes)
+F 0xA248 3
+D 0xA24D 0xA255 cosas_A24D  cosas puestas en el camino: [fila de 8 puntos (9 bits) y tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328 (8 bytes)
+F 0xA24D 3
+D 0xA255 0xA25A cosas_A255  cosas puestas en el camino: [fila de 8 puntos (9 bits) y tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328 (5 bytes)
+F 0xA255 3
+D 0xA25A 0xA262 cosas_A25A  cosas puestas en el camino: [fila de 8 puntos (9 bits) y tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328 (8 bytes)
+F 0xA25A 3
+D 0xA262 0xA267 cosas_A262  cosas puestas en el camino: [fila de 8 puntos (9 bits) y tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328 (5 bytes)
+F 0xA262 3
+D 0xA267 0xA2D5 cosas_A267  cosas puestas en el camino: [fila de 8 puntos (9 bits) y tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328 (110 bytes)
+F 0xA267 3
+D 0xA2D5 0xA30A cosas_A2D5  cosas puestas en el camino: [fila de 8 puntos (9 bits) y tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328 (53 bytes)
+F 0xA2D5 3
+D 0xA30A 0xA33C cosas_A30A  cosas puestas en el camino: [fila de 8 puntos (9 bits) y tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328 (50 bytes)
+F 0xA30A 3
+D 0xA33C 0xA362 cosas_A33C  cosas puestas en el camino: [fila de 8 puntos (9 bits) y tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328 (38 bytes)
+F 0xA33C 3
+D 0xA362 0xA3A6 cosas_A362  cosas puestas en el camino: [fila de 8 puntos (9 bits) y tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328 (68 bytes)
+F 0xA362 3
+D 0xA3A6 0xA3DE cosas_A3A6  cosas puestas en el camino: [fila de 8 puntos (9 bits) y tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328 (56 bytes)
+F 0xA3A6 3
+D 0xA3DE 0xA41C cosas_A3DE  cosas puestas en el camino: [fila de 8 puntos (9 bits) y tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328 (62 bytes)
+F 0xA3DE 3
+D 0xA41C 0xA45A cosas_A41C  cosas puestas en el camino: [fila de 8 puntos (9 bits) y tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328 (62 bytes)
+F 0xA41C 3
+D 0xA45A 0xA48C cosas_A45A  cosas puestas en el camino: [fila de 8 puntos (9 bits) y tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328 (50 bytes)
+F 0xA45A 3
+D 0xA48C 0xA4D9 cosas_A48C  cosas puestas en el camino: [fila de 8 puntos (9 bits) y tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328 (77 bytes)
+F 0xA48C 3
+D 0xA4D9 0xA51D cosas_A4D9  cosas puestas en el camino: [fila de 8 puntos (9 bits) y tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328 (68 bytes)
+F 0xA4D9 3
+D 0xA51D 0xA564 cosas_A51D  cosas puestas en el camino: [fila de 8 puntos (9 bits) y tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328 (71 bytes)
+F 0xA51D 3
+D 0xA564 0xA599 cosas_A564  cosas puestas en el camino: [fila de 8 puntos (9 bits) y tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328 (53 bytes)
+F 0xA564 3
+D 0xA599 0xA5E6 cosas_A599  cosas puestas en el camino: [fila de 8 puntos (9 bits) y tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328 (77 bytes)
+F 0xA599 3
+D 0xA5E6 0xA62A cosas_A5E6  cosas puestas en el camino: [fila de 8 puntos (9 bits) y tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328 (68 bytes)
+F 0xA5E6 3
+D 0xA62A 0xA67A cosas_A62A  cosas puestas en el camino: [fila de 8 puntos (9 bits) y tipo][x] de 3 bytes, hasta la lista siguiente (p01:7323); lo leen p01:7328 (80 bytes)
+F 0xA62A 3
+D 0xA67A 0xA6FD bichos_A67A  bichos del area: [fila lo][fila hi + 2*tipo][dato] de 3 bytes; tipo 0 acaba (p01:6CFC); lo leen p01:6CFC (131 bytes)
+F 0xA67A 3
+D 0xA6FD 0xA71D bichos_A6FD  bichos del area: [fila lo][fila hi + 2*tipo][dato] de 3 bytes; tipo 0 acaba (p01:6CFC); lo leen p01:6CFC (32 bytes)
+F 0xA6FD 3
+D 0xA71D 0xA770 bichos_A71D  bichos del area: [fila lo][fila hi + 2*tipo][dato] de 3 bytes; tipo 0 acaba (p01:6CFC); lo leen p01:6CFC (83 bytes)
+F 0xA71D 3
+D 0xA770 0xA7A8 bichos_A770  bichos del area: [fila lo][fila hi + 2*tipo][dato] de 3 bytes; tipo 0 acaba (p01:6CFC); lo leen p01:6CFC (56 bytes)
+F 0xA770 3
+D 0xA7A8 0xA804 bichos_A7A8  bichos del area: [fila lo][fila hi + 2*tipo][dato] de 3 bytes; tipo 0 acaba (p01:6CFC); lo leen p01:6CFC (92 bytes)
+F 0xA7A8 3
+D 0xA804 0xA854 bichos_A804  bichos del area: [fila lo][fila hi + 2*tipo][dato] de 3 bytes; tipo 0 acaba (p01:6CFC); lo leen p01:6CFC (80 bytes)
+F 0xA804 3
+D 0xA854 0xA880 bichos_A854  bichos del area: [fila lo][fila hi + 2*tipo][dato] de 3 bytes; tipo 0 acaba (p01:6CFC); lo leen p01:6CFC (44 bytes)
+F 0xA854 3
+D 0xA880 0xA89A bichos_A880  bichos del area: [fila lo][fila hi + 2*tipo][dato] de 3 bytes; tipo 0 acaba (p01:6CFC); lo leen p01:6CFC (26 bytes)
+F 0xA880 3
+D 0xA89A 0xA8C9 bichos_A89A  bichos del area: [fila lo][fila hi + 2*tipo][dato] de 3 bytes; tipo 0 acaba (p01:6CFC); lo leen p01:6CFC (47 bytes)
+F 0xA89A 3
+D 0xA8C9 0xA916 bichos_A8C9  bichos del area: [fila lo][fila hi + 2*tipo][dato] de 3 bytes; tipo 0 acaba (p01:6CFC); lo leen p01:6CFC (77 bytes)
+F 0xA8C9 3
+D 0xA916 0xA954 bichos_A916  bichos del area: [fila lo][fila hi + 2*tipo][dato] de 3 bytes; tipo 0 acaba (p01:6CFC); lo leen p01:6CFC (62 bytes)
+F 0xA916 3
+D 0xA954 0xA986 bichos_A954  bichos del area: [fila lo][fila hi + 2*tipo][dato] de 3 bytes; tipo 0 acaba (p01:6CFC); lo leen p01:6CFC (50 bytes)
+F 0xA954 3
+D 0xA986 0xA9F7 bichos_A986  bichos del area: [fila lo][fila hi + 2*tipo][dato] de 3 bytes; tipo 0 acaba (p01:6CFC); lo leen p01:6CFC (113 bytes)
+F 0xA986 3
+D 0xA9F7 0xAA2F bichos_A9F7  bichos del area: [fila lo][fila hi + 2*tipo][dato] de 3 bytes; tipo 0 acaba (p01:6CFC); lo leen p01:6CFC (56 bytes)
+F 0xA9F7 3
+D 0xAA2F 0xAA85 bichos_AA2F  bichos del area: [fila lo][fila hi + 2*tipo][dato] de 3 bytes; tipo 0 acaba (p01:6CFC); lo leen p01:6CFC (86 bytes)
+F 0xAA2F 3
+D 0xAA85 0xAAE7 bichos_AA85  bichos del area: [fila lo][fila hi + 2*tipo][dato] de 3 bytes; tipo 0 acaba (p01:6CFC); lo leen p01:6CFC (98 bytes)
+F 0xAA85 3
+D 0xAAE7 0xAB19 bichos_AAE7  bichos del area: [fila lo][fila hi + 2*tipo][dato] de 3 bytes; tipo 0 acaba (p01:6CFC); lo leen p01:6CFC (50 bytes)
+F 0xAAE7 3
+D 0xAB19 0xAB3C bichos_AB19  bichos del area: [fila lo][fila hi + 2*tipo][dato] de 3 bytes; tipo 0 acaba (p01:6CFC); lo leen p01:6CFC (35 bytes)
+F 0xAB19 3
+D 0xAB3C 0xABA4 letras_AB3C  13 letras de 8x8 a 1 bit (8 bytes cada una) que p01:6739 sube a la hoja (p00:4ED7); lo leen p01:6739 (104 bytes)
+F 0xAB3C 8
+D 0xABA4 0xAC0C letras_ABA4  13 letras de 8x8 a 1 bit (8 bytes cada una) que p01:6745 sube a la hoja (p00:4ED7); lo leen p01:6745 (104 bytes)
+F 0xABA4 8
+D 0xAC0C 0xACDC letras_AC0C  26 letras de 8x8 a 1 bit (8 bytes cada una) que p01:6751 sube a la hoja (p00:4ED7); lo leen p01:6751 (208 bytes)
+F 0xAC0C 8
+D 0xACDC 0xACE2 ritmo_ACDC  los 6 bytes del area 0 (p01:71E2); lo leen p01:71E2 (6 bytes)
+F 0xACDC 6
+D 0xACE2 0xACE8 ritmo_ACE2  los 6 bytes del area 1 (p01:71E2); lo leen p01:71E2 (6 bytes)
+F 0xACE2 6
+D 0xACE8 0xACEE ritmo_ACE8  los 6 bytes del area 2 (p01:71E2); lo leen p01:71E2 (6 bytes)
+F 0xACE8 6
+D 0xACEE 0xACF4 ritmo_ACEE  los 6 bytes del area 3 (p01:71E2); lo leen p01:71E2 (6 bytes)
+F 0xACEE 6
+D 0xACF4 0xACFA ritmo_ACF4  los 6 bytes del area 4 (p01:71E2); lo leen p01:71E2 (6 bytes)
+F 0xACF4 6
+D 0xACFA 0xAD00 ritmo_ACFA  los 6 bytes del area 5 (p01:71E2); lo leen p01:71E2 (6 bytes)
+F 0xACFA 6
+D 0xAD00 0xAD06 ritmo_AD00  los 6 bytes del area 6 (p01:71E2); lo leen p01:71E2 (6 bytes)
+F 0xAD00 6
+D 0xAD06 0xAD0C ritmo_AD06  los 6 bytes del area 7 (p01:71E2); lo leen p01:71E2 (6 bytes)
+F 0xAD06 6
+D 0xAD0C 0xAD12 ritmo_AD0C  los 6 bytes del area 8 (p01:71E2); lo leen p01:71E2 (6 bytes)
+F 0xAD0C 6
+D 0xAD12 0xAD18 ritmo_AD12  los 6 bytes del area 9 (p01:71E2); lo leen p01:71E2 (6 bytes)
+F 0xAD12 6
+D 0xAD18 0xAD1E ritmo_AD18  los 6 bytes del area 10 (p01:71E2); lo leen p01:71E2 (6 bytes)
+F 0xAD18 6
+D 0xAD1E 0xAD24 ritmo_AD1E  los 6 bytes del area 11 (p01:71E2); lo leen p01:71E2 (6 bytes)
+F 0xAD1E 6
+D 0xAD24 0xAD2A ritmo_AD24  los 6 bytes del area 12 (p01:71E2); lo leen p01:71E2 (6 bytes)
+F 0xAD24 6
+D 0xAD2A 0xAD30 ritmo_AD2A  los 6 bytes del area 13 (p01:71E2); lo leen p01:71E2 (6 bytes)
+F 0xAD2A 6
+D 0xAD30 0xAD36 ritmo_AD30  los 6 bytes del area 14 (p01:71E2); lo leen p01:71E2 (6 bytes)
+F 0xAD30 6
+D 0xAD36 0xAD3C ritmo_AD36  los 6 bytes del area 15 (p01:71E2); lo leen p01:71E2 (6 bytes)
+F 0xAD36 6
+D 0xAD3C 0xAD42 ritmo_AD3C  los 6 bytes del area 16 (p01:71E2); lo leen p01:71E2 (6 bytes)
+F 0xAD3C 6
+D 0xAD42 0xAD48 ritmo_AD42  los 6 bytes del area 17 (p01:71E2); lo leen p01:71E2 (6 bytes)
+F 0xAD42 6
+D 0xAD48 0xAE28 dibujos_AD48  14 dibujos de 8x8 a 2 bits (16 bytes cada uno) que la lista de 0x62A5 sube a la hoja desde el 01; se solapan 2 bloques (0xAD48-0xAE28, 0xADB8-0xAE28); lo leen p00:54CC (lista 0x62A5) (224 bytes)
+F 0xAD48 16
+D 0xAE28 0xB018 dibujos_AE28  31 dibujos de 8x8 a 2 bits (16 bytes cada uno) que la lista de 0x62A5 sube a la hoja desde el 16; se solapan 2 bloques (0xAE28-0xB018, 0xAF78-0xB018); lo leen p00:54CC (lista 0x62A5) (496 bytes)
+F 0xAE28 16
+D 0xB0F0 0xB0F8 dibujos_B0F0  1 dibujos de 8x8 a 1 bit (8 bytes cada uno) que la lista de 0x62D2 sube a la hoja desde el 01; lo leen p00:54CC (lista 0x62D2) (8 bytes)
+F 0xB0F0 8
+D 0xB0F8 0xB2E8 dibujos_B0F8  1 dibujos de 8x8 a 1 bit (8 bytes cada uno) que la lista de 0x62D2 sube a la hoja desde el A8; se solapan 6 bloques (0xB0F8-0xB100, 0xB0F8-0xB148, 0xB0F8-0xB2E8, 0xB100-0xB108, 0xB118-0xB120, 0xB140-0xB148); lo leen p00:54CC (lista 0x62D2) (496 bytes)
+F 0xB0F8 8
+D 0xB2E8 0xB4D8 dibujos_B2E8  62 dibujos de 8x8 a 1 bit (8 bytes cada uno) que la lista de 0x62D2 sube a la hoja desde el 40; lo leen p00:54CC (lista 0x62D2) (496 bytes)
+F 0xB2E8 8
+D 0xB4D8 0xB548 dibujos_B4D8  7 dibujos de 8x8 a 2 bits (16 bytes cada uno) que la lista de 0x62D2 sube a la hoja desde el 90; lo leen p00:54CC (lista 0x62D2) (112 bytes)
+F 0xB4D8 16
+D 0xB548 0xB5A8 dibujos_B548  6 dibujos de 8x8 a 2 bits (16 bytes cada uno) que la lista de 0x62D2 sube a la hoja desde el 97; lo leen p00:54CC (lista 0x62D2) (96 bytes)
+F 0xB548 16
+D 0xB5A8 0xB5F8 dibujos_B5A8  5 dibujos de 8x8 a 2 bits (16 bytes cada uno) que la lista de 0x62D2 sube a la hoja desde el 9D; lo leen p00:54CC (lista 0x62D2) (80 bytes)
+F 0xB5A8 16
+D 0xB5F8 0xB658 dibujos_B5F8  6 dibujos de 8x8 a 2 bits (16 bytes cada uno) que la lista de 0x62D2 sube a la hoja desde el A2; lo leen p00:54CC (lista 0x62D2) (96 bytes)
+F 0xB5F8 16
+D 0xBF58 0xC000 relleno_p09  0xFF hasta el final del banco: nadie lo lee; lo leen nadie (168 bytes)
+F 0xBF58 16
+# --- fin de los bloques de bloques.py ---
+
+
+# --- A MANO: datos con su explicacion ---
+D 0xB925 0xB9CF codigo_para_f220  0xAA bytes de CODIGO que p09:B919 copia a 0xF220 (ldir) y que corre alli: p09:B8A4 pone 0xF220 en el gancho H.TIMI (0xFD9F) antes de saltar al INIT de King Kong 2 copiado en 0xF120; solo pasa si p00:5DFF encontro King Kong 2 en otra ranura (0xC110 = 2). Se deja como datos porque se ensambla para 0xF220 y no para aqui
+
+# --- RESTO (seccion que reescribe tools/resto.py; no editar a mano) ---
+D 0xB018 0xB0F0 sin_lector_B018  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (216 bytes)
+D 0xB658 0xB880 tabla_B658  tabla que lee p09:BD7D, p09:BD88, p09:BDD1, p09:BEF3, p09:BEFE (552 bytes)
+D 0xB9CF 0xBC4E sin_lector_B9CF  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (639 bytes)
+D 0xBC54 0xBD31 sin_lector_BC54  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (221 bytes)
+D 0xBD96 0xBDA3 tabla_BD96  tabla que lee p09:BD63, p09:BD80, p09:BD8B, p09:BEF6, p09:BF01 (13 bytes)
+D 0xBE63 0xBE68 tabla_BE63  tabla que lee p09:BE47, p09:BE55 (5 bytes)
+D 0xBE89 0xBE91 tabla_BE89  tabla que lee p09:BE76, p09:BEBB (8 bytes)
+# --- fin del resto ---

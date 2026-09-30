@@ -10,8 +10,10 @@
 
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x6000..0x8000  (8192 bytes)
-DATA_6000:
+; DATOS bloques_6000: 123 bloques de 4x4 dibujos; la fila de arriba es la
+;   ultima (p00:5A03); lo leen p00:5A2F (1968 bytes)
+;   0x6000..0x67b0  (1968 bytes)
+DATA_bloques_6000:
 	defb 017h,018h,016h,019h,019h,015h,01ah,015h,015h,01ah,016h,019h,016h,017h,018h,015h	; 6000  ................
 	defb 016h,016h,01ah,015h,017h,018h,016h,017h,015h,016h,015h,018h,01ah,019h,016h,01ah	; 6010  ................
 	defb 017h,01ah,016h,015h,018h,01bh,018h,015h,015h,01ah,016h,019h,016h,015h,01ah,018h	; 6020  ................
@@ -135,6 +137,12 @@ DATA_6000:
 	defb 0e8h,02ch,018h,017h,0f1h,02dh,015h,01ah,0a8h,02ch,016h,015h,0a9h,02eh,017h,019h	; 6780  .,...-...,......
 	defb 016h,019h,00eh,0e7h,018h,015h,011h,0f2h,017h,018h,00fh,086h,01ah,015h,011h,087h	; 6790  ................
 	defb 0e8h,056h,055h,03ch,0f3h,058h,03dh,03eh,055h,056h,037h,03fh,057h,03bh,040h,041h	; 67a0  .VU<.X=>UV7?W;@A
+
+; ----------------------------------------------------------------------
+; DATOS bloques_67B0: 83 bloques de 4x4 dibujos; la fila de arriba es la
+;   ultima (p00:5A03); lo leen p00:5A2F (1328 bytes)
+;   0x67b0..0x6ce0  (1328 bytes)
+DATA_bloques_67B0:
 	defb 050h,051h,052h,06fh,053h,054h,055h,070h,056h,057h,058h,071h,059h,05ah,05bh,072h	; 67b0  PQRoSTUpVWXqYZ[r
 	defb 067h,068h,069h,0b6h,053h,054h,055h,070h,056h,057h,058h,071h,059h,05ah,05bh,072h	; 67c0  ghi.STUpVWXqYZ[r
 	defb 02fh,045h,032h,033h,00bh,00ch,00ah,033h,046h,00dh,003h,03ah,045h,046h,042h,043h	; 67d0  /E23...3F..:EFBC
@@ -218,6 +226,12 @@ DATA_6000:
 	defb 0cah,0c6h,0c7h,0c0h,00ch,00ah,033h,078h,00dh,003h,03ah,079h,046h,042h,043h,07ah	; 6cb0  ......3x..:yFBCz
 	defb 0cah,0c6h,0c7h,0c0h,00bh,00ch,04fh,030h,046h,00dh,00eh,02fh,045h,046h,04eh,02fh	; 6cc0  ......O0F../EFN/
 	defb 0c1h,0c1h,0c1h,0c1h,0c2h,0c2h,0c2h,0c2h,0c8h,0c3h,0c4h,0cbh,0c9h,0c5h,0c5h,0cch	; 6cd0  ................
+
+; ----------------------------------------------------------------------
+; DATOS bloques_6CE0: 61 bloques de 4x4 dibujos; la fila de arriba es la
+;   ultima (p00:5A03); lo leen p00:5A2F (976 bytes)
+;   0x6ce0..0x70b0  (976 bytes)
+DATA_bloques_6CE0:
 	defb 084h,085h,0b9h,084h,0b9h,084h,09dh,085h,09bh,0b9h,0b9h,0bah,0bah,09dh,085h,084h	; 6ce0  ................
 	defb 001h,002h,003h,004h,005h,006h,007h,008h,009h,00ah,00bh,00ch,00dh,00eh,00fh,010h	; 6cf0  ................
 	defb 011h,012h,013h,014h,015h,016h,017h,018h,019h,01ah,01bh,00ch,01ch,01dh,03dh,01fh	; 6d00  ..............=.
@@ -279,6 +293,12 @@ DATA_6000:
 	defb 0e8h,0b8h,0b9h,084h,0f1h,0b8h,085h,085h,0b1h,0bbh,084h,084h,06eh,0b9h,085h,0b9h	; 7080  ............n...
 	defb 0b9h,084h,0b9h,0e7h,0b9h,085h,084h,0f2h,09dh,0bah,084h,091h,084h,084h,09fh,095h	; 7090  ................
 	defb 0e8h,03ah,039h,038h,0f3h,03eh,03dh,03ch,022h,023h,024h,025h,026h,027h,028h,029h	; 70a0  .:98.>=<"#$%&'()
+
+; ----------------------------------------------------------------------
+; DATOS bloques_70B0: 75 bloques de 4x4 dibujos; la fila de arriba es la
+;   ultima (p00:5A03); lo leen p00:5A2F (1200 bytes)
+;   0x70b0..0x7560  (1200 bytes)
+DATA_bloques_70B0:
 	defb 010h,001h,003h,002h,010h,002h,002h,010h,001h,003h,010h,002h,010h,010h,002h,003h	; 70b0  ................
 	defb 002h,001h,010h,001h,003h,002h,002h,002h,002h,010h,007h,009h,010h,002h,010h,002h	; 70c0  ................
 	defb 008h,007h,008h,00bh,001h,002h,003h,00ah,010h,003h,002h,014h,001h,007h,009h,00dh	; 70d0  ................
@@ -354,6 +374,12 @@ DATA_6000:
 	defb 0e8h,085h,071h,072h,0f3h,081h,073h,074h,08eh,084h,075h,076h,08fh,085h,077h,078h	; 7530  ..qr..st..uv..wx
 	defb 01bh,002h,003h,010h,00ch,007h,008h,003h,015h,010h,002h,001h,026h,008h,006h,009h	; 7540  ............&...
 	defb 002h,003h,010h,00bh,006h,008h,009h,00ah,010h,001h,002h,014h,010h,002h,003h,00dh	; 7550  ................
+
+; ----------------------------------------------------------------------
+; DATOS bloques_7560: 102 bloques de 4x4 dibujos; la fila de arriba es la
+;   ultima (p00:5A03); lo leen p00:5A2F (1632 bytes)
+;   0x7560..0x7bc0  (1632 bytes)
+DATA_bloques_7560:
 	defb 002h,001h,001h,001h,001h,001h,002h,001h,001h,001h,001h,001h,001h,002h,001h,001h	; 7560  ................
 	defb 001h,001h,001h,002h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h	; 7570  ................
 	defb 001h,002h,001h,001h,001h,001h,001h,001h,002h,001h,001h,001h,001h,001h,001h,002h	; 7580  ................
@@ -456,6 +482,12 @@ DATA_6000:
 	defb 0e8h,001h,001h,001h,0f1h,001h,002h,001h,011h,001h,001h,001h,013h,002h,001h,001h	; 7b90  ................
 	defb 001h,001h,001h,0e7h,001h,002h,00bh,0f2h,001h,001h,00ch,025h,002h,001h,001h,026h	; 7ba0  ...........%...&
 	defb 0e1h,07bh,06ch,06eh,0f3h,07dh,07eh,06ch,049h,07fh,079h,066h,06fh,081h,06dh,06ah	; 7bb0  .{ln.}~lI.yfo.mj
+
+; ----------------------------------------------------------------------
+; DATOS bloques_7BC0: 47 bloques de 4x4 dibujos; la fila de arriba es la
+;   ultima (p00:5A03); lo leen p00:5A2F (752 bytes)
+;   0x7bc0..0x7eb0  (752 bytes)
+DATA_bloques_7BC0:
 	defb 003h,004h,005h,006h,007h,008h,009h,00ah,00bh,00ch,00dh,00eh,00fh,01dh,01eh,01fh	; 7bc0  ................
 	defb 010h,011h,012h,013h,014h,015h,016h,017h,018h,019h,01ah,01bh,01ch,020h,021h,022h	; 7bd0  ............. !"
 	defb 03ah,039h,038h,037h,03eh,03dh,03ch,03bh,042h,041h,040h,03fh,053h,052h,051h,043h	; 7be0  :987>=<;BA@?SRQC
@@ -503,6 +535,12 @@ DATA_6000:
 	defb 0c1h,0c1h,0c1h,0c1h,0c2h,0c2h,0c2h,0c2h,0c8h,0c3h,0c4h,0cbh,0c9h,0c5h,0c5h,0cch	; 7e80  ................
 	defb 0cah,0c6h,0c7h,0c0h,09dh,09eh,09dh,09eh,092h,096h,090h,091h,097h,092h,098h,099h	; 7e90  ................
 	defb 0cah,0c6h,0c7h,0c0h,09dh,09eh,09dh,000h,092h,096h,0a1h,07ch,097h,092h,09fh,073h	; 7ea0  ...........|...s
+
+; ----------------------------------------------------------------------
+; DATOS bloques_7EB0: 17 bloques de 4x4 dibujos; la fila de arriba es la
+;   ultima (p00:5A03); lo leen p00:5A2F (272 bytes)
+;   0x7eb0..0x7fc0  (272 bytes)
+DATA_bloques_7EB0:
 	defb 001h,002h,009h,00ah,003h,004h,00bh,00ch,005h,006h,00dh,00eh,007h,008h,00fh,010h	; 7eb0  ................
 	defb 001h,002h,009h,00ah,003h,004h,00bh,00ch,011h,012h,015h,016h,013h,014h,017h,018h	; 7ec0  ................
 	defb 019h,002h,009h,00ah,003h,004h,00bh,00ch,005h,006h,00dh,00eh,007h,008h,00fh,010h	; 7ed0  ................
@@ -520,7 +558,17 @@ DATA_6000:
 	defb 053h,053h,053h,06ch,055h,056h,054h,06dh,051h,070h,057h,064h,048h,06fh,058h,061h	; 7f90  SSSlUVTmQpWdHoXa
 	defb 05fh,05dh,06ah,052h,05fh,05ch,048h,048h,060h,05bh,048h,048h,072h,067h,048h,048h	; 7fa0  _]jR_\HH`[HHrgHH
 	defb 052h,071h,059h,061h,048h,048h,058h,061h,048h,048h,05ah,062h,048h,048h,06eh,06bh	; 7fb0  RqYaHHXaHHZbHHnk
-	defb 03eh,00ah,000h,001h,000h,003h,00dh,03fh,03eh,00ch,001h,000h,001h,000h,016h,03bh	; 7fc0  >......?>......;
-	defb 03eh,00ah,002h,001h,000h,001h,019h,037h,03eh,00ch,003h,000h,001h,000h,019h,03bh	; 7fd0  >......7>......;
-	defb 03eh,00ah,000h,001h,000h,002h,00dh,03fh,03ah,01dh,003h,000h,001h,000h,00bh,03fh	; 7fe0  >......?:......?
-	defb 036h,01dh,000h,001h,000h,001h,00dh,03fh,03eh,00ch,001h,000h,001h,002h,00bh,03fh	; 7ff0  6......?>......?
+
+; ----------------------------------------------------------------------
+; DATOS superfilas_7FC0: 48 superfilas de 8 bloques de 32x32 puntos
+;   (p00:5A1D); lo leen p00:5A20 (64 bytes)
+;   0x7fc0..0x8000  (64 bytes)
+DATA_superfilas_7FC0:
+	defb 03eh,00ah,000h,001h,000h,003h,00dh,03fh	; 7fc0  >......?
+	defb 03eh,00ch,001h,000h,001h,000h,016h,03bh	; 7fc8  >......;
+	defb 03eh,00ah,002h,001h,000h,001h,019h,037h	; 7fd0  >......7
+	defb 03eh,00ch,003h,000h,001h,000h,019h,03bh	; 7fd8  >......;
+	defb 03eh,00ah,000h,001h,000h,002h,00dh,03fh	; 7fe0  >......?
+	defb 03ah,01dh,003h,000h,001h,000h,00bh,03fh	; 7fe8  :......?
+	defb 036h,01dh,000h,001h,000h,001h,00dh,03fh	; 7ff0  6......?
+	defb 03eh,00ch,001h,000h,001h,002h,00bh,03fh	; 7ff8  >......?

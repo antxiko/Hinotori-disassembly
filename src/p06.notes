@@ -1,0 +1,103 @@
+
+# --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
+D 0xA000 0xA02B dibujos_9F9B_cola  6 dibujos de 8x8 a 3 bits (24 bytes cada uno) que la lista de 0x61E9 sube a la hoja desde el 10 (sigue del banco anterior, 0x9F9B); lo leen p00:54CC (lista 0x61E9) (43 bytes)
+F 0xA000 8
+D 0xA02B 0xA0BB dibujos_A02B  6 dibujos de 8x8 a 3 bits (24 bytes cada uno) que la lista de 0x61E9 sube a la hoja desde el 2A; se solapan 2 bloques (0xA02B-0xA0BB, 0xA05A-0xA05E); lo leen p00:54CC (lista 0x61E9), p02:9FFA (144 bytes)
+F 0xA02B 8
+D 0xA0BB 0xA10B poses_de_gao  20 poses de Gao: dos punteros cada una, a 0xF800 y a 0xF840 (p02:93D6); lo leen p02:93EC (80 bytes)
+F 0xA0BB 4
+D 0xA10B 0xA14B patrones_A10B  dos patrones de sprite de 16x16 (0x40 bytes) de Gao (p02:93F8); lo leen p02:93F8 (64 bytes)
+F 0xA10B 16
+D 0xA14B 0xA18B patrones_A14B  dos patrones de sprite de 16x16 (0x40 bytes) de Gao (p02:93F8); lo leen p02:93F8 (64 bytes)
+F 0xA14B 16
+D 0xA18B 0xA1CB patrones_A18B  dos patrones de sprite de 16x16 (0x40 bytes) de Gao (p02:93F8); lo leen p02:93F8 (64 bytes)
+F 0xA18B 16
+D 0xA1CB 0xA20B patrones_A1CB  dos patrones de sprite de 16x16 (0x40 bytes) de Gao (p02:93F8); lo leen p02:93F8 (64 bytes)
+F 0xA1CB 16
+D 0xA20B 0xA24B patrones_A20B  dos patrones de sprite de 16x16 (0x40 bytes) de Gao (p02:93F8); lo leen p02:93F8 (64 bytes)
+F 0xA20B 16
+D 0xA24B 0xA28B patrones_A24B  dos patrones de sprite de 16x16 (0x40 bytes) de Gao (p02:93F8); lo leen p02:93F8 (64 bytes)
+F 0xA24B 16
+D 0xA28B 0xA2CB patrones_A28B  dos patrones de sprite de 16x16 (0x40 bytes) de Gao (p02:93F8); lo leen p02:93F8 (64 bytes)
+F 0xA28B 16
+D 0xA2CB 0xA30B patrones_A2CB  dos patrones de sprite de 16x16 (0x40 bytes) de Gao (p02:93F8); lo leen p02:93F8 (64 bytes)
+F 0xA2CB 16
+D 0xA30B 0xA34B patrones_A30B  dos patrones de sprite de 16x16 (0x40 bytes) de Gao (p02:93F8); lo leen p02:93F8 (64 bytes)
+F 0xA30B 16
+D 0xA34B 0xA38B patrones_A34B  dos patrones de sprite de 16x16 (0x40 bytes) de Gao (p02:93F8); lo leen p02:93F8 (64 bytes)
+F 0xA34B 16
+D 0xA38B 0xA3CB patrones_A38B  dos patrones de sprite de 16x16 (0x40 bytes) de Gao (p02:93F8); lo leen p02:93F8 (64 bytes)
+F 0xA38B 16
+D 0xA3CB 0xA40B patrones_A3CB  dos patrones de sprite de 16x16 (0x40 bytes) de Gao (p02:93F8); lo leen p02:93F8 (64 bytes)
+F 0xA3CB 16
+D 0xA40B 0xA44B patrones_A40B  dos patrones de sprite de 16x16 (0x40 bytes) de Gao (p02:93F8); lo leen p02:93F8 (64 bytes)
+F 0xA40B 16
+D 0xA44B 0xA48B patrones_A44B  dos patrones de sprite de 16x16 (0x40 bytes) de Gao (p02:93F8); lo leen p02:93F8 (64 bytes)
+F 0xA44B 16
+D 0xA48B 0xA4CB patrones_A48B  dos patrones de sprite de 16x16 (0x40 bytes) de Gao (p02:93F8); lo leen p02:93F8 (64 bytes)
+F 0xA48B 16
+D 0xA4CB 0xA50B patrones_A4CB  dos patrones de sprite de 16x16 (0x40 bytes) de Gao (p02:93F8); lo leen p02:93F8 (64 bytes)
+F 0xA4CB 16
+D 0xA50B 0xA54B patrones_A50B  dos patrones de sprite de 16x16 (0x40 bytes) de Gao (p02:93F8); lo leen p02:93F8 (64 bytes)
+F 0xA50B 16
+D 0xA54B 0xA58B patrones_A54B  dos patrones de sprite de 16x16 (0x40 bytes) de Gao (p02:93F8); lo leen p02:93F8 (64 bytes)
+F 0xA54B 16
+D 0xA58B 0xA5CB patrones_A58B  dos patrones de sprite de 16x16 (0x40 bytes) de Gao (p02:93F8); lo leen p02:93F8 (64 bytes)
+F 0xA58B 16
+D 0xA5CB 0xA60B patrones_A5CB  dos patrones de sprite de 16x16 (0x40 bytes) de Gao (p02:93F8); lo leen p02:93F8 (64 bytes)
+F 0xA5CB 16
+D 0xA60B 0xA64B patrones_A60B  dos patrones de sprite de 16x16 (0x40 bytes) de Gao (p02:93F8); lo leen p02:93F8 (64 bytes)
+F 0xA60B 16
+D 0xA64B 0xA68B patrones_A64B  dos patrones de sprite de 16x16 (0x40 bytes) de Gao (p02:93F8); lo leen p02:93F8 (64 bytes)
+F 0xA64B 16
+D 0xA68B 0xA6CB patrones_A68B  dos patrones de sprite de 16x16 (0x40 bytes) de Gao (p02:93F8); lo leen p02:93F8 (64 bytes)
+F 0xA68B 16
+D 0xA6CB 0xA70B patrones_A6CB  dos patrones de sprite de 16x16 (0x40 bytes) de Gao (p02:93F8); lo leen p02:93F8 (64 bytes)
+F 0xA6CB 16
+D 0xA70B 0xA74B patrones_A70B  dos patrones de sprite de 16x16 (0x40 bytes) de Gao (p02:93F8); lo leen p02:93F8 (64 bytes)
+F 0xA70B 16
+D 0xA74B 0xA78B patrones_A74B  dos patrones de sprite de 16x16 (0x40 bytes) de Gao (p02:93F8); lo leen p02:93F8 (64 bytes)
+F 0xA74B 16
+D 0xA78B 0xA7CB patrones_A78B  dos patrones de sprite de 16x16 (0x40 bytes) de Gao (p02:93F8); lo leen p02:93F8 (64 bytes)
+F 0xA78B 16
+D 0xAD0A 0xAD2E tabla_AD0A  18 destinos del despachador de 0x40AE (call en p06:AD07): 0xAD2E, 0xAD63, 0xAD76, 0xAD86, 0xAD8C, 0xADB6, 0xADBD, 0xADD4 ...; lo leen p06:AD07 (36 bytes)
+F 0xAD0A 2
+D 0xAED4 0xAEDE tabla_AED4  5 destinos del despachador de 0x40AE (call en p06:AED1): 0xAEDE, 0xAEE8, 0xAF07, 0xAF12, 0xAF1E; lo leen p06:AED1 (10 bytes)
+F 0xAED4 2
+D 0xAFDF 0xAFEB tabla_AFDF  6 destinos del despachador de 0x40AE (call en p06:AFDC): 0xB256, 0xB25C, 0xAFEB, 0xAFF0, 0xAFF0, 0xADB1; lo leen p06:AFDC (12 bytes)
+F 0xAFDF 2
+D 0xBF8A 0xC000 relleno_p06  0xFF hasta el final del banco: nadie lo lee; lo leen nadie (118 bytes)
+F 0xBF8A 16
+# --- fin de los bloques de bloques.py ---
+
+# --- RESTO (seccion que reescribe tools/resto.py; no editar a mano) ---
+D 0xA7CB 0xAD00 tabla_A7CB  tabla que lee p06:AD4A, p06:ADCB, p06:AE10, p06:AE4C, p06:AEE8, p06:AF12 (1333 bytes)
+D 0xAFF5 0xAFF6 sin_lector_AFF5  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (1 bytes)
+D 0xB0A0 0xB0F8 tabla_B0A0  tabla que lee p06:AD79, p06:ADC0, p06:AE7F, p06:B20D (88 bytes)
+D 0xB115 0xB1CE tabla_B115  tabla que lee p06:B104 (185 bytes)
+D 0xB270 0xB35B sin_lector_B270  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (235 bytes)
+D 0xB376 0xB3A8 tabla_B376  tabla que lee p06:B365 (50 bytes)
+D 0xB3EC 0xB40F tabla_B3EC  tabla que lee p06:B3D3, p06:B3D9, p06:B42B, p06:B436, p06:B827, p06:B852 (35 bytes)
+D 0xB7D3 0xB7DC sin_llamar_B7D3  codigo que no llama nadie (ninguna palabra del cartucho vale 0xB7D3): ld de,(0c4b4h) / ld a,e / cp 095h / jr nc,$-75 (9 bytes)
+D 0xB840 0xB852 tabla_B840  tabla que lee p06:B82D, p06:B858 (18 bytes)
+D 0xB8A0 0xB8CC tabla_B8A0  tabla que lee p06:B876 (44 bytes)
+D 0xB8D4 0xB8E4 sin_lector_B8D4  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (16 bytes)
+D 0xB8F3 0xB902 sin_lector_B8F3  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (15 bytes)
+D 0xB908 0xB911 sin_lector_B908  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (9 bytes)
+D 0xB917 0xB91D sin_lector_B917  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (6 bytes)
+D 0xB923 0xB92E sin_lector_B923  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (11 bytes)
+D 0xB934 0xB943 sin_lector_B934  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (15 bytes)
+D 0xB949 0xB958 sin_lector_B949  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (15 bytes)
+D 0xB960 0xB96E sin_lector_B960  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (14 bytes)
+D 0xB979 0xB98A sin_lector_B979  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (17 bytes)
+D 0xB9A6 0xB9AC sin_lector_B9A6  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (6 bytes)
+D 0xB9BC 0xB9C7 sin_lector_B9BC  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (11 bytes)
+D 0xB9D2 0xB9E2 sin_lector_B9D2  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (16 bytes)
+D 0xB9E8 0xB9F1 sin_lector_B9E8  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (9 bytes)
+D 0xB9FC 0xBA0A sin_lector_B9FC  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (14 bytes)
+D 0xBA10 0xBA1C sin_lector_BA10  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (12 bytes)
+D 0xBA27 0xBA2E sin_lector_BA27  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (7 bytes)
+D 0xBA87 0xBA9A tabla_BA87  tabla que lee p06:BA70 (19 bytes)
+D 0xBB11 0xBB69 tabla_BB11  tabla que lee p06:BAE2 (88 bytes)
+D 0xBD3E 0xBF8A tabla_BD3E  tabla que lee p06:BB9F, p06:BBC7, p06:BBF0 (588 bytes)
+# --- fin del resto ---

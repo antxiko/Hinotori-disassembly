@@ -1,0 +1,43 @@
+
+# --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
+D 0x85B3 0x886D rle_85B3  patrones de sprite en RLE de la cosa 25 (p00:56C1); lo leen p00:56C7 (698 bytes)
+F 0x85B3 16
+D 0x886D 0x8C19 rle_886D  patrones de sprite en RLE de la cosa 26 (p00:56C1); lo leen p00:56C7 (940 bytes)
+F 0x886D 16
+D 0x8C19 0x8DE0 rle_8C19  patrones de sprite en RLE de la cosa 27 (p00:56C1); lo leen p00:56C7 (455 bytes)
+F 0x8C19 16
+D 0x8DE0 0x90A2 rle_8DE0  patrones de sprite en RLE de la cosa 28 (p00:56C1); lo leen p00:56C7 (706 bytes)
+F 0x8DE0 16
+D 0x90A2 0x9398 rle_90A2  patrones de sprite en RLE de la cosa 29 (p00:56C1); lo leen p00:56C7 (758 bytes)
+F 0x90A2 16
+D 0x9398 0x93E7 rle_9398  patrones de sprite en RLE de la cosa 31 (p00:56C1); lo leen p00:56C7 (79 bytes)
+F 0x9398 16
+D 0x93E7 0x9429 rle_93E7  patrones de sprite en RLE de la cosa 33 (p00:56C1); lo leen p00:56C7 (66 bytes)
+F 0x93E7 16
+D 0x9429 0x9467 rle_9429  patrones de sprite en RLE de la cosa 32 (p00:56C1); lo leen p00:56C7 (62 bytes)
+F 0x9429 16
+D 0x9467 0x94A4 rle_9467  patrones de sprite en RLE de la cosa 34 (p00:56C1); lo leen p00:56C7 (61 bytes)
+F 0x9467 16
+D 0x94A4 0x94E6 rle_94A4  patrones de sprite en RLE de la cosa 35 (p00:56C1); lo leen p00:56C7 (66 bytes)
+F 0x94A4 16
+D 0x94E6 0x9528 rle_94E6  patrones de sprite en RLE de la cosa 36 (p00:56C1); lo leen p00:56C7 (66 bytes)
+F 0x94E6 16
+D 0x9528 0x9569 rle_9528  patrones de sprite en RLE de la cosa 37 (p00:56C1); lo leen p00:56C7 (65 bytes)
+F 0x9528 16
+D 0x9569 0x95D0 rle_9569  patrones de sprite en RLE de la cosa 30 (p00:56C1); lo leen p00:56C7 (103 bytes)
+F 0x9569 16
+D 0x95D0 0x9A10 dibujos_95D0  48 dibujos de 8x8 a 2 bits (16 bytes cada uno) que la lista de 0x638A sube a la hoja desde el 01; se solapan 2 bloques (0x95D0-0x98D0, 0x98C0-0x9A10); lo leen p00:54CC (lista 0x638A) (1088 bytes)
+F 0x95D0 16
+D 0x9A10 0x9A30 dibujos_9A10  2 dibujos de 8x8 a 2 bits (16 bytes cada uno) que la lista de 0x638A sube a la hoja desde el 45; lo leen p00:54CC (lista 0x638A) (32 bytes)
+F 0x9A10 16
+D 0x9A30 0xA000 dibujos_9A30  32 dibujos de 8x8 a 4 bits (32 bytes cada uno) que la lista de 0x63A3 sube a la hoja desde el 80; se solapan 2 bloques (0x9A30-0x9E30, 0x9DB0-0xA000); lo leen p00:54CC (lista 0x63A3) (1488 bytes)
+F 0x9A30 8
+# --- fin de los bloques de bloques.py ---
+
+
+# --- A MANO: datos con su explicacion ---
+D 0x8000 0x824E rle_sin_puntero_cola  la cola de las tiras RLE sin puntero que empiezan en p07:7457 (ver alli)
+
+# --- RESTO (seccion que reescribe tools/resto.py; no editar a mano) ---
+D 0x824E 0x85B3 sin_lector_824E  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (869 bytes)
+# --- fin del resto ---

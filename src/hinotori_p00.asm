@@ -10,12 +10,25 @@
 
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x4000..0x4048  (72 bytes)
-DATA_4000:
+; DATOS cabecera_ab: la cabecera del cartucho: 'AB', INIT (0x40B8) y
+;   STATEMENT, DEVICE y TEXT a cero; lo leen la BIOS (16 bytes)
+;   0x4000..0x4010  (16 bytes)
+DATA_cabecera_ab:
 	defb 041h,042h,0b8h,040h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h	; 4000  AB.@............
-	defb 043h,000h,044h,000h,003h,000h,015h,000h,000h,000h,000h,004h,000h,061h,0c1h,000h	; 4010  C.D..........a..
-	defb 000h,006h,060h,0c1h,000h,000h,055h,0c1h,0f7h,0c0h,012h,0c0h,032h,0c0h,052h,0c0h	; 4020  ..`...U.....2.R.
-	defb 013h,0c0h,014h,0c0h,033h,0c0h,034h,0c0h,053h,0c0h,054h,0c0h,049h,09ch,0f2h,0c0h	; 4030  ....3.4.S.T.I...
+
+; ----------------------------------------------------------------------
+; DATOS cabecera_de_konami: 'C', 0, 'D', 0, 3, 0, 0x15, 0... y las direcciones
+;   de la RAM del juego (0xC161 la fase, 0xC160 las vidas, 0xC155 los
+;   puntos...): ningun codigo de este cartucho la lee; es para que la lea otro
+;   cartucho de Konami puesto al lado; lo leen otro cartucho (56 bytes)
+;   0x4010..0x4048  (56 bytes)
+DATA_cabecera_de_konami:
+	defb 043h,000h,044h,000h,003h,000h,015h,000h	; 4010  C.D.....
+	defb 000h,000h,000h,004h,000h,061h,0c1h,000h	; 4018  .....a..
+	defb 000h,006h,060h,0c1h,000h,000h,055h,0c1h	; 4020  ..`...U.
+	defb 0f7h,0c0h,012h,0c0h,032h,0c0h,052h,0c0h	; 4028  ....2.R.
+	defb 013h,0c0h,014h,0c0h,033h,0c0h,034h,0c0h	; 4030  ....3.4.
+	defb 053h,0c0h,054h,0c0h,049h,09ch,0f2h,0c0h	; 4038  S.T.I...
 	defb 0f4h,0c0h,072h,0c0h,073h,0c0h,074h,0c0h	; 4040  ..r.s.t.
 
 ; ======================================================================
@@ -311,11 +324,30 @@ L_4254:
 	call despacha		;4254
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x4257..0x427d  (38 bytes)
-DATA_4257:
-	defb 07eh,042h,0c3h,042h,0ebh,042h,04dh,043h,083h,043h,0b5h,043h,011h,044h,039h,044h	; 4257  ~B.B.BMC.C.C.D9D
-	defb 0a0h,044h,035h,047h,0adh,044h,0fch,045h,003h,046h,047h,046h,0fah,084h,055h,085h	; 4267  .D5G.D.E.FGF..U.
-	defb 07dh,042h,05ah,046h,06dh,046h	; 4277
+; DATOS tabla_4257: 19 destinos del despachador de 0x40AE (call en p00:4254):
+;   0x427E, 0x42C3, 0x42EB, 0x434D, 0x4383, 0x43B5, 0x4411, 0x4439 ...; lo
+;   leen p00:4254 (38 bytes)
+;   0x4257..0x427d  (38 bytes)
+DATA_tabla_4257:
+	defb 07eh,042h	; 4257
+	defb 0c3h,042h	; 4259
+	defb 0ebh,042h	; 425b
+	defb 04dh,043h	; 425d
+	defb 083h,043h	; 425f
+	defb 0b5h,043h	; 4261
+	defb 011h,044h	; 4263
+	defb 039h,044h	; 4265
+	defb 0a0h,044h	; 4267
+	defb 035h,047h	; 4269
+	defb 0adh,044h	; 426b
+	defb 0fch,045h	; 426d
+	defb 003h,046h	; 426f
+	defb 047h,046h	; 4271
+	defb 0fah,084h	; 4273
+	defb 055h,085h	; 4275
+	defb 07dh,042h	; 4277
+	defb 05ah,046h	; 4279
+	defb 06dh,046h	; 427b
 
 ; ======================================================================
 ; CODIGO 0x427d..0x43f1  (372 bytes)
@@ -516,8 +548,9 @@ L_43ED:
 	jp L_432E		;43ee
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x43f1..0x4411  (32 bytes)
-DATA_43F1:
+; DATOS tabla_43F1: tabla que lee p03:B6CE (32 bytes)
+;   0x43f1..0x4411  (32 bytes)
+DATA_tabla_43F1:
 	defb 021h,01fh,000h,022h,087h,0c4h,021h,086h,0c4h,034h,021h,085h,0c4h,0cbh,0feh,0c9h	; 43f1  !.."..!..4!.....
 	defb 021h,01fh,000h,022h,087h,0c4h,021h,086h,0c4h,035h,021h,085h,0c4h,0cbh,0feh,0c9h	; 4401  !.."..!..5!.....
 
@@ -660,14 +693,15 @@ L_44AD:
 	jp L_41AC		;4522
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x4525..0x4552  (45 bytes)
-DATA_4525:
+; DATOS tabla_4525: tabla que lee p00:44E2, p00:4511 (45 bytes)
+;   0x4525..0x4552  (45 bytes)
+DATA_tabla_4525:
 	defb 068h,028h,050h,041h,055h,053h,045h,0feh,058h,038h,053h,054h,041h,047h,045h,0feh	; 4525  h(PAUSE.X8STAGE.
 	defb 058h,044h,052h,045h,053h,054h,0feh,048h,050h,053h,043h,04fh,052h,045h,0feh,0b0h	; 4535  XDREST.HPSCORE..
 	defb 050h,030h,030h,0ffh,008h,009h,00ah,00bh,00ch,00dh,01bh,01bh,001h	; 4545  P00..........
 
 ; ======================================================================
-; CODIGO 0x4552..0x4680  (302 bytes)
+; CODIGO 0x4552..0x4721  (463 bytes)
 ; ======================================================================
 
 
@@ -813,24 +847,67 @@ L_466D:
 	ld a,003h		;4678
 	ld (0c10ch),a		;467a
 	jp L_53E9		;467d
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x4680..0x46fa  (122 bytes)
-DATA_4680:
-	defb 03eh,007h,0cdh,041h,001h,0cbh,07fh,0cch,0dbh,046h,0cdh,045h,053h,021h,051h,0c1h	; 4680  >..A.....F.ES!Q.
-	defb 0cdh,03eh,053h,0b7h,0c8h,021h,004h,0c1h,036h,00ah,021h,000h,0c1h,046h,010h,019h	; 4690  .>S..!..6.!..F..
-	defb 0e6h,030h,0c8h,03eh,040h,032h,002h,0c1h,0e5h,0cdh,04dh,05ah,0e1h,03ah,010h,0c1h	; 46a0  .0.>@2....MZ.:..
-	defb 0b7h,020h,052h,036h,003h,023h,036h,000h,0c9h,0e5h,021h,002h,0c1h,0cbh,046h,028h	; 46b0  . R6.#6...!...F(
-	defb 005h,03eh,074h,032h,0f4h,0c0h,0cbh,086h,0e1h,036h,001h,023h,036h,001h,021h,002h	; 46c0  .>t2.....6.#6.!.
-	defb 0c1h,0cbh,046h,03eh,074h,0c4h,0ach,041h,0c3h,03bh,05ah,03eh,001h,032h,03ah,0c1h	; 46d0  ..F>t..A.;Z>.2:.
-	defb 03ah,012h,0c0h,0feh,061h,0c8h,0afh,032h,012h,0c0h,032h,032h,0c0h,032h,052h,0c0h	; 46e0  :...a..2..22.2R.
-	defb 032h,092h,0c0h,032h,0b2h,0c0h,032h,0d2h,0c0h,0c9h	; 46f0  2..2..2...
-
-; ======================================================================
-; CODIGO 0x46fa..0x4705  (11 bytes)
-; ======================================================================
-
-
+L_4680:
+	ld a,007h		;4680
+	call 00141h		;4682   ; BIOS SNSMAT - Returns the value of the specified line from the keyboard matrix
+	bit 7,a		;4685
+	call z,L_46DB		;4687
+	call L_5345		;468a
+	ld hl,0c151h		;468d
+	call L_533E		;4690
+	or a			;4693
+	ret z			;4694
+	ld hl,0c104h		;4695
+	ld (hl),00ah		;4698
+	ld hl,0c100h		;469a
+	ld b,(hl)			;469d
+	djnz L_46B9		;469e
+	and 030h		;46a0
+	ret z			;46a2
+	ld a,040h		;46a3
+	ld (0c102h),a		;46a5
+	push hl			;46a8
+	call L_5A4D		;46a9
+	pop hl			;46ac
+	ld a,(0c110h)		;46ad
+	or a			;46b0
+	jr nz,L_4705		;46b1
+	ld (hl),003h		;46b3
+	inc hl			;46b5
+	ld (hl),000h		;46b6
+	ret			;46b8
+L_46B9:
+	push hl			;46b9
+	ld hl,0c102h		;46ba
+	bit 0,(hl)		;46bd
+	jr z,L_46C6		;46bf
+	ld a,074h		;46c1
+	ld (0c0f4h),a		;46c3
+L_46C6:
+	res 0,(hl)		;46c6
+	pop hl			;46c8
+	ld (hl),001h		;46c9
+	inc hl			;46cb
+	ld (hl),001h		;46cc
+	ld hl,0c102h		;46ce
+	bit 0,(hl)		;46d1
+	ld a,074h		;46d3
+	call nz,L_41AC		;46d5
+	jp L_5A3B		;46d8
+L_46DB:
+	ld a,001h		;46db
+	ld (0c13ah),a		;46dd
+	ld a,(0c012h)		;46e0
+	cp 061h		;46e3
+	ret z			;46e5
+	xor a			;46e6
+	ld (0c012h),a		;46e7
+	ld (0c032h),a		;46ea
+	ld (0c052h),a		;46ed
+	ld (0c092h),a		;46f0
+	ld (0c0b2h),a		;46f3
+	ld (0c0d2h),a		;46f6
+	ret			;46f9
 L_46FA:
 	ld hl,0c114h		;46fa
 	ld a,(hl)			;46fd
@@ -838,25 +915,24 @@ L_46FA:
 	ret z			;46ff
 	ld (hl),000h		;4700
 	jp L_5FDD		;4702
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x4705..0x471b  (22 bytes)
-DATA_4705:
-	defb 0afh,032h,014h,0c1h,03eh,001h,032h,015h,0c1h,032h,016h,0c1h,03eh,003h,032h,017h	; 4705  .2..>.2..2..>.2.
-	defb 0c1h,03eh,009h,0c3h,02eh,043h	; 4715
-
-; ======================================================================
-; CODIGO 0x471b..0x4721  (6 bytes)
-; ======================================================================
-
-
+L_4705:
+	xor a			;4705
+	ld (0c114h),a		;4706
+	ld a,001h		;4709
+	ld (0c115h),a		;470b
+	ld (0c116h),a		;470e
+	ld a,003h		;4711
+	ld (0c117h),a		;4713
+	ld a,009h		;4716
+	jp L_432E		;4718
 L_471B:
 	ld hl,04721h		;471b
 	jp L_4FBE		;471e
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x4721..0x4735  (20 bytes)
-DATA_4721:
+; DATOS tabla_4721: tabla que lee p00:471B, p06:BBA2 (20 bytes)
+;   0x4721..0x4735  (20 bytes)
+DATA_tabla_4721:
 	defb 050h,068h,046h,035h,0feh,064h,068h,03eh,0feh,070h,068h,043h,04fh,04eh,054h,049h	; 4721  PhF5.dh>.phCONTI
 	defb 04eh,055h,045h,0ffh	; 4731
 
@@ -972,8 +1048,9 @@ L_47F3:
 	ret			;4814
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x4815..0x4818  (3 bytes)
-DATA_4815:
+; DATOS tabla_4815: tabla que lee p00:47C3 (3 bytes)
+;   0x4815..0x4818  (3 bytes)
+DATA_tabla_4815:
 	defb 003h,000h,001h	; 4815
 
 ; ======================================================================
@@ -1121,8 +1198,10 @@ L_48C3:
 	ret			;48d8
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x48d9..0x48fb  (34 bytes)
-DATA_48D9:
+; DATOS sin_lector_48D9: bytes sin lector conocido: ninguna instruccion
+;   trazada los apunta y la sonda de openMSX no los lee (34 bytes)
+;   0x48d9..0x48fb  (34 bytes)
+DATA_sin_lector_48D9:
 	defb 0f5h,078h,0d9h,047h,0d9h,0cdh,0bfh,048h,0f1h,006h,000h,04fh,087h,030h,001h,005h	; 48d9  .x.G...H...O.0..
 	defb 016h,0c9h,0d9h,0d9h,05eh,01ah,01fh,0d8h,009h,07ch,0e6h,0e7h,067h,0d9h,010h,0f3h	; 48e9  ....^....|..g...
 	defb 0afh,0c9h	; 48f9
@@ -1174,8 +1253,11 @@ L_4921:
 	ret			;4926
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x4927..0x4937  (16 bytes)
-DATA_4927:
+; DATOS sin_llamar_4927: codigo que no llama nadie (ninguna palabra del
+;   cartucho vale 0x4927): ex af,af' / ld a,(0c385h) / add a,e / and 0f8h ...
+;   (16 bytes)
+;   0x4927..0x4937  (16 bytes)
+DATA_sin_llamar_4927:
 	defb 008h,03ah,085h,0c3h,083h,0e6h,0f8h,05fh,07ah,0e6h,0f8h,057h,008h,0c3h,024h,050h	; 4927  .:....._z..W..$P
 
 ; ======================================================================
@@ -1236,8 +1318,11 @@ L_497B:
 	jp espera_al_vdp		;498b   ; bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x498e..0x49d8  (74 bytes)
-DATA_498E:
+; DATOS sin_llamar_498E: codigo que no llama nadie (ninguna palabra del
+;   cartucho vale 0x498E): ld a,(0c100h) / cp 005h / ret nz / ld hl,0cb49h ...
+;   (74 bytes)
+;   0x498e..0x49d8  (74 bytes)
+DATA_sin_llamar_498E:
 	defb 03ah,000h,0c1h,0feh,005h,0c0h,021h,049h,0cbh,07eh,0b7h,0c8h,03ah,0b0h,0c4h,0e6h	; 498e  :.....!I.~..:...
 	defb 001h,0c0h,0cbh,046h,0cbh,086h,028h,018h,0cbh,0feh,021h,0c4h,049h,03ah,04ah,0cbh	; 499e  ...F..(...!.I:J.
 	defb 05fh,00eh,001h,0cdh,0cbh,049h,047h,07bh,032h,04ah,0cbh,00eh,012h,0c3h,047h,000h	; 49ae  _....IG{2J....G.
@@ -1306,8 +1391,11 @@ L_4A16:
 	ret			;4a1e
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x4a1f..0x4a39  (26 bytes)
-DATA_4A1F:
+; DATOS sin_llamar_4A1F: codigo que no llama nadie (ninguna palabra del
+;   cartucho vale 0x4A1F): push bc / call 04a58h / ld a,(00006h) / ld c,a ...
+;   (26 bytes)
+;   0x4a1f..0x4a39  (26 bytes)
+DATA_sin_llamar_4A1F:
 	defb 0c5h,0cdh,058h,04ah,03ah,006h,000h,04fh,0edh,078h,0c1h,0c9h,0c5h,0f5h,0cdh,039h	; 4a1f  ..XJ:..O.x.....9
 	defb 04ah,03ah,007h,000h,04fh,0f1h,0edh,079h,0c1h,0c9h	; 4a2f  J:..O..y..
 
@@ -1612,8 +1700,11 @@ L_4BD1:
 	ret			;4bde
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x4bdf..0x4bec  (13 bytes)
-DATA_4BDF:
+; DATOS sin_llamar_4BDF: codigo que no llama nadie (ninguna palabra del
+;   cartucho vale 0x4BDF): ld hl,0e400h / ld de,(0c134h) / ld bc,00280h / jp
+;   049f3h (13 bytes)
+;   0x4bdf..0x4bec  (13 bytes)
+DATA_sin_llamar_4BDF:
 	defb 021h,000h,0e4h,0edh,05bh,034h,0c1h,001h,080h,002h,0c3h,0f3h,049h	; 4bdf  !...[4......I
 
 ; ======================================================================
@@ -1673,8 +1764,10 @@ L_4C25:
 	ret			;4c29
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x4c2a..0x4c65  (59 bytes)
-DATA_4C2A:
+; DATOS sin_lector_4C2A: bytes sin lector conocido: ninguna instruccion
+;   trazada los apunta y la sonda de openMSX no los lee (59 bytes)
+;   0x4c2a..0x4c65  (59 bytes)
+DATA_sin_lector_4C2A:
 	defb 0d5h,03ah,007h,000h,04fh,006h,010h,0c5h,0ebh,0cdh,039h,04ah,0ebh,006h,008h,07eh	; 4c2a  .:..O.....9J...~
 	defb 02bh,00fh,00fh,00fh,00fh,0edh,079h,010h,0b8h,00eh,016h,009h,0ebh,00eh,080h,009h	; 4c3a  +.....y.........
 	defb 0ebh,0c1h,010h,0a5h,0d1h,0c9h,0c5h,0cdh,02ah,04ch,03eh,008h,083h,0feh,080h,020h	; 4c4a  ........*L>....
@@ -1802,8 +1895,9 @@ paleta_inicial:
 	jr $+15		;4d30
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x4d32..0x4d3f  (13 bytes)
-DATA_4D32:
+; DATOS tabla_4D32: tabla que lee p00:4D2D (13 bytes)
+;   0x4d32..0x4d3f  (13 bytes)
+DATA_tabla_4D32:
 	defb 00fh,000h,000h,00eh,074h,004h,00dh,061h,001h,00ch,077h,007h,0ffh	; 4d32  ....t..a..w..
 
 ; ======================================================================
@@ -2150,8 +2244,10 @@ L_4F26:
 	ret			;4f2a
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x4f2b..0x4f55  (42 bytes)
-DATA_4F2B:
+; DATOS sin_lector_4F2B: bytes sin lector conocido: ninguna instruccion
+;   trazada los apunta y la sonda de openMSX no los lee (42 bytes)
+;   0x4f2b..0x4f55  (42 bytes)
+DATA_sin_lector_4F2B:
 	defb 0d5h,006h,010h,0c5h,001h,008h,000h,0cdh,0f3h,049h,0ebh,001h,080h,000h,009h,0ebh	; 4f2b  .........I......
 	defb 0c1h,010h,0f0h,0d1h,0c9h,0c5h,0cdh,02bh,04fh,03eh,008h,083h,0feh,080h,020h,005h	; 4f3b  .......+O>.... .
 	defb 03eh,008h,082h,057h,0afh,05fh,0c1h,010h,0ech,0c9h	; 4f4b  >..W._....
@@ -2315,8 +2411,9 @@ L_5015:
 	ret			;5018
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x5019..0x5024  (11 bytes)
-DATA_5019:
+; DATOS tabla_5019: tabla que lee p06:AE71 (11 bytes)
+;   0x5019..0x5024  (11 bytes)
+DATA_tabla_5019:
 	defb 0f5h,0cdh,0a3h,04fh,0cdh,095h,050h,0f1h,010h,0f6h,0c9h	; 5019  ...O..P....
 
 ; ======================================================================
@@ -2718,8 +2815,10 @@ L_51FD:
 	jp lmmm		;521b
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x521e..0x5226  (8 bytes)
-DATA_521E:
+; DATOS sin_lector_521E: bytes sin lector conocido: ninguna instruccion
+;   trazada los apunta y la sonda de openMSX no los lee (8 bytes)
+;   0x521e..0x5226  (8 bytes)
+DATA_sin_lector_521E:
 	defb 008h,03ah,085h,0c3h,083h,05fh,018h,002h	; 521e  .:..._..
 
 ; ======================================================================
@@ -2888,8 +2987,9 @@ L_52F9:
 	jp L_4C96		;5309
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x530c..0x5314  (8 bytes)
-DATA_530C:
+; DATOS tabla_530C: tabla que lee p00:52F6 (8 bytes)
+;   0x530c..0x5314  (8 bytes)
+DATA_tabla_530C:
 	defb 001h,062h,005h,0efh,006h,01fh,00bh,001h	; 530c  .b......
 
 ; ======================================================================
@@ -2977,8 +3077,9 @@ L_5345:
 	ret			;5381
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x5382..0x53e9  (103 bytes)
-DATA_5382:
+; DATOS tabla_5382: tabla que lee p00:4357, p00:448F, p00:5B16 (103 bytes)
+;   0x5382..0x53e9  (103 bytes)
+DATA_tabla_5382:
 	defb 070h,000h,048h,049h,040h,0feh,008h,000h,053h,043h,04fh,052h,045h,040h,0feh,0d4h	; 5382  p.HI@...SCORE@..
 	defb 000h,050h,040h,0feh,06ch,000h,053h,054h,041h,047h,045h,040h,0ffh,060h,038h,053h	; 5392  .P@.l.STAGE@.`8S
 	defb 054h,041h,047h,045h,000h,000h,000h,0ffh,038h,0b0h,03ah,000h,04bh,04fh,04eh,041h	; 53a2  TAGE....8.:.KONA
@@ -3199,9 +3300,19 @@ L_550D:
 	call despacha		;5523
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x5526..0x5536  (16 bytes)
-DATA_5526:
-	defb 036h,055h,03ah,055h,03eh,055h,045h,055h,04ch,055h,053h,055h,05ah,055h,061h,055h	; 5526  6U:U>UEULUSUZUaU
+; DATOS tabla_5526: 8 destinos del despachador de 0x40AE (call en p00:5523):
+;   0x5536, 0x553A, 0x553E, 0x5545, 0x554C, 0x5553, 0x555A, 0x5561; lo leen
+;   p00:5523 (16 bytes)
+;   0x5526..0x5536  (16 bytes)
+DATA_tabla_5526:
+	defb 036h,055h	; 5526
+	defb 03ah,055h	; 5528
+	defb 03eh,055h	; 552a
+	defb 045h,055h	; 552c
+	defb 04ch,055h	; 552e
+	defb 053h,055h	; 5530
+	defb 05ah,055h	; 5532
+	defb 061h,055h	; 5534
 
 ; ======================================================================
 ; CODIGO 0x5536..0x5568  (50 bytes)
@@ -3240,8 +3351,10 @@ L_5561:
 	jp L_516F		;5565
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x5568..0x5579  (17 bytes)
-DATA_5568:
+; DATOS sin_lector_5568: bytes sin lector conocido: ninguna instruccion
+;   trazada los apunta y la sonda de openMSX no los lee (17 bytes)
+;   0x5568..0x5579  (17 bytes)
+DATA_sin_lector_5568:
 	defb 0d9h,0ebh,0e5h,0d5h,0c5h,001h,008h,008h,0cdh,026h,052h,0c1h,0d1h,0e1h,010h,0f2h	; 5568  .........&R.....
 	defb 0c9h	; 5578
 
@@ -3439,8 +3552,10 @@ L_56CA:
 	jp copia_a_la_vram		;56d5
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x56d8..0x56e9  (17 bytes)
-DATA_56D8:
+; DATOS sin_lector_56D8: bytes sin lector conocido: ninguna instruccion
+;   trazada los apunta y la sonda de openMSX no los lee (17 bytes)
+;   0x56d8..0x56e9  (17 bytes)
+DATA_sin_lector_56D8:
 	defb 02ah,084h,0c3h,07ch,0edh,05bh,082h,0c3h,019h,022h,084h,0c3h,094h,032h,088h,0c3h	; 56d8  *..|.[..."...2..
 	defb 0c9h	; 56e8
 
@@ -3499,9 +3614,19 @@ L_573A:
 	call despacha		;573d
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x5740..0x5752  (18 bytes)
-DATA_5740:
-	defb 052h,057h,06fh,057h,07bh,057h,083h,057h,08bh,057h,093h,057h,09bh,057h,0a3h,057h	; 5740  RWoW{W.W.W.W.W.W
+; DATOS tabla_5740: 9 destinos del despachador de 0x40AE (call en p00:573D):
+;   0x5752, 0x576F, 0x577B, 0x5783, 0x578B, 0x5793, 0x579B, 0x57A3 ...; lo
+;   leen p00:573D (18 bytes)
+;   0x5740..0x5752  (18 bytes)
+DATA_tabla_5740:
+	defb 052h,057h	; 5740
+	defb 06fh,057h	; 5742
+	defb 07bh,057h	; 5744
+	defb 083h,057h	; 5746
+	defb 08bh,057h	; 5748
+	defb 093h,057h	; 574a
+	defb 09bh,057h	; 574c
+	defb 0a3h,057h	; 574e
 	defb 0adh,057h	; 5750
 
 ; ======================================================================
@@ -3647,8 +3772,9 @@ L_5836:
 	ret			;5846
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x5847..0x5856  (15 bytes)
-DATA_5847:
+; DATOS tabla_5847: tabla que lee p00:583C (15 bytes)
+;   0x5847..0x5856  (15 bytes)
+DATA_tabla_5847:
 	defb 001h,002h,004h,008h,010h,020h,040h,080h,011h,000h,000h,006h,020h,018h,002h	; 5847  ..... @..... ..
 
 ; ======================================================================
@@ -3792,19 +3918,88 @@ L_5900:
 	ret			;593a
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x593b..0x59ad  (114 bytes)
-DATA_593B:
-	defb 000h,060h,0b0h,067h,0e0h,06ch,0b0h,070h,060h,075h,0c0h,07bh,0b0h,07eh,0b0h,07eh	; 593b  .`.g.l.p`u.{.~.~
-	defb 0c0h,07fh,040h,081h,0c0h,082h,040h,084h,0c0h,085h,040h,087h,0c0h,088h,040h,08ah	; 594b  ..@...@...@...@.
-	defb 0c0h,08bh,040h,08dh,0c0h,08eh,040h,090h,0c0h,091h,040h,093h,0c0h,094h,040h,096h	; 595b  ..@...@...@...@.
-	defb 0c0h,097h,040h,099h,0c0h,09ah,0c0h,09ah,0c0h,09ah,0c0h,09ah,0c0h,09ah,0c0h,09ah	; 596b  ..@.............
-	defb 02ch,0a4h,02ch,0a4h,02ch,0a4h,02ch,0a4h,02ch,0a4h,02ch,0a4h,02ch,0a4h,02ch,0a4h	; 597b  ,.,.,.,.,.,.,.,.
-	defb 02ch,0a4h,02ch,0a4h,02ch,0a4h,02ch,0a4h,02ch,0a4h,02ch,0a4h,02ch,0a4h,02ch,0a4h	; 598b  ,.,.,.,.,.,.,.,.
-	defb 02ch,0a4h,02ch,0a4h,05fh,0a4h,05fh,0a4h,06bh,0a4h,05fh,0a4h,06bh,0a4h,05fh,0a4h	; 599b  ,.,._._.k._.k._.
+; DATOS bloques_de_cada_juego: donde empiezan los bloques de 4x4 dibujos de
+;   cada juego (0xC482); lo leen p00:5918 (16 bytes)
+;   0x593b..0x594b  (16 bytes)
+DATA_bloques_de_cada_juego:
+	defb 000h,060h	; 593b
+	defb 0b0h,067h	; 593d
+	defb 0e0h,06ch	; 593f
+	defb 0b0h,070h	; 5941
+	defb 060h,075h	; 5943
+	defb 0c0h,07bh	; 5945
+	defb 0b0h,07eh	; 5947
+	defb 0b0h,07eh	; 5949
+
+; ----------------------------------------------------------------------
+; DATOS superfilas_de_cada_area: donde empiezan las superfilas (8 bloques) de
+;   cada area (0xC480); lo leen p00:590C (48 bytes)
+;   0x594b..0x597b  (48 bytes)
+DATA_superfilas_de_cada_area:
+	defb 0c0h,07fh	; 594b
+	defb 040h,081h	; 594d
+	defb 0c0h,082h	; 594f
+	defb 040h,084h	; 5951
+	defb 0c0h,085h	; 5953
+	defb 040h,087h	; 5955
+	defb 0c0h,088h	; 5957
+	defb 040h,08ah	; 5959
+	defb 0c0h,08bh	; 595b
+	defb 040h,08dh	; 595d
+	defb 0c0h,08eh	; 595f
+	defb 040h,090h	; 5961
+	defb 0c0h,091h	; 5963
+	defb 040h,093h	; 5965
+	defb 0c0h,094h	; 5967
+	defb 040h,096h	; 5969
+	defb 0c0h,097h	; 596b
+	defb 040h,099h	; 596d
+	defb 0c0h,09ah	; 596f
+	defb 0c0h,09ah	; 5971
+	defb 0c0h,09ah	; 5973
+	defb 0c0h,09ah	; 5975
+	defb 0c0h,09ah	; 5977
+	defb 0c0h,09ah	; 5979
+
+; ----------------------------------------------------------------------
+; DATOS mapa_de_cada_area: el mapa de cada area (0xC480): una superfila por
+;   cada 32 puntos; lo leen p00:5900 (48 bytes)
+;   0x597b..0x59ab  (48 bytes)
+DATA_mapa_de_cada_area:
+	defb 02ch,0a4h	; 597b
+	defb 02ch,0a4h	; 597d
+	defb 02ch,0a4h	; 597f
+	defb 02ch,0a4h	; 5981
+	defb 02ch,0a4h	; 5983
+	defb 02ch,0a4h	; 5985
+	defb 02ch,0a4h	; 5987
+	defb 02ch,0a4h	; 5989
+	defb 02ch,0a4h	; 598b
+	defb 02ch,0a4h	; 598d
+	defb 02ch,0a4h	; 598f
+	defb 02ch,0a4h	; 5991
+	defb 02ch,0a4h	; 5993
+	defb 02ch,0a4h	; 5995
+	defb 02ch,0a4h	; 5997
+	defb 02ch,0a4h	; 5999
+	defb 02ch,0a4h	; 599b
+	defb 02ch,0a4h	; 599d
+	defb 05fh,0a4h	; 599f
+	defb 05fh,0a4h	; 59a1
+	defb 06bh,0a4h	; 59a3
+	defb 05fh,0a4h	; 59a5
+	defb 06bh,0a4h	; 59a7
+	defb 05fh,0a4h	; 59a9
+
+; ----------------------------------------------------------------------
+; DATOS sin_lector_59AB: bytes sin lector conocido: ninguna instruccion
+;   trazada los apunta y la sonda de openMSX no los lee (2 bytes)
+;   0x59ab..0x59ad  (2 bytes)
+DATA_sin_lector_59AB:
 	defb 02ch,0a4h	; 59ab
 
 ; ======================================================================
-; CODIGO 0x59ad..0x5a3b  (142 bytes)
+; CODIGO 0x59ad..0x5add  (304 bytes)
 ; ======================================================================
 
 
@@ -3892,19 +4087,27 @@ L_5A20:
 	exx			;5a37
 	djnz L_5A20		;5a38
 	ret			;5a3a
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x5a3b..0x5a60  (37 bytes)
-DATA_5A3B:
-	defb 0cdh,0a3h,04ch,0cdh,060h,05ah,0cdh,007h,05bh,0cdh,04dh,04dh,0cdh,04dh,05ah,0c3h	; 5a3b  ..L.`Z..[.MM.MZ.
-	defb 096h,04ch,021h,0e9h,05bh,006h,010h,00eh,000h,056h,023h,05eh,023h,079h,00ch,0cdh	; 5a4b  .L!.[....V#^#y..
-	defb 003h,04dh,010h,0f5h,0c9h	; 5a5b
-
-; ======================================================================
-; CODIGO 0x5a60..0x5add  (125 bytes)
-; ======================================================================
-
-
+L_5A3B:
+	call L_4CA3		;5a3b
+	call L_5A60		;5a3e
+	call L_5B07		;5a41
+	call espera_al_vdp		;5a44
+	call L_5A4D		;5a47
+	jp L_4C96		;5a4a
+L_5A4D:
+	ld hl,05be9h		;5a4d
+	ld b,010h		;5a50
+	ld c,000h		;5a52
+L_5A54:
+	ld d,(hl)			;5a54
+	inc hl			;5a55
+	ld e,(hl)			;5a56
+	inc hl			;5a57
+	ld a,c			;5a58
+	inc c			;5a59
+	call pon_un_color		;5a5a
+	djnz L_5A54		;5a5d
+	ret			;5a5f
 L_5A60:
 	xor a			;5a60
 	ld (0c385h),a		;5a61
@@ -3961,8 +4164,9 @@ L_5AC0:
 	jp L_4C96		;5ada
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x5add..0x5b07  (42 bytes)
-DATA_5ADD:
+; DATOS tabla_5ADD: tabla que lee p00:5B10 (42 bytes)
+;   0x5add..0x5b07  (42 bytes)
+DATA_tabla_5ADD:
 	defb 038h,0b8h,03ah,000h,04bh,041h,044h,04fh,04bh,041h,057h,041h,000h,053h,048h,04fh	; 5add  8.:.KADOKAWA.SHO
 	defb 054h,045h,04eh,0feh,038h,0c0h,03ah,000h,054h,045h,05ah,055h,04bh,041h,000h,050h	; 5aed  TEN.8.:.TEZUKA.P
 	defb 052h,04fh,044h,055h,043h,054h,049h,04fh,04eh,0ffh	; 5afd  RODUCTION.
@@ -3995,8 +4199,11 @@ L_5B31:
 	jp L_5B88		;5b3a
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x5b3d..0x5b5e  (33 bytes)
-DATA_5B3D:
+; DATOS sin_llamar_5B3D: codigo que no llama nadie (ninguna palabra del
+;   cartucho vale 0x5B3D): ld hl,0e800h / ld a,(de) / and a / ret z ... (33
+;   bytes)
+;   0x5b3d..0x5b5e  (33 bytes)
+DATA_sin_llamar_5B3D:
 	defb 021h,000h,0e8h,01ah,0a7h,0c8h,013h,047h,0e6h,07fh,0b8h,028h,00ch,0a7h,028h,0f0h	; 5b3d  !......G...(..(.
 	defb 0ebh,04fh,006h,000h,0edh,0b0h,0ebh,018h,0eah,01ah,013h,077h,023h,010h,0fch,018h	; 5b4d  .O.........w#...
 	defb 0e2h	; 5b5d
@@ -4111,8 +4318,9 @@ L_5BE7:
 	jr L_5BA0		;5be7
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x5be9..0x5c38  (79 bytes)
-DATA_5BE9:
+; DATOS tabla_5BE9: tabla que lee p00:5A4D, p00:5B1F (79 bytes)
+;   0x5be9..0x5c38  (79 bytes)
+DATA_tabla_5BE9:
 	defb 070h,000h,076h,006h,075h,005h,074h,004h,073h,003h,060h,000h,050h,000h,040h,000h	; 5be9  p.v.u.t.s.`.P.@.
 	defb 030h,000h,020h,000h,070h,000h,010h,000h,077h,007h,000h,000h,000h,000h,000h,000h	; 5bf9  0. .p...w.......
 	defb 00ch,00fh,00ch,00fh,000h,070h,000h,001h,076h,006h,002h,075h,005h,003h,074h,004h	; 5c09  .....p..v..u..t.
@@ -4221,8 +4429,10 @@ L_5D0E:
 	jr $+25		;5d18
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x5d1a..0x5d20  (6 bytes)
-DATA_5D1A:
+; DATOS sin_llamar_5D1A: codigo que no llama nadie (ninguna palabra del
+;   cartucho vale 0x5D1A): call 05de2h / jp 05dc4h (6 bytes)
+;   0x5d1a..0x5d20  (6 bytes)
+DATA_sin_llamar_5D1A:
 	defb 0cdh,0e2h,05dh,0c3h,0c4h,05dh	; 5d1a
 
 ; ======================================================================
@@ -4268,8 +4478,10 @@ L_5D49:
 	jp L_41AC		;5d7b
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x5d7e..0x5d94  (22 bytes)
-DATA_5D7E:
+; DATOS sin_lector_5D7E: bytes sin lector conocido: ninguna instruccion
+;   trazada los apunta y la sonda de openMSX no los lee (22 bytes)
+;   0x5d7e..0x5d94  (22 bytes)
+DATA_sin_lector_5D7E:
 	defb 03ah,061h,0c1h,03dh,047h,087h,080h,03ch,032h,086h,0c4h,0cdh,0bfh,065h,0cdh,0b0h	; 5d7e  :a.=G..<2....e..
 	defb 065h,0afh,032h,061h,0c1h,0c9h	; 5d8e
 
@@ -4417,8 +4629,9 @@ L_5E76:
 	ret			;5e77
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x5e78..0x5e89  (17 bytes)
-DATA_5E78:
+; DATOS tabla_5E78: tabla que lee p00:5E45, p00:5E4F, p00:5E5B (17 bytes)
+;   0x5e78..0x5e89  (17 bytes)
+DATA_tabla_5E78:
 	defb 000h,030h,031h,013h,035h,0aah,043h,044h,007h,045h,0ffh,0bah,0b2h,086h,007h,046h	; 5e78  .01.5.CD.E.....F
 	defb 0aah	; 5e88
 
@@ -4447,8 +4660,9 @@ L_5E9D:
 	ret			;5ea7
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x5ea8..0x5efd  (85 bytes)
-DATA_5EA8:
+; DATOS tabla_5EA8: tabla que lee p00:5E91 (85 bytes)
+;   0x5ea8..0x5efd  (85 bytes)
+DATA_tabla_5EA8:
 	defb 0cdh,09dh,05eh,00eh,00ch,0c3h,0ddh,04dh,058h,0a0h,040h,040h,040h,04dh,045h,04eh	; 5ea8  ..^....MX.@@@MEN
 	defb 055h,040h,040h,040h,0feh,028h,0b0h,03eh,0feh,030h,0b0h,053h,054h,041h,052h,054h	; 5eb8  U@@@.(.>.0.START
 	defb 000h,000h,047h,041h,04dh,045h,0feh,030h,0b8h,04dh,04fh,044h,049h,046h,059h,000h	; 5ec8  ..GAME.0.MODIFY.
@@ -4471,8 +4685,9 @@ L_5F09:
 	jp L_4853		;5f0b
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x5f0e..0x5f21  (19 bytes)
-DATA_5F0E:
+; DATOS tabla_5F0E: tabla que lee p00:5EFD (19 bytes)
+;   0x5f0e..0x5f21  (19 bytes)
+DATA_tabla_5F0E:
 	defb 048h,0b8h,053h,054h,041h,047h,045h,000h,04eh,055h,04dh,042h,045h,052h,02fh,0ffh	; 5f0e  H.STAGE.NUMBER/.
 	defb 030h,031h,0ffh	; 5f1e
 
@@ -4494,8 +4709,9 @@ L_5F2F:
 	jp L_4F87		;5f34
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x5f37..0x5f48  (17 bytes)
-DATA_5F37:
+; DATOS tabla_5F37: tabla que lee p00:5F21 (17 bytes)
+;   0x5f37..0x5f48  (17 bytes)
+DATA_tabla_5F37:
 	defb 048h,0b8h,050h,04ch,041h,059h,045h,052h,000h,04eh,055h,04dh,042h,045h,052h,02fh	; 5f37  H.PLAYER.NUMBER/
 	defb 0ffh	; 5f47
 

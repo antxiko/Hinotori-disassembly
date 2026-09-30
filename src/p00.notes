@@ -214,3 +214,54 @@ C 0x503A sitio_del_dibujo: H = (A & 31)*8, L = (A >> 5)*8: donde esta el dibujo 
 C 0x5042 lmmm: orden LMMM del V9938: lo mismo con operacion logica (A: paginas y operacion; 8 = TIMP)
 C 0x504C sitio_del_dibujo: H = (A & 31)*8, L = (A >> 5)*8: donde esta el dibujo A en la hoja
 C 0x5054 hmmm: orden HMMM del V9938: copia BxC puntos de (H, L) a (D, E); A lleva las paginas
+
+# --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
+D 0x4000 0x4010 cabecera_ab  la cabecera del cartucho: 'AB', INIT (0x40B8) y STATEMENT, DEVICE y TEXT a cero; lo leen la BIOS (16 bytes)
+F 0x4000 16
+D 0x4010 0x4048 cabecera_de_konami  'C', 0, 'D', 0, 3, 0, 0x15, 0... y las direcciones de la RAM del juego (0xC161 la fase, 0xC160 las vidas, 0xC155 los puntos...): ningun codigo de este cartucho la lee; es para que la lea otro cartucho de Konami puesto al lado; lo leen otro cartucho (56 bytes)
+F 0x4010 8
+D 0x4257 0x427D tabla_4257  19 destinos del despachador de 0x40AE (call en p00:4254): 0x427E, 0x42C3, 0x42EB, 0x434D, 0x4383, 0x43B5, 0x4411, 0x4439 ...; lo leen p00:4254 (38 bytes)
+F 0x4257 2
+D 0x5526 0x5536 tabla_5526  8 destinos del despachador de 0x40AE (call en p00:5523): 0x5536, 0x553A, 0x553E, 0x5545, 0x554C, 0x5553, 0x555A, 0x5561; lo leen p00:5523 (16 bytes)
+F 0x5526 2
+D 0x5740 0x5752 tabla_5740  9 destinos del despachador de 0x40AE (call en p00:573D): 0x5752, 0x576F, 0x577B, 0x5783, 0x578B, 0x5793, 0x579B, 0x57A3 ...; lo leen p00:573D (18 bytes)
+F 0x5740 2
+D 0x593B 0x594B bloques_de_cada_juego  donde empiezan los bloques de 4x4 dibujos de cada juego (0xC482); lo leen p00:5918 (16 bytes)
+F 0x593B 2
+D 0x594B 0x597B superfilas_de_cada_area  donde empiezan las superfilas (8 bloques) de cada area (0xC480); lo leen p00:590C (48 bytes)
+F 0x594B 2
+D 0x597B 0x59AB mapa_de_cada_area  el mapa de cada area (0xC480): una superfila por cada 32 puntos; lo leen p00:5900 (48 bytes)
+F 0x597B 2
+# --- fin de los bloques de bloques.py ---
+
+# --- RESTO (seccion que reescribe tools/resto.py; no editar a mano) ---
+D 0x43F1 0x4411 tabla_43F1  tabla que lee p03:B6CE (32 bytes)
+D 0x4525 0x4552 tabla_4525  tabla que lee p00:44E2, p00:4511 (45 bytes)
+D 0x4721 0x4735 tabla_4721  tabla que lee p00:471B, p06:BBA2 (20 bytes)
+D 0x4815 0x4818 tabla_4815  tabla que lee p00:47C3 (3 bytes)
+D 0x48D9 0x48FB sin_lector_48D9  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (34 bytes)
+D 0x4927 0x4937 sin_llamar_4927  codigo que no llama nadie (ninguna palabra del cartucho vale 0x4927): ex af,af' / ld a,(0c385h) / add a,e / and 0f8h ... (16 bytes)
+D 0x498E 0x49D8 sin_llamar_498E  codigo que no llama nadie (ninguna palabra del cartucho vale 0x498E): ld a,(0c100h) / cp 005h / ret nz / ld hl,0cb49h ... (74 bytes)
+D 0x4A1F 0x4A39 sin_llamar_4A1F  codigo que no llama nadie (ninguna palabra del cartucho vale 0x4A1F): push bc / call 04a58h / ld a,(00006h) / ld c,a ... (26 bytes)
+D 0x4BDF 0x4BEC sin_llamar_4BDF  codigo que no llama nadie (ninguna palabra del cartucho vale 0x4BDF): ld hl,0e400h / ld de,(0c134h) / ld bc,00280h / jp 049f3h (13 bytes)
+D 0x4C2A 0x4C65 sin_lector_4C2A  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (59 bytes)
+D 0x4D32 0x4D3F tabla_4D32  tabla que lee p00:4D2D (13 bytes)
+D 0x4F2B 0x4F55 sin_lector_4F2B  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (42 bytes)
+D 0x5019 0x5024 tabla_5019  tabla que lee p06:AE71 (11 bytes)
+D 0x521E 0x5226 sin_lector_521E  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (8 bytes)
+D 0x530C 0x5314 tabla_530C  tabla que lee p00:52F6 (8 bytes)
+D 0x5382 0x53E9 tabla_5382  tabla que lee p00:4357, p00:448F, p00:5B16 (103 bytes)
+D 0x5568 0x5579 sin_lector_5568  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (17 bytes)
+D 0x56D8 0x56E9 sin_lector_56D8  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (17 bytes)
+D 0x5847 0x5856 tabla_5847  tabla que lee p00:583C (15 bytes)
+D 0x59AB 0x59AD sin_lector_59AB  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (2 bytes)
+D 0x5ADD 0x5B07 tabla_5ADD  tabla que lee p00:5B10 (42 bytes)
+D 0x5B3D 0x5B5E sin_llamar_5B3D  codigo que no llama nadie (ninguna palabra del cartucho vale 0x5B3D): ld hl,0e800h / ld a,(de) / and a / ret z ... (33 bytes)
+D 0x5BE9 0x5C38 tabla_5BE9  tabla que lee p00:5A4D, p00:5B1F (79 bytes)
+D 0x5D1A 0x5D20 sin_llamar_5D1A  codigo que no llama nadie (ninguna palabra del cartucho vale 0x5D1A): call 05de2h / jp 05dc4h (6 bytes)
+D 0x5D7E 0x5D94 sin_lector_5D7E  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (22 bytes)
+D 0x5E78 0x5E89 tabla_5E78  tabla que lee p00:5E45, p00:5E4F, p00:5E5B (17 bytes)
+D 0x5EA8 0x5EFD tabla_5EA8  tabla que lee p00:5E91 (85 bytes)
+D 0x5F0E 0x5F21 tabla_5F0E  tabla que lee p00:5EFD (19 bytes)
+D 0x5F37 0x5F48 tabla_5F37  tabla que lee p00:5F21 (17 bytes)
+# --- fin del resto ---

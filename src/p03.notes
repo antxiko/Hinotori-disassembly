@@ -1,0 +1,157 @@
+
+# --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
+D 0xA04F 0xA05A ficha_A04F  11 bytes de la ficha del bicho desde ix+7 (p01:7073); lo leen p03:A000 (11 bytes)
+F 0xA04F 11
+D 0xA05A 0xA05E ficha_A05A  4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084); lo leen p03:A095 (4 bytes)
+F 0xA05A 4
+D 0xA136 0xA13A ficha_A136  4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084); lo leen p03:A11B (4 bytes)
+F 0xA136 4
+D 0xA143 0xA151 tabla_A143  7 destinos del despachador de 0x40AE (call en p03:A140): 0xA172, 0xA17A, 0xA208, 0xA21E, 0xA25B, 0xA289, 0xA151; lo leen p03:A140 (14 bytes)
+F 0xA143 2
+D 0xA33E 0xA342 ficha_A33E  4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084); lo leen p03:A324 (4 bytes)
+F 0xA33E 4
+D 0xA3AA 0xA3AE ficha_A3AA  4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084); lo leen p03:A382 (4 bytes)
+F 0xA3AA 4
+D 0xA481 0xA485 ficha_A481  4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084); lo leen p03:A45A (4 bytes)
+F 0xA481 4
+D 0xA49C 0xA4B0 tabla_A49C  10 destinos del despachador de 0x40AE (call en p03:A499): 0xA172, 0xA4FB, 0xA201, 0xA217, 0xA24E, 0xA284, 0xA1F3, 0xA1EE ...; lo leen p03:A499 (20 bytes)
+F 0xA49C 2
+D 0xA627 0xA62B ficha_A627  4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 3) (p01:7080); lo leen p03:A5FB (4 bytes)
+F 0xA627 4
+D 0xA6D0 0xA6DB ficha_A6D0  11 bytes de la ficha del bicho desde ix+7 (p01:7073); lo leen p03:A6C1 (11 bytes)
+F 0xA6D0 11
+D 0xA6DB 0xA6DF ficha_A6DB  4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084); lo leen p03:A6BB (4 bytes)
+F 0xA6DB 4
+D 0xA6FC 0xA702 tabla_A6FC  3 destinos del despachador de 0x40AE (call en p03:A6F9): 0xA702, 0xA710, 0xA740; lo leen p03:A6F9 (6 bytes)
+F 0xA6FC 2
+D 0xA78A 0xA79A tabla_A78A  8 destinos del despachador de 0x40AE (call en p03:A787): 0xA7A4, 0xA7A4, 0xA7A9, 0xA7A9, 0xA79F, 0xA79A, 0xA770, 0xA75E; lo leen p03:A787 (16 bytes)
+F 0xA78A 2
+D 0xA8C8 0xA8CC ficha_A8C8  4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084); lo leen p03:A8AE (4 bytes)
+F 0xA8C8 4
+D 0xA904 0xA908 ficha_A904  4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084); lo leen p03:A8D3 (4 bytes)
+F 0xA904 4
+D 0xA940 0xA944 ficha_A940  4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084); lo leen p03:A925 (4 bytes)
+F 0xA940 4
+D 0xA9DA 0xA9DE ficha_A9DA  4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084); lo leen p03:A9CB (4 bytes)
+F 0xA9DA 4
+D 0xAA07 0xAA15 tabla_AA07  7 destinos del despachador de 0x40AE (call en p03:AA04): 0xA172, 0xAA15, 0xA208, 0xA21E, 0xA25B, 0xA289, 0xA151; lo leen p03:AA04 (14 bytes)
+F 0xAA07 2
+D 0xAA76 0xAA7C ficha_AA76  los 6 primeros bytes de la ficha del bicho (ix+0..5) (p01:706A); lo leen p03:AA61 (6 bytes)
+F 0xAA76 6
+D 0xAAD7 0xAAE2 ficha_AAD7  11 bytes de la ficha del bicho desde ix+7 (p01:7073); lo leen p03:AAAE (11 bytes)
+F 0xAAD7 11
+D 0xAAE2 0xAAE6 ficha_AAE2  4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084); lo leen p03:AAB4 (4 bytes)
+F 0xAAE2 4
+D 0xAB0C 0xAB12 tabla_AB0C  3 destinos del despachador de 0x40AE (call en p03:AB09): 0xAB12, 0xAB24, 0xAB3B; lo leen p03:AB09 (6 bytes)
+F 0xAB0C 2
+D 0xAB61 0xAB69 tabla_AB61  4 destinos del despachador de 0x40AE (call en p03:AB5E): 0xAB69, 0xAB85, 0xAB95, 0xABB9; lo leen p03:AB5E (8 bytes)
+F 0xAB61 2
+D 0xAC60 0xAC6B ficha_AC60  11 bytes de la ficha del bicho desde ix+7 (p01:7073); lo leen p03:AC54 (11 bytes)
+F 0xAC60 11
+D 0xAC6B 0xAC6F ficha_AC6B  4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084); lo leen p03:AC4E (4 bytes)
+F 0xAC6B 4
+D 0xACC6 0xACD1 ficha_ACC6  11 bytes de la ficha del bicho desde ix+7 (p01:7073); lo leen p03:ACB7 (11 bytes)
+F 0xACC6 11
+D 0xACD1 0xACD5 ficha_ACD1  4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084); lo leen p03:AC99 (4 bytes)
+F 0xACD1 4
+D 0xAD8A 0xAD8E ficha_AD8A  4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084); lo leen p03:AD77 (4 bytes)
+F 0xAD8A 4
+D 0xADBD 0xADC1 ficha_ADBD  4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084); lo leen p03:ADAE (4 bytes)
+F 0xADBD 4
+D 0xADDE 0xADE2 ficha_ADDE  4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084); lo leen p03:ADCA (4 bytes)
+F 0xADDE 4
+D 0xADF0 0xADFC tabla_ADF0  6 destinos del despachador de 0x40AE (call en p03:ADED): 0xB07F, 0xB445, 0xB2AD, 0xB690, 0xB8A8, 0xBB2E; lo leen p03:ADED (12 bytes)
+F 0xADF0 2
+D 0xAFC4 0xAFCF ficha_AFC4  11 bytes de la ficha del bicho desde ix+7 (p01:7073); lo leen p03:AFA8 (11 bytes)
+F 0xAFC4 11
+D 0xB0E8 0xB0F3 ficha_B0E8  11 bytes de la ficha del bicho desde ix+7 (p01:7073); lo leen p03:B0D1 (11 bytes)
+F 0xB0E8 11
+D 0xB0F3 0xB0F7 ficha_B0F3  4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 3) (p01:7080); lo leen p03:B0CB (4 bytes)
+F 0xB0F3 4
+D 0xB108 0xB112 tabla_B108  5 destinos del despachador de 0x40AE (call en p03:B105): 0xB112, 0xB123, 0xB191, 0xB1C0, 0xB259; lo leen p03:B105 (10 bytes)
+F 0xB108 2
+D 0xB29B 0xB2A6 ficha_B29B  11 bytes de la ficha del bicho desde ix+7 (p01:7073); lo leen p03:B278 (11 bytes)
+F 0xB29B 11
+D 0xB2A6 0xB2AA ficha_B2A6  4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084); lo leen p03:B272 (4 bytes)
+F 0xB2A6 4
+D 0xB316 0xB321 ficha_B316  11 bytes de la ficha del bicho desde ix+7 (p01:7073); lo leen p03:B2FE (11 bytes)
+F 0xB316 11
+D 0xB321 0xB325 ficha_B321  4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 3) (p01:7080); lo leen p03:B2F8 (4 bytes)
+F 0xB321 4
+D 0xB407 0xB412 ficha_B407  11 bytes de la ficha del bicho desde ix+7 (p01:7073); lo leen p03:B3EB (11 bytes)
+F 0xB407 11
+D 0xB412 0xB416 ficha_B412  4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084); lo leen p03:B3E5 (4 bytes)
+F 0xB412 4
+D 0xB4BF 0xB4C3 ficha_B4BF  4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 3) (p01:7080); lo leen p03:B490 (4 bytes)
+F 0xB4BF 4
+D 0xB5C2 0xB5C6 ficha_B5C2  4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084); lo leen p03:B5AC (4 bytes)
+F 0xB5C2 4
+D 0xB5EB 0xB5F6 ficha_B5EB  11 bytes de la ficha del bicho desde ix+7 (p01:7073); lo leen p03:B5CC (11 bytes)
+F 0xB5EB 11
+D 0xB5F6 0xB5FA ficha_B5F6  4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084); lo leen p03:B5C6 (4 bytes)
+F 0xB5F6 4
+D 0xB70C 0xB710 ficha_B70C  4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 3) (p01:7080); lo leen p03:B6E7 (4 bytes)
+F 0xB70C 4
+D 0xB728 0xB732 tabla_B728  5 destinos del despachador de 0x40AE (call en p03:B725): 0xB732, 0xB752, 0xB760, 0xB776, 0xB7B0; lo leen p03:B725 (10 bytes)
+F 0xB728 2
+D 0xB8A1 0xB8A5 ficha_B8A1  4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084); lo leen p03:B85D (4 bytes)
+F 0xB8A1 4
+D 0xB903 0xB907 ficha_B903  4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 3) (p01:7080); lo leen p03:B8E7 (4 bytes)
+F 0xB903 4
+D 0xB91E 0xB92C tabla_B91E  7 destinos del despachador de 0x40AE (call en p03:B91B): 0xB92C, 0xB93F, 0xB970, 0xB991, 0xB9C6, 0xB9E4, 0xBA1E; lo leen p03:B91B (14 bytes)
+F 0xB91E 2
+D 0xBAE6 0xBAEA ficha_BAE6  4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084); lo leen p03:BACA (4 bytes)
+F 0xBAE6 4
+D 0xBBA5 0xBBB0 ficha_BBA5  11 bytes de la ficha del bicho desde ix+7 (p01:7073); lo leen p03:BB8D (11 bytes)
+F 0xBBA5 11
+D 0xBBB0 0xBBB4 ficha_BBB0  4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 3) (p01:7080); lo leen p03:BB87 (4 bytes)
+F 0xBBB0 4
+D 0xBCA2 0xBCA6 ficha_BCA2  4 bytes de la ficha desde ix+0x70 (y ix+0x74 = 0) (p01:7084); lo leen p03:BC8C, p03:BCAF (4 bytes)
+F 0xBCA2 4
+D 0xBE43 0xC000 relleno_p03  0xFF hasta el final del banco: nadie lo lee; lo leen nadie (445 bytes)
+F 0xBE43 16
+# --- fin de los bloques de bloques.py ---
+
+# --- RESTO (seccion que reescribe tools/resto.py; no editar a mano) ---
+D 0xA112 0xA118 tabla_A112  tabla que lee p03:A10C (6 bytes)
+D 0xA12B 0xA136 tabla_A12B  tabla que lee p03:A125 (11 bytes)
+D 0xA28E 0xA312 tabla_A28E  tabla que lee p03:A1EE, p03:A1F3, p03:A201, p03:A208, p03:A217, p03:A21E (132 bytes)
+D 0xA318 0xA31E tabla_A318  tabla que lee p03:A312 (6 bytes)
+D 0xA39F 0xA3AA tabla_A39F  tabla que lee p03:A399 (11 bytes)
+D 0xA451 0xA457 tabla_A451  tabla que lee p03:A44B (6 bytes)
+D 0xA476 0xA481 tabla_A476  tabla que lee p03:A463 (11 bytes)
+D 0xA4ED 0xA4FB tabla_A4ED  tabla que lee p03:A48E (14 bytes)
+D 0xA58D 0xA59D tabla_A58D  tabla que lee p03:A56A (16 bytes)
+D 0xA6A8 0xA6AC tabla_A6A8  tabla que lee p03:A696 (4 bytes)
+D 0xA6B2 0xA6B8 tabla_A6B2  tabla que lee p03:A6AC (6 bytes)
+D 0xA725 0xA72A sin_llamar_A725  codigo que no llama nadie (ninguna palabra del cartucho vale 0xA725): xor a / ld (ix+001h),a / ret (5 bytes)
+D 0xA7BB 0xA7CB tabla_A7BB  tabla que lee p03:A79A, p03:A79F, p03:A7A4, p03:A7A9 (16 bytes)
+D 0xA837 0xA842 tabla_A837  tabla que lee p03:A81C (11 bytes)
+D 0xA8CC 0xA8D0 tabla_A8CC  tabla que lee p03:A8BB (4 bytes)
+D 0xA8F8 0xA904 tabla_A8F8  tabla que lee p03:A8E5 (12 bytes)
+D 0xA91F 0xA925 tabla_A91F  tabla que lee p03:A919 (6 bytes)
+D 0xA935 0xA940 tabla_A935  tabla que lee p03:A92F (11 bytes)
+D 0xA9A1 0xA9CB sin_lector_A9A1  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (42 bytes)
+D 0xAA9F 0xAAAA tabla_AA9F  tabla que lee p03:AA8B (11 bytes)
+D 0xAAF8 0xAB03 tabla_AAF8  tabla que lee p03:AAEA (11 bytes)
+D 0xACF0 0xACF1 tabla_ACF0  tabla que lee p03:ACDC (1 bytes)
+D 0xAE49 0xAE55 tabla_AE49  tabla que lee p03:AE26 (12 bytes)
+D 0xAE9F 0xAEA4 sin_lector_AE9F  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (5 bytes)
+D 0xAF44 0xAF5C tabla_AF44  tabla que lee p03:AF1D, p03:AF22, p03:AF27, p03:AF2C, p03:AF31, p03:AF36 (24 bytes)
+D 0xAFA2 0xAFA8 tabla_AFA2  tabla que lee p03:AF91, p03:AF97 (6 bytes)
+D 0xB015 0xB02D tabla_B015  tabla que lee p03:AFE6 (24 bytes)
+D 0xB0BF 0xB0CB tabla_B0BF  tabla que lee p03:B0B7 (12 bytes)
+D 0xB24D 0xB259 tabla_B24D  tabla que lee p03:B224, p03:B22B, p03:B232, p03:B237 (12 bytes)
+D 0xB2EC 0xB2F8 tabla_B2EC  tabla que lee p03:B2E3 (12 bytes)
+D 0xB484 0xB490 tabla_B484  tabla que lee p03:B479 (12 bytes)
+D 0xB670 0xB690 tabla_B670  tabla que lee p03:B643 (32 bytes)
+D 0xB6D7 0xB6E7 tabla_B6D7  tabla que lee p03:B6C4, p03:B8DE (16 bytes)
+D 0xB79E 0xB7B0 sin_lector_B79E  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (18 bytes)
+D 0xB843 0xB85D tabla_B843  tabla que lee p03:B838, p03:B83D (26 bytes)
+D 0xB885 0xB8A1 sin_lector_B885  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (28 bytes)
+D 0xBA6A 0xBAAA tabla_BA6A  tabla que lee p03:BA57 (64 bytes)
+D 0xBAEA 0xBAF4 sin_lector_BAEA  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (10 bytes)
+D 0xBB65 0xBB79 tabla_BB65  tabla que lee p03:BB5A (20 bytes)
+D 0xBCDE 0xBCEE tabla_BCDE  tabla que lee p03:BCB9 (16 bytes)
+D 0xBE36 0xBE43 tabla_BE36  tabla que lee p03:BDBC, p03:BDC2, p03:BDC8, p03:BDCE, p03:BDE7 (13 bytes)
+# --- fin del resto ---

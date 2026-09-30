@@ -78,6 +78,9 @@ def valor(d, i):
         pc, incs, roto = ini, 0, False
         while pc < i:
             op = d[pc]
+            if pc > ini and op in (0x18, 0xC3, 0xC9):
+                roto = True                # un salto: lo de detras es otra rutina
+                break
             if pc > ini and op == 0x3C:
                 incs += 1
             elif pc > ini and toca_a(d, pc):

@@ -1,0 +1,136 @@
+
+# --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
+D 0x6000 0x6030 sprites_de_cada_area  la lista de patrones de sprite de cada area (0xC480), una palabra; lo leen p00:5662 (48 bytes)
+F 0x6000 2
+D 0x6030 0x604C lista_vram_6030  lista de p00:4AB0: 0 [rle][vram]; 1 [vram][n][vram]: n dibujos de la VRAM girados; 2+ [fuente][n][vram]: n bytes tal cual; 0xFF acaba; lo leen p00:564A (28 bytes)
+F 0x6030 7
+D 0x604C 0x605C lista_vram_604C  lista de p00:4AB0: 0 [rle][vram]; 1 [vram][n][vram]: n dibujos de la VRAM girados; 2+ [fuente][n][vram]: n bytes tal cual; 0xFF acaba; lo leen p06:AD68 (16 bytes)
+F 0x604C 7
+D 0x605C 0x606B sprites_605C  pares [cosa de 0x6173][sitio en 0xCF00 y en los patrones 0xF800 + 8*sitio] ... 0xFF (p00:5686); lo leen p00:5686 (15 bytes)
+F 0x605C 2
+D 0x606B 0x607E sprites_606B  pares [cosa de 0x6173][sitio en 0xCF00 y en los patrones 0xF800 + 8*sitio] ... 0xFF (p00:5686); lo leen p00:5686 (19 bytes)
+F 0x606B 2
+D 0x607E 0x6093 sprites_607E  pares [cosa de 0x6173][sitio en 0xCF00 y en los patrones 0xF800 + 8*sitio] ... 0xFF (p00:5686); lo leen p00:5686 (21 bytes)
+F 0x607E 2
+D 0x6093 0x60A6 sprites_6093  pares [cosa de 0x6173][sitio en 0xCF00 y en los patrones 0xF800 + 8*sitio] ... 0xFF (p00:5686); lo leen p00:5686 (19 bytes)
+F 0x6093 2
+D 0x60A6 0x60B3 sprites_60A6  pares [cosa de 0x6173][sitio en 0xCF00 y en los patrones 0xF800 + 8*sitio] ... 0xFF (p00:5686); lo leen p00:5686 (13 bytes)
+F 0x60A6 2
+D 0x60B3 0x60C4 sprites_60B3  pares [cosa de 0x6173][sitio en 0xCF00 y en los patrones 0xF800 + 8*sitio] ... 0xFF (p00:5686); lo leen p00:5686 (17 bytes)
+F 0x60B3 2
+D 0x60C4 0x60D1 sprites_60C4  pares [cosa de 0x6173][sitio en 0xCF00 y en los patrones 0xF800 + 8*sitio] ... 0xFF (p00:5686); lo leen p00:5686 (13 bytes)
+F 0x60C4 2
+D 0x60D1 0x60E0 sprites_60D1  pares [cosa de 0x6173][sitio en 0xCF00 y en los patrones 0xF800 + 8*sitio] ... 0xFF (p00:5686); lo leen p00:5686 (15 bytes)
+F 0x60D1 2
+D 0x60E0 0x60F3 sprites_60E0  pares [cosa de 0x6173][sitio en 0xCF00 y en los patrones 0xF800 + 8*sitio] ... 0xFF (p00:5686); lo leen p00:5686 (19 bytes)
+F 0x60E0 2
+D 0x60F3 0x6104 sprites_60F3  pares [cosa de 0x6173][sitio en 0xCF00 y en los patrones 0xF800 + 8*sitio] ... 0xFF (p00:5686); lo leen p00:5686 (17 bytes)
+F 0x60F3 2
+D 0x6104 0x6115 sprites_6104  pares [cosa de 0x6173][sitio en 0xCF00 y en los patrones 0xF800 + 8*sitio] ... 0xFF (p00:5686); lo leen p00:5686 (17 bytes)
+F 0x6104 2
+D 0x6115 0x612A sprites_6115  pares [cosa de 0x6173][sitio en 0xCF00 y en los patrones 0xF800 + 8*sitio] ... 0xFF (p00:5686); lo leen p00:5686 (21 bytes)
+F 0x6115 2
+D 0x612A 0x6135 sprites_612A  pares [cosa de 0x6173][sitio en 0xCF00 y en los patrones 0xF800 + 8*sitio] ... 0xFF (p00:5686); lo leen p00:5686 (11 bytes)
+F 0x612A 2
+D 0x6135 0x6146 sprites_6135  pares [cosa de 0x6173][sitio en 0xCF00 y en los patrones 0xF800 + 8*sitio] ... 0xFF (p00:5686); lo leen p00:5686 (17 bytes)
+F 0x6135 2
+D 0x6146 0x614D sprites_6146  pares [cosa de 0x6173][sitio en 0xCF00 y en los patrones 0xF800 + 8*sitio] ... 0xFF (p00:5686); lo leen p00:5686 (7 bytes)
+F 0x6146 2
+D 0x614D 0x6156 sprites_614D  pares [cosa de 0x6173][sitio en 0xCF00 y en los patrones 0xF800 + 8*sitio] ... 0xFF (p00:5686); lo leen p00:5686 (9 bytes)
+F 0x614D 2
+D 0x6156 0x615D sprites_6156  pares [cosa de 0x6173][sitio en 0xCF00 y en los patrones 0xF800 + 8*sitio] ... 0xFF (p00:5686); lo leen p00:5686 (7 bytes)
+F 0x6156 2
+D 0x615D 0x6162 sprites_615D  pares [cosa de 0x6173][sitio en 0xCF00 y en los patrones 0xF800 + 8*sitio] ... 0xFF (p00:5686); lo leen p00:5686 (5 bytes)
+F 0x615D 2
+D 0x6162 0x6169 sprites_6162  pares [cosa de 0x6173][sitio en 0xCF00 y en los patrones 0xF800 + 8*sitio] ... 0xFF (p00:5686); lo leen p00:5686 (7 bytes)
+F 0x6162 2
+D 0x6169 0x6172 sprites_6169  pares [cosa de 0x6173][sitio en 0xCF00 y en los patrones 0xF800 + 8*sitio] ... 0xFF (p00:5686); lo leen p00:5686 (9 bytes)
+F 0x6169 2
+D 0x6173 0x6269 cosas_con_sprite  41 cosas: [ficha 0xCF00+][tipo 0 = RLE, 1 = nada, 2+ = tal cual][fuente][bytes] (p00:5694); las listas de las areas piden de la 0 a la 40; lo leen p00:5694 (246 bytes)
+F 0x6173 6
+D 0x6269 0x6335 rle_6269  patrones de sprite en RLE de la cosa 23 (p00:56C1); lo leen p00:56C7 (204 bytes)
+F 0x6269 16
+D 0x6335 0x642A rle_6335  patrones de sprite en RLE de la cosa 24 (p00:56C1); lo leen p00:56C7 (245 bytes)
+F 0x6335 16
+D 0x642A 0x6504 rle_642A  patrones de sprite en RLE de la cosa 22 (p00:56C1); lo leen p00:56C7 (218 bytes)
+F 0x642A 16
+D 0x6504 0x6587 rle_6504  patrones de sprite en RLE de la cosa 20 (p00:56C1); lo leen p00:56C7 (131 bytes)
+F 0x6504 16
+D 0x6587 0x65C9 rle_6587  patrones de sprite en RLE de la cosa 21 (p00:56C1); lo leen p00:56C7 (66 bytes)
+F 0x6587 16
+D 0x65C9 0x6649 rle_65C9  patrones de sprite en RLE de la cosa 19 (p00:56C1); lo leen p00:56C7 (128 bytes)
+F 0x65C9 16
+D 0x6649 0x66CC rle_6649  patrones de sprite en RLE de la cosa 16 (p00:56C1); lo leen p00:56C7 (131 bytes)
+F 0x6649 16
+D 0x66CC 0x670E rle_66CC  patrones de sprite en RLE de la cosa 17 (p00:56C1); lo leen p00:56C7 (66 bytes)
+F 0x66CC 16
+D 0x670E 0x6790 rle_670E  patrones de sprite en RLE de la cosa 18 (p00:56C1); lo leen p00:56C7 (130 bytes)
+F 0x670E 16
+D 0x6790 0x6893 rle_6790  patrones de sprite en RLE de la cosa 3 (p00:56C1); lo leen p00:56C7 (259 bytes)
+F 0x6790 16
+D 0x6893 0x68D5 rle_6893  patrones de sprite en RLE de la cosa 4 (p00:56C1); lo leen p00:56C7 (66 bytes)
+F 0x6893 16
+D 0x68D5 0x6917 rle_68D5  patrones de sprite en RLE de la cosa 10 (p00:56C1); lo leen p00:56C7 (66 bytes)
+F 0x68D5 16
+D 0x6917 0x699A rle_6917  patrones de sprite en RLE de la cosa 5 (p00:56C1); lo leen p00:56C7 (131 bytes)
+F 0x6917 16
+D 0x699A 0x6A1D rle_699A  patrones de sprite en RLE de la cosa 2 (p00:56C1); lo leen p00:56C7 (131 bytes)
+F 0x699A 16
+D 0x6A1D 0x6AA0 rle_6A1D  patrones de sprite en RLE de la cosa 6 (p00:56C1); lo leen p00:56C7 (131 bytes)
+F 0x6A1D 16
+D 0x6AA0 0x6B23 rle_6AA0  patrones de sprite en RLE de la cosa 7 (p00:56C1); lo leen p00:56C7 (131 bytes)
+F 0x6AA0 16
+D 0x6B23 0x6BA6 rle_6B23  patrones de sprite en RLE de la cosa 12 (p00:56C1); lo leen p00:56C7 (131 bytes)
+F 0x6B23 16
+D 0x6BA6 0x6C52 rle_6BA6  patrones de sprite en RLE de la cosa 11 (p00:56C1); lo leen p00:56C7 (172 bytes)
+F 0x6BA6 16
+D 0x6C52 0x6C94 rle_6C52  patrones de sprite en RLE de la cosa 1 (p00:56C1); lo leen p00:56C7 (66 bytes)
+F 0x6C52 16
+D 0x6C94 0x6D8A rle_6C94  patrones de sprite en RLE de la cosa 13 (p00:56C1); lo leen p00:56C7 (246 bytes)
+F 0x6C94 16
+D 0x6D8A 0x6E0D rle_6D8A  patrones de sprite en RLE de la cosa 15 (p00:56C1); lo leen p00:56C7 (131 bytes)
+F 0x6D8A 16
+D 0x6E0D 0x6E90 rle_6E0D  patrones de sprite en RLE de la cosa 8 (p00:56C1); lo leen p00:56C7 (131 bytes)
+F 0x6E0D 16
+D 0x6E90 0x6F77 rle_6E90  patrones de sprite en RLE de la cosa 14 (p00:56C1); lo leen p00:56C7 (231 bytes)
+F 0x6E90 16
+D 0x6F77 0x707A rle_6F77  patrones de sprite en RLE de la cosa 0 (p00:56C1); lo leen p00:56C7 (259 bytes)
+F 0x6F77 16
+D 0x707A 0x70AE rle_707A  patrones de sprite en RLE de la cosa 39 (p00:56C1); lo leen p00:56C7 (52 bytes)
+F 0x707A 16
+D 0x70AE 0x70BC colores_de_gao  7 palabras, por 0xC840: los 32 bytes que p00:566E sube a la VRAM 0xF8A0; lo leen p00:5674 (14 bytes)
+F 0x70AE 2
+D 0x70BC 0x70D3 rle_70BC  patrones en RLE para la VRAM 0xF880 (p00:4A8D: 0 acaba, 0x80 cambia de direccion, bit 7 = tal cual, sin el = repetir); lo leen p00:4ACA (lista 0x6030) (23 bytes)
+F 0x70BC 16
+D 0x70D3 0x70F3 f8a0_70D3  32 bytes para la VRAM 0xF8A0 (p00:566E); lo leen p00:5680 (32 bytes)
+F 0x70D3 16
+D 0x70F3 0x7113 f8a0_70F3  32 bytes para la VRAM 0xF8A0 (p00:566E); lo leen p00:5680 (32 bytes)
+F 0x70F3 16
+D 0x7113 0x7133 f8a0_7113  32 bytes para la VRAM 0xF8A0 (p00:566E); lo leen p00:5680 (32 bytes)
+F 0x7113 16
+D 0x7133 0x7153 patrones_7133  32 bytes de patrones de sprite de la cosa 40 (p00:56CA); lo leen p00:56D5 (32 bytes)
+F 0x7133 16
+D 0x7153 0x7173 vram_7153  32 bytes tal cual a la VRAM 0xFA60 (p00:4B07); lo leen p00:4B07 (lista 0x6030) (32 bytes)
+F 0x7153 16
+D 0x7173 0x71C5 rle_7173  patrones en RLE para la VRAM 0xF8C0 (p00:4A8D: 0 acaba, 0x80 cambia de direccion, bit 7 = tal cual, sin el = repetir); lo leen p00:4ACA (lista 0x6030) (82 bytes)
+F 0x7173 16
+D 0x72C0 0x72D5 rle_72C0  patrones en RLE para la VRAM 0xFA40 (p00:4A8D: 0 acaba, 0x80 cambia de direccion, bit 7 = tal cual, sin el = repetir); lo leen p00:4ACA (lista 0x6030) (21 bytes)
+F 0x72C0 16
+D 0x72D5 0x73C0 rle_72D5  patrones en RLE para la VRAM 0xF940 (p00:4A8D: 0 acaba, 0x80 cambia de direccion, bit 7 = tal cual, sin el = repetir); lo leen p00:4ACA (lista 0x6030) (235 bytes)
+F 0x72D5 16
+D 0x73C0 0x73C7 rle_73C0  patrones en RLE para la VRAM 0xF880 (p00:4A8D: 0 acaba, 0x80 cambia de direccion, bit 7 = tal cual, sin el = repetir); lo leen p00:4ACA (lista 0x604C) (7 bytes)
+F 0x73C0 16
+D 0x73C7 0x73DA rle_73C7  patrones en RLE para la VRAM 0xF8A0 (p00:4A8D: 0 acaba, 0x80 cambia de direccion, bit 7 = tal cual, sin el = repetir); lo leen p00:4ACA (lista 0x604C) (19 bytes)
+F 0x73C7 16
+D 0x73DA 0x7457 rle_73DA  patrones en RLE para la VRAM 0xF800 (p00:4A8D: 0 acaba, 0x80 cambia de direccion, bit 7 = tal cual, sin el = repetir); lo leen p00:4ACA (lista 0x604C) (125 bytes)
+F 0x73DA 16
+# --- fin de los bloques de bloques.py ---
+
+
+# --- A MANO: datos con su explicacion ---
+D 0x7457 0x824E rle_sin_puntero  18 tiras en el RLE de p00:4A8D (cada una acaba en su 0; 320, 256, 192 y 256 bytes al abrirlas) seguidas, de 0x7457 a 0x81E2 en este banco y la cola en el 8: ninguna palabra del cartucho vale 0x7457 ni ninguno de los principios de las tiras, y la sonda de openMSX no las lee
+
+# --- RESTO (seccion que reescribe tools/resto.py; no editar a mano) ---
+D 0x6172 0x6173 relleno_6172  relleno de 0xFF: nadie lo lee (1 bytes)
+D 0x71C5 0x72C0 sin_lector_71C5  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (251 bytes)
+# --- fin del resto ---

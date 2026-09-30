@@ -1,0 +1,83 @@
+
+# --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
+D 0x6000 0x6010 listas_de_cada_juego  las listas de dibujos de cada juego (0xC482 = 0..7), una palabra cada una; lo leen p00:54C0 (16 bytes)
+F 0x6000 2
+D 0x6020 0x6074 lista_6020  lista de dibujos para la hoja (p00:54CC): [n][dibujo][propiedad][fuente][tipo], 0xFD-0xFF ponen colores, 0 acaba; 13 entradas; lo leen p00:54C3 (juego 0) (84 bytes)
+F 0x6020 6
+D 0x6074 0x60CA lista_6074  lista de dibujos para la hoja (p00:54CC): [n][dibujo][propiedad][fuente][tipo], 0xFD-0xFF ponen colores, 0 acaba; 13 entradas; lo leen p00:54C3 (juego 1) (86 bytes)
+F 0x6074 6
+D 0x60CA 0x6100 lista_60CA  lista de dibujos para la hoja (p00:54CC): [n][dibujo][propiedad][fuente][tipo], 0xFD-0xFF ponen colores, 0 acaba; 8 entradas; lo leen p00:54C3 (juego 2) (54 bytes)
+F 0x60CA 6
+D 0x6100 0x613F lista_6100  lista de dibujos para la hoja (p00:54CC): [n][dibujo][propiedad][fuente][tipo], 0xFD-0xFF ponen colores, 0 acaba; 9 entradas; lo leen p00:54C3 (juego 3) (63 bytes)
+F 0x6100 6
+D 0x613F 0x6169 lista_613F  lista de dibujos para la hoja (p00:54CC): [n][dibujo][propiedad][fuente][tipo], 0xFD-0xFF ponen colores, 0 acaba; 6 entradas; lo leen p00:54C3 (juego 4) (42 bytes)
+F 0x613F 6
+D 0x6169 0x61B3 lista_6169  lista de dibujos para la hoja (p00:54CC): [n][dibujo][propiedad][fuente][tipo], 0xFD-0xFF ponen colores, 0 acaba; 11 entradas; lo leen p00:54C3 (juego 5) (74 bytes)
+F 0x6169 6
+D 0x61B3 0x61E9 lista_61B3  lista de dibujos para la hoja (p00:54CC): [n][dibujo][propiedad][fuente][tipo], 0xFD-0xFF ponen colores, 0 acaba; 7 entradas; lo leen p00:54C3 (juego 6) (54 bytes)
+F 0x61B3 6
+D 0x61E9 0x6271 lista_61E9  lista de dibujos para la hoja (p00:54CC): [n][dibujo][propiedad][fuente][tipo], 0xFD-0xFF ponen colores, 0 acaba; 20 entradas; lo leen p00:54A2 (136 bytes)
+F 0x61E9 6
+D 0x6271 0x62A5 lista_6271  lista de dibujos para la hoja (p00:54CC): [n][dibujo][propiedad][fuente][tipo], 0xFD-0xFF ponen colores, 0 acaba; 8 entradas; lo leen p00:54AF (52 bytes)
+F 0x6271 6
+D 0x62A5 0x62D2 lista_62A5  lista de dibujos para la hoja (p00:54CC): [n][dibujo][propiedad][fuente][tipo], 0xFD-0xFF ponen colores, 0 acaba; 6 entradas; lo leen p02:8449 (45 bytes)
+F 0x62A5 6
+D 0x62D2 0x632B lista_62D2  lista de dibujos para la hoja (p00:54CC): [n][dibujo][propiedad][fuente][tipo], 0xFD-0xFF ponen colores, 0 acaba; 12 entradas; lo leen p02:82DB (89 bytes)
+F 0x62D2 6
+D 0x632C 0x6371 lista_632C  lista de dibujos para la hoja (p00:54CC): [n][dibujo][propiedad][fuente][tipo], 0xFD-0xFF ponen colores, 0 acaba; 8 entradas; lo leen p00:559A (69 bytes)
+F 0x632C 6
+D 0x6371 0x638A lista_6371  lista de dibujos para la hoja (p00:54CC): [n][dibujo][propiedad][fuente][tipo], 0xFD-0xFF ponen colores, 0 acaba; 3 entradas; lo leen p00:5592 (25 bytes)
+F 0x6371 6
+D 0x638A 0x63A3 lista_638A  lista de dibujos para la hoja (p00:54CC): [n][dibujo][propiedad][fuente][tipo], 0xFD-0xFF ponen colores, 0 acaba; 3 entradas; lo leen p00:558A (25 bytes)
+F 0x638A 6
+D 0x63A3 0x63F8 lista_63A3  lista de dibujos para la hoja (p00:54CC): [n][dibujo][propiedad][fuente][tipo], 0xFD-0xFF ponen colores, 0 acaba; 11 entradas; lo leen p00:5582 (85 bytes)
+F 0x63A3 6
+D 0x63F9 0x6423 lista_63F9  lista de dibujos para la hoja (p00:54CC): [n][dibujo][propiedad][fuente][tipo], 0xFD-0xFF ponen colores, 0 acaba; 6 entradas; lo leen p00:5485 (42 bytes)
+F 0x63F9 6
+D 0x6423 0x6430 lista_6423  lista de dibujos para la hoja (p00:54CC): [n][dibujo][propiedad][fuente][tipo], 0xFD-0xFF ponen colores, 0 acaba; 2 entradas; lo leen p00:548D (13 bytes)
+F 0x6423 6
+D 0x6430 0x6443 lista_6430  lista de dibujos para la hoja (p00:54CC): [n][dibujo][propiedad][fuente][tipo], 0xFD-0xFF ponen colores, 0 acaba; 3 entradas; lo leen p00:5495 (19 bytes)
+F 0x6430 6
+D 0x6443 0x6458 lista_6443  lista de dibujos para la hoja (p00:54CC): [n][dibujo][propiedad][fuente][tipo], 0xFD-0xFF ponen colores, 0 acaba; 3 entradas; lo leen p00:5A84 (21 bytes)
+F 0x6443 6
+D 0x6458 0x6468 lista_6458  lista de dibujos para la hoja (p00:54CC): [n][dibujo][propiedad][fuente][tipo], 0xFD-0xFF ponen colores, 0 acaba; 2 entradas; lo leen p00:5A9B (16 bytes)
+F 0x6458 6
+D 0x6468 0x6478 lista_6468  lista de dibujos para la hoja (p00:54CC): [n][dibujo][propiedad][fuente][tipo], 0xFD-0xFF ponen colores, 0 acaba; 2 entradas; lo leen p00:5AB2 (16 bytes)
+F 0x6468 6
+D 0x6478 0x6730 dibujos_6478  20 dibujos de 8x8 a 3 bits al reves (24 bytes cada uno) que la lista de 0x6020 sube a la hoja desde el 1E; se solapan 2 bloques (0x6478-0x6658, 0x6478-0x6730); lo leen p00:54CC (lista 0x6020) (696 bytes)
+F 0x6478 8
+D 0x6730 0x6B80 dibujos_6730  35 dibujos de 8x8 a 3 bits al reves (24 bytes cada uno) que la lista de 0x6020 sube a la hoja desde el 60; se solapan 2 bloques (0x6730-0x6A78, 0x6730-0x6B80); lo leen p00:54CC (lista 0x6020) (1104 bytes)
+F 0x6730 8
+D 0x6B80 0x6C88 dibujos_6B80  11 dibujos de 8x8 a 3 bits (24 bytes cada uno) que la lista de 0x6020 sube a la hoja desde el 83; lo leen p00:54CC (lista 0x6020) (264 bytes)
+F 0x6B80 8
+D 0x6C88 0x6D30 dibujos_6C88  7 dibujos de 8x8 a 3 bits (24 bytes cada uno) que la lista de 0x6020 sube a la hoja desde el 8E; lo leen p00:54CC (lista 0x6020) (168 bytes)
+F 0x6C88 8
+D 0x6D30 0x6E20 dibujos_6D30  10 dibujos de 8x8 a 3 bits (24 bytes cada uno) que la lista de 0x6020 sube a la hoja desde el 95; lo leen p00:54CC (lista 0x6020) (240 bytes)
+F 0x6D30 8
+D 0x6E20 0x6EB0 dibujos_6E20  6 dibujos de 8x8 a 3 bits (24 bytes cada uno) que la lista de 0x6020 sube a la hoja desde el 9F; lo leen p00:54CC (lista 0x6020) (144 bytes)
+F 0x6E20 8
+D 0x6EB0 0x6F28 dibujos_6EB0  4 dibujos de 8x8 a 3 bits al reves (24 bytes cada uno) que la lista de 0x6020 sube a la hoja desde el BC; se solapan 2 bloques (0x6EB0-0x6F10, 0x6EB0-0x6F28); lo leen p00:54CC (lista 0x6020) (120 bytes)
+F 0x6EB0 8
+D 0x6F28 0x6FE8 dibujos_6F28  6 dibujos de 8x8 a 4 bits (32 bytes cada uno) que la lista de 0x6020 sube a la hoja desde el F0; lo leen p00:54CC (lista 0x6020) (192 bytes)
+F 0x6F28 8
+D 0x6FE8 0x7028 dibujos_6FE8  2 dibujos de 8x8 a 4 bits (32 bytes cada uno) que la lista de 0x613F sube a la hoja desde el 01; lo leen p00:54CC (lista 0x613F) (64 bytes)
+F 0x6FE8 8
+D 0x7028 0x71F0 dibujos_7028  19 dibujos de 8x8 a 3 bits (24 bytes cada uno) que la lista de 0x613F sube a la hoja desde el 03; lo leen p00:54CC (lista 0x613F) (456 bytes)
+F 0x7028 8
+D 0x71F0 0x74C0 dibujos_71F0  30 dibujos de 8x8 a 3 bits (24 bytes cada uno) que la lista de 0x613F sube a la hoja desde el 20; lo leen p00:54CC (lista 0x613F) (720 bytes)
+F 0x71F0 8
+D 0x74C0 0x77C0 dibujos_74C0  32 dibujos de 8x8 a 3 bits (24 bytes cada uno) que la lista de 0x613F sube a la hoja desde el 40; lo leen p00:54CC (lista 0x613F) (768 bytes)
+F 0x74C0 8
+D 0x77C0 0x7B68 dibujos_77C0  39 dibujos de 8x8 a 3 bits (24 bytes cada uno) que la lista de 0x613F sube a la hoja desde el 60; lo leen p00:54CC (lista 0x613F) (936 bytes)
+F 0x77C0 8
+D 0x7B68 0x7C28 dibujos_7B68  6 dibujos de 8x8 a 4 bits (32 bytes cada uno) que la lista de 0x613F sube a la hoja desde el F0; lo leen p00:54CC (lista 0x613F) (192 bytes)
+F 0x7B68 8
+D 0x7C28 0x8000 dibujos_7C28  1 dibujos de 8x8 a 4 bits al reves (32 bytes cada uno) que la lista de 0x6074 sube a la hoja desde el 28; se solapan 2 bloques (0x7C28-0x7C48, 0x7C28-0x8000); lo leen p00:54CC (lista 0x6074) (984 bytes)
+F 0x7C28 8
+# --- fin de los bloques de bloques.py ---
+
+# --- RESTO (seccion que reescribe tools/resto.py; no editar a mano) ---
+D 0x6010 0x6020 sin_lector_6010  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (16 bytes)
+D 0x632B 0x632C relleno_632B  relleno de 0x00: nadie lo lee (1 bytes)
+D 0x63F8 0x63F9 relleno_63F8  relleno de 0x00: nadie lo lee (1 bytes)
+# --- fin del resto ---

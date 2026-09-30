@@ -1,0 +1,78 @@
+
+# --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
+D 0x8000 0x814B dibujos_7F4B_cola  25 dibujos de 8x8 a 1 bit (8 bytes cada uno) que la lista de 0x63A3 sube a la hoja desde el 40 (sigue del banco anterior, 0x7F4B); se solapan 4 bloques (0x8000-0x8013, 0x800B-0x8053, 0x804B-0x8113, 0x810B-0x814B); lo leen p00:54CC (lista 0x63A3) (331 bytes)
+F 0x8000 8
+D 0x81AB 0x830B dibujos_81AB  22 dibujos de 8x8 a 2 bits (16 bytes cada uno) que la lista de 0x6371 sube a la hoja desde el 01; lo leen p00:54CC (lista 0x6371) (352 bytes)
+F 0x81AB 16
+D 0x830B 0x86DB dibujos_830B  61 dibujos de 8x8 a 2 bits (16 bytes cada uno) que la lista de 0x6371 sube a la hoja desde el 17; lo leen p00:54CC (lista 0x6371) (976 bytes)
+F 0x830B 16
+D 0x86DB 0x8A7B dibujos_86DB  58 dibujos de 8x8 a 2 bits (16 bytes cada uno) que la lista de 0x6371 sube a la hoja desde el 54; lo leen p00:54CC (lista 0x6371) (928 bytes)
+F 0x86DB 16
+D 0x8A7B 0x8ADB dibujos_8A7B  4 dibujos de 8x8 a 3 bits (24 bytes cada uno) que la lista de 0x61E9 sube a la hoja desde el 02; lo leen p00:54CC (lista 0x61E9) (96 bytes)
+F 0x8A7B 8
+D 0x8ADB 0x8B3B dibujos_8ADB  4 dibujos de 8x8 a 3 bits (24 bytes cada uno) que la lista de 0x61E9 sube a la hoja desde el 20; lo leen p00:54CC (lista 0x61E9) (96 bytes)
+F 0x8ADB 8
+D 0x8B3B 0x8B6B dibujos_8B3B  2 dibujos de 8x8 a 3 bits (24 bytes cada uno) que la lista de 0x61E9 sube a la hoja desde el 25; lo leen p00:54CC (lista 0x61E9) (48 bytes)
+F 0x8B3B 8
+D 0x8B6B 0x8BCB dibujos_8B6B  4 dibujos de 8x8 a 3 bits (24 bytes cada uno) que la lista de 0x61E9 sube a la hoja desde el 40; se solapan 2 bloques (0x8B6B-0x8BCB, 0x8B83-0x8BB3); lo leen p00:54CC (lista 0x61E9) (96 bytes)
+F 0x8B6B 8
+D 0x8BCB 0x8BFB dibujos_8BCB  2 dibujos de 8x8 a 3 bits (24 bytes cada uno) que la lista de 0x61E9 sube a la hoja desde el 45; lo leen p00:54CC (lista 0x61E9) (48 bytes)
+F 0x8BCB 8
+D 0x8BFB 0x8C5B dibujos_8BFB  4 dibujos de 8x8 a 3 bits (24 bytes cada uno) que la lista de 0x61E9 sube a la hoja desde el 60; lo leen p00:54CC (lista 0x61E9) (96 bytes)
+F 0x8BFB 8
+D 0x8C5B 0x8C8B dibujos_8C5B  2 dibujos de 8x8 a 3 bits (24 bytes cada uno) que la lista de 0x61E9 sube a la hoja desde el 65; lo leen p00:54CC (lista 0x61E9) (48 bytes)
+F 0x8C5B 8
+D 0x8C8B 0x8D4B dibujos_8C8B  8 dibujos de 8x8 a 3 bits (24 bytes cada uno) que la lista de 0x61E9 sube a la hoja desde el 80; lo leen p00:54CC (lista 0x61E9) (192 bytes)
+F 0x8C8B 8
+D 0x9C47 0x9D37 sonidos  120 palabras: la pista de cada sonido y canal (p14:9454); 0xBF49 es la pista vacia; lo leen p14:946B (240 bytes)
+F 0x9C47 2
+D 0x9D37 0x9D58 pista_9D37  pista de los sonidos 0x2E (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (33 bytes)
+F 0x9D37 16
+D 0x9D58 0x9D6F pista_9D58  pista de los sonidos 0x2F (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (23 bytes)
+F 0x9D58 16
+D 0x9D6F 0x9D81 pista_9D6F  pista de los sonidos 0x01 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (18 bytes)
+F 0x9D6F 16
+D 0x9D81 0x9DA4 pista_9D81  pista de los sonidos 0x02 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (35 bytes)
+F 0x9D81 16
+D 0x9DA4 0x9DA5 pista_9DA4  pista de los sonidos 0x03 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (1 bytes)
+F 0x9DA4 16
+D 0x9DA5 0x9DB6 pista_9DA5  pista de los sonidos 0x04 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (17 bytes)
+F 0x9DA5 16
+D 0x9DB6 0x9DD1 pista_9DB6  pista de los sonidos 0x05 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (27 bytes)
+F 0x9DB6 16
+D 0x9DD1 0x9DFD pista_9DD1  pista de los sonidos 0x06, 0x07 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (44 bytes)
+F 0x9DD1 16
+D 0x9DFD 0x9E2D pista_9DFD  pista de los sonidos 0x08 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (48 bytes)
+F 0x9DFD 16
+D 0x9E2D 0x9E65 pista_9E2D  pista de los sonidos 0x09 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (56 bytes)
+F 0x9E2D 16
+D 0x9E65 0x9EA9 pista_9E65  pista de los sonidos 0x0A (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (68 bytes)
+F 0x9E65 16
+D 0x9EA9 0x9ED4 pista_9EA9  pista de los sonidos 0x0B (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (43 bytes)
+F 0x9EA9 16
+D 0x9ED4 0x9F04 pista_9ED4  pista de los sonidos 0x0C (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (48 bytes)
+F 0x9ED4 16
+D 0x9F04 0x9F13 pista_9F04  pista de los sonidos 0x0D (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (15 bytes)
+F 0x9F04 16
+D 0x9F13 0x9F14 pista_9F13  pista de los sonidos 0x0E (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (1 bytes)
+F 0x9F13 16
+D 0x9F14 0x9F39 pista_9F14  pista de los sonidos 0x0F (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (37 bytes)
+F 0x9F14 16
+D 0x9F39 0x9F4E pista_9F39  pista de los sonidos 0x10 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (21 bytes)
+F 0x9F39 16
+D 0x9F4E 0x9F86 pista_9F4E  pista de los sonidos 0x11 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (56 bytes)
+F 0x9F4E 16
+D 0x9F86 0x9FC1 pista_9F86  pista de los sonidos 0x12, 0x22 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (59 bytes)
+F 0x9F86 16
+D 0x9FC1 0x9FE6 pista_9FC1  pista de los sonidos 0x13 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (37 bytes)
+F 0x9FC1 16
+D 0x9FE6 0xA000 pista_9FE6  pista de los sonidos 0x14 (p14:94FA: notas, 0xDx octava, 0xEx ordenes, 0xFx volumen, 0xFE vuelve, 0xFF acaba), hasta la siguiente; lo leen p14:9500 (26 bytes)
+F 0x9FE6 16
+# --- fin de los bloques de bloques.py ---
+
+# --- RESTO (seccion que reescribe tools/resto.py; no editar a mano) ---
+D 0x814B 0x81AB sin_lector_814B  bytes sin lector conocido: ninguna instruccion trazada los apunta y la sonda de openMSX no los lee (96 bytes)
+D 0x8D4B 0x9400 tabla_8D4B  tabla que lee p01:645E, p01:64A1, p01:64B3 (1717 bytes)
+D 0x9854 0x9860 tabla_9854  tabla que lee p14:972E (12 bytes)
+D 0x9976 0x9C47 leido_9976  lo leen en la partida medida en openMSX p14:9787 (52 bytes), p14:9584 (48 bytes), p14:9521 (14 bytes), p14:9552 (14 bytes) (721 bytes)
+# --- fin del resto ---

@@ -49,14 +49,13 @@
 0x6B21   # p06:AF86 call
 0x6BD3   # p00:5C8D call
 0x6BDC   # p06:AF89 call
-0x6D64   # p03:B3AF call cc
 0x6D66   # p03:BC77 call
 0x7049   # p00:5C75 call
 0x706A   # p03:AA64 call
 0x7080   # p03:AF41 jp
 0x7084   # p03:ADCD call
 0x7095   # p03:AFBB call
-0x7099   # p03:B36A call
+0x7099   # p03:ACC3 jp
 0x709D   # p03:AFC1 jp
 0x70CF   # p03:B87C call
 0x70F1   # p03:AD94 call
@@ -118,5 +117,5 @@
 0x7F4D   # p01:7ED4 entrada 13 de la tabla de 0x7ED7 (call 0x40AE en 0x7ED4)
 0x7F55   # p01:7ED4 entrada 5 de la tabla de 0x7ED7 (call 0x40AE en 0x7ED4)
 0x7FA3   # p01:7ED4 entrada 3 de la tabla de 0x7ED7 (call 0x40AE en 0x7ED4)
-0x7FAB   # p06:B737 call
+0x7FAB   # p06:BA33 jp
 0x7FD2   # p00:5CED call
