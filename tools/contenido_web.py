@@ -148,6 +148,12 @@ HALLAZGOS = {
          "gastando uno (<code>p02:8555</code>). HOIHOIHOINOHOI da nueve.</p>"
          "<p>Sale del c&oacute;digo; el truco s&iacute; se ha medido "
          "(<code>0xC884</code> = 9).</p>"),
+        ("Un truco con el nombre de un dise&ntilde;ador",
+         "<p>Los cr&eacute;ditos del final (<code>p06:AB23</code>) firman "
+         "con apodos: ULTRAMAN ADACHI, DARENANDA SUZUKI, 27INCH NAGAE, MOAI "
+         "SASAKI&hellip; y METALSLAVE NAOKI, dise&ntilde;ador. METALSLAVE es "
+         "tambi&eacute;n la contrase&ntilde;a de truco que llena la vida.</p>"
+         "<p>Medido en la ROM; los cr&eacute;ditos, transcritos en Hallazgos.</p>"),
         ("Dieciocho dibujos que no usa nadie",
          "<p>De <code>p07:7457</code> a <code>p08:824E</code> hay 18 tiras en el "
          "mismo RLE que los sprites (<code>p00:4A8D</code>), 3 KB, y ninguna "
@@ -207,6 +213,12 @@ HALLAZGOS = {
          "(<code>p02:8555</code>). HOIHOIHOINOHOI gives nine.</p><p>It comes "
          "from the code; the cheat itself was measured "
          "(<code>0xC884</code> = 9).</p>"),
+        ("A cheat named after a designer",
+         "<p>The ending credits (<code>p06:AB23</code>) are signed with "
+         "nicknames: ULTRAMAN ADACHI, DARENANDA SUZUKI, 27INCH NAGAE, MOAI "
+         "SASAKI&hellip; and METALSLAVE NAOKI, designer. METALSLAVE is also "
+         "the cheat password that fills up the energy.</p><p>Measured in the "
+         "ROM; the credits are transcribed in Findings.</p>"),
         ("Eighteen drawings nobody uses",
          "<p>From <code>p07:7457</code> to <code>p08:824E</code> there are 18 "
          "strips in the same RLE as the sprites (<code>p00:4A8D</code>), 3 KB, "

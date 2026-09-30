@@ -114,3 +114,20 @@ sonda de lecturas de openMSX no las lee. **Medido en la ROM.**
 En `0x4010`: `'C'`, `'D'` y una lista de direcciones de la RAM de este juego.
 Ningún código de Hinotori la lee. King Kong 2 lleva otra igual en el mismo
 sitio, y es lo que Hinotori busca en él para saber que está.
+
+## Los créditos del final, y un truco con nombre de diseñador
+
+El final sube los créditos línea a línea por abajo de la pantalla
+(`p06:AF12`, con la lista de punteros de `p06:AB23`). Transcritos de la ROM,
+tal cual:
+
+| | |
+|---|---|
+| PROGRAMMER | ULTRAMAN ADACHI · ADDE EDA · YOSHIMOTO OHTA · DARENANDA SUZUKI · 27INCH NAGAE |
+| DESIGNER | SHU IWAMOTO · KI MIZUTANI · HAAAA MAKITANI · METALSLAVE NAOKI |
+| SOUND | MOAI SASAKI · SG FURUKAWA |
+| SPECIAL THANKS TO | PAKEMI KAMIO · ROOM 1013 · AND YOU |
+| | PRESENTED BY KONAMI · © KONAMI 1987 |
+
+METALSLAVE, el apodo de uno de los diseñadores, es también una de las
+contraseñas de truco: la que llena la vida. **Medido en la ROM.**
