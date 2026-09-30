@@ -188,6 +188,19 @@ def marco(m, x, y, ancho, alto, color):
 
 
 def main(argv):
+    if argv[1] == "rotulo":
+        # el rotulo del titulo (p13:7D00 y 7D30, 12x4 y 9x3 dibujos), solo
+        v = titulo()
+        pal = paleta_titulo()
+        x0, y0, w, h = 0x20, 0x08, 0xB0, 0x22
+        pix = bytearray()
+        for y in range(y0, y0 + h):
+            for x in range(x0, x0 + w):
+                c = v.m[y * 128 + x // 2]
+                c = c >> 4 if x % 2 == 0 else c & 15
+                pix += bytes(H.rgb(pal[c]))
+        H.png(argv[2], w, h, pix)
+        return 0
     if argv[1] == "menu":
         v = menu()
         H.png(argv[2], 256, 212, H.pinta_pagina(v.m, paleta_titulo(), 0, 212))

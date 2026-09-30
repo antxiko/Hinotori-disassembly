@@ -1,0 +1,118 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The game — Hinotori (Konami, 1987)</title>
+<style>
+:root{--tinta:#cfd0d4;--suave:#83868f;--fondo:#000;--panel:#0c0e13;--linea:#23262e;
+  --rojo:#ff897d;--cyan:#65dbef;--verde:#3eb849;--oro:#ded087}
+@media (prefers-color-scheme:light){:root{--tinta:#191a1e;--suave:#5a5d66;--fondo:#e9e7e1;
+  --panel:#f7f6f2;--linea:#d0cdc5;--rojo:#b23f34;--cyan:#1c6b7c;--verde:#2b7734;--oro:#8a7420}}
+:root[data-theme="dark"]{--tinta:#cfd0d4;--suave:#83868f;--fondo:#000;--panel:#0c0e13;
+  --linea:#23262e;--rojo:#ff897d;--cyan:#65dbef;--verde:#3eb849;--oro:#ded087}
+:root[data-theme="light"]{--tinta:#191a1e;--suave:#5a5d66;--fondo:#e9e7e1;--panel:#f7f6f2;
+  --linea:#d0cdc5;--rojo:#b23f34;--cyan:#1c6b7c;--verde:#2b7734;--oro:#8a7420}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fondo);color:var(--tinta);padding:0 1.25rem 6rem;
+  font:15px/1.7 ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.w{max-width:1120px;margin:0 auto}
+.n{max-width:68ch}
+h1,h2,h3,h4{font-weight:400;text-wrap:balance}
+a{color:var(--cyan)}
+img{image-rendering:pixelated;max-width:100%;height:auto;display:block}
+header.top{display:flex;flex-direction:column;align-items:center;gap:1.5rem;
+  padding:4rem 0 2rem;text-align:center}
+header.top img{width:min(100%,642px)}
+.claim{max-width:60ch;color:var(--suave);font-size:1.05rem}
+.claim b{color:var(--tinta);font-weight:400}
+.ficha{display:flex;flex-wrap:wrap;justify-content:center;gap:0 1.5rem;width:100%;
+  font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--suave);
+  border-top:1px solid var(--linea);border-bottom:1px solid var(--linea);padding:.85rem 0}
+.ficha b{color:var(--rojo);font-weight:400}
+nav{display:flex;flex-wrap:wrap;gap:1.25rem;justify-content:center;padding:1.25rem 0;
+  font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+nav a{color:var(--suave);text-decoration:none;border-bottom:1px solid transparent}
+nav a:hover,nav a:focus{color:var(--tinta);border-bottom-color:var(--rojo)}
+nav.docs{border-top:1px solid var(--linea);border-bottom:1px solid var(--linea);
+  margin-bottom:1rem}
+section{margin-top:4.5rem;scroll-margin-top:1rem}
+section>h2{font-size:1rem;letter-spacing:.1em;text-transform:uppercase;
+  border-left:3px solid var(--rojo);padding-left:.9rem;margin:0 0 1.5rem}
+.cifras{display:grid;gap:1px;background:var(--linea);border:1px solid var(--linea);
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+.cifra{background:var(--panel);padding:1.1rem}
+.cifra b{display:block;font-size:1.7rem;color:var(--oro);font-weight:400;
+  font-variant-numeric:tabular-nums;line-height:1.2}
+.cifra span{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--suave)}
+.hall{border-top:1px solid var(--linea);padding-top:1.75rem;margin-top:2.5rem}
+.hall:first-of-type{border-top:0;padding-top:0;margin-top:0}
+.hall h3{margin:0 0 .75rem;font-size:1.15rem;color:var(--rojo)}
+.hall h4{color:var(--oro);margin:1.5rem 0 .5rem;font-size:.95rem}
+.hall p{margin:0 0 1rem}
+pre.asm{background:var(--panel);border-left:2px solid var(--verde);margin:1.25rem 0;
+  padding:1rem 1.1rem;overflow-x:auto;font-size:13px;line-height:1.6;color:var(--tinta)}
+.par{display:grid;gap:1.25rem;grid-template-columns:1fr}
+@media(min-width:820px){.par{grid-template-columns:1fr 1fr}}
+.par figure{margin:0}
+table{border-collapse:collapse;width:100%;margin:1.25rem 0;font-size:13px;display:block;
+  overflow-x:auto}
+th,td{text-align:left;padding:.5rem .75rem;border-bottom:1px solid var(--linea)}
+th{color:var(--suave);font-weight:400;font-size:11px;letter-spacing:.07em;text-transform:uppercase}
+td.num{font-variant-numeric:tabular-nums;color:var(--oro)}
+.nivel{margin-top:2rem}
+.nivel h3{margin:0 0 .9rem;font-size:.95rem;letter-spacing:.06em;text-transform:uppercase}
+.nivel em{color:var(--cyan);font-style:normal}
+.sep{color:var(--suave);margin:0 .6rem}
+.rejilla{display:grid;gap:.9rem;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.rejilla figure{margin:0;background:var(--panel);box-shadow:0 0 0 1px var(--linea)}
+.rejilla figcaption{display:flex;justify-content:space-between;padding:.45rem .65rem;
+  font-size:11px;color:var(--suave);border-top:1px solid var(--linea)}
+.dir{font-variant-numeric:tabular-nums;color:var(--verde)}
+footer{margin-top:5rem;padding-top:1.5rem;border-top:1px solid var(--linea);
+  color:var(--suave);font-size:12px}
+
+/* Aviso de trabajo en curso: tiene que verse antes que las cifras, porque un
+   100% mal leido hace mas dano que no ponerlo. */
+.aviso{background:#3a2a10;border-left:3px solid var(--oro);margin:1.5rem auto;
+  padding:1rem 1.2rem;max-width:900px;border-radius:4px}
+.aviso p{margin:0;color:var(--tinta);font-size:15px;line-height:1.65}
+.galeria{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:1.5rem;margin:1.5rem 0}
+.galeria figure{margin:0}
+.galeria img{width:100%;height:auto;image-rendering:pixelated;
+  border:1px solid var(--linea);border-radius:3px}
+.galeria figcaption{color:var(--suave);font-size:13px;margin-top:.5rem}
+audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
+</style>
+<div class="w"><nav class="top"><a href="index.html">Home</a><a href="GETTING-STARTED.html">Start</a><a href="THE-GAME.html" style=color:var(--tinta)>The game</a><a href="THE-CARTRIDGE.html">The cartridge</a><a href="THE-CODE.html">The code</a><a href="FINDINGS.html">Findings</a><a href="IN-THE-EMULATOR.html">In the emulator</a><a href="OPEN-QUESTIONS.html">Open questions</a><a href="es/EL-JUEGO.html" style="margin-left:auto;color:var(--oro)">Castellano</a></nav>
+<h1 id="the-game">The game</h1>
+<p>Gao, the sculptor of Tezuka&#x27;s story, crosses six stages from bottom to top until he reaches the torii, the gates that lead to each stage&#x27;s room. The map scrolls up as you go and the sides never end.</p>
+<p>Every picture on this page is <b>drawn from the bytes of the ROM</b> with the tools in <code>tools/</code>, which follow the cartridge&#x27;s own steps. Under each one it says which table it comes from and how it was checked against openMSX (MSX2, <code>C-BIOS_MSX2_JP</code>).</p>
+<h2 id="the-logo-and-the-title">The logo and the title</h2>
+<p><img src="imagenes/konami.png" alt="The Konami logo"></p>
+<p>The logo is 52 one-bit letters in bank 9 (<code>p09:AB3C</code>, <code>ABA4</code> and <code>AC0C</code>) that <code>p00:4ED7</code> uploads to page 1 in three colours, and that <code>p01:6710</code> puts together with the list at <code>p01:675E</code>; then <code>p01:66F0</code> uncovers it from the top with HMMM. Checked against openMSX: <b>0 bytes different</b>.</p>
+<p><img src="imagenes/titulo.png" alt="The title screen"></p>
+<p>The title is a tile sheet (the lists at <code>p04:6443</code>, <code>6458</code> and <code>6468</code>) painted with the maps at <code>p13:7640</code> and <code>p13:79A0</code> (32 × 18) and the 火の鳥 鳳凰編 lettering (<code>p13:7D00</code> and <code>7D30</code>) on top with colour 0 transparent; the texts, with the sheet&#x27;s font (<code>p00:4F87</code>). Checked: <b>0 bytes different</b> and the 16 colours at <code>p00:5BE9</code>.</p>
+<h2 id="the-six-stages-and-their-gates">The six stages and their gates</h2>
+<p><img src="imagenes/mapa.png" alt="The six stages and the route between them"></p>
+<p>Every stage is <b>three columns</b> of 256 × 1,536 pixels, side by side, plus a <b>room</b>. At the sides, the columns wrap round (<code>p01:653A</code>: from 2 you go to 0 and back); at the top, the map starts again. The 24 areas (<code>0xC480</code>) are 3 × 6 columns and 6 rooms, and the table at <code>p01:660B</code> gives the stage, the tile set and the column of each.</p>
+<p>A map is a list of <b>superrows</b> (one per 32 pixels of height, <code>p00:597B</code>); each superrow is eight <b>blocks</b> of 4 × 4 tiles (<code>p00:594B</code>, <code>p00:593B</code>); and each tile is one of the 256 in the <b>sheet</b> on page 1 of the VRAM, uploaded by the bank-4 lists in eight formats (4 bits as they are, 1, 2 or 3 bits with a palette, and the four mirrored, <code>p00:54CC</code>).</p>
+<p>The <b>gates</b> are things on the way: type 4 is each stage&#x27;s torii and type 5 the room&#x27;s exit. Both carry a number, and <code>p01:607C</code> reads the gate from <code>p09:A269</code>: the area, the row and the arrival point. The route that comes out of the table:</p>
+<table><tr><th>from</th><th>through</th><th>to</th></tr><tr><td>stage 1</td><td>torii in column 1, row 0x64</td><td>room 1</td></tr><tr><td>room 1</td><td>its torii</td><td>stage 2</td></tr><tr><td>stage 2</td><td>torii in column 0, row 0x74</td><td>room 2</td></tr><tr><td>room 2</td><td>its torii</td><td>stage 3</td></tr><tr><td>stage 3</td><td>torii in column 0, row 0x54</td><td>room 3</td></tr><tr><td>room 3</td><td>left torii / right torii</td><td>stage 4 / <b>stage 1</b></td></tr><tr><td>stage 4</td><td>torii in column 2, row 0x24</td><td>room 4</td></tr><tr><td>room 4</td><td>its torii</td><td>stage 5</td></tr><tr><td>stage 5</td><td>torii in column 1, row 0xA8</td><td>room 5</td></tr><tr><td>room 5</td><td>left torii / right torii</td><td>stage 6 / <b>stage 2</b></td></tr><tr><td>stage 6</td><td>torii in column 0, row 0x6C</td><td>room 6</td></tr><tr><td>room 6</td><td>its torii</td><td>stage 4</td></tr></table>
+<p>You always come in through column 1, on row 0x1F. It comes from the tables; we have not walked it. One plate per stage, full size:</p>
+<p><img src="imagenes/fase1.png" alt="Stage 1"> <img src="imagenes/fase2.png" alt="Stage 2"> <img src="imagenes/fase3.png" alt="Stage 3"> <img src="imagenes/fase4.png" alt="Stage 4"> <img src="imagenes/fase5.png" alt="Stage 5"> <img src="imagenes/fase6.png" alt="Stage 6"></p>
+<p>Checking: the tile sheet and the palette of areas 0 and 1, dumped in openMSX when they have just been built (<code>p00:5D6E</code>), are <b>identical</b>: 189 and 225 tiles, 0 different, and the 16 colours. On screen, the rows of the map are in the RAM tile table (31 of 32; the other is trodden on by what moves).</p>
+<h2 id="gao">Gao</h2>
+<p><img src="imagenes/gao.png" alt="Gao in his 20 poses"></p>
+<p>Every pose is two 16 × 16 sprites (top and bottom), and each one two patterns laid one over the other with the V9938&#x27;s OR mixing: colours 13 and 14 and, where they meet, 15. <code>p02:93D6</code> uploads the two of pose <code>0xC81C</code> from <code>p06:A0BB</code>.</p>
+<h2 id="what-appears-in-each-area">What appears in each area</h2>
+<p><img src="imagenes/cosas.png" alt="The sprites of the 41 sets"></p>
+<p>Every area loads into the sprite patterns the <b>sets</b> it is going to use (<code>p07:6000</code> + 2 × area, [set][slot] pairs); the 41 sets at <code>p07:6173</code> are RLE or plain bytes. Here are the 132 two-layer sprites: the enemies, the bosses in pieces and what they throw. The colour is set by each enemy as it moves, so they are in two tones.</p>
+<p>Which enemy appears and when is up to bank 9: <code>p09:A162</code> gives each area&#x27;s list ([row][type][data], <code>p01:6CFC</code>) and <code>p09:A186</code>, which types appear in each stretch of 32 rows. There are 58 enemy types, each with its birth routine (<code>p01:6E80</code>) and its movement routine (<code>p01:6875</code>).</p>
+<h2 id="the-items">The items</h2>
+<p><img src="imagenes/objetos.png" alt="The 41 items"></p>
+<p>There are 41, with their count at <code>0xC850</code> + 4 × (item − 1). The ITEM INFORMATION window (F3, <code>p06:BAC2</code>) draws them with <code>p01:7B60</code>: 16 × 16 icons from the sheet; from 16 on, an icon over a background. F5 shows the map of the stages and, with item 14, lets you jump to another (<code>p02:8555</code>).</p>
+<h2 id="the-secret-menu">The secret menu</h2>
+<p><img src="imagenes/menu.png" alt="The menu"></p>
+<p>With Q*bert or the Game Master in another slot, SPACE on the title opens this menu (<code>p00:4705</code>): START GAME, MODIFY STAGE NUMBER and MODIFY PLAYER NUMBER. Seen in openMSX with Q*bert and built from the ROM: 0 bytes different.</p>
+<h2 id="the-sound">The sound</h2>
+<p><code>p14:9C47</code> has 120 entries, one per sound and channel; pieces with several channels take several in a row. The tracks are in banks 14 and 15, with notes, octave, tempo, volume, vibrato and repeat commands (<code>p14:94FA</code>).</p>
+<footer><p><em>Hinotori: H&#333;&#333;hen &ndash; Ga&#333; no B&#333;ken</em> (<em>Firebird</em>) was published by Konami for the MSX2 in 1987, based on Osamu Tezuka's work (&copy; Kadokawa Shoten, &copy; Tezuka Production); its catalogue number is RC-747 and it is 128 KB. All rights in the game remain with their holders. This is preservation, study and documentation work, and the cartridge image is not distributed.</p></footer></div>

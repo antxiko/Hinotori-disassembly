@@ -165,6 +165,7 @@ imagenes: $(ROM)
 	python3 tools/titulo.py logo docs/imagenes/konami.png
 	python3 tools/titulo.py titulo docs/imagenes/titulo.png
 	python3 tools/titulo.py menu docs/imagenes/menu.png
+	python3 tools/titulo.py rotulo docs/imagenes/rotulo.png
 	python tools/mapa_general.py docs/imagenes
 	python3 tools/figuras.py objetos docs/imagenes/objetos.png
 	python3 tools/figuras.py gao docs/imagenes/gao.png

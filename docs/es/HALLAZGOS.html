@@ -1,0 +1,110 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hallazgos — Hinotori (Konami, 1987)</title>
+<style>
+:root{--tinta:#cfd0d4;--suave:#83868f;--fondo:#000;--panel:#0c0e13;--linea:#23262e;
+  --rojo:#ff897d;--cyan:#65dbef;--verde:#3eb849;--oro:#ded087}
+@media (prefers-color-scheme:light){:root{--tinta:#191a1e;--suave:#5a5d66;--fondo:#e9e7e1;
+  --panel:#f7f6f2;--linea:#d0cdc5;--rojo:#b23f34;--cyan:#1c6b7c;--verde:#2b7734;--oro:#8a7420}}
+:root[data-theme="dark"]{--tinta:#cfd0d4;--suave:#83868f;--fondo:#000;--panel:#0c0e13;
+  --linea:#23262e;--rojo:#ff897d;--cyan:#65dbef;--verde:#3eb849;--oro:#ded087}
+:root[data-theme="light"]{--tinta:#191a1e;--suave:#5a5d66;--fondo:#e9e7e1;--panel:#f7f6f2;
+  --linea:#d0cdc5;--rojo:#b23f34;--cyan:#1c6b7c;--verde:#2b7734;--oro:#8a7420}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fondo);color:var(--tinta);padding:0 1.25rem 6rem;
+  font:15px/1.7 ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.w{max-width:1120px;margin:0 auto}
+.n{max-width:68ch}
+h1,h2,h3,h4{font-weight:400;text-wrap:balance}
+a{color:var(--cyan)}
+img{image-rendering:pixelated;max-width:100%;height:auto;display:block}
+header.top{display:flex;flex-direction:column;align-items:center;gap:1.5rem;
+  padding:4rem 0 2rem;text-align:center}
+header.top img{width:min(100%,642px)}
+.claim{max-width:60ch;color:var(--suave);font-size:1.05rem}
+.claim b{color:var(--tinta);font-weight:400}
+.ficha{display:flex;flex-wrap:wrap;justify-content:center;gap:0 1.5rem;width:100%;
+  font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--suave);
+  border-top:1px solid var(--linea);border-bottom:1px solid var(--linea);padding:.85rem 0}
+.ficha b{color:var(--rojo);font-weight:400}
+nav{display:flex;flex-wrap:wrap;gap:1.25rem;justify-content:center;padding:1.25rem 0;
+  font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+nav a{color:var(--suave);text-decoration:none;border-bottom:1px solid transparent}
+nav a:hover,nav a:focus{color:var(--tinta);border-bottom-color:var(--rojo)}
+nav.docs{border-top:1px solid var(--linea);border-bottom:1px solid var(--linea);
+  margin-bottom:1rem}
+section{margin-top:4.5rem;scroll-margin-top:1rem}
+section>h2{font-size:1rem;letter-spacing:.1em;text-transform:uppercase;
+  border-left:3px solid var(--rojo);padding-left:.9rem;margin:0 0 1.5rem}
+.cifras{display:grid;gap:1px;background:var(--linea);border:1px solid var(--linea);
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+.cifra{background:var(--panel);padding:1.1rem}
+.cifra b{display:block;font-size:1.7rem;color:var(--oro);font-weight:400;
+  font-variant-numeric:tabular-nums;line-height:1.2}
+.cifra span{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--suave)}
+.hall{border-top:1px solid var(--linea);padding-top:1.75rem;margin-top:2.5rem}
+.hall:first-of-type{border-top:0;padding-top:0;margin-top:0}
+.hall h3{margin:0 0 .75rem;font-size:1.15rem;color:var(--rojo)}
+.hall h4{color:var(--oro);margin:1.5rem 0 .5rem;font-size:.95rem}
+.hall p{margin:0 0 1rem}
+pre.asm{background:var(--panel);border-left:2px solid var(--verde);margin:1.25rem 0;
+  padding:1rem 1.1rem;overflow-x:auto;font-size:13px;line-height:1.6;color:var(--tinta)}
+.par{display:grid;gap:1.25rem;grid-template-columns:1fr}
+@media(min-width:820px){.par{grid-template-columns:1fr 1fr}}
+.par figure{margin:0}
+table{border-collapse:collapse;width:100%;margin:1.25rem 0;font-size:13px;display:block;
+  overflow-x:auto}
+th,td{text-align:left;padding:.5rem .75rem;border-bottom:1px solid var(--linea)}
+th{color:var(--suave);font-weight:400;font-size:11px;letter-spacing:.07em;text-transform:uppercase}
+td.num{font-variant-numeric:tabular-nums;color:var(--oro)}
+.nivel{margin-top:2rem}
+.nivel h3{margin:0 0 .9rem;font-size:.95rem;letter-spacing:.06em;text-transform:uppercase}
+.nivel em{color:var(--cyan);font-style:normal}
+.sep{color:var(--suave);margin:0 .6rem}
+.rejilla{display:grid;gap:.9rem;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.rejilla figure{margin:0;background:var(--panel);box-shadow:0 0 0 1px var(--linea)}
+.rejilla figcaption{display:flex;justify-content:space-between;padding:.45rem .65rem;
+  font-size:11px;color:var(--suave);border-top:1px solid var(--linea)}
+.dir{font-variant-numeric:tabular-nums;color:var(--verde)}
+footer{margin-top:5rem;padding-top:1.5rem;border-top:1px solid var(--linea);
+  color:var(--suave);font-size:12px}
+
+/* Aviso de trabajo en curso: tiene que verse antes que las cifras, porque un
+   100% mal leido hace mas dano que no ponerlo. */
+.aviso{background:#3a2a10;border-left:3px solid var(--oro);margin:1.5rem auto;
+  padding:1rem 1.2rem;max-width:900px;border-radius:4px}
+.aviso p{margin:0;color:var(--tinta);font-size:15px;line-height:1.65}
+.galeria{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:1.5rem;margin:1.5rem 0}
+.galeria figure{margin:0}
+.galeria img{width:100%;height:auto;image-rendering:pixelated;
+  border:1px solid var(--linea);border-radius:3px}
+.galeria figcaption{color:var(--suave);font-size:13px;margin-top:.5rem}
+audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
+</style>
+<div class="w"><nav class="top"><a href="index.html">Portada</a><a href="EMPEZAR.html">Empezar</a><a href="EL-JUEGO.html">El juego</a><a href="EL-CARTUCHO.html">El cartucho</a><a href="EL-CODIGO.html">El código</a><a href="HALLAZGOS.html" style=color:var(--tinta)>Hallazgos</a><a href="EN-EL-EMULADOR.html">En el emulador</a><a href="PREGUNTAS-ABIERTAS.html">Preguntas abiertas</a><a href="../FINDINGS.html" style="margin-left:auto;color:var(--oro)">English</a></nav>
+<h1 id="hallazgos">Hallazgos</h1>
+<p>Lo que el código esconde. Cada cosa lleva la dirección donde está y cómo se sabe: <b>medido en openMSX</b> (con los volcados de RAM o VRAM) o <b>sale del código</b> (leído, sin jugarlo).</p>
+<h2 id="con-king-kong-2-al-lado-arranca-king-kong-2-y-le-graba-la-partida">Con King Kong 2 al lado, arranca King Kong 2 y le graba la partida</h2>
+<p>Al encender, <code>p00:5DFF</code> lee con <code>RDSLT</code> las otras ranuras buscando tres firmas (<code>p00:5E78</code>): seis bytes en <code>0x7FFA</code> (el Game Master, RC-735), la cabecera <code>&#x27;CD&#x27; 07 45 FF</code> en <code>0x4010</code> (King Kong 2, RC-745) y seis bytes en <code>0xBFFA</code> (Q*bert, RC-746). Con <b>King Kong 2</b>, <code>0xC110</code> = 2 y INIT se va a <code>p09:B880</code>:</p>
+<ol><li>lee de la otra ranura el INIT de King Kong 2 (su palabra <code>0x4002</code>) y copia 256 bytes de allí a <code>0xF120</code>;</li><li>copia 170 bytes suyos (<code>p09:B925</code>) a <code>0xF220</code> y pone <code>jp 0xF220</code> en el gancho de la interrupción;</li><li>salta a <code>0xF120</code>: arranca King Kong 2.</li></ol>
+<p>Cada cuadro, el gancho mira si King Kong 2 está jugando (su <code>0xC100</code> = 5) y las teclas: con <b>F4</b>, pone Hinotori en las páginas 1 y 2 (<code>ENASLT</code>) y llama a su código de <b>grabar</b> (<code>p09:B9CF</code>); con <b>F5</b>, al de <b>cargar</b> (<code>p09:BA9C</code>). Las dos usan las rutinas de cinta de la BIOS (<code>TAPOON</code>, <code>TAPOUT</code>, <code>TAPION</code>, <code>TAPIN</code>) y piden un nombre de fichero.</p>
+<p><b>Medido en openMSX</b> con Hinotori en la ranura A y King Kong 2 en la B: arranca King Kong 2 (el PC corre en <code>0xF1xx</code>, <code>0xFD9F</code> = <code>jp 0xF220</code>), y al pulsar F4 jugando <code>0xF106</code> = 1, <code>0xF107</code> = 1 y en su pantalla sale «SAVE MODE / INPUT FILE NAME».</p>
+<h2 id="con-qbert-o-el-game-master-un-menu-y-la-tecla-stop">Con Q*bert o el Game Master, un menú y la tecla STOP</h2>
+<p>Con cualquiera de los otros dos, <code>0xC110</code> = 1. Al pulsar ESPACIO en el título, <code>p00:46B1</code> va al estado 9 en vez de empezar: un menú con START GAME, MODIFY STAGE NUMBER y MODIFY PLAYER NUMBER, donde se teclea la fase (<code>0xC115</code>) y las vidas (<code>0xC117</code>) con las teclas de números. <b>Medido en openMSX</b> con Q*bert en la ranura B: el menú, montado aquí desde la ROM, da 0 bytes distintos.</p>
+<p>Y la interrupción, con <code>0xC110</code> distinto de 0, mira la tecla <b>STOP</b> (<code>p00:4124</code>): el juego se congela y el PSG se calla hasta la siguiente pulsación. <b>Sale del código.</b></p>
+<h2 id="las-contrasenas-de-truco">Las contraseñas de truco</h2>
+<p>Con <b>F1</b> se pausa; con <b>HOME</b> sale la contraseña de la partida y con <b>HOME</b> otra vez se escribe una. <code>p06:B85E</code> la compara con las 17 cadenas de <code>p06:B8A0</code>; cada cadena va seguida del código que hace, al que salta con <code>jp (hl)</code> (<code>p06:B89A</code>), y cada una vale <b>una vez por partida</b> (<code>0xC600</code> + n). Se acepta con «CORRECT». Las otras contraseñas son las de verdad: llevan el estado de la partida y una comprobación (<code>p06:B7EE</code>: el XOR de todos los caracteres tiene que dar 0).</p>
+<table><tr><th>contraseña</th><th>lo que hace el código</th><th>medido</th></tr><tr><td>GAOOOOOOOOOOH</td><td>vidas + 10 (<code>0xC160</code>, en BCD)</td><td>2 → 12</td></tr><tr><td>ILOVEHINOTORI</td><td><code>0xC4E2</code> = 1: cada cuadro, invulnerable (<code>p02:8600</code>)</td><td>sí</td></tr><tr><td>NANDANANDANANDA</td><td><code>0xC4E0</code> = 1: al perder una vida se devuelve (<code>p00:441A</code>)</td><td>sí</td></tr><tr><td>METALSLAVE</td><td>la vida (<code>0xC845</code>) a 200, el máximo</td><td>del código</td></tr><tr><td>HANEYOKAGAYAKE</td><td><code>0xC4E3</code> = 1: lo que da 1 de vida da 10 (<code>p03:AC8F</code>)</td><td>sí</td></tr><tr><td>FULLITEMDAYOON</td><td>1 en todos los bytes de los objetos 1-15</td><td>sí</td></tr><tr><td>KINOOOIHITODANE</td><td>1 en todos los bytes de los objetos 16-33</td><td>sí</td></tr><tr><td>SUPERBALL</td><td>1 en los objetos 36-40</td><td>sí</td></tr><tr><td>TURBO</td><td>el objeto 1 a 3</td><td>sí</td></tr><tr><td>HAYAME</td><td>el arma (<code>0xC85C</code>, el objeto 4) a 3</td><td>sí</td></tr><tr><td>AUTOSHOT</td><td>el arma a 3 y <code>0xC4E1</code> = 1: cada cuadro, el arma 4 (<code>p02:8F56</code>)</td><td>sí</td></tr><tr><td>ULTRABOX</td><td>el objeto 9 a 9</td><td>sí</td></tr><tr><td>KOKOWADOKO</td><td>el objeto 10 a 6</td><td>sí</td></tr><tr><td>DOKODEMOMAP</td><td>el objeto 11 a 6</td><td>sí</td></tr><tr><td>HOIHOIHOINOHOI</td><td>el objeto 14, el de saltar de fase, a 9</td><td>sí</td></tr><tr><td>ENDDEMOGAMITAINA</td><td><code>0xC4DA</code> = 0x000C: al volver, el estado 12, el final</td><td>sí</td></tr><tr><td>aaaaa</td><td>objetos a 3 e invulnerable (<code>0xC4D1</code>)</td><td><b>no se puede escribir</b></td></tr></table>
+<p>«aaaaa» está en minúsculas, y <code>p06:B5AB</code> pasa a mayúsculas todo lo que se teclea antes de guardarlo: nunca puede coincidir. «Medido» es que se ha tecleado en openMSX (<code>tools/omsx_guion.tcl</code>) y se ha visto el cambio en la RAM.</p>
+<h2 id="las-fases-dan-la-vuelta-y-solo-se-sale-por-un-torii">Las fases dan la vuelta, y solo se sale por un torii</h2>
+<p>Las columnas de una fase se unen por los lados: saliendo por la derecha de la 2 se entra en la 0, y por la izquierda de la 0 en la 2 (<code>p01:6522</code>, <code>p01:653A</code>). Por arriba, el mapa de cada columna acaba en <code>0xFF 0x0000</code>: vuelve a la fila 0 (<code>p00:580E</code>). Se sale solo por el torii de la fase. <b>Sale de las tablas y del código.</b></p>
+<h2 id="18-puertas-y-un-camino-que-no-es-recto">18 puertas, y un camino que no es recto</h2>
+<p>La tabla de <code>p09:A269</code> tiene 18 puertas de seis bytes. Las 0-5 son los torii de las fases y llevan a su sala; las 6-13, las de las salas, llevan a la fase siguiente, salvo que la sala 3 tiene otra que vuelve a la <b>fase 1</b>, la sala 5 otra que vuelve a la <b>fase 2</b>, y la de la sala 6 lleva a la <b>fase 4</b>. Las 14-17 llevan al área <code>0x18</code>, que no existe: ninguna lista de cosas las usa. El recorrido entero está en <a href="EL-JUEGO.html">El juego</a>. <b>Sale de las tablas.</b></p>
+<h2 id="el-salto-de-fase">El salto de fase</h2>
+<p>F5 abre un mapa de las seis fases (<code>p02:8555</code>). Si se lleva el objeto 14 (<code>0xC884</code>), los cursores eligen una (<code>0xC887</code>) y ESPACIO salta allí, gastando uno (<code>p02:859F</code>); se llega por la columna 1 (<code>p01:65CF</code>). <b>Sale del código.</b></p>
+<h2 id="dieciocho-dibujos-que-no-usa-nadie">Dieciocho dibujos que no usa nadie</h2>
+<p>De <code>p07:7457</code> a <code>p08:824E</code> hay 18 tiras seguidas en el RLE de los sprites (<code>p00:4A8D</code>), 3.063 bytes; abiertas dan 320, 256, 192 y 256 bytes, tamaños de juegos de patrones. Ninguna palabra del cartucho apunta a ninguna, y la sonda de lecturas de openMSX no las lee. <b>Medido en la ROM.</b></p>
+<h2 id="la-cabecera-para-otros-cartuchos">La cabecera para otros cartuchos</h2>
+<p>En <code>0x4010</code>: <code>&#x27;C&#x27;</code>, <code>&#x27;D&#x27;</code> y una lista de direcciones de la RAM de este juego. Ningún código de Hinotori la lee. King Kong 2 lleva otra igual en el mismo sitio, y es lo que Hinotori busca en él para saber que está.</p>
+<footer><p><em>Hinotori: H&#333;&#333;hen &ndash; Ga&#333; no B&#333;ken</em> (<em>El p&aacute;jaro de fuego</em>) lo public&oacute; Konami para MSX2 en 1987, sobre la obra de Osamu Tezuka (&copy; Kadokawa Shoten, &copy; Tezuka Production); su n&uacute;mero de cat&aacute;logo es RC-747 y son 128 KB. Todos los derechos sobre el juego siguen siendo de sus titulares. Este trabajo es de preservaci&oacute;n, estudio y documentaci&oacute;n, y la imagen del cartucho no se distribuye.</p></footer></div>
