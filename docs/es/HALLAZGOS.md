@@ -146,10 +146,10 @@ En la sala de la fase 6, a los pocos segundos de entrar, el juego pasa al
 estado 18 (`0xC100` = `0x12`) y sale el fénix en una ventana con este
 mensaje, transcrito de la pantalla:
 
-> ガおうよ、悪鬼とたたかうためには、こころのたまが いつつひつようです。
+> ガおうよ、怒鬼とたたかうためには、こころのたまが いつつひつようです。
 > さあ、おゆきなさい。
 
-«Gaou, para luchar contra el demonio hacen falta cinco *kokoro no tama*
+«Gaou, para luchar contra Doki (怒鬼, el demonio furioso) hacen falta cinco *kokoro no tama*
 (joyas del corazón). Ahora, ve.» **Medido en openMSX**, entrando sin
 ninguna.
 

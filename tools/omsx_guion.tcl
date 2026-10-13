@@ -12,6 +12,9 @@
 set OUT $::env(HI_OUT)
 file mkdir $OUT
 set throttle off
+# HI_LENTO: a velocidad real. Con throttle off openMSX se salta fotogramas y
+# la captura (screenshot) puede ser de un fotograma viejo; la VRAM no.
+if {[info exists ::env(HI_LENTO)]} { set throttle on }
 proc guarda {nom datos} {
     set f [open "$::OUT/$nom" wb]; puts -nonewline $f $datos; close $f
 }

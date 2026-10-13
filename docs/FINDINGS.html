@@ -82,7 +82,7 @@ footer{margin-top:5rem;padding-top:1.5rem;border-top:1px solid var(--linea);
 .galeria figcaption{color:var(--suave);font-size:13px;margin-top:.5rem}
 audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 </style>
-<div class="w"><nav class="top"><a href="index.html">Home</a><a href="GETTING-STARTED.html">Start</a><a href="THE-GAME.html">The game</a><a href="THE-CARTRIDGE.html">The cartridge</a><a href="THE-CODE.html">The code</a><a href="FINDINGS.html" style=color:var(--tinta)>Findings</a><a href="IN-THE-EMULATOR.html">In the emulator</a><a href="OPEN-QUESTIONS.html">Open questions</a><a href="es/HALLAZGOS.html" style="margin-left:auto;color:var(--oro)">Castellano</a></nav>
+<div class="w"><nav class="top"><a href="index.html">Home</a><a href="GETTING-STARTED.html">Start</a><a href="THE-GAME.html">The game</a><a href="THE-CARTRIDGE.html">The cartridge</a><a href="THE-CODE.html">The code</a><a href="THE-MUSIC.html">The music</a><a href="FINDINGS.html" style=color:var(--tinta)>Findings</a><a href="IN-THE-EMULATOR.html">In the emulator</a><a href="OPEN-QUESTIONS.html">Open questions</a><a href="es/HALLAZGOS.html" style="margin-left:auto;color:var(--oro)">Castellano</a></nav>
 <h1 id="findings">Findings</h1>
 <p>What the code hides. Each item carries the address where it is and how it is known: <b>measured in openMSX</b> (with RAM or VRAM dumps) or <b>from the code</b> (read, not played).</p>
 <h2 id="with-king-kong-2-next-to-it-it-boots-king-kong-2-and-saves-its-game">With King Kong 2 next to it, it boots King Kong 2 and saves its game</h2>
@@ -112,8 +112,8 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><b>And measured in openMSX</b>: going into each room (the gate written to <code>0xC486</code> and bit 7 of <code>0xC485</code>, the same as <code>p01:607C</code> does when you cross a torii), the VRAM holds the whole sprite set of its boss —room 1, set 25; room 2, 26; room 3, 27; room 5, 28; room 6, 29— and not one sprite of these figures. The stage-4 room has no boss: it only loads set 35 and the flame (<code>tools/figuras.py coteja_salas</code>).</p>
 <h2 id="the-phoenix-in-the-last-room-asks-for-five-jewels">The phoenix in the last room asks for five jewels</h2>
 <p>In the stage-6 room, a few seconds after going in, the game goes to state 18 (<code>0xC100</code> = <code>0x12</code>) and the phoenix appears in a window with this message, transcribed from the screen:</p>
-<blockquote>ガおうよ、悪鬼とたたかうためには、こころのたまが いつつひつようです。 さあ、おゆきなさい。</blockquote>
-<p>&quot;Gaou, to fight the demon you need five <em>kokoro no tama</em> (heart jewels). Now, go.&quot; <b>Measured in openMSX</b>, going in with none.</p>
+<blockquote>ガおうよ、怒鬼とたたかうためには、こころのたまが いつつひつようです。 さあ、おゆきなさい。</blockquote>
+<p>&quot;Gaou, to fight Doki (怒鬼, the raging demon) you need five <em>kokoro no tama</em> (heart jewels). Now, go.&quot; <b>Measured in openMSX</b>, going in with none.</p>
 <p><b>Corrected on 30 September 2026</b>: the first version of this finding said these were figures nobody uses. The data is not used, but five of them are bosses that do appear, in another drawing.</p>
 <h2 id="the-header-for-other-cartridges">The header for other cartridges</h2>
 <p>At <code>0x4010</code>: <code>&#x27;C&#x27;</code>, <code>&#x27;D&#x27;</code> and a list of addresses in this game&#x27;s RAM. No code in Hinotori reads it. King Kong 2 carries another one like it in the same place, and that is what Hinotori looks for in it to know it is there.</p>

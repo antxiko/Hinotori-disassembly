@@ -221,17 +221,18 @@ def lamina_huerfanas(ruta, esc=4):
 
 
 def coteja_salas(dirv):
-    """Los volcados de tools/lanza_guion.sh con tools/guion_salas.txt (se entra
-    en cada sala escribiendo la puerta en 0xC486 y el bit 7 de 0xC485, como
-    p01:607C): en la VRAM tiene que estar entero el juego de cada cosa de la
-    lista de la sala (p07:6000) y ningun sprite de las figuras sin cargar."""
+    """Los volcados de tools/lanza_guion.sh work/salaNN con
+    tools/guion_salaNN.txt, un arranque limpio por sala (se entra escribiendo
+    la puerta en 0xC486 y el bit 7 de 0xC485, como p01:607C): en la VRAM tiene
+    que estar entero el juego de cada cosa de la lista de la sala (p07:6000) y
+    ningun sprite de las figuras sin cargar. dirv es work/."""
     usadas = cosas()
     tiras, _ = huerfanas()
     sin = b"".join(tiras) + crudo_huerfano()
     mal = 0
     for area in range(18, 24):
-        r = open(os.path.join(dirv, "s%d_15.ram" % area), "rb").read()
-        v = open(os.path.join(dirv, "s%d_15.vram" % area), "rb").read()
+        r = open(os.path.join(dirv, "sala%d" % area, "s%d_14.ram" % area), "rb").read()
+        v = open(os.path.join(dirv, "sala%d" % area, "s%d_14.vram" % area), "rb").read()
         a = H.palabra(0x6000 + 2 * area, (7, 8, 9))
         lista = []
         while H.lee(a, (7, 8, 9)) != 0xFF:

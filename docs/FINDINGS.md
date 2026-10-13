@@ -142,10 +142,10 @@ In the stage-6 room, a few seconds after going in, the game goes to state 18
 (`0xC100` = `0x12`) and the phoenix appears in a window with this message,
 transcribed from the screen:
 
-> ガおうよ、悪鬼とたたかうためには、こころのたまが いつつひつようです。
+> ガおうよ、怒鬼とたたかうためには、こころのたまが いつつひつようです。
 > さあ、おゆきなさい。
 
-"Gaou, to fight the demon you need five *kokoro no tama* (heart jewels).
+"Gaou, to fight Doki (怒鬼, the raging demon) you need five *kokoro no tama* (heart jewels).
 Now, go." **Measured in openMSX**, going in with none.
 
 **Corrected on 30 September 2026**: the first version of this finding said

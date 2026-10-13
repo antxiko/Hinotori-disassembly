@@ -182,7 +182,7 @@ coteja: $(ROM)
 	-python3 tools/mapa.py coteja $(WORK)/v3/t045.ram $(WORK)/v3/t045.vram
 	python3 tools/mapa.py coteja $(WORK)/area_1/bp.ram $(WORK)/area_1/bp.vram
 	python3 tools/mapa.py coteja $(WORK)/area_2/bp.ram $(WORK)/area_2/bp.vram
-	python3 tools/figuras.py coteja_salas $(WORK)/salas
+	python3 tools/figuras.py coteja_salas $(WORK)
 	python3 tools/mapa.py coteja_hoja $(WORK)/area_1/bp.ram $(WORK)/area_1/bp.vram $(WORK)/area_1/bp.pal
 	python3 tools/mapa.py coteja_hoja $(WORK)/area_2/bp.ram $(WORK)/area_2/bp.vram $(WORK)/area_2/bp.pal
 
@@ -199,7 +199,14 @@ clean:
 	rm -f $(WORK)/p*.trace.json $(WORK)/p*.blocks $(WORK)/p*.out.bin \
 	      $(WORK)/hinotori_reensamblada.rom $(WORK)/pasmo.err
 
-.PHONY: all comprueba reconoce paginas semillas trace listado verify \
+
+PYMUS ?= python3     # el que tenga numpy y lameenc
+# La musica: el motor del cartucho ejecutado (tools/musica.py) a MP3
+musica: $(ROM)
+	$(PYMUS) tools/musica.py todas docs/audio
+	$(PYMUS) tools/pagina_musica.py
+
+.PHONY: musica all comprueba reconoce paginas semillas trace listado verify \
         sanity densidad test web clean imagenes coteja
 
 # Rehace todas las secciones automaticas de las notas, en orden: los bloques

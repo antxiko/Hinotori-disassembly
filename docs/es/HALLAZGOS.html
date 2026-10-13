@@ -82,7 +82,7 @@ footer{margin-top:5rem;padding-top:1.5rem;border-top:1px solid var(--linea);
 .galeria figcaption{color:var(--suave);font-size:13px;margin-top:.5rem}
 audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 </style>
-<div class="w"><nav class="top"><a href="index.html">Portada</a><a href="EMPEZAR.html">Empezar</a><a href="EL-JUEGO.html">El juego</a><a href="EL-CARTUCHO.html">El cartucho</a><a href="EL-CODIGO.html">El código</a><a href="HALLAZGOS.html" style=color:var(--tinta)>Hallazgos</a><a href="EN-EL-EMULADOR.html">En el emulador</a><a href="PREGUNTAS-ABIERTAS.html">Preguntas abiertas</a><a href="../FINDINGS.html" style="margin-left:auto;color:var(--oro)">English</a></nav>
+<div class="w"><nav class="top"><a href="index.html">Portada</a><a href="EMPEZAR.html">Empezar</a><a href="EL-JUEGO.html">El juego</a><a href="EL-CARTUCHO.html">El cartucho</a><a href="EL-CODIGO.html">El código</a><a href="LA-MUSICA.html">La música</a><a href="HALLAZGOS.html" style=color:var(--tinta)>Hallazgos</a><a href="EN-EL-EMULADOR.html">En el emulador</a><a href="PREGUNTAS-ABIERTAS.html">Preguntas abiertas</a><a href="../FINDINGS.html" style="margin-left:auto;color:var(--oro)">English</a></nav>
 <h1 id="hallazgos">Hallazgos</h1>
 <p>Lo que el código esconde. Cada cosa lleva la dirección donde está y cómo se sabe: <b>medido en openMSX</b> (con los volcados de RAM o VRAM) o <b>sale del código</b> (leído, sin jugarlo).</p>
 <h2 id="con-king-kong-2-al-lado-arranca-king-kong-2-y-le-graba-la-partida">Con King Kong 2 al lado, arranca King Kong 2 y le graba la partida</h2>
@@ -112,8 +112,8 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p><b>Y medido en openMSX</b>: entrando en cada sala (la puerta escrita en <code>0xC486</code> y el bit 7 de <code>0xC485</code>, lo mismo que hace <code>p01:607C</code> al cruzar un torii), la VRAM lleva entero el juego de sprites de su jefe —sala 1, cosa 25; sala 2, la 26; sala 3, la 27; sala 5, la 28; sala 6, la 29— y ni un solo sprite de estas figuras. La sala de la fase 4 no tiene jefe: solo carga la cosa 35 y la llama (<code>tools/figuras.py coteja_salas</code>).</p>
 <h2 id="el-fenix-de-la-ultima-sala-pide-cinco-joyas">El fénix de la última sala pide cinco joyas</h2>
 <p>En la sala de la fase 6, a los pocos segundos de entrar, el juego pasa al estado 18 (<code>0xC100</code> = <code>0x12</code>) y sale el fénix en una ventana con este mensaje, transcrito de la pantalla:</p>
-<blockquote>ガおうよ、悪鬼とたたかうためには、こころのたまが いつつひつようです。 さあ、おゆきなさい。</blockquote>
-<p>«Gaou, para luchar contra el demonio hacen falta cinco <em>kokoro no tama</em> (joyas del corazón). Ahora, ve.» <b>Medido en openMSX</b>, entrando sin ninguna.</p>
+<blockquote>ガおうよ、怒鬼とたたかうためには、こころのたまが いつつひつようです。 さあ、おゆきなさい。</blockquote>
+<p>«Gaou, para luchar contra Doki (怒鬼, el demonio furioso) hacen falta cinco <em>kokoro no tama</em> (joyas del corazón). Ahora, ve.» <b>Medido en openMSX</b>, entrando sin ninguna.</p>
 <p><b>Corregido el 30 de septiembre de 2026</b>: la primera versión de este hallazgo decía que eran figuras que no usa nadie. Los datos no se usan, pero cinco son jefes que sí salen, con otro dibujo.</p>
 <h2 id="la-cabecera-para-otros-cartuchos">La cabecera para otros cartuchos</h2>
 <p>En <code>0x4010</code>: <code>&#x27;C&#x27;</code>, <code>&#x27;D&#x27;</code> y una lista de direcciones de la RAM de este juego. Ningún código de Hinotori la lee. King Kong 2 lleva otra igual en el mismo sitio, y es lo que Hinotori busca en él para saber que está.</p>
