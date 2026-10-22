@@ -174,3 +174,11 @@ as they are:
 
 METALSLAVE, the nickname of one of the designers, is also one of the cheat
 passwords: the one that fills up the energy. **Measured in the ROM.**
+
+## A comparison for Gao that can never match
+
+When looking at Gao's token (`p02:86F7`), the code keeps the high nibble (`and
+0xF0`) and compares with 0x28 (`p02:86FC`): it can never be equal, because the
+low nibble is always 0. It makes no difference: both paths go to the same place
+(`p02:8703`) and the next comparison (with 0x20) covers tokens 0x20 to 0x2F.
+*It comes from the code; no effect in the game.*

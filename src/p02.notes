@@ -1552,3 +1552,4 @@ C 0x9FEB p02:9FF1 tabla_9FF1: tabla que lee p02:9FEB (6 bytes)
 C 0x9FF7 p01:7119 mira_partida_2
 C 0x9FFD p01:7084 copia_bytes_7
 # --- fin de anota ---
+C 0x86FC comparacion imposible: el and 0xF0 deja el nibble bajo a cero y 0x28 no puede salir; sin efecto, porque los dos caminos van a L_8703 (queda solo el cp 0x20: fichas 0x20-0x2F)

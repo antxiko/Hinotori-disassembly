@@ -980,7 +980,7 @@ L_86EF:
 	call pon_pose_de_gao		;86f4
 	ld a,(0c82eh)		;86f7   ; 0xC82E: la ficha de Gao
 	and 0f0h		;86fa
-	cp 028h		;86fc
+	cp 028h		;86fc   ; comparacion imposible: el and 0xF0 deja el nibble bajo a cero y 0x28 no puede salir; sin efecto, porque los dos caminos van a L_8703 (queda solo el cp 0x20: fichas 0x20-0x2F)
 	jr z,L_8703		;86fe
 	cp 020h		;8700
 	ret nz			;8702

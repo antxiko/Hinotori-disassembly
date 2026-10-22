@@ -179,3 +179,11 @@ tal cual:
 
 METALSLAVE, el apodo de uno de los diseñadores, es también una de las
 contraseñas de truco: la que llena la vida. **Medido en la ROM.**
+
+## Una comparación de Gao que no se puede cumplir
+
+Al mirar la ficha de Gao (`p02:86F7`), el código deja el nibble alto (`and 0xF0`)
+y compara con 0x28 (`p02:86FC`): no puede ser igual, porque el nibble bajo es
+siempre 0. Da igual: los dos caminos van al mismo sitio (`p02:8703`) y la
+comparación siguiente (con 0x20) cubre las fichas 0x20 a 0x2F. *Sale del
+código; sin efecto en el juego.*
