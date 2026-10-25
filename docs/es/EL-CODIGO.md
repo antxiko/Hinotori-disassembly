@@ -62,3 +62,30 @@ código y datos, y el porcentaje de instrucciones con comentario de línea.
 Los comentarios que salen de tablas (la RAM, los campos de las fichas, los
 datos a los que apunta cada instrucción) los pone `tools/anota.py`; los
 nombres de las rutinas que nadie había bautizado salen de lo que hacen.
+
+## Código compartido con otros cartuchos de Konami
+
+Este desensamblado se ha comparado, instrucción por instrucción, con
+todos los demás de Konami de la serie. Cuenta un bloque cuando las
+mismas instrucciones, al menos seis desde una etiqueta hasta su `ret`
+o su salto sin condición, están en los dos cartuchos; las direcciones
+no se miran, porque cambian de un cartucho a otro. De los otros 57,
+**41** tienen al menos un bloque en común con este; estos son los
+que más comparten:
+
+| Cartucho | Bloques | Instrucciones | Por ejemplo (aquí = allí) |
+|---|---:|---:|---|
+| [Vampire Killer](https://antxiko.github.io/VampireKiller-disassembly/es/) | 68 | 1.051 | `lmmm` (p00:4E8B) = `copia_con_operacion` |
+| [Ganbare Goemon! Karakuri Dōchū](https://antxiko.github.io/GanbareGoemon-disassembly/es/) | 55 | 878 | `lmmm` (p00:4E8B) |
+| [Metal Gear](https://antxiko.github.io/MetalGear-disassembly/es/) | 54 | 886 | `lmmm` (p00:4E8B) = `copia_logica` |
+| [King Kong 2: Yomigaeru Densetsu](https://antxiko.github.io/KingKong2-disassembly/es/) | 43 | 678 | `lmmm` (p00:4E8B) |
+| [The Treasure of Usas](https://antxiko.github.io/TreasureOfUsas-disassembly/es/) | 41 | 682 | `lmmm` (p00:4E8B) = `copia_con_operacion` |
+| [The Pro Yakyuu Gekitotsu Pennant Race](https://antxiko.github.io/PennantRace-disassembly/es/) | 36 | 501 | `lmmm` (p00:4E8B) = `copia_logica` |
+| [Konami’s Game Master 2](https://antxiko.github.io/GameMaster2-disassembly/es/) | 28 | 451 | `lmmm` (p00:4E8B) = `vdp_lmmm` |
+| [Gekitotsu Pennant Race 2](https://antxiko.github.io/PennantRace2-disassembly/es/) | 25 | 311 | `hmmv` (p00:4E0B) = `borra_bloque_vram` |
+| [Hai no Majutsushi - Mahjong 2](https://antxiko.github.io/Majutsushi-disassembly/es/) | 20 | 204 | `rle_con_destino` (p00:4A87) = `vuelca_lista_vram` |
+| [Q*bert](https://antxiko.github.io/Qbert-disassembly/es/) | 14 | 163 | `pon_mezclador_del_canal` (p14:993D) = `pon_el_mezclador` |
+
+La matriz entera, los 58 cartuchos entre sí, está en
+[Las rutinas](https://antxiko.github.io/MSX-disassembly-database/es/LAS-RUTINAS.html) de la base de datos de la
+serie, con el método y el programa que la mide.
